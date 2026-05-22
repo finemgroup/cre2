@@ -92,3 +92,66 @@ This file is the initial ADR-style decision log for the Sophex setup phase.
 - Date: 2026-05-22
 - Decision: Conceptual entities and invariants may be documented, but schema, migrations, generated-client edits, and database writes remain unauthorized.
 - Consequence: `docs/FUTURE_SCHEMA_CONCEPTS.md` is a contract-thinking artifact only.
+
+## ADR-0014: CRE Platform Is Primary UX And Design-System Reference
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: CRE `apps/core` is the primary sister-project reference for shell patterns, provenance UI, motion tokens, report export gates, and trust visualization — inherited as doctrine, not copied code.
+- Consequence: Sophex MVP0 should reimplement minimal patterns against Sophex contracts; do not import CRE operator shell or runtime packages.
+
+## ADR-0015: Content Engine Patterns Apply To Public Surfaces Only
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Content Engine interactive marketing, SEO/GEO, comparison, and gated-export patterns may inform Sophex public acquisition surfaces, but must not drive syndication or indexing of user-contributed private observations.
+- Consequence: Operator-authored public content and user-contribution marketplace remain separate lanes with different consent rules.
+
+## ADR-0016: Send, Nurture, And Syndication Automation Remain Disabled
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Email nurture, CRM sync, provider sends, retargeting, and third-party syndication remain unauthorized until provider, queue, worker, consent, suppression, unsubscribe, idempotency, audit, and operator approval are proven.
+- Consequence: MVP0 may mock capture and export gates only; no outbound automation in setup or early prototype phases.
+
+## ADR-0017: MVP0 Preview Surfaces Require Non-Production Labeling
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Mock-data previews, sample comparisons, and stub reporting surfaces must display explicit non-production/stub labeling.
+- Consequence: Borrow CRE `NonProductionReportingBanner` pattern conceptually for all MVP0 clickable prototypes.
+
+## ADR-0018: Export Actions Require Review Gate And Audit Receipt
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Report export/download/share requires section review completion, consent where applicable, and an audit receipt or content hash reference.
+- Consequence: Export UI may be prototyped disabled-first; no live export pipeline in setup phase.
+
+## ADR-0019: Fabricator Job Status Is Projection Not Truth
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Finem Fabricator workflow and queue completion signals are user-safe status projections only; they do not promote observations, comps, or reports to canonical truth.
+- Consequence: HITL review and permission filters remain mandatory after any agent or workflow completion event.
+
+## ADR-0020: Fabricator Supplies Workflow And Agent Patterns Only
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Finem Fabricator informs Sophex workflow, HITL, evidence envelope, and control-plane doctrine only; it is not the Sophex or CRE data owner and is not a runtime dependency in setup phase.
+- Consequence: No Fabricator queue/worker coupling, remotes, or operator cockpits in Sophex MVP0; provisional harvest from dirty Fabricator tree is directional only.
+
+## ADR-0021: Public Sophex Uses JobStatusProjection Not Raw Run Logs
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Contributor-facing progress UI must use sanitized JobStatusProjection phase timelines; raw Fabricator run logs, queue names, worker IDs, SSE debug streams, and receipt internals are operator-only.
+- Consequence: No simulated progress; no raw log panes in public UI; SSE/streaming patterns remain future-gated and operator-scoped until reviewed.
+
+## ADR-0022: Report Generation Must Carry Warnings Citations And ReviewRequired
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Valuation/report outputs inspired by Fabricator Analysis OS must include confidence, warnings, citations, and reviewRequired semantics; no headline valuation without evidence and review posture.
+- Consequence: ReportGenerationRun artifacts are candidates until HITL and export gates clear; white-label output cannot hide warnings or permission limits.

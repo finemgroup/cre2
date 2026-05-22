@@ -7,42 +7,64 @@
 3. [PRODUCT_VISION.md](PRODUCT_VISION.md)
 4. [SOPHEX_TRANSCRIPT_SYNTHESIS.md](SOPHEX_TRANSCRIPT_SYNTHESIS.md)
 5. [CROSS_PROJECT_HARVEST.md](CROSS_PROJECT_HARVEST.md)
-6. [TRUST_AND_PERMISSIONS_MODEL.md](TRUST_AND_PERMISSIONS_MODEL.md)
-7. [EVIDENCE_AND_OBSERVATION_MODEL.md](EVIDENCE_AND_OBSERVATION_MODEL.md)
-8. [DOCUMENT_INGESTION_MODEL.md](DOCUMENT_INGESTION_MODEL.md)
-9. [VALUATION_REPORTING_PRODUCT.md](VALUATION_REPORTING_PRODUCT.md)
-10. [FRONTEND_UX_INHERITANCE.md](FRONTEND_UX_INHERITANCE.md)
-11. [MOTION_AND_INTERACTION_GUIDELINES.md](MOTION_AND_INTERACTION_GUIDELINES.md)
-12. [FUTURE_SCHEMA_CONCEPTS.md](FUTURE_SCHEMA_CONCEPTS.md)
-13. [AGENT_WORKFLOW_CONCEPTS.md](AGENT_WORKFLOW_CONCEPTS.md)
-14. [CRE_PLATFORM_ALIGNMENT.md](CRE_PLATFORM_ALIGNMENT.md)
-15. [FINEM_FABRICATOR_ALIGNMENT.md](FINEM_FABRICATOR_ALIGNMENT.md)
-16. [DATA_PRIVACY_AND_MARKETPLACE_RULES.md](DATA_PRIVACY_AND_MARKETPLACE_RULES.md)
-17. [INITIAL_ROADMAP.md](INITIAL_ROADMAP.md)
-18. [NON_GOALS.md](NON_GOALS.md)
-19. [CURSOR_PROJECT_SETUP.md](CURSOR_PROJECT_SETUP.md)
-20. [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md)
-21. [GIT_AND_REMOTE_SETUP.md](GIT_AND_REMOTE_SETUP.md)
-22. [DECISIONS.md](../DECISIONS.md)
-23. [AGENTS.md](../AGENTS.md)
+6. [HARVEST_DOC_HIERARCHY.md](HARVEST_DOC_HIERARCHY.md)
+7. [HARVEST_PACKET_INDEX.md](HARVEST_PACKET_INDEX.md)
+8. [CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)
+9. [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)
+10. [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)
+11. [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)
+12. [SISTER_PROJECT_SOURCE_MAP.md](SISTER_PROJECT_SOURCE_MAP.md)
+13. [SOPHEX_REFERENCE_PATHS.md](SOPHEX_REFERENCE_PATHS.md)
+14. [SOPHEX_CONCEPTUAL_CONTRACTS.md](SOPHEX_CONCEPTUAL_CONTRACTS.md)
+15. [TRUST_AND_PERMISSIONS_MODEL.md](TRUST_AND_PERMISSIONS_MODEL.md)
+16. [EVIDENCE_AND_OBSERVATION_MODEL.md](EVIDENCE_AND_OBSERVATION_MODEL.md)
+17. [DOCUMENT_INGESTION_MODEL.md](DOCUMENT_INGESTION_MODEL.md)
+18. [VALUATION_REPORTING_PRODUCT.md](VALUATION_REPORTING_PRODUCT.md)
+19. [FRONTEND_UX_INHERITANCE.md](FRONTEND_UX_INHERITANCE.md)
+20. [MOTION_AND_INTERACTION_GUIDELINES.md](MOTION_AND_INTERACTION_GUIDELINES.md)
+21. [SOPHEX_TRUST_UI_GUIDELINES.md](SOPHEX_TRUST_UI_GUIDELINES.md)
+22. [SOPHEX_MVP0_SCREEN_MAP.md](SOPHEX_MVP0_SCREEN_MAP.md)
+23. [FUTURE_SCHEMA_CONCEPTS.md](FUTURE_SCHEMA_CONCEPTS.md)
+24. [AGENT_WORKFLOW_CONCEPTS.md](AGENT_WORKFLOW_CONCEPTS.md)
+25. [CRE_PLATFORM_ALIGNMENT.md](CRE_PLATFORM_ALIGNMENT.md)
+26. [FINEM_FABRICATOR_ALIGNMENT.md](FINEM_FABRICATOR_ALIGNMENT.md)
+27. [DATA_PRIVACY_AND_MARKETPLACE_RULES.md](DATA_PRIVACY_AND_MARKETPLACE_RULES.md)
+28. [INITIAL_ROADMAP.md](INITIAL_ROADMAP.md)
+29. [NON_GOALS.md](NON_GOALS.md)
+30. [CURSOR_PROJECT_SETUP.md](CURSOR_PROJECT_SETUP.md)
+31. [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md)
+32. [GIT_AND_REMOTE_SETUP.md](GIT_AND_REMOTE_SETUP.md)
+33. [DECISIONS.md](../DECISIONS.md)
+34. [AGENTS.md](../AGENTS.md)
 
 ## Setup Documents
 
 - [PROJECT_BOUNDARY.md](PROJECT_BOUNDARY.md): Product and trust-boundary map across Sophex, CRE Platform, and Finem Fabricator.
 - [PRODUCT_VISION.md](PRODUCT_VISION.md): Public CRE intelligence marketplace vision and data flywheel.
 - [SOPHEX_TRANSCRIPT_SYNTHESIS.md](SOPHEX_TRANSCRIPT_SYNTHESIS.md): Structured notes from the source conversation transcript.
-- [CROSS_PROJECT_HARVEST.md](CROSS_PROJECT_HARVEST.md): Ara harvest summary, gap list, and doctrine-not-code guidance.
+- [CROSS_PROJECT_HARVEST.md](CROSS_PROJECT_HARVEST.md): Integrated harvest from CRE, Fabricator, Content Engine, and UX/motion packets.
+- [HARVEST_DOC_HIERARCHY.md](HARVEST_DOC_HIERARCHY.md): Anti-drift map — packets vs canonical topic docs.
+- [HARVEST_PACKET_INDEX.md](HARVEST_PACKET_INDEX.md): Catalog of provisional harvest packets.
+- [CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md): Provisional CRE harvest (stale/dirty source checkout).
+- [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md): Provisional Fabricator harvest (clean HEAD, dirty worktree).
+- [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md): Provisional Content Engine harvest (untracked reference folder).
+- [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md): Provisional UX/motion harvest (stale CRE checkout).
+- [SISTER_PROJECT_SOURCE_MAP.md](SISTER_PROJECT_SOURCE_MAP.md): Reference-only sister-project paths and why they matter.
+- [SOPHEX_REFERENCE_PATHS.md](SOPHEX_REFERENCE_PATHS.md): Workspace and sister-project path registry (reference-only).
+- [SOPHEX_CONCEPTUAL_CONTRACTS.md](SOPHEX_CONCEPTUAL_CONTRACTS.md): Conceptual contracts only — no schema or implementation code.
 - [TRUST_AND_PERMISSIONS_MODEL.md](TRUST_AND_PERMISSIONS_MODEL.md): Actor classes, visibility classes, and permissioned value resolution.
 - [EVIDENCE_AND_OBSERVATION_MODEL.md](EVIDENCE_AND_OBSERVATION_MODEL.md): Conceptual evidence, observation, lineage, and change-log model.
 - [DOCUMENT_INGESTION_MODEL.md](DOCUMENT_INGESTION_MODEL.md): Clean PDF, scanned/OCR, extraction, confidence, and HITL concepts.
-- [VALUATION_REPORTING_PRODUCT.md](VALUATION_REPORTING_PRODUCT.md): User journey and report auditability requirements.
-- [FRONTEND_UX_INHERITANCE.md](FRONTEND_UX_INHERITANCE.md): Shell, evidence panel, label, upload, report, map, and comp UX guidance.
-- [MOTION_AND_INTERACTION_GUIDELINES.md](MOTION_AND_INTERACTION_GUIDELINES.md): Restrained motion, progress, and trust visualization guidance.
+- [VALUATION_REPORTING_PRODUCT.md](VALUATION_REPORTING_PRODUCT.md): User journey, report auditability, Content Engine connections, export gates.
+- [FRONTEND_UX_INHERITANCE.md](FRONTEND_UX_INHERITANCE.md): CRE/Content Engine shell, evidence, comparison, map, and report UX guidance.
+- [MOTION_AND_INTERACTION_GUIDELINES.md](MOTION_AND_INTERACTION_GUIDELINES.md): CRE-inspired restrained motion and progress guidance.
+- [SOPHEX_TRUST_UI_GUIDELINES.md](SOPHEX_TRUST_UI_GUIDELINES.md): Authority badges, privacy labels, provenance UI, export trust.
+- [SOPHEX_MVP0_SCREEN_MAP.md](SOPHEX_MVP0_SCREEN_MAP.md): Future-gated MVP0 screen inventory and component/state notes.
 - [FUTURE_SCHEMA_CONCEPTS.md](FUTURE_SCHEMA_CONCEPTS.md): Conceptual entities, invariants, and governance gates only.
 - [AGENT_WORKFLOW_CONCEPTS.md](AGENT_WORKFLOW_CONCEPTS.md): Future-gated ingestion, extraction, valuation, review, moderation, and audit agent roles.
-- [CRE_PLATFORM_ALIGNMENT.md](CRE_PLATFORM_ALIGNMENT.md): Future alignment posture with governed CRE evidence APIs.
+- [CRE_PLATFORM_ALIGNMENT.md](CRE_PLATFORM_ALIGNMENT.md): Future alignment posture with governed CRE evidence and UX reference paths.
 - [FINEM_FABRICATOR_ALIGNMENT.md](FINEM_FABRICATOR_ALIGNMENT.md): Future workflow/agent patterns inspired by Fabricator.
-- [DATA_PRIVACY_AND_MARKETPLACE_RULES.md](DATA_PRIVACY_AND_MARKETPLACE_RULES.md): Contribution, privacy, consent, and marketplace rules.
+- [DATA_PRIVACY_AND_MARKETPLACE_RULES.md](DATA_PRIVACY_AND_MARKETPLACE_RULES.md): Contribution, privacy, consent, syndication, and marketplace rules.
 - [INITIAL_ROADMAP.md](INITIAL_ROADMAP.md): Future-gated phases from setup through governed CRE integration.
 - [NON_GOALS.md](NON_GOALS.md): Explicitly forbidden or deferred work.
 - [CURSOR_PROJECT_SETUP.md](CURSOR_PROJECT_SETUP.md): How to use this Cursor project safely.
@@ -51,4 +73,4 @@
 
 ## Next Prompt To Run
 
-Placeholder: run a product-spec or clickable-concept prompt only after this setup packet is reviewed and approved.
+Placeholder: run a clickable-concept or MVP0 mock-data prototype prompt only after this integrated harvest packet is reviewed and approved.

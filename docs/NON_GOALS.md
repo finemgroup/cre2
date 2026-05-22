@@ -17,10 +17,18 @@ This setup packet intentionally does not authorize:
 - No migration of CRE truth into Sophex by copy-paste.
 - No direct coupling to CRE production services.
 - No Fabricator runtime build.
+- **Fabricator does not own Sophex marketplace truth.**
+- **No Fabricator runtime coupling in setup phase.**
+- **No public use of Fabricator internal operator cockpits** (mission control, raw run logs) as Sophex contributor UI.
 - No public `master_comps` table that bypasses evidence, review, and permissions.
 - No chunks or embeddings as canonical truth.
 - No public search indexing of user-contributed facts before visibility and source-use rules exist.
 - No claims of appraisal superiority without validation and legal review.
+- No copying CRE operator shell (Jarvis, dialer, gamification, full command palette) into Sophex MVP0.
+- No Content Engine n8n/SQL/CRM/email implementation in setup phase.
+- No syndication of private observations to third-party channels.
+- No exit-intent capture or outbound automation before consent stack is proven.
+- No treating Fabricator queue completion as evidence promotion.
 - No broad formatting rewrites.
 - No edits outside Sophex setup docs/rules without operator approval.
 

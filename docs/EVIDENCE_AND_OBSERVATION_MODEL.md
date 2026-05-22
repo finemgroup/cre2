@@ -33,7 +33,11 @@ Public records are not proprietary by default. Public property records, acreage,
 
 ## Future CRE Alignment
 
-Sophex should later align with the CRE source observation ledger and evidence architecture through approved contracts. Expected alignment concepts include governed source observations, document references, operational receipts, idempotency keys, correlation identifiers, and audit trails.
+Sophex should later align with the CRE source observation ledger and evidence architecture through approved contracts. Expected alignment concepts include governed source observations, document references, operational receipts, idempotency keys, correlation identifiers, audit trails, and relationship-truth separation (notes/comments/audit/evidence remain distinct).
+
+## Provenance UI Contract (Future)
+
+Future APIs and UI should support inline citation, table provenance cells, and provenance drawers filtered by actor permissions. CRE `SourceCitation`, `ProvenanceCell`, and `ProvenanceModal` patterns are reference shapes only.
 
 ## Audit And Event Separation
 

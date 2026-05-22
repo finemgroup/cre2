@@ -33,3 +33,22 @@
 - Should user contributions feed model training, and under what consent?
 - What export/share actions require consent and audit?
 - Which CRE schema or evidence contract wave must land before Sophex can use real data?
+- Which public pages may be indexed first under SEO/GEO strategy?
+- What minimum consent copy is required for forms, uploads, and gated exports?
+- Can engagement scoring be used internally before outbound sales automation is allowed?
+- Which syndication channels are permitted for operator-authored vs user-derived content?
+- Should Sophex adopt CRE motion token presets verbatim or define a slimmer public-only subset?
+- Is command palette in scope for MVP0 or post-MVP power-user feature?
+- What stub/mock labeling standard should MVP0 clickable prototypes use?
+- Which CRE UX components should be reimplemented first: provenance cell, export gate, or comparison dashboard?
+- Should Content Engine reference files be committed to Sophex Git, or remain external with only provisional harvest MD in `docs/`?
+- **When will UX/motion harvest be rerun from clean CRE `master` to validate component paths?**
+- **When will CRE harvest be rerun from clean `master` with `HEAD == origin/master`?**
+- **Do CRE source paths cited in the provisional packet still exist on current `origin/master`?**
+- **How should Sophex resolve differences between the provisional CRE packet and a future authoritative CRE packet?**
+- **When will Fabricator harvest be rerun from a clean checkout with a clean working tree?**
+- **What is the unified external job ID contract between Sophex JobStatusProjection and future worker/queue implementations?**
+- **What is the HITL timeout policy when review decisions are pending (escalate vs block vs auto-hold)?**
+- **What is the scan/OCR cost policy for contributors (free tier limits, paid unlock, operator approval)?**
+- **Where is the exact public vs operator UI boundary for progress, receipts, and moderation queues?**
+- **How should source confidence label calibration work across public baseline, user submission, and model-inferred values?**

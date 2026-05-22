@@ -1,25 +1,48 @@
 # Finem Fabricator Alignment
 
-Finem Fabricator is the workflow, agent, and orchestration factory. It can inform Sophex agent design and control-panel patterns, but it is not the canonical CRE or Sophex data owner.
+Finem Fabricator is the workflow, agent, and orchestration factory. It supplies **workflow and control-plane patterns only**. It is not the canonical CRE or Sophex data owner.
 
-## Useful Patterns
+**Harvest source:** [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) — provisional; clean Fabricator checkout rerun pending.
 
-- Control-panel UX for workflow visibility.
-- Agent orchestration for ingestion and report drafting.
-- Human-in-the-loop review queues.
-- Report-generation patterns.
-- Confidence scoring and moderation workflows.
-- User-safe background job status projections.
+## What Fabricator Supplies
+
+- Control-panel UX for workflow visibility (`docs/context/FINEM_FABRICATOR_CONTROL_PLANE_OVERVIEW.md`).
+- Agent orchestration patterns for ingestion and report drafting.
+- Human-in-the-loop review queues and HITL handler concepts.
+- Analysis OS / AnalysisResponse-style report contracts (`src/lib/analysis-os/`).
+- Evidence envelope and audit receipt patterns (`agents/DatabaseEvidenceToolkit_MCP/`).
+- Confidence scoring and moderation workflow concepts.
+- User-safe background job status projections (`JobStatusProjection`).
 - Failure, cost, retry, and blocked-state handling patterns.
+- Source adapter patterns for governed ingestion — outputs remain candidates until reviewed.
+
+## What Fabricator Does Not Own
+
+- **Sophex marketplace truth** — observations, comps, and reports are governed by Sophex permissions and CRE evidence contracts.
+- **Canonical promotion** — queue or job completion is **not** evidence promotion.
+- **Public Sophex UX defaults** — Fabricator mission control and operator cockpits are reference-only, not MVP0 public shell.
+- **Runtime coupling** — no Fabricator queue, worker, or remote connection in setup phase.
+
+## Critical Boundaries
+
+- Fabricator must **not** own Sophex marketplace truth.
+- Queue completion or job success must **not** be treated as evidence promotion or canonical fact.
+- Agent outputs are candidates, summaries, labels, or workflow projections until HITL and permissions apply.
+- Fabricator runtime internals (queues, workers, raw run logs, SSE streams) are **reference-only** — not Sophex defaults.
+- Mission control and operator dashboards are inspiration for **internal moderation**, not public contributor UI.
 
 ## Potential Future Agents
+
+See `docs/AGENT_WORKFLOW_CONCEPTS.md` for full role definitions:
 
 - Ingestion classifier.
 - Evidence extractor.
 - Valuation report generator.
-- HITL reviewer.
 - Source confidence scorer.
+- HITL reviewer.
 - Marketplace moderation assistant.
+- Audit/correlation receipt writer.
+- Background job status projector.
 
 ## Boundary
 

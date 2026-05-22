@@ -47,6 +47,7 @@ Permission filtering must apply at every retrieval hop, including:
 - Report generation.
 - Export/share actions.
 - Future partner/API access.
+- Future command palette / global search (must not surface private observations).
 
 The system cannot rely on hiding buttons in the UI. A user, organization, source owner, partner, or internal operator should receive only the observations, evidence, report artifacts, and aggregates their policy allows.
 

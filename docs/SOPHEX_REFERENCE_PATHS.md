@@ -1,0 +1,42 @@
+# Sophex Reference Paths
+
+All paths in this document are **reference-only**. They do not authorize copying code, connecting remotes, reading production databases, or staging sister-project files into Sophex Git.
+
+## Sophex Workspace (this repo)
+
+| Path | Status | Notes |
+| --- | --- | --- |
+| `C:\Projects\Sophex Marketplace and Content Engine` | Git-backed docs project | Default branch: `master` |
+| `Content Engine/` | Untracked reference folder | Do not stage unless operator explicitly requests |
+| `docs/` | Committed doctrine | Primary integration target for harvest packets |
+| `.cursor/rules/` | Committed lane rules | Project boundary enforcement |
+
+## Sister Projects (external, read-only harvest sources)
+
+| Project | Path | Role |
+| --- | --- | --- |
+| CRE Platform | `C:\Projects\cre-platform-erofs-master-landing` | Governed evidence substrate; richest UX/design-system reference (`apps/core`) |
+| Finem Fabricator | `C:\Projects\finem_factory_mvp` | Workflow, agent, HITL, and control-plane patterns |
+| Content Engine | `C:\Projects\Sophex Marketplace and Content Engine\Content Engine` | Market research, interactive content, lead-funnel reference |
+
+## Explicitly Forbidden Paths For Sophex Lane
+
+- CRE production DB, schema lane, deploy terminal, dirty production checkout
+- Fabricator runtime, queue, provider/send context
+- Sister-project `prisma/`, `migrations/`, `.env*`, and secret files
+- Raw sister-project source copied into Sophex `src/`, `apps/`, or `packages/`
+
+## Harvest Packets Catalogued (2026-05-22)
+
+Standalone markdown files under `docs/`:
+
+1. [HARVEST_DOC_HIERARCHY.md](HARVEST_DOC_HIERARCHY.md) — anti-drift map (start here)
+2. [HARVEST_PACKET_INDEX.md](HARVEST_PACKET_INDEX.md) — master catalog
+3. [CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)
+4. [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)
+5. [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)
+6. [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)
+
+Superseded drafts (archive only): `CRE_TO_SOPHEX_HARVEST_PACKET.md`, `FABRICATOR_TO_SOPHEX_HARVEST_PACKET.md`, `CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET.md`, `UX_MOTION_TO_SOPHEX_HARVEST_PACKET.md`.
+
+Integrated doctrine lives in topic docs listed in the hierarchy. See [CROSS_PROJECT_HARVEST.md](CROSS_PROJECT_HARVEST.md).

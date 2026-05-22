@@ -8,7 +8,7 @@ This project is the Sophex separate product setup lane. Treat it as a public-fac
 - One lane equals one branch equals one scope equals one PR.
 - `master` is the default branch for this new local project shell unless a later remote policy changes it.
 - This setup phase is docs-only unless later explicitly authorized.
-- Cross-project harvest work may update markdown doctrine, contracts, UX guidance, and open questions only.
+- Cross-project harvest work may update markdown doctrine, contracts, UX guidance, sister-project source maps, conceptual contracts, MVP0 screen maps, trust UI guidelines, and open questions only.
 - Do not implement application runtime code.
 - Do not create database schema, migrations, Prisma changes, generated clients, or destructive DDL.
 - Do not run deploys, production services, provider sends, queue workers, or production database commands.

@@ -11,10 +11,18 @@ All runtime, schema, deploy, and production integration phases are future-gated.
 
 ## Phase 1: Concept Or Product Spec
 
-- Create clickable concept, design prototype, or product requirements.
+- Create clickable concept, design prototype, or product requirements per `docs/SOPHEX_MVP0_SCREEN_MAP.md`.
 - Validate user journeys for property search, upload, report output, and contribution.
 - Define authority labels, source panels, and query-level permission expectations.
+- Prototype with mock data and non-production banners on all preview surfaces.
 - No production runtime.
+
+## Phase 1b: Interactive Marketing Surfaces (Future-Gated)
+
+- Public comparison dashboard and heat map with sample data.
+- SEO/GEO market pages using public baseline only.
+- Gated export UX stopping at consent/terms screen (no send).
+- Defer email nurture, CRM sync, and syndication automation.
 
 ## Phase 2: Ingestion Proof Of Concept
 

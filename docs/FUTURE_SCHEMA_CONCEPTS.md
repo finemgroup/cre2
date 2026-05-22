@@ -31,6 +31,22 @@ Before schema or runtime work, Sophex needs:
 - Review state: unreviewed, needs evidence, conflicting, accepted public, accepted private, rejected, revoked, superseded, or blocked.
 - Operational receipt: audit/correlation reference for upload, extraction, review, report generation, export, or publication.
 - Report artifact: valuation/reporting output with evidence appendix and export/share policy.
+- Contribution exchange terms: visibility, aggregation, and model-training consent bound to free/paid tiers.
+- Lead capture intent (future-gated): consent-scoped capture record without send automation.
+- Public market page projection: SEO/GEO-facing public baseline view with indexing eligibility flag.
+
+### Fabricator-Inspired Workflow Concepts (Conceptual Only)
+
+- **IngestionRun** — governed upload/classification attempt with cost tier, blocked state, and receipt link.
+- **ExtractionCandidate** — pre-observation extract with source span, confidence, method, visibility; not promoted truth.
+- **ReviewDecision** — HITL outcome: accepted public/private, rejected, needs-evidence, superseded, revoked, blocked.
+- **ReportGenerationRun** — report assembly attempt with AnalysisResponse-style outputs and export eligibility flag.
+- **JobStatusProjection** — user-safe phase timeline derived from internal runs; not raw queue state.
+- **AgentRunReceipt** — idempotent audit record for agent/workflow actions with correlation ID.
+- **ModerationSignal** — non-final moderation hint requiring human operator decision.
+- **SourceConfidenceScore** — ranked confidence/freshness/dispute label for a candidate or observation.
+
+These are conceptual contract names for future discussion. They do not authorize implementation, Prisma models, SQL, migrations, or generated clients.
 
 ## Invariants
 
@@ -42,6 +58,8 @@ Before schema or runtime work, Sophex needs:
 - Public promotion requires review and source-use eligibility.
 - Private uploads must not leak through search, report generation, export, or aggregate views.
 - Audit and activity records should not be collapsed into narrative comments or evidence records.
+- Queue or job completion does not promote candidates to observations (Fabricator boundary).
+- JobStatusProjection is user-safe; internal run logs are operator-only.
 
 ## Future Contract Ideas
 
@@ -50,5 +68,10 @@ Before schema or runtime work, Sophex needs:
 - `ResolvedFieldValue` contract for actor-specific field resolution.
 - `CompCandidate` and `ResolvedCompSet` contracts for reviewed and permissioned valuation inputs.
 - `OperationalReceipt` contract for idempotency, correlation, replay safety, and audit references.
+- `ContributionExchange` contract for free-for-contribution terms and visibility grants.
+- `LeadCaptureIntent` contract for consent-bound capture without authorizing send automation.
+- `PublicMarketPageProjection` contract for indexable public baseline pages.
 
 These are names for future discussion only and do not authorize implementation.
+
+See also `docs/SOPHEX_CONCEPTUAL_CONTRACTS.md` for the integrated contract set.

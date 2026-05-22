@@ -19,6 +19,32 @@ Sophex should later integrate with CRE through approved APIs, contracts, event b
 - Comp intelligence contracts.
 - Read-only proof before schema/data work.
 - Private operator review workflows.
+- Relationship-truth doctrine: do not collapse notes, comments, audit events, and evidence into one feed.
+- BOV/UW report section review and export gate patterns.
+- Provenance UI patterns: source citation, provenance cell, provenance modal, section approval cards.
+- Shell vs workstation separation: lightweight public shell vs authenticated workspace.
+- Motion tokens and reduced-motion handling for restrained transitions.
+- Non-production/stub banners on reporting and preview surfaces.
+
+## UX And Design-System Reference (Doctrine Only)
+
+CRE `apps/core` is the richest sister-project frontend reference. Sophex should inherit patterns from:
+
+- `components/ui/source-citation.tsx` — inline evidence links.
+- `components/data-studio/ProvenanceCell.tsx` — table-cell trust micro-UI.
+- `components/alphaDrop/v2/ProvenanceModal.tsx` — deep provenance drill-down.
+- `components/bov/BOVSectionCard.tsx`, `BOVExportCard.tsx`, `BOVProvenanceCard.tsx` — report review and export gate.
+- `components/providers/RootProviders.tsx` — public vs operator shell split.
+- `lib/motion-tokens.ts` — restrained animation presets.
+- `components/surfaces/NonProductionReportingBanner.tsx` — MVP0 stub warning.
+
+Do not copy CRE components into Sophex runtime. Reimplement against Sophex contracts when implementation is authorized.
+
+## Harvest Warnings
+
+- CRE harvest was performed read-only; sister repo may be on a non-`master` branch with local modifications.
+- `prisma/schema.prisma` and internal evidence tables are **conceptual reference only** — no schema copy into Sophex.
+- CRE `components/sophex/ai/AIUnderwritingInterface.tsx` exists as a named stub; reframe as valuation preview with evidence tabs, not autonomous approve/reject UX.
 
 ## Setup-Phase Prohibitions
 

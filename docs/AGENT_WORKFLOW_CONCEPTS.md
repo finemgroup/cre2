@@ -2,53 +2,96 @@
 
 Finem Fabricator can inspire Sophex workflows and agents, but agents do not own truth. Every agent output is candidate evidence, workflow status, or report material until reviewed, permissioned, and governed.
 
+**Source:** [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) (provisional — clean Fabricator rerun pending).
+
 ## Ingestion Classifier
 
-- Role: classify uploads as clean PDF, scanned PDF, lease, rent roll, appraisal, deed, mortgage, offering memorandum, listing, or other.
-- Inputs: file metadata, text layer presence, user-declared source type, quality signals.
-- Outputs: ingestion path, cost tier, extraction expectations, blocked or needs-review state.
-- Gate: scanned, high-risk, private, or legally sensitive documents require review.
-- Boundary: no public publication.
+| Field | Detail |
+| --- | --- |
+| **Conceptual role** | Classify uploads and route to correct ingestion path and cost tier. |
+| **Inputs** | File metadata, text-layer presence, MIME/type, user-declared source type, size, quality signals. |
+| **Outputs** | Ingestion path (clean PDF vs scanned/OCR), cost tier, extraction expectations, blocked or needs-review flag, `IngestionRun` reference. |
+| **Human gate** | Scanned, high-risk, private, or legally sensitive documents require operator review before extraction. |
+| **Failure modes** | Unknown type → blocked; oversize → rejected; missing consent/terms → blocked; ambiguous scan quality → needs-review. |
+| **Future boundary** | No public publication; no extraction on blocked docs; outputs are routing decisions only, not facts. |
 
 ## Evidence Extractor
 
-- Role: extract property facts, lease terms, rent schedules, sale data, tenant data, valuation assumptions, and source spans.
-- Inputs: document evidence, chunks, parser/model output.
-- Outputs: candidate observations with source references.
-- Gate: required before public or canonical use.
-- Boundary: extraction is not truth.
+| Field | Detail |
+| --- | --- |
+| **Conceptual role** | Extract candidate property facts, lease terms, rent schedules, sale data, and source spans from permitted documents. |
+| **Inputs** | Document evidence identity, chunks/parser output, ingestion classification, visibility policy. |
+| **Outputs** | `ExtractionCandidate` records with source references, confidence, spans, method (clean parse vs OCR). |
+| **Human gate** | Required before public use, export, or canonical promotion; low-confidence/high-value fields route to HITL. |
+| **Failure modes** | OCR failure → needs-review; table reconstruction failure → partial candidates flagged; permission mismatch → blocked. |
+| **Future boundary** | Extraction is not truth; candidates only; redaction-first envelope before any model or public surface. |
 
 ## Valuation Report Generator
 
-- Role: assemble white-labeled valuation reports from approved comps, model assumptions, evidence, public/private values visible to the actor, and user branding.
-- Outputs: report artifact, confidence summary, top drivers, source appendix.
-- Gate: early external export should require human review.
-- Boundary: no send automation without consent, suppression, unsubscribe, idempotency, audit, and operator approval.
+| Field | Detail |
+| --- | --- |
+| **Conceptual role** | Assemble white-labeled valuation/report artifacts from approved inputs visible to the actor. |
+| **Inputs** | Resolved comp set, permitted observations, model assumptions, branding scope, review decisions. |
+| **Outputs** | `ReportGenerationRun` artifact with AnalysisResponse-style fields: sections, confidence, warnings, citations, `reviewRequired`, white-label metadata. |
+| **Human gate** | External export and public-facing report require HITL approval when `reviewRequired` is true. |
+| **Failure modes** | Missing comps → warning + blocked export; permission gap → omit section; model timeout → retry/receipt, not silent success. |
+| **Future boundary** | No headline valuation without evidence/citations/review state; no send automation without full consent stack. |
 
 ## Source Confidence Scorer
 
-- Role: rank observations using source type, recency, review state, contradiction, completeness, and contributor trust.
-- Outputs: confidence, freshness, and dispute labels.
-- Gate: threshold changes and public promotion require review.
-- Boundary: scoring informs resolution but never bypasses permissions.
+| Field | Detail |
+| --- | --- |
+| **Conceptual role** | Rank observations and candidates using source type, recency, review state, contradiction, completeness, contributor trust. |
+| **Inputs** | Observation/candidate, related observations, review history, source metadata. |
+| **Outputs** | `SourceConfidenceScore` with confidence band, freshness label, dispute hint. |
+| **Human gate** | Threshold changes and public promotion require operator review. |
+| **Failure modes** | Conflicting sources → dispute flag; stale source → downgrade; unknown provenance → unreviewed default. |
+| **Future boundary** | Scoring informs resolution but never bypasses permissions or auto-promotes to public. |
 
 ## HITL Reviewer
 
-- Role: route candidate facts and comps to human review.
-- Outputs: accepted, rejected, needs-more-evidence, superseded, revoked, or blocked.
-- Gate: the workflow itself is the human authority layer.
-- Boundary: reviewer UI must respect permissions and audit.
+| Field | Detail |
+| --- | --- |
+| **Conceptual role** | Human authority layer for candidate facts, comps, report sections, and publication eligibility. |
+| **Inputs** | Extraction candidates, moderation signals, report drafts, permission context. |
+| **Outputs** | `ReviewDecision`: accepted public, accepted private, rejected, needs-more-evidence, superseded, revoked, blocked. |
+| **Human gate** | The reviewer **is** the gate; automation may route queue items only. |
+| **Failure modes** | Timeout → escalate/not auto-approve (policy TBD); conflicting decisions → dispute state; missing audit → fail-closed. |
+| **Future boundary** | Reviewer UI respects permissions; no auto-publication from reviewer-adjacent agents. |
 
 ## Marketplace Moderation Assistant
 
-- Role: detect spam, bad comps, suspicious uploads, adversarial data, duplicates, and source-use risk.
-- Outputs: moderation queue signals.
-- Gate: ban, removal, and publication decisions require human authority.
-- Boundary: no auto-ban or auto-publication in MVP.
+| Field | Detail |
+| --- | --- |
+| **Conceptual role** | Detect spam, bad comps, suspicious uploads, adversarial data, duplicates, source-use risk. |
+| **Inputs** | Upload metadata, candidate observations, contributor history, pattern signals. |
+| **Outputs** | `ModerationSignal` with severity, reason codes, suggested queue priority — not final decisions. |
+| **Human gate** | Ban, removal, and publication decisions require human operator authority. |
+| **Failure modes** | False positive → human override; adversarial evasion → escalate; duplicate detection uncertain → needs-review. |
+| **Future boundary** | No auto-ban or auto-publication in MVP; signals only. |
 
-## Audit And Background Job Status
+## Audit / Correlation Receipt Writer
 
-- Role: create user-safe progress projections for upload, scan, extract, review, model run, report generation, and export.
-- Outputs: status timeline and internal receipt references.
-- Gate: failures, replay, expensive scanned docs, and blocked docs require review.
-- Boundary: public users see safe summaries only, not internal queue details.
+| Field | Detail |
+| --- | --- |
+| **Conceptual role** | Emit replay-safe receipts for governed actions with idempotency and correlation identifiers. |
+| **Inputs** | Action type, actor, target entity, idempotency key, correlation ID, outcome payload hash. |
+| **Outputs** | `AgentRunReceipt` / operational receipt reference linkable to ingestion, extraction, review, report, export. |
+| **Human gate** | Disputed or failed receipts may require operator investigation before retry. |
+| **Failure modes** | Duplicate idempotency key → fail-closed return prior receipt; missing correlation → block downstream export. |
+| **Future boundary** | Receipts are audit artifacts, not user-facing truth; public UI never shows raw receipt internals. |
+
+## Background Job Status Projector
+
+| Field | Detail |
+| --- | --- |
+| **Conceptual role** | Project Fabricator/workflow internal state into user-safe phase timelines for public and contributor UI. |
+| **Inputs** | Internal run state (operator-only), phase transition events, failure/blocked flags. |
+| **Outputs** | `JobStatusProjection`: phase label, percent or step index (only if tied to real transitions), blocked reason (sanitized). |
+| **Human gate** | Blocked and failed states may require user action or operator review before retry. |
+| **Failure modes** | Stale projection → refresh; worker crash → blocked with safe message; never show success on incomplete run. |
+| **Future boundary** | **Queue completion is not canonical truth.** Public users see projections only — no queue names, worker IDs, or raw logs. |
+
+## Fabricator Rule (All Agents)
+
+Job/workflow/agent completion is a **status projection**, not evidence promotion or canonical marketplace truth. HITL review and permission filters remain mandatory after any completion event.
