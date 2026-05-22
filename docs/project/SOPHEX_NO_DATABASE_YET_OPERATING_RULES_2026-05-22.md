@@ -11,7 +11,9 @@ Sophex has no real database connection yet. Schema foundation work is local sche
 ## Rules
 
 - No DB URL is required.
-- Do not create or edit `.env*`.
+- Do not commit live `.env*` files or database URLs.
+- `.env.example` may document placeholder variable names only.
+- Local `.env.local` may be used later after credential rotation, but it must remain ignored and uncommitted.
 - Do not apply migrations.
 - Do not run Prisma, Drizzle, Kysely, SQL clients, seeds, or migration deploy commands.
 - Do not connect to Neon, Railway, CRE production DB, MotherDuck, R2/Docling, vector runtime, provider/send, or queues.
@@ -46,3 +48,7 @@ For SOPHEX-S0, validation means:
 - no DB URL or secrets;
 - no runtime DB client code;
 - no package/lock edits for schema tooling.
+
+## CRE2 Neon Dev Note
+
+If CRE2 Neon is used later as an isolated Sophex development database, first rotate any credentials exposed outside a secret manager. Then configure local ignored environment values only. This schema-contract branch still does not connect to the database or apply the SQL contract.

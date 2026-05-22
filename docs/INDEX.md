@@ -63,6 +63,7 @@
 - [schema/SOPHEX_SCHEMA_FOUNDATION_CONTRACT_2026-05-22.md](schema/SOPHEX_SCHEMA_FOUNDATION_CONTRACT_2026-05-22.md): Schema foundation contract — local contracts only, no DB apply.
 - [schema/SOPHEX_PSEUDO_GRAPH_TARGET_MODEL_2026-05-22.md](schema/SOPHEX_PSEUDO_GRAPH_TARGET_MODEL_2026-05-22.md): Pseudo-graph target model for properties, deals, leases, tenants, rent schedules, projections, and edges.
 - [schema/SOPHEX_PERMISSIONED_FIELD_OBSERVATION_MODEL_2026-05-22.md](schema/SOPHEX_PERMISSIONED_FIELD_OBSERVATION_MODEL_2026-05-22.md): Public/private field observation and resolved-value model.
+- [project/SOPHEX_CRE2_NEON_DEV_CONFIGURATION_2026-05-22.md](project/SOPHEX_CRE2_NEON_DEV_CONFIGURATION_2026-05-22.md): Safe CRE2 Neon dev configuration plan with placeholder env names only.
 - [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md): Superseded provisional UX/motion harvest (stale CRE checkout).
 - [SISTER_PROJECT_SOURCE_MAP.md](SISTER_PROJECT_SOURCE_MAP.md): Reference-only sister-project paths and why they matter.
 - [SOPHEX_REFERENCE_PATHS.md](SOPHEX_REFERENCE_PATHS.md): Workspace and sister-project path registry (reference-only).

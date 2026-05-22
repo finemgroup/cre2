@@ -36,7 +36,9 @@ Classification: **A/D** — docs-first Sophex repo with a prototype app and no D
 - `docs/schema/SOPHEX_PERMISSIONED_FIELD_OBSERVATION_MODEL_2026-05-22.md`
 - `docs/roadmap/SOPHEX_SCHEMA_WAVE_ROADMAP_2026-05-22.md`
 - `docs/project/SOPHEX_NO_DATABASE_YET_OPERATING_RULES_2026-05-22.md`
+- `docs/project/SOPHEX_CRE2_NEON_DEV_CONFIGURATION_2026-05-22.md`
 - `docs/closeouts/SOPHEX_SCHEMA_FOUNDATION_SETUP_2026-05-22.md`
+- `.env.example`
 - `schema/README.md`
 - `schema/sophex-foundation.contract.sql`
 - `schema/sophex-foundation.static-checklist.md`
@@ -71,6 +73,7 @@ The SQL artifact is marked `CONTRACT ONLY`, `NOT APPLIED`, `NO DATABASE CONNECTI
 - No runtime app feature files changed.
 - No deploy config changed.
 - No environment files changed.
+- `.env.example` contains placeholders only; no live database URL.
 - No Prisma schema changed.
 - No Drizzle config changed.
 - No migrations folder created.
@@ -94,6 +97,7 @@ The SQL artifact is marked `CONTRACT ONLY`, `NOT APPLIED`, `NO DATABASE CONNECTI
 
 - SQL action: not executed.
 - DB connection: not attempted.
+- CRE2 Neon credentials: not used; exposed credentials must be rotated before local configuration.
 - Migration action: not executed.
 - Prisma action: not executed.
 - Drizzle action: no push/generate, not executed.
