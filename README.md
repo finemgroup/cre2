@@ -12,4 +12,12 @@ Field values should resolve from permissioned observations, so different actors 
 The setup phase is documentation-first and creates the boundary for future product work.
 See [docs/INDEX.md](docs/INDEX.md) for the full setup packet.
 
+## Repository Status
+
+- **GitHub remote:** [finemgroup/cre2](https://github.com/finemgroup/cre2)
+- **Project identity:** Sophex Marketplace and Content Engine
+- **Current status:** docs/control-plane setup — sister-project harvest integration complete; no runtime, schema, or deploy implementation authorized
+- **Branch:** `master` tracking `origin/master`
+- **Local-only (untracked):** `Content Engine/` reference folder — not pushed
+
 No schema/runtime implementation is authorized by this setup packet.

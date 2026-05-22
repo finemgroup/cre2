@@ -71,7 +71,7 @@
 - [NON_GOALS.md](NON_GOALS.md): Explicitly forbidden or deferred work.
 - [CURSOR_PROJECT_SETUP.md](CURSOR_PROJECT_SETUP.md): How to use this Cursor project safely.
 - [OPEN_QUESTIONS.md](OPEN_QUESTIONS.md): Decisions required before implementation.
-- [GIT_AND_REMOTE_SETUP.md](GIT_AND_REMOTE_SETUP.md): Local Git state and future remote placeholders.
+- [GIT_AND_REMOTE_SETUP.md](GIT_AND_REMOTE_SETUP.md): Git remote identity (`finemgroup/cre2`), push status, and safety rules.
 
 ## Next Prompt To Run
 
