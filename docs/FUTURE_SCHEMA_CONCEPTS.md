@@ -41,7 +41,7 @@ Before schema or runtime work, Sophex needs:
 
 - **IngestionRun** — governed upload/classification attempt with cost tier, blocked state, and receipt link.
 - **ExtractionCandidate** — pre-observation extract with source span, confidence, method, visibility; not promoted truth.
-- **ReviewDecision** — HITL outcome: accepted public/private, rejected, needs-evidence, superseded, revoked, blocked.
+- **ReviewDecision** — HITL outcome: recommended, rejected, or held at the Fabricator-inspired review layer; any accepted public/private, revoked, superseded, or blocked marketplace state requires a separate Sophex promotion authority.
 - **ReportGenerationRun** — report assembly attempt with AnalysisResponse-style outputs and export eligibility flag.
 - **JobStatusProjection** — user-safe phase timeline derived from internal runs; not raw queue state.
 - **AgentRunReceipt** — idempotent audit record for agent/workflow actions with correlation ID.
@@ -62,6 +62,7 @@ These are conceptual contract names for future discussion. They do not authorize
 - Private uploads must not leak through search, report generation, export, or aggregate views.
 - Audit and activity records should not be collapsed into narrative comments or evidence records.
 - Queue or job completion does not promote candidates to observations (Fabricator boundary).
+- Review packet existence does not approve execution; Fabricator clean harvest confirms recommendation/hold semantics are separate from promotion authority.
 - Receipt/display-table existence does not grant execution authority.
 - JobStatusProjection is user-safe; internal run logs are operator-only.
 
@@ -73,6 +74,7 @@ These are conceptual contract names for future discussion. They do not authorize
 - `CompCandidate` and `ResolvedCompSet` contracts for reviewed and permissioned valuation inputs.
 - `OperationalReceipt` contract for idempotency, correlation, replay safety, and audit references.
 - `AuditReceipt` / policy receipt contract for redacted evidence refs, safe next action, and execution-authority separation.
+- `ReviewDecision` and future `PromotionAuthority` contracts to separate human recommendation from publication/export execution.
 - `ContributionExchange` contract for free-for-contribution terms and visibility grants.
 - `LeadCaptureIntent` contract for consent-bound capture without authorizing send automation.
 - `PublicMarketPageProjection` contract for indexable public baseline pages.

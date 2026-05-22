@@ -14,7 +14,7 @@ Single map of **where Sophex doctrine lives** after sister-project harvest integ
 | Packet | File | Trust |
 | --- | --- | --- |
 | CRE | [CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) | ✅ Clean CRE `master` @ `5300e7e5510e27d5ba505bfba8bec39990f68f7c` |
-| Fabricator | [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) | ⚠️ Dirty Fabricator worktree |
+| Fabricator | [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) | ✅ Clean Fabricator `main` @ `89b2a651a928a2d8cc1c80fba65f0861fc509e09` |
 | Content Engine | [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md) | ⚠️ Untracked reference folder |
 | UX/Motion | [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) | ✅ Clean CRE `apps/core` @ `5300e7e5510e27d5ba505bfba8bec39990f68f7c` |
 
@@ -53,4 +53,4 @@ Index: [HARVEST_PACKET_INDEX.md](HARVEST_PACKET_INDEX.md)
 
 ## Authoritative Rerun Checklist (Future)
 
-When clean sister checkouts exist, create `*_HARVEST_PACKET_AUTHORITATIVE.md`, diff against provisional, update topic docs once, then mark provisional files superseded. CRE and UX/Motion now follow this pattern; Fabricator still needs a clean-source rerun.
+When clean sister checkouts exist, create `*_HARVEST_PACKET_AUTHORITATIVE.md`, diff against provisional, update topic docs once, then mark provisional files superseded. CRE, Fabricator, and UX/Motion now follow this pattern.

@@ -1,6 +1,6 @@
 # FABRICATOR_TO_SOPHEX_HARVEST_PACKET
 
-> **Superseded for trust purposes by [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)** — this file is an earlier draft from the same dirty-tree Fabricator checkout. Use the provisional packet until authoritative clean-checkout harvest exists.
+> **Superseded by [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md).** This file is an earlier draft from the dirty-tree Fabricator checkout and remains archive-only.
 
 **Mode:** `FABRICATOR_TO_SOPHEX_READ_ONLY_HARVEST`  
 **Source:** `C:\Projects\finem_factory_mvp`  

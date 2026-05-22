@@ -76,6 +76,16 @@ Policy and operational receipt family for source-sensitive governed actions.
 
 **Invariants:** receipt existence is not execution authority; public routes store redacted refs and never expose raw internal logs.
 
+**Fabricator clarification:** clean Fabricator confirms audit events and `audit_receipt_ref` patterns, but not a single drop-in Sophex `AuditReceipt` type. Sophex must define its own external receipt shape before runtime work.
+
+## Contract: ReviewDecision
+
+Human or operator review result for a candidate, report section, source packet, moderation signal, or promotion request.
+
+**Fields (conceptual):** decision id, reviewed artifact, reviewer actor, decision kind, rationale, required follow-ups, evidence refs, blocked actions, reviewed timestamp, policy version, correlation id.
+
+**Invariants:** Fabricator-style decisions can recommend, reject, or hold. Sophex publication/export/promotion authority remains a separate gate and must never be implied by review packet existence.
+
 ## Contract: ContributionExchange
 
 Terms governing free valuation/reporting in exchange for uploads or comps.
@@ -103,7 +113,7 @@ SEO/GEO-facing public property or market page view.
 ## Cross-Project Alignment Notes
 
 - **CRE Platform** clean-master harvest confirms governed source observations, document references, document evidence registry, chunks as sidecars, receipts, and internal review workflows as conceptual references.
-- **Finem Fabricator** may project job/workflow status and agent outputs as candidates until HITL and permissions apply.
+- **Finem Fabricator** clean harvest confirms evidence envelopes, AnalysisResponse-style reports, review recommendation/hold semantics, and status projection patterns; these remain candidates/control-plane signals until HITL, permissions, source-use, and audit gates apply.
 - **Content Engine** informs public marketing surfaces and interactive UX; it does not authorize syndication of private observations.
 
 All contracts remain future-gated until legal, product, CRE alignment, and MVP0 mock proof complete.

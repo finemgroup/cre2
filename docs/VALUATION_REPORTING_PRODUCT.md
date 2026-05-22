@@ -79,7 +79,7 @@ Users may upload documents or comps to unlock deeper report sections. Terms must
 
 ## Source Citations, Warnings, And reviewRequired Posture
 
-From Fabricator Analysis OS and Content Engine trust doctrine (conceptual only — see [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) and [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md)):
+From Fabricator Analysis OS and Content Engine trust doctrine (conceptual only — see [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) and [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md)):
 
 Future Sophex report artifacts should support structured output comparable to AnalysisResponse:
 
@@ -97,6 +97,7 @@ Future Sophex report artifacts should support structured output comparable to An
 - **White-label report artifact** may carry partner branding but must retain warnings, citations, and permission boundaries.
 - **Export gates** remain disabled when `reviewRequired` is true or consent/audit preconditions fail.
 - Report generator outputs are **`ReportGenerationRun` candidates** until HITL and export gates clear.
+- Fabricator clean harvest confirms `AnalysisResponse`-style outputs should carry `reviewReasons`; Sophex export gates should explain those reasons rather than hiding disabled actions.
 
 ## Report Section Review And Export Gate
 

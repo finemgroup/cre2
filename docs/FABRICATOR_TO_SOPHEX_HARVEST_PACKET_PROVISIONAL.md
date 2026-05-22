@@ -1,5 +1,7 @@
 # FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL
 
+> **Superseded by [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md).** This provisional packet remains archive-only because it was generated from a dirty Fabricator checkout.
+
 > **This packet is provisional.** It was generated from `C:\Projects\finem_factory_mvp` while that checkout was on `main` at `origin/main`, but the working tree was dirty from memory-bank edits and untracked audit/closeout docs. Use as workflow/control-plane doctrine, not as a clean authoritative repo inventory, until rerun from a clean Fabricator checkout.
 
 **Mode:** `FABRICATOR_TO_SOPHEX_READ_ONLY_HARVEST` (provisional)  

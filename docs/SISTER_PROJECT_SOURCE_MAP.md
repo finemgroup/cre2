@@ -38,10 +38,18 @@ This map records **reference-only** sister-project paths that informed Sophex do
 
 | Area | Reference path | Why Sophex should inspect it |
 | --- | --- | --- |
-| Control plane overview | `finem_factory_mvp/docs/context/FINEM_FABRICATOR_CONTROL_PLANE_OVERVIEW.md` | Workflow/agent orchestration doctrine |
-| Evidence toolkit | `finem_factory_mvp/agents/DatabaseEvidenceToolkit_MCP/` | Evidence envelope and audit receipt patterns |
-| Analysis OS contracts | `finem_factory_mvp/src/lib/analysis-os/` | Report/analysis contract shapes |
-| Mission control UI | `finem_factory_mvp/mission_control_bridge/templates/index.html` | Operator control-panel inspiration only |
+| Control plane overview | `finem_factory_mvp_clean/docs/context/FINEM_FABRICATOR_CONTROL_PLANE_OVERVIEW.md` | Workflow/agent orchestration doctrine; current truth vs horizon |
+| Two-product doctrine | `finem_factory_mvp_clean/docs/blueprints/TWO_PRODUCT_DOCTRINE.md` | Engine vs vehicle separation; API boundary only |
+| Evidence specs | `finem_factory_mvp_clean/docs/agent-factory/evidence-spec-v1.md`; `docs/agent-factory/evidence-pack-spec.md` | Evidence-first gate movement, correlation, idempotency, hash-chain proof |
+| Evidence toolkit | `finem_factory_mvp_clean/agents/DatabaseEvidenceToolkit_MCP/` | Evidence envelope, source adapter, review decision, promotion policy patterns |
+| Bridge envelope | `finem_factory_mvp_clean/docs/runbooks/CRE_READONLY_BRIDGE_ENVELOPE_CONTRACT_2026-05-20.md` | Pointers/digests/receipt refs instead of raw payloads |
+| Analysis OS contracts | `finem_factory_mvp_clean/src/lib/analysis-os/` | AnalysisResponse-style report/analysis contract shapes |
+| Governance/job approvals | `finem_factory_mvp_clean/apps/core/lib/bootstrap/`; `apps/core/lib/skills/` | Governance context, audit, idempotency, approval patterns |
+| AXIS job status | `finem_factory_mvp_clean/src/api/axis/queues.ts`; `src/app/api/axis/jobs/[jobId]/route.ts` | Operator-only job state; do not expose raw queue internals publicly |
+| Operator console | `finem_factory_mvp_clean/docs/broker-os/console.md`; `src/app/broker-os/console/page.tsx` | Current operator-control reference; stronger than mission-control stubs |
+| Ops Hub HITL | `finem_factory_mvp_clean/ops_hub_app/ui/components/HITLModal.tsx` | Operator-only HITL modal inspiration |
+
+**Superseded for authoritative harvest:** `C:\Projects\finem_factory_mvp` remains the dirty original checkout and should not be used for clean authoritative Fabricator path references.
 
 ## Content Engine (reference folder in Sophex workspace)
 
@@ -58,5 +66,5 @@ This map records **reference-only** sister-project paths that informed Sophex do
 ## Harvest Posture
 
 - All paths above are **reference-only**.
-- CRE authoritative references now come from the clean `cre-platform-master-clean` clone. Fabricator and UX/motion still carry provisional caveats until clean reruns.
+- CRE, Fabricator, and UX/motion authoritative references now come from clean source clones. Content Engine remains reference-only from an untracked local folder.
 - Sophex inherits patterns and contracts, not copied components, migrations, queues, or production data.

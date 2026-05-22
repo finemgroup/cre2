@@ -19,6 +19,7 @@ This project is the Sophex separate product setup lane. Treat it as a public-fac
 - Do not stage or commit untracked source/reference material, including `Content Engine/`, unless the operator explicitly includes those paths.
 - Authoritative sister-project harvests must come from clean source checkouts at the expected branch and upstream HEAD. Stale or dirty-source harvest packets are provisional archives only.
 - UI/UX inheritance must use clean source checkouts for authoritative path references; stale or dirty UX packets are archive-only.
+- Fabricator inheritance must use clean source checkouts for authoritative workflow/control-plane references; queue/job/review/receipt signals are never marketplace truth or export authority by themselves.
 
 ## Stop Conditions
 

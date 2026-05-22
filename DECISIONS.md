@@ -197,3 +197,17 @@ This file is the initial ADR-style decision log for the Sophex setup phase.
 - Date: 2026-05-22
 - Decision: The UX/Motion harvest from clean CRE `apps/core` at `C:\Projects\cre-platform-master-clean\apps\core` on `master` at `5300e7e5510e27d5ba505bfba8bec39990f68f7c` supersedes the stale UX/Motion provisional packet from `agent/03-operating-lens-navigation`.
 - Consequence: `UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md` is the current UX/motion source archive for Sophex docs doctrine; stale UX/Motion packets remain archive-only.
+
+## ADR-0029: Authoritative Fabricator Clean-Main Harvest Supersedes Dirty Provisional Packet
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: The Fabricator harvest from clean clone `C:\Projects\finem_factory_mvp_clean` on `main` at `89b2a651a928a2d8cc1c80fba65f0861fc509e09` supersedes the earlier Fabricator provisional packet generated from dirty checkout `C:\Projects\finem_factory_mvp`.
+- Consequence: `FABRICATOR_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md` is the current Fabricator source archive for Sophex workflow/control-plane doctrine; provisional Fabricator packets remain archive-only and must not drive implementation.
+
+## ADR-0030: Fabricator Review And Status Signals Are Candidate Control-Plane Signals
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Sophex will treat Fabricator-inspired AnalysisResponse outputs, review decisions, job states, evidence envelopes, and receipts as candidate/control-plane signals, not as marketplace truth, publication approval, export authority, or public status by themselves.
+- Consequence: Future Sophex contracts must separate `JobStatusProjection`, `ReviewDecision`, `AuditReceipt`, and promotion/export authority. Queue completion, review packet existence, or receipt existence cannot promote observations or reports without visibility, source-use, HITL, audit, correlation, and idempotency gates.

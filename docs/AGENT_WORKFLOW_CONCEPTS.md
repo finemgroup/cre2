@@ -2,7 +2,7 @@
 
 Finem Fabricator can inspire Sophex workflows and agents, but agents do not own truth. Every agent output is candidate evidence, workflow status, or report material until reviewed, permissioned, and governed.
 
-**Source:** [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) (provisional — clean Fabricator rerun pending).
+**Source:** [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) (clean Fabricator `main` source archive).
 
 **CRE reference:** [CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) confirms review display, document evidence, receipt, and BOV/report gate patterns from clean `master`.
 
@@ -56,10 +56,10 @@ Finem Fabricator can inspire Sophex workflows and agents, but agents do not own 
 | --- | --- |
 | **Conceptual role** | Human authority layer for candidate facts, comps, report sections, and publication eligibility. |
 | **Inputs** | Extraction candidates, moderation signals, report drafts, permission context. |
-| **Outputs** | `ReviewDecision`: accepted public, accepted private, rejected, needs-more-evidence, superseded, revoked, blocked. |
+| **Outputs** | `ReviewDecision`: recommended, rejected, or held for follow-up at the Fabricator layer; Sophex may later map those into accepted public/private, revoked, superseded, or blocked states through a separate promotion authority. |
 | **Human gate** | The reviewer **is** the gate; automation may route queue items only. |
 | **Failure modes** | Timeout → escalate/not auto-approve (policy TBD); conflicting decisions → dispute state; missing audit → fail-closed. |
-| **Future boundary** | Reviewer UI respects permissions; no auto-publication from reviewer-adjacent agents. |
+| **Future boundary** | Reviewer UI respects permissions; no auto-publication from reviewer-adjacent agents; recommendation is not execution authority. |
 
 ## Marketplace Moderation Assistant
 
@@ -89,7 +89,7 @@ Finem Fabricator can inspire Sophex workflows and agents, but agents do not own 
 | --- | --- |
 | **Conceptual role** | Project Fabricator/workflow internal state into user-safe phase timelines for public and contributor UI. |
 | **Inputs** | Internal run state (operator-only), phase transition events, failure/blocked flags. |
-| **Outputs** | `JobStatusProjection`: phase label, percent or step index (only if tied to real transitions), blocked reason (sanitized). |
+| **Outputs** | `JobStatusProjection`: Sophex-defined phase label, percent or step index (only if tied to real transitions), blocked reason (sanitized). Fabricator does not provide a drop-in type. |
 | **Human gate** | Blocked and failed states may require user action or operator review before retry. |
 | **Failure modes** | Stale projection → refresh; worker crash → blocked with safe message; never show success on incomplete run. |
 | **Future boundary** | **Queue completion is not canonical truth.** Public users see projections only — no queue names, worker IDs, or raw logs. |
@@ -99,3 +99,7 @@ Finem Fabricator can inspire Sophex workflows and agents, but agents do not own 
 Job/workflow/agent completion is a **status projection**, not evidence promotion or canonical marketplace truth. HITL review and permission filters remain mandatory after any completion event.
 
 CRE clean-master review display tables reinforce the same rule: display substrates and receipt rows do not grant execution authority or public publication rights.
+
+## Authoritative Fabricator Rule
+
+Clean Fabricator harvest confirms that Fabricator status, analysis, review, and evidence artifacts are **candidate/control-plane signals**. A Sophex promotion or export gate must separately verify visibility, source-use policy, review authority, audit receipt, correlation, and idempotency before any public or shareable outcome.

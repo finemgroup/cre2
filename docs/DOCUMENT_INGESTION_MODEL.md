@@ -2,7 +2,7 @@
 
 This document describes intended ingestion behavior only. No implementation is authorized in this setup phase.
 
-**Fabricator reference:** [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) — provisional.
+**Fabricator reference:** [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) — clean Fabricator source archive.
 **CRE reference:** [CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) — clean-master source archive.
 
 ## Evidence-First Ingestion
@@ -30,6 +30,7 @@ Before extraction or model input, apply a **redaction-first evidence envelope**:
 - Attach visibility and source-use policy to every candidate.
 - Never pass raw private payloads to public models or indexes.
 - Fabricator evidence-envelope doctrine applies conceptually; Sophex owns policy.
+- Fabricator clean harvest confirms source adapters should emit redacted evidence refs, source manifests, relationship hints, hashes, blocked actions, and provenance before any candidate can enter review.
 
 ## Scan Vs Clean PDF Cost Controls
 
@@ -86,7 +87,7 @@ Every extracted observation should carry confidence signals such as source quali
 
 Human-in-the-loop review is required for low-confidence extraction, high-value fields, private marketplace contributions, scanned/OCR paths, and values that may affect public or paid outputs.
 
-Possible review states include unreviewed, needs evidence, conflicting, accepted public, accepted private, rejected, revoked, superseded, and blocked.
+Possible review states include unreviewed, needs evidence, conflicting, recommended, rejected, held, accepted public, accepted private, revoked, superseded, and blocked. Recommendation/hold states do not authorize extraction promotion, publication, export, or syndication.
 
 ## Sister-Project References
 
