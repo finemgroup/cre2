@@ -10,7 +10,7 @@ Sophex should later integrate with CRE through approved APIs and contracts inste
 Uploaded documents and user-entered facts are evidence, not automatic canonical truth.
 Field values should resolve from permissioned observations, so different actors may see different latest permitted values.
 The setup phase is documentation-first and creates the boundary for future product work.
-See [docs/INDEX.md](docs/INDEX.md) for the full setup packet. Phase 1 prototype: [docs/PROTOTYPE_MVP0.md](docs/PROTOTYPE_MVP0.md) and [prototype/README.md](prototype/README.md).
+See [docs/INDEX.md](docs/INDEX.md) for the full setup packet. Phase 1 prototype: [docs/PROTOTYPE_MVP0.md](docs/PROTOTYPE_MVP0.md) and [prototype/README.md](prototype/README.md). Schema foundation contracts: [docs/schema/SOPHEX_SCHEMA_FOUNDATION_CONTRACT_2026-05-22.md](docs/schema/SOPHEX_SCHEMA_FOUNDATION_CONTRACT_2026-05-22.md) and [schema/sophex-foundation.contract.sql](schema/sophex-foundation.contract.sql).
 
 ## Repository Status
 
