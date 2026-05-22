@@ -48,3 +48,5 @@ Read-only metadata selects only:
 ## Next Gate
 
 Before creating real tables, create a separate DB activation plan or update this PR with an explicit migration/tooling decision. The current schema SQL remains a contract draft, not an executable migration.
+
+Local `.env` is active for development use and is documented in `docs/project/SOPHEX_CRE2_NEON_DEV_CONFIGURATION_2026-05-22.md` and `docs/closeouts/SOPHEX_LOCAL_ENV_ACTIVE_2026-05-22.md`.

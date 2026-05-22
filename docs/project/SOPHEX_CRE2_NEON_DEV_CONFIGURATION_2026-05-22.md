@@ -48,6 +48,16 @@ The CRE2 Neon database is intended to be a new isolated Sophex/CRE2 development 
 - No production data copy.
 - No deploy.
 
+## Local `.env` Status (2026-05-22)
+
+- Local ignored file: `.env` (not committed).
+- Read-only preflight succeeded against database `neondb`.
+- Current schema: `public`.
+- Public table count at preflight: `0`.
+- Server version observed: PostgreSQL 17.10.
+- `schema/sophex-foundation.contract.sql` has not been applied to this database.
+- Next approved step: choose migration/tooling and create a separate DB activation lane.
+
 ## Future Activation Gate
 
 Before any real connection or migration work, create a separate DB setup plan that names:
