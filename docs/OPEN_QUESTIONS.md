@@ -16,3 +16,7 @@
 - What deletion, revocation, or correction rights should source owners have?
 - Which marketplace actions require operator approval?
 - What is the approved GitHub remote URL for this separate Sophex project?
+- What legal position will Sophex take on contributed leases, rent rolls, appraisals, mortgages, and contracts?
+- Which valuation model details can be disclosed in reports without exposing proprietary algorithms?
+- Does the free tier require public contribution, and can paid users keep uploaded data private by default?
+- Which GIS, traffic, title, and public-record providers are acceptable for the initial property baseline?
