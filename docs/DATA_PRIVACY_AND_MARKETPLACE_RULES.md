@@ -10,6 +10,8 @@ Users must understand what they are contributing and what they receive in return
 
 Private uploads must not leak to public comps, public reports, partner feeds, or other users. A private lease, rent roll, appraisal, contract, or mortgage can inform that user's report without becoming global marketplace truth.
 
+Clean-master UX validation reinforces that privacy state must be visible in workflow surfaces, not hidden in settings only: candidate/evidence-only labels on uploads, publication holds on report/share/export surfaces, provider-restricted source labels, and private source names filtered from public citations/search.
+
 ## Aggregation And Anonymization
 
 Aggregation and anonymization rules must be defined before marketplace launch. Aggregated outputs should prevent reconstruction of private facts, source-owner identity, or deal-specific sensitive values unless permission allows disclosure.

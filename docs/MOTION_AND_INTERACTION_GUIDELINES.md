@@ -2,19 +2,22 @@
 
 Sophex motion should feel restrained, legible, and confidence-building. This is a CRE evidence and valuation product, not an AI toy.
 
-Primary reference: CRE clean-master `apps/core/lib/motion-tokens.ts`, `apps/core/lib/motion/workflow-motion.ts`, and `apps/core/components/os/OSMotion.tsx` (doctrine only — do not copy runtime dependency graph into Sophex setup).
+Primary reference: CRE clean-master `apps/core/lib/motion-tokens.ts`, `apps/core/lib/motion/workflow-motion.ts`, `apps/core/components/os/OSMotion.tsx`, and [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) (doctrine only — do not copy runtime dependency graph into Sophex setup).
 
 ## Motion Tiers
 
 | Tier | Duration | Use |
 | --- | --- | --- |
 | Execution | ~120ms linear | Step ticks, upload progress increments |
+| Standard reveal | ~180ms standard easing | Page, section, and timeline reveal |
 | Review | ~220ms ease-out | Page reveal, drawer open, section expand |
+| Emphasized continuity | ~260ms emphasized easing | Drawer/sheet continuity when context must stay clear |
 | Forbidden (MVP0 public) | — | Pulse loops, gamification celebrations, bounce easing |
 
 ## Canonical Presets (CRE-Inspired)
 
 - **reveal** — page/content enter on route change (`PageTransitionShell` pattern).
+- **osReveal / osStageItem / osRailEnter / osCollapse** — OS motion primitives for shell and workflow surfaces.
 - **fade** — opacity-only transitions for panels and overlays.
 - **scaleIn** — subtle modal/drawer enter (scale 0.96 → 1).
 - **tooltip** — small y-offset fade for helper text.
@@ -95,6 +98,8 @@ See `docs/SOPHEX_TRUST_UI_GUIDELINES.md`.
 
 - Over-animation that makes evidence feel unserious.
 - Gamification celebration overlays (CRE has these; Sophex must not inherit).
+- `statusPulse`, `pinPulse`, typing-dot, and spin loops on public financial data.
+- Count-up metrics that imply live recalculation when data is mocked or stale.
 - Hover-only provenance that fails on mobile or assistive technology.
 - Treating AI confidence animation as authority.
 - Hiding source limitations inside polished reports.

@@ -16,6 +16,7 @@ All runtime, schema, deploy, and production integration phases are future-gated.
 - Define authority labels, source panels, and query-level permission expectations.
 - Prototype with mock data and non-production banners on all preview surfaces.
 - **Include mock comparison dashboard, regional heat map, interactive report preview, gated export UX, and upload/contribution exchange UI** (Content Engine reference patterns — UI only).
+- Use clean-master UX references for shell split, upload states, evidence drawers, BOV/report section gates, output-guard warnings, route progress, and reduced-motion behavior.
 - No production runtime.
 - **Content Engine SQL/n8n/CRM implementation is not authorized** in Sophex setup — borrow UX and strategy only.
 

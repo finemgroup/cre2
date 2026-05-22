@@ -48,7 +48,9 @@
 - Should Content Engine reference files be committed to Sophex Git, or remain external with only provisional harvest MD in `docs/`?
 - **When will UX/motion harvest be rerun from clean CRE `master` to validate component paths?**
 - **Which authoritative CRE concepts should become first real Sophex contracts: DocumentEvidence, SourceObservation, CompCandidate, ReportArtifact, or AuditReceipt?**
-- **Should UX/motion provisional packet be superseded by a clean-master UX-specific rerun, or is the authoritative CRE packet sufficient for MVP0 path validation?**
+- **Which clean-master UX pattern should anchor the first MVP0 prototype: upload intake, evidence review drawer, comp comparison, or report export gate?**
+- **Which proof/status labels should ship in public MVP0 versus operator-only moderation?**
+- **Should command palette remain post-MVP only, or appear in an authenticated operator prototype behind strict permission filtering?**
 - **Which CRE provider-restricted/output-guard concepts map to Sophex public reports before any data provider contract exists?**
 - **When will Fabricator harvest be rerun from a clean checkout with a clean working tree?**
 - **What is the unified external job ID contract between Sophex JobStatusProjection and future worker/queue implementations?**

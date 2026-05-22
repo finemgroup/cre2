@@ -1,5 +1,7 @@
 # UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL
 
+> **Superseded by [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md).** This file remains an archive of the stale/dirty CRE `apps/core` harvest only. Do not use it as current UX/motion doctrine.
+
 > **This packet is provisional.** It was harvested from `C:\Projects\cre-platform-erofs-master-landing\apps\core` while that CRE checkout was on branch `agent/03-operating-lens-navigation`, dirty, 758 commits behind `origin/master`, and not suitable as CRE control-panel truth. Use for directional UX/motion/design-system doctrine only until rerun from clean CRE `master`. Component paths may have changed on current master.
 
 **Mode:** `SOPHEX_UX_MOTION_READ_ONLY_HARVEST` (provisional)  

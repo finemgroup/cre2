@@ -1,6 +1,6 @@
 # UX_MOTION_TO_SOPHEX_HARVEST_PACKET
 
-> **Superseded — use [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md).** Canonical integration: `docs/HARVEST_DOC_HIERARCHY.md`.
+> **Superseded — use [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md).** Canonical integration: `docs/HARVEST_DOC_HIERARCHY.md`.
 
 **Mode:** `SOPHEX_UX_MOTION_READ_ONLY_HARVEST`  
 **Source:** `C:\Projects\cre-platform-erofs-master-landing\apps\core`  

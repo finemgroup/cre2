@@ -26,6 +26,9 @@ This setup packet intentionally does not authorize:
 - No public search indexing of user-contributed facts before visibility and source-use rules exist.
 - No claims of appraisal superiority without validation and legal review.
 - No copying CRE operator shell (Jarvis, dialer, gamification, full command palette) into Sophex MVP0.
+- No command palette as MVP0 primary navigation.
+- No CRE route/provider tree, dual mobile nav, operator cockpit, or gamified motion imported into Sophex.
+- No live-data claims on mock maps, reports, or valuation screens without non-production/stub labeling.
 - No treating CRE clean-master harvest as implementation authorization; it is docs doctrine only.
 - No Content Engine n8n/SQL/CRM/email implementation in setup phase or MVP0.
 - **No email nurture automation** in setup/MVP0.

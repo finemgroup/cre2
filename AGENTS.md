@@ -18,6 +18,7 @@ This project is the Sophex separate product setup lane. Treat it as a public-fac
 - Use explicit path staging only. Never use `git add -A` for this lane.
 - Do not stage or commit untracked source/reference material, including `Content Engine/`, unless the operator explicitly includes those paths.
 - Authoritative sister-project harvests must come from clean source checkouts at the expected branch and upstream HEAD. Stale or dirty-source harvest packets are provisional archives only.
+- UI/UX inheritance must use clean source checkouts for authoritative path references; stale or dirty UX packets are archive-only.
 
 ## Stop Conditions
 

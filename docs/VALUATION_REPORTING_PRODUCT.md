@@ -115,6 +115,13 @@ Authoritative CRE clean-master adds stronger report-governance references:
 - Provider export readiness panels model public/client delivery holds.
 - Export hashes should cover the artifact bundle and source manifest, not just a visual PDF.
 
+Authoritative UX/motion validation adds:
+
+- BOV section cards and review governance panels should drive the report-review UI.
+- Export cards should explain why export is disabled, not merely hide the button.
+- Report builder/wizard steps should be visible as a restrained progress sequence.
+- Source-bundle review panels should mark candidate/evidence-only data before it enters any preview.
+
 ## Interactive Preview Surfaces
 
 Public market and property pages may include:

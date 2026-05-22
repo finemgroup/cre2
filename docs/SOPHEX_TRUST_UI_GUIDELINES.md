@@ -56,6 +56,16 @@ Map to workflow posture inspired by CRE trust tiers (AUTO/NOTIFY/HITL/BLOCK adap
 - **HITL required** — human review before public use or export.
 - **Blocked** — cannot affect reports, exports, or public pages.
 
+Authoritative UX validation adds proof/status language from CRE clean master:
+
+- **Canonical** — verified source of truth for this context.
+- **Advisory** — useful but not authoritative.
+- **Staged** — candidate data awaiting review.
+- **Source-pending** — source missing or unavailable.
+- **Proof-pending** — evidence not sufficient yet.
+- **Backend-contract-pending** — UI exists but durable contract is not proven.
+- **Reviewer-required** — HITL required before any public/export use.
+
 ## Provenance UI Patterns
 
 ### Inline citation
@@ -87,6 +97,14 @@ Authoritative CRE clean-master also points to source-bundle review panels, gener
 - Gated PDF/export requires account and consent copy.
 - No exit-intent capture, email nurture, CRM sync, or syndication until consent stack is proven.
 - No SEO indexing of user-contributed facts before visibility rules exist.
+
+## Clean-Master UX Trust Patterns
+
+- Route status banners distinguish stub, working, legacy, shortcut, and implemented surfaces during MVP0.
+- STUB/non-production reporting banners are required on mock report, map, valuation, and analytics previews.
+- Output-guard warnings explain when provider-restricted comps or sources are omitted.
+- Publication holds should be shown as blocking alerts, not hidden reasons.
+- Candidate/evidence-only pills must appear anywhere extracted or uploaded values are not yet reviewed.
 
 ## Accessibility
 

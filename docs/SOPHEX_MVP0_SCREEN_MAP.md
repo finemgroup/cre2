@@ -6,16 +6,16 @@ This screen map is **future-gated** for clickable prototype or mock-data MVP0 on
 
 | Screen | Purpose | Core components (conceptual) | State model | Motion needs | Evidence/trust needs |
 | --- | --- | --- | --- | --- | --- |
-| Public landing / search | Discovery and segment entry | Hero search, market stat cards, segment chips, soft CTA | `idle → searching → results → selected` | Route progress, fade-in results | Non-production banner on mock data |
-| Property intelligence page | Public baseline property view | Field cards, provenance cells, map/heatmap stub, source citations | `loading → public projection → auth unlock` | Layout skeleton, section expand | Authority label per field; hide private observations |
-| Upload / intake flow | Document contribution exchange | Drag/drop upload, consent checkbox, clean-vs-scanned warning | `empty → validating → uploading → queued → extracted (mock)` | Per-file progress | Explicit contribution terms; no auto-publish |
-| Evidence review panel | Moderator/user review of extracts | Evidence panel, document viewer modal, approve/reject | `unreviewed → in_review → approved/disputed` | Drawer slide, source list stagger | Version/hash for moderators; HITL gate |
-| Comp comparison dashboard | Side-by-side comp analysis | Data table, comparison columns, map stub, metric drawer | `select → compare → save set → export intent` | Row highlight, drawer enter | Permission-filtered comps; private comps masked |
-| Valuation report preview | Evidence-first report surface | Section cards, confidence indicator, provenance summary | `generating → partial → section approvals → ready` | Step progress, section reveal | Non-production banner; citations on sections |
-| Report export gate | Consent and audit before export | Export options dialog, disabled export card, consent modal | `locked → consent → generating → receipt → download` | Loading overlay, single success toast | Disabled until review complete; audit hash |
-| My reports / workspace | Saved reports for actor | Card list, filters, status badges | `draft / preview / exported / archived` | List skeleton | Visibility badge per report |
-| Contribution history | Upload and comp contribution trail | Activity timeline, privacy badges | `submitted → processing → accepted/rejected` | Timeline expand only | Public vs private outcome labels |
-| Moderation / review queue | Operator review surface | Queue table, trust tier badges, notification degraded state | `queued → assigned → decided` | Row enter stagger | Operator-only; idempotent decisions |
+| Public landing / search | Discovery and segment entry | Lightweight shell, hero search, market stat cards, segment chips, soft CTA | `idle → searching → results → selected` | Route progress, fade-in results | Non-production banner on mock data |
+| Property intelligence page | Public baseline property view | Field cards, provenance cells, map/evidence drawer, source citations | `loading → public projection → auth unlock` | Layout skeleton, section expand | Authority label per field; hide private observations |
+| Upload / intake flow | Document contribution exchange | UploadZone-style drag/drop, consent checkbox, clean-vs-scanned warning | `empty → validating → uploading → queued → candidate` | Per-file progress | Explicit contribution terms; candidate-only; no auto-publish |
+| Evidence review panel | Moderator/user review of extracts | Staged import panel, source citation list, evidence drawer | `unreviewed → in_review → accepted/rejected/blocked` | Drawer slide, source list stagger | Candidate-only; HITL gate |
+| Comp comparison dashboard | Side-by-side comp analysis | Candidate comp table, comparison columns, map drawer, metric drawer | `select → compare → save set → export intent` | Row highlight, drawer enter | Permission-filtered comps; private/provider-restricted comps masked |
+| Valuation report preview | Evidence-first report surface | BOV section cards, confidence indicator, provenance summary | `generating → partial → section approvals → ready` | Step progress, section reveal | Non-production banner; citations and warnings on sections |
+| Report export gate | Consent and audit before export | Export options dialog, disabled export card, output-guard warnings, consent modal | `locked → consent → generating → receipt → download` | Loading overlay, single success toast | Disabled until review, consent, and rights clear; audit hash |
+| My reports / workspace | Saved reports for actor | Card list, filters, proof/status badges | `draft / preview / exported / archived` | List skeleton | Visibility badge per report |
+| Contribution history | Upload and comp contribution trail | Activity timeline, proof badges, privacy badges | `submitted → processing → accepted/rejected/blocked` | Timeline expand only | Public vs private outcome labels |
+| Moderation / review queue | Operator review surface | Queue table, trust tier/proof badges, source cards | `queued → assigned → decided` | Row enter stagger | Operator-only; idempotent decisions |
 
 ## Shell Rules
 

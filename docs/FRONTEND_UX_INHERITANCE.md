@@ -4,7 +4,7 @@ Sophex should inherit UX doctrine from CRE Platform (`apps/core`), Content Engin
 
 ## Primary Reference
 
-CRE Platform `apps/core` in the clean clone `C:\Projects\cre-platform-master-clean` is the richest sister-project design-system source. See `docs/SISTER_PROJECT_SOURCE_MAP.md` and [CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) for paths. Finem Fabricator has minimal UI stubs; Content Engine provides marketing/interactive patterns.
+CRE Platform `apps/core` in the clean clone `C:\Projects\cre-platform-master-clean` is the richest sister-project design-system source. See `docs/SISTER_PROJECT_SOURCE_MAP.md`, [CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md), and [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) for paths. Finem Fabricator has minimal UI stubs; Content Engine provides marketing/interactive patterns.
 
 ## Public Marketing Surfaces Vs Authenticated Workstations
 
@@ -36,6 +36,13 @@ Do **not** implement on public surfaces: exit-intent popups, email nurture hooks
 Use a **lightweight public shell** for landing, search, market pages, and sample interactive reports. Use a **minimal authenticated workspace** for upload, reports, contributions, and privacy settings.
 
 Authoritative CRE confirms this split in `RootProviders.tsx` and `SessionGate.tsx`: public/auth route prefixes receive lightweight handling, while authenticated workstations mount TopBar, route transitions, mobile nav, command palette, and fuller providers. Sophex should keep the principle but simplify the operator shell.
+
+Clean-master UX validation adds route status and mobile-nav nuance:
+
+- `RouteProgressBar` and `PageTransitionShell` are useful low-motion feedback primitives.
+- `RouteClassificationBanner` and `route-status.config.ts` are useful for stub/working/legacy/canonical labels during MVP0.
+- `components/mobile/MobileBottomNav.tsx` is the canonical mobile nav reference; `components/navigation/MobileBottomNav.tsx` exists as a legacy duplicate and should not be copied.
+- `UniversalCommandPalette` is powerful but risky because it can merge entity, RAG, graph, document, and agent hits; keep it post-MVP and permission-filtered.
 
 Authenticated workstations:
 
@@ -74,6 +81,7 @@ Borrow CRE patterns as doctrine:
 - **BOVSectionCard / BOVProvenanceCard** — report section review and chain summary.
 - **SelectedObjectDrawer / SourceEvidenceBlockCard / StagedImportReviewPanel** — evidence-first drawer and review panels.
 - **Generated document authority panels** — publication holds, version timelines, and file-ref authority.
+- **ProofStatusBadge / ActivityTimelinePanel / DetailInspectorDrawer** — proof posture, contribution history, and accessible drill-down patterns.
 
 Unauthorized viewers must not see private actor identity, private values, or private source documents.
 
@@ -106,6 +114,8 @@ The upload flow should explain:
 - Some documents may be blocked until review.
 
 Borrow CRE `FileUpload` behavior conceptually: drag/drop, validation errors per file, progress states.
+
+Clean-master UX source points more specifically to `UploadZone`, pilot intake, and staged import review patterns: progress is per-file, extraction remains candidate-only, and source-use/visibility terms come before public promotion.
 
 ## Comparison, Heat Map, And Map UX
 

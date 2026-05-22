@@ -22,6 +22,15 @@ This map records **reference-only** sister-project paths that informed Sophex do
 | Non-production banner | `cre-platform-master-clean/apps/core/components/surfaces/NonProductionReportingBanner.tsx` | MVP0 stub/demo warning pattern |
 | Sophex-named surface | `cre-platform-master-clean/apps/core/components/sophex/ai/AIUnderwritingInterface.tsx`; `apps/core/app/sophex/**` | Existing CRE lab/stub surfaces; reframe as valuation preview, not approve/reject |
 | UX assessment | `cre-platform-master-clean/apps/core/docs/SOPHEX_OS_UX_ASSESSMENT.md` | Scope warning against importing full OS complexity |
+| Design system guide | `cre-platform-master-clean/apps/core/docs/DESIGN_SYSTEM_GUIDE.md` | Clarity, consistency, keyboard-first, AI transparency, and token stack |
+| Route status | `cre-platform-master-clean/apps/core/config/route-status.config.ts`, `apps/core/components/navigation/RouteClassificationBanner.tsx` | Stub/working/legacy/canonical route labeling |
+| Route progress | `cre-platform-master-clean/apps/core/components/navigation/RouteProgressBar.tsx` | Thin route loading feedback |
+| Page transitions | `cre-platform-master-clean/apps/core/components/navigation/PageTransitionShell.tsx` | Reduced-motion-aware route reveal |
+| OSMotion sheets | `cre-platform-master-clean/apps/core/components/os/OSMotion.tsx` | Focus-trapped sheets/drawers and reduced-motion hooks |
+| Workflow badges | `cre-platform-master-clean/apps/core/components/ui/workflow/ProofStatusBadge.tsx`, `ActivityTimelinePanel.tsx` | Proof/status chips and timeline patterns |
+| Source bundle review | `cre-platform-master-clean/apps/core/components/market-reports/source-bundle/` | Candidate/evidence-only report source review |
+| UploadZone | `cre-platform-master-clean/apps/core/components/document-intelligence/UploadZone.tsx` | Drag/drop upload UX, progress, and state handling |
+| Accessibility primitives | `cre-platform-master-clean/apps/core/components/accessibility/SkipLink.tsx`, `ScreenReaderAnnouncement.tsx`, `FocusTrap.tsx` | Skip nav, live regions, and focus management |
 
 **Stale/forbidden for authoritative harvest:** `C:\Projects\cre-platform-erofs-master-landing` remains a dirty/stale checkout and should not be used for authoritative CRE path references.
 

@@ -190,3 +190,10 @@ This file is the initial ADR-style decision log for the Sophex setup phase.
 - Date: 2026-05-22
 - Decision: The CRE harvest from clean clone `C:\Projects\cre-platform-master-clean` on `master` at `5300e7e5510e27d5ba505bfba8bec39990f68f7c` supersedes the earlier CRE provisional packet generated from stale/dirty branch `agent/03-operating-lens-navigation`.
 - Consequence: `CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md` is the current CRE source archive for Sophex docs doctrine; provisional CRE packets remain archive-only and must not drive implementation.
+
+## ADR-0028: Authoritative UX Motion Clean-Master Validation Supersedes Stale UX Provisional Packet
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: The UX/Motion harvest from clean CRE `apps/core` at `C:\Projects\cre-platform-master-clean\apps\core` on `master` at `5300e7e5510e27d5ba505bfba8bec39990f68f7c` supersedes the stale UX/Motion provisional packet from `agent/03-operating-lens-navigation`.
+- Consequence: `UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md` is the current UX/motion source archive for Sophex docs doctrine; stale UX/Motion packets remain archive-only.
