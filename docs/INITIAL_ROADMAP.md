@@ -13,6 +13,7 @@ All runtime, schema, deploy, and production integration phases are future-gated.
 
 - Create clickable concept, design prototype, or product requirements.
 - Validate user journeys for property search, upload, report output, and contribution.
+- Define authority labels, source panels, and query-level permission expectations.
 - No production runtime.
 
 ## Phase 2: Ingestion Proof Of Concept
@@ -26,6 +27,7 @@ All runtime, schema, deploy, and production integration phases are future-gated.
 
 - Design contracts for property, field, observation, source, visibility, lineage, and audit.
 - Align with CRE Platform concepts.
+- Define document evidence, observation visibility, resolved field value, comp candidate, resolved comp set, and operational receipt concepts.
 - Keep implementation gated until contracts are reviewed.
 
 ## Phase 4: Valuation/Reporting Workflow Prototype
@@ -39,6 +41,7 @@ All runtime, schema, deploy, and production integration phases are future-gated.
 - Define contribution terms.
 - Define paid/private data boundaries.
 - Define aggregation and anonymization rules.
+- Define source-use, revocation, supersession, public indexing, and model-training consent.
 - Prepare legal/product review before launch.
 
 ## Phase 6: Governed CRE Integration

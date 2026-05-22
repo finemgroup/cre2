@@ -18,12 +18,21 @@ Sophex should use valuation and reporting as the immediate user-facing value of 
 - Respect field-level visibility for every viewer.
 - Avoid leaking private source facts into public report templates.
 - Support future white-label output where partner branding does not weaken source or permission controls.
+- Include assumptions, comp basis, source freshness, confidence language, and review state.
+- Gate export/share actions according to actor, source-use policy, and report visibility.
+- Avoid claims such as "better than an appraisal" unless validated and legally approved.
 
 ## Lead-Gen And Content Engine Connections
 
 The existing content-engine strategy points toward interactive reports, comparison tools, market research, SEO/GEO-friendly content, and report exports. Sophex may later use those patterns for lead generation and user acquisition.
 
 This setup packet does not authorize marketing automation, email sends, CRM sync, provider actions, analytics wiring, report-generation runtime, or deployment.
+
+## Evidence-First Report UX
+
+Reports should be polished but not source-blind. Each important claim should be traceable to a public baseline, permitted private observation, comp candidate, reviewed comp set, model assumption, or source document summary. Private values must not leak through a white-labeled report, source appendix, export, share link, or generated summary.
+
+Model explanations may disclose top drivers, confidence ranges, and sensitivity concepts without exposing proprietary model internals.
 
 ## Future Output Possibilities
 

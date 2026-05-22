@@ -57,3 +57,38 @@ This file is the initial ADR-style decision log for the Sophex setup phase.
 - Date: 2026-05-22
 - Decision: Local Git is initialized on `master` for the initial project shell bootstrap.
 - Consequence: Remote/default branch policy can change later only after a Sophex remote URL and operator approval are provided.
+
+## ADR-0009: Sophex Inherits Doctrine, Not Code
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Sophex should inherit evidence, observation, permission, audit, UX, and workflow doctrine from CRE Platform and Finem Fabricator, not production code or data by copy-paste.
+- Consequence: Cross-project alignment must happen through future contracts, APIs, mock data, or approved read models.
+
+## ADR-0010: Chunks And Embeddings Are Sidecars
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Document metadata and evidence identity are business records; chunks and embeddings are derived retrieval sidecars.
+- Consequence: Retrieval material must not become canonical truth or bypass document/evidence permissions.
+
+## ADR-0011: Authority Labels Are Product Requirements
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Sophex must show authority labels for public baseline, private, reviewed, unreviewed, stale, disputed, blocked, promoted, and model-inferred values.
+- Consequence: Future UX and APIs must carry enough review, source, freshness, and visibility context to explain why a value is shown.
+
+## ADR-0012: Retrieval Must Be Permission-Filtered At Every Hop
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Search, source panels, report generation, export, future APIs, and model inputs must respect actor, org, source-use, review, freshness, and public/private boundaries.
+- Consequence: UI hiding is not a security model; query/API filtering is required before implementation.
+
+## ADR-0013: Schema Concepts Remain Future-Gated
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Conceptual entities and invariants may be documented, but schema, migrations, generated-client edits, and database writes remain unauthorized.
+- Consequence: `docs/FUTURE_SCHEMA_CONCEPTS.md` is a contract-thinking artifact only.

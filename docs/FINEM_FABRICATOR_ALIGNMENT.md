@@ -9,6 +9,8 @@ Finem Fabricator is the workflow, agent, and orchestration factory. It can infor
 - Human-in-the-loop review queues.
 - Report-generation patterns.
 - Confidence scoring and moderation workflows.
+- User-safe background job status projections.
+- Failure, cost, retry, and blocked-state handling patterns.
 
 ## Potential Future Agents
 
@@ -22,6 +24,8 @@ Finem Fabricator is the workflow, agent, and orchestration factory. It can infor
 ## Boundary
 
 Fabricator-inspired agents must operate inside Sophex permission rules and future CRE evidence contracts. They may help create, review, or route observations, but they do not define canonical truth or bypass source visibility.
+
+Agent outputs should be treated as candidates, summaries, labels, or workflow state until reviewed and governed. Fabricator may provide process inspiration, but Sophex owns its marketplace UX and public/private trust boundary.
 
 ## Not Now
 

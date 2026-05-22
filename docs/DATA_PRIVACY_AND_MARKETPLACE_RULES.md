@@ -25,3 +25,16 @@ No sending or marketing automation may operate without consent, suppression/unsu
 ## Marketplace Rule Of Thumb
 
 The marketplace can reward contribution and improve public intelligence, but it cannot expose private facts across users merely because those facts are valuable.
+
+## Highest-Risk Mistakes To Avoid
+
+- Leaking private observations into public comps.
+- Enforcing permissions only in UI.
+- Confusing public baseline with private/user-submitted facts.
+- Publishing extracted lease or rent roll data without source-use rights.
+- Letting free-user contribution terms be broad or implicit.
+- Using public search indexing before visibility rules are implemented.
+- Treating AI confidence as authority.
+- Storing raw private payloads where references, hashes, or evidence records are sufficient.
+- Feeding model training with user contributions without explicit consent.
+- Automating sends without consent, suppression, unsubscribe, idempotency, audit, and operator approval.

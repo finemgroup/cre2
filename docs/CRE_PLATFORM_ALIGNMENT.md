@@ -11,11 +11,13 @@ Sophex should later integrate with CRE through approved APIs, contracts, event b
 - Source observation ledger.
 - Canonical document evidence.
 - `documents.file_ref` style evidence references.
+- Document evidence registry.
 - Operational receipts.
 - Idempotency keys.
 - Correlation identifiers.
 - Audit trails.
 - Comp intelligence contracts.
+- Read-only proof before schema/data work.
 - Private operator review workflows.
 
 ## Setup-Phase Prohibitions
@@ -29,3 +31,11 @@ Sophex should later integrate with CRE through approved APIs, contracts, event b
 ## Expected Future Direction
 
 Sophex should consume or align with governed CRE evidence and observation APIs once those contracts are intentionally designed. Sophex public/private marketplace behavior should remain separate from CRE internal operator workflows even when they share evidence concepts.
+
+## Do Not Copy Directly
+
+- Do not expose CRE internal document evidence directly to public users.
+- Do not import internal CRE comps or user-private comps into Sophex without a contract.
+- Do not assume internal CRE roles map cleanly to public marketplace roles.
+- Do not expose raw operational logs or internal receipt implementation to public users.
+- Do not couple Sophex to CRE production databases during setup or MVP0.

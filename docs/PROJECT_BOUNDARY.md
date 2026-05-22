@@ -2,6 +2,8 @@
 
 Sophex is a separate public-facing CRE intelligence marketplace and valuation product. It is related to the CRE Platform and Finem Fabricator, but it has its own external trust boundary, user permissions, marketplace rules, and product surface.
 
+Sophex should inherit doctrine, not code, from adjacent projects. CRE Platform contributes evidence, observation, audit, idempotency, and comp-governance doctrine. Finem Fabricator contributes workflow, agent, HITL, report-generation, and control-panel doctrine. Neither project should be copied into Sophex as production data truth.
+
 ## System Roles
 
 | System | Role | Boundary |
@@ -28,6 +30,7 @@ Sophex is a separate public-facing CRE intelligence marketplace and valuation pr
 | Operational receipts | Adopt for future audit and correlation |
 | Fabricator agents | Use as implementation patterns after product/spec approval |
 | Interactive content engine | Use as lead-gen/reporting inspiration, not runtime work now |
+| Cross-project UX doctrine | Use shell/workstation, source panel, confidence, and report patterns as future design guidance |
 
 ## Out Of Scope Now
 
@@ -38,7 +41,15 @@ Sophex is a separate public-facing CRE intelligence marketplace and valuation pr
 | Production coupling | No direct CRE production DB access |
 | Automations | No provider sends, queues, deploys, or production services |
 | Data copying | No migration of CRE truth into Sophex by copy-paste |
+| Internal workflow exposure | No public routes that expose CRE operator workflows or Fabricator execution controls |
 
 ## Trust Boundary Statement
 
 Sophex must assume that public users, free contributors, paid/private users, source owners, internal operators, and partners may have different rights to the same property field. A value visible to one actor may be hidden, older, anonymized, or replaced with a public baseline for another actor. This boundary must be enforced by future query/API contracts, not by UI-only filtering.
+
+## Boundary Warnings
+
+- Do not create a public `master_comps` truth table that bypasses review.
+- Do not treat chunks, embeddings, AI extraction, or model confidence as canonical truth.
+- Do not expose internal CRE data or Fabricator execution internals through public Sophex UX.
+- Do not index or syndicate user-contributed data until visibility rules and source-use terms are implemented.

@@ -29,6 +29,10 @@ Scanned leases and image-heavy documents require OCR, layout analysis, table rec
 
 Documents should be retained or referenced as evidence according to future source-owner terms, privacy rules, and storage policy. Extracted values should retain links back to source location where possible.
 
+Each source document should eventually have durable identity and policy metadata before extraction drives product behavior. Future concepts include source-use policy, visibility policy, owner/uploader scope, hash, review status, revocation/supersession state, and publication eligibility.
+
+Chunks and embeddings are retrieval sidecars. They should be permission-filtered and refreshable, and they must not become canonical business truth.
+
 ## Extraction Confidence
 
 Every extracted observation should carry confidence signals such as source quality, extraction method, review status, and whether a human confirmed the value.
@@ -36,6 +40,8 @@ Every extracted observation should carry confidence signals such as source quali
 ## HITL Review
 
 Human-in-the-loop review is required for low-confidence extraction, high-value fields, private marketplace contributions, and values that may affect public or paid outputs.
+
+Possible review states include unreviewed, needs evidence, conflicting, accepted public, accepted private, rejected, revoked, superseded, and blocked.
 
 ## Not Implemented Yet
 

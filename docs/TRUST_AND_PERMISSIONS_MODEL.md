@@ -34,6 +34,40 @@ Example: public GIS says a parcel has 3.00 acres. User A submits 3.01 from a dee
 
 The system must not leak private facts by showing the newest value globally. Permissions must be enforced at the query/API layer and later tested at that layer.
 
+## Retrieval Permissions
+
+Permission filtering must apply at every retrieval hop, including:
+
+- Property search.
+- Field value resolution.
+- Evidence panels.
+- Document/chunk retrieval.
+- Comp comparison.
+- Valuation model inputs.
+- Report generation.
+- Export/share actions.
+- Future partner/API access.
+
+The system cannot rely on hiding buttons in the UI. A user, organization, source owner, partner, or internal operator should receive only the observations, evidence, report artifacts, and aggregates their policy allows.
+
+## Authority Labels
+
+Future UI and API contracts should carry labels that explain the authority of a value:
+
+- Public baseline.
+- User-private.
+- Organization-private.
+- Shared-with-permission.
+- Reviewed.
+- Unreviewed.
+- Stale.
+- Disputed.
+- Blocked.
+- Promoted.
+- Model-inferred.
+
+Labels should explain why a value is visible, such as "visible because your organization uploaded this lease" or "public GIS baseline."
+
 ## Cleanup Without Exposure
 
 Users should be able to submit corrections or cleanup requests without exposing all private/user values to every viewer. Moderation and reconciliation views can show more detail to internal operators than public or marketplace views.

@@ -17,6 +17,10 @@ This setup packet intentionally does not authorize:
 - No migration of CRE truth into Sophex by copy-paste.
 - No direct coupling to CRE production services.
 - No Fabricator runtime build.
+- No public `master_comps` table that bypasses evidence, review, and permissions.
+- No chunks or embeddings as canonical truth.
+- No public search indexing of user-contributed facts before visibility and source-use rules exist.
+- No claims of appraisal superiority without validation and legal review.
 - No broad formatting rewrites.
 - No edits outside Sophex setup docs/rules without operator approval.
 

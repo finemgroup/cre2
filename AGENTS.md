@@ -8,6 +8,7 @@ This project is the Sophex separate product setup lane. Treat it as a public-fac
 - One lane equals one branch equals one scope equals one PR.
 - `master` is the default branch for this new local project shell unless a later remote policy changes it.
 - This setup phase is docs-only unless later explicitly authorized.
+- Cross-project harvest work may update markdown doctrine, contracts, UX guidance, and open questions only.
 - Do not implement application runtime code.
 - Do not create database schema, migrations, Prisma changes, generated clients, or destructive DDL.
 - Do not run deploys, production services, provider sends, queue workers, or production database commands.
@@ -15,7 +16,7 @@ This project is the Sophex separate product setup lane. Treat it as a public-fac
 - Do not copy secrets.
 - Do not edit CRE production, CRE schema lanes, Fabricator runtime lanes, R2/Docling, MotherDuck/vector runtime, provider/send context, queue/Dragonfly, or deploy contexts from this project.
 - Use explicit path staging only. Never use `git add -A` for this lane.
-- Do not stage or commit untracked source/reference material unless the operator explicitly includes those paths.
+- Do not stage or commit untracked source/reference material, including `Content Engine/`, unless the operator explicitly includes those paths.
 
 ## Stop Conditions
 
@@ -29,6 +30,7 @@ Stop and ask for operator direction if:
 - The request creates remote confusion or suggests connecting to a CRE/Fabricator remote.
 - Secret-like filenames or private data handling are ambiguous.
 - A task would require edits outside Sophex setup docs/rules files.
+- A request asks to turn conceptual schema docs into Prisma, SQL, migrations, generated clients, or runtime data models.
 
 ## Allowed Files In This Packet
 

@@ -20,3 +20,16 @@
 - Which valuation model details can be disclosed in reports without exposing proprietary algorithms?
 - Does the free tier require public contribution, and can paid users keep uploaded data private by default?
 - Which GIS, traffic, title, and public-record providers are acceptable for the initial property baseline?
+- Will Sophex consume CRE APIs, shared packages, or mocked contracts in MVP0?
+- What is the first MVP: public upload/report, comp comparison, property page, or valuation model demo?
+- Are free-user uploads automatically public, or only extracted facts after terms and review?
+- Can users upload leases, rent rolls, appraisals, mortgages, or contracts they do not own?
+- What data can Sophex show publicly from CRE Platform?
+- What data must never cross from CRE internal workflows into Sophex?
+- Who owns moderation and review of public contributions?
+- What field-level visibility is required for MVP0 versus later phases?
+- What claims can be made about appraisal accuracy or prediction quality?
+- What is the cost policy for scanned documents?
+- Should user contributions feed model training, and under what consent?
+- What export/share actions require consent and audit?
+- Which CRE schema or evidence contract wave must land before Sophex can use real data?
