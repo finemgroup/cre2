@@ -38,6 +38,7 @@ Classification: **A/D** — docs-first Sophex repo with a prototype app and no D
 - `docs/project/SOPHEX_NO_DATABASE_YET_OPERATING_RULES_2026-05-22.md`
 - `docs/project/SOPHEX_CRE2_NEON_DEV_CONFIGURATION_2026-05-22.md`
 - `docs/closeouts/SOPHEX_SCHEMA_FOUNDATION_SETUP_2026-05-22.md`
+- `docs/closeouts/SOPHEX_CRE2_NEON_READONLY_PREFLIGHT_2026-05-22.md`
 - `.env.example`
 - `schema/README.md`
 - `schema/sophex-foundation.contract.sql`
@@ -97,6 +98,8 @@ The SQL artifact is marked `CONTRACT ONLY`, `NOT APPLIED`, `NO DATABASE CONNECTI
 
 - SQL action: not executed.
 - DB connection: not attempted.
+- DB write/apply connection: not attempted.
+- CRE2 Neon read-only metadata preflight: completed after local `.env` was filled in.
 - CRE2 Neon credentials: not used; exposed credentials must be rotated before local configuration.
 - Migration action: not executed.
 - Prisma action: not executed.

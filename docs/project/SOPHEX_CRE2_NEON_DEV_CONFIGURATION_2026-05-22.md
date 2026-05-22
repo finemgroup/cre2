@@ -35,10 +35,12 @@ The CRE2 Neon database is intended to be a new isolated Sophex/CRE2 development 
 - Adds `.env.example` placeholders.
 - Documents safe variable names.
 - Preserves no-DB-apply posture for schema contracts.
+- Records a read-only Neon preflight in `docs/closeouts/SOPHEX_CRE2_NEON_READONLY_PREFLIGHT_2026-05-22.md` after local `.env` was filled in.
 
 ## What This Branch Does Not Do
 
 - No DB connection attempt.
+- No write or migration DB connection attempt. A read-only metadata preflight was run after operator approval.
 - No SQL execution.
 - No migration apply.
 - No package/lock edits.
