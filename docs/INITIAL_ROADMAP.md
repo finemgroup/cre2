@@ -11,6 +11,7 @@ All runtime, schema, deploy, and production integration phases are future-gated.
 
 ## Phase 1: Concept Or Product Spec
 
+- **Started:** clickable MVP0 prototype in `prototype/` — see [PROTOTYPE_MVP0.md](PROTOTYPE_MVP0.md).
 - Create clickable concept, design prototype, or product requirements per `docs/SOPHEX_MVP0_SCREEN_MAP.md`.
 - Validate user journeys for property search, upload, report output, and contribution.
 - Define authority labels, source panels, and query-level permission expectations.

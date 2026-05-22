@@ -10,13 +10,13 @@ Sophex should later integrate with CRE through approved APIs and contracts inste
 Uploaded documents and user-entered facts are evidence, not automatic canonical truth.
 Field values should resolve from permissioned observations, so different actors may see different latest permitted values.
 The setup phase is documentation-first and creates the boundary for future product work.
-See [docs/INDEX.md](docs/INDEX.md) for the full setup packet.
+See [docs/INDEX.md](docs/INDEX.md) for the full setup packet. Phase 1 prototype: [docs/PROTOTYPE_MVP0.md](docs/PROTOTYPE_MVP0.md) and [prototype/README.md](prototype/README.md).
 
 ## Repository Status
 
 - **GitHub remote:** [finemgroup/cre2](https://github.com/finemgroup/cre2)
 - **Project identity:** Sophex Marketplace and Content Engine
-- **Current status:** docs/control-plane setup — sister-project harvest integration complete; no runtime, schema, or deploy implementation authorized
+- **Current status:** docs/control-plane setup complete; Phase 1 MVP0 clickable prototype in `prototype/` (mock data only); no schema, API, deploy, or production coupling authorized
 - **Branch:** `master` tracking `origin/master`
 - **Local-only (untracked):** `Content Engine/` reference folder — not pushed
 

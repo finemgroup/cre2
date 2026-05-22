@@ -7,6 +7,7 @@ All paths in this document are **reference-only**. They do not authorize copying
 | Path | Status | Notes |
 | --- | --- | --- |
 | `C:\Projects\Sophex Marketplace and Content Engine` | Git-backed docs project | Default branch: `master` |
+| `C:\Projects\Sophex Marketplace and Content Engine\prototype` | Phase 1 MVP0 clickable prototype | Mock data only; Sophex-native motion layer; no backend/schema/deploy |
 | `Content Engine/` | Untracked reference folder | Do not stage unless operator explicitly requests |
 | `docs/` | Committed doctrine | Primary integration target for harvest packets |
 | `.cursor/rules/` | Committed lane rules | Project boundary enforcement |

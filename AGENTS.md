@@ -21,6 +21,7 @@ This project is the Sophex separate product setup lane. Treat it as a public-fac
 - UI/UX inheritance must use clean source checkouts for authoritative path references; stale or dirty UX packets are archive-only.
 - Fabricator inheritance must use clean source checkouts for authoritative workflow/control-plane references; queue/job/review/receipt signals are never marketplace truth or export authority by themselves.
 - P51/CRE animation inheritance is a doctrine supplement unless reconciled against a clean authoritative checkout; do not copy operator-shell motion, looping financial animations, or runtime source.
+- `prototype/` is the authorized Phase 1 MVP0 clickable concept lane (mock data only). No schema, deploy, provider/send, queue, CRM, or sister-project runtime imports in the prototype.
 
 ## Stop Conditions
 

@@ -218,3 +218,10 @@ This file is the initial ADR-style decision log for the Sophex setup phase.
 - Date: 2026-05-22
 - Decision: The P51 CRE animation harvest from `C:\Projects\p51 Site Selection Tool\cre-platform` on `master` at `af4a453b66bb62e79a147cae143dc61ed042906e` supplements the authoritative clean CRE UX/Motion packet with workflow-continuity and high-end institutional animation doctrine, but remains provisional because untracked `.tmp` schema/proof artifacts were present in the source checkout.
 - Consequence: Sophex may inherit P51 motion principles, timing bands, OS-neutral primitive vocabulary, execution-vs-review motion policy, and accessibility proof requirements as docs doctrine. It must not copy P51/CRE runtime code, operator-shell animation, ICSC/war-room naming, looping public financial animation, or route progress as proof of workflow completion.
+
+## ADR-0032: Phase 1 MVP0 Prototype Lane Authorized In `prototype/`
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Sophex may host a Phase 1 clickable MVP0 prototype under `prototype/` using mock data, Sophex-native motion primitives, and non-production banners. This lane does not authorize schema, migrations, deploy, provider/send, queue, CRM, production APIs, or direct imports from CRE/P51/Fabricator runtime repos.
+- Consequence: `docs/PROTOTYPE_MVP0.md` and `prototype/README.md` document the implementation lane. Sister-project harvest packets remain doctrine archives; runtime promotion requires a separate approved app/package lane.

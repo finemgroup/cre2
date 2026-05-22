@@ -1,6 +1,6 @@
 # Sophex MVP0 Screen Map
 
-This screen map is **future-gated** for clickable prototype or mock-data MVP0 only. No runtime implementation is authorized by this document.
+This screen map is **future-gated** for clickable prototype or mock-data MVP0 only. A Phase 1 implementation exists at [`prototype/`](../prototype/) — mock data, non-production banners, no backend.
 
 ## Screen Inventory
 
