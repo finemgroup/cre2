@@ -41,7 +41,7 @@
 - What minimum consent copy is required for forms, uploads, and gated exports?
 - Can engagement scoring be used internally before outbound sales automation is allowed?
 - Which syndication channels are permitted for operator-authored vs user-derived content?
-- Should Sophex adopt CRE motion token presets verbatim or define a slimmer public-only subset?
+- Which P51/CRE motion primitives belong in Sophex's slimmer public subset versus authenticated review/report workstations?
 - Is command palette in scope for MVP0 or post-MVP power-user feature?
 - What stub/mock labeling standard should MVP0 clickable prototypes use?
 - Which CRE UX components should be reimplemented first: provenance cell, export gate, or comparison dashboard?
@@ -58,3 +58,5 @@
 - **How should source confidence label calibration work across public baseline, user submission, and model-inferred values?**
 - **Should Sophex keep Fabricator-style review decisions as recommend/reject/hold, or add separate accepted-public/private states only in the promotion authority layer?**
 - **What audit receipt fields can be safely exposed to public contributors versus operator-only review screens?**
+- **When should P51 animation doctrine be reconciled against a clean authoritative CRE checkout before implementation?**
+- **Should Sophex define one canonical reduced-motion hook/source before any clickable prototype work?**

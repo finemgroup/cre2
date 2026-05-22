@@ -209,3 +209,7 @@
 ## Final Recommendation
 
 Use this packet as the current **UX/motion source archive** for Sophex. Inherit evidence-first visual grammar, restrained motion, accessibility primitives, source/provenance UI, report gates, and shell split. Do not import CRE operator chrome, command palette as MVP0 nav, gamification, duplicated components, runtime packages, or source code.
+
+## Supplemental P51 Animation Packet
+
+After this authoritative clean-master harvest, Sophex added [P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) as a provisional high-end animation supplement. It adds workflow-continuity doctrine, OS/Brief motion primitive detail, timing bands, execution-vs-review policy, and primitive graduation checks. It does not supersede this authoritative packet until reconciled against a clean source checkout.

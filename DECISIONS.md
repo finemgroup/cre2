@@ -211,3 +211,10 @@ This file is the initial ADR-style decision log for the Sophex setup phase.
 - Date: 2026-05-22
 - Decision: Sophex will treat Fabricator-inspired AnalysisResponse outputs, review decisions, job states, evidence envelopes, and receipts as candidate/control-plane signals, not as marketplace truth, publication approval, export authority, or public status by themselves.
 - Consequence: Future Sophex contracts must separate `JobStatusProjection`, `ReviewDecision`, `AuditReceipt`, and promotion/export authority. Queue completion, review packet existence, or receipt existence cannot promote observations or reports without visibility, source-use, HITL, audit, correlation, and idempotency gates.
+
+## ADR-0031: P51 CRE Animation Harvest Is A Provisional Doctrine Supplement
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: The P51 CRE animation harvest from `C:\Projects\p51 Site Selection Tool\cre-platform` on `master` at `af4a453b66bb62e79a147cae143dc61ed042906e` supplements the authoritative clean CRE UX/Motion packet with workflow-continuity and high-end institutional animation doctrine, but remains provisional because untracked `.tmp` schema/proof artifacts were present in the source checkout.
+- Consequence: Sophex may inherit P51 motion principles, timing bands, OS-neutral primitive vocabulary, execution-vs-review motion policy, and accessibility proof requirements as docs doctrine. It must not copy P51/CRE runtime code, operator-shell animation, ICSC/war-room naming, looping public financial animation, or route progress as proof of workflow completion.

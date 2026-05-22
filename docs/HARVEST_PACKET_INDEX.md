@@ -10,6 +10,7 @@
 | Fabricator | [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) | `C:\Projects\finem_factory_mvp_clean` @ `89b2a651a928a2d8cc1c80fba65f0861fc509e09` | ✅ Clean `main`, `HEAD == origin/main` |
 | Content Engine | [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md) | `Content Engine/` (untracked) | ⚠️ Reference folder |
 | UX/Motion | [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) | `C:\Projects\cre-platform-master-clean\apps\core` @ `5300e7e5510e27d5ba505bfba8bec39990f68f7c` | ✅ Clean CRE `master`, `HEAD == origin/master` |
+| P51 CRE Animation | [P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) | `C:\Projects\p51 Site Selection Tool\cre-platform` @ `af4a453b66bb62e79a147cae143dc61ed042906e` | ⚠️ Tracked `master` matched upstream, but untracked `.tmp` artifacts present |
 
 ## Superseded Drafts (Archive Only)
 

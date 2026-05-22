@@ -2,7 +2,7 @@
 
 Sophex motion should feel restrained, legible, and confidence-building. This is a CRE evidence and valuation product, not an AI toy.
 
-Primary reference: CRE clean-master `apps/core/lib/motion-tokens.ts`, `apps/core/lib/motion/workflow-motion.ts`, `apps/core/components/os/OSMotion.tsx`, and [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) (doctrine only — do not copy runtime dependency graph into Sophex setup).
+Primary reference: CRE clean-master `apps/core/lib/motion-tokens.ts`, `apps/core/lib/motion/workflow-motion.ts`, `apps/core/components/os/OSMotion.tsx`, and [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) (doctrine only — do not copy runtime dependency graph into Sophex setup). P51 high-end animation supplement: [P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md).
 
 ## Motion Tiers
 
@@ -14,10 +14,21 @@ Primary reference: CRE clean-master `apps/core/lib/motion-tokens.ts`, `apps/core
 | Emphasized continuity | ~260ms emphasized easing | Drawer/sheet continuity when context must stay clear |
 | Forbidden (MVP0 public) | — | Pulse loops, gamification celebrations, bounce easing |
 
+P51 CRE adds explicit duration bands:
+
+| Band | Target | Sophex posture |
+| --- | ---: | --- |
+| Instant feedback | 80-120ms | Button/chip/timeline feedback |
+| Standard reveal | 150-220ms | Page, panel, card, and evidence reveal |
+| Emphasized continuity | 220-320ms | Table-to-detail, map-to-drawer, report-step continuity |
+| Avoid by default | >320ms | Rare only; never for public financial polish |
+| Reduced motion | near-instant | Stable layout and opacity only |
+
 ## Canonical Presets (CRE-Inspired)
 
 - **reveal** — page/content enter on route change (`PageTransitionShell` pattern).
 - **osReveal / osStageItem / osRailEnter / osCollapse** — OS motion primitives for shell and workflow surfaces.
+- **osSheetBackdrop / osSheetPanel / osRecede** — sheet lifecycle and soft exit primitives.
 - **fade** — opacity-only transitions for panels and overlays.
 - **scaleIn** — subtle modal/drawer enter (scale 0.96 → 1).
 - **tooltip** — small y-offset fade for helper text.
@@ -26,6 +37,18 @@ Primary reference: CRE clean-master `apps/core/lib/motion-tokens.ts`, `apps/core
 Always honor **reduced motion**: collapse animations to instant or near-instant opacity when user prefers reduced motion (`getMotionProps` / `useReducedMotionPreference` pattern).
 
 CRE `OSMotion` also confirms that drawers/sheets should restore focus, trap focus while open, support Escape, and use `aria-modal` for modal surfaces.
+
+## Workflow Continuity
+
+P51 CRE reinforces a workflow-first rule: route changes are authority boundaries, but ordinary handoffs should not feel like product exits. Sophex should keep property, evidence, comp, report, and export context visible through:
+
+- Persistent workflow header: route role, selected property/report, stage, source/proof posture, and return target.
+- Stage rail or concise stepper on upload, report generation, and export gates.
+- Disclosure ladder: inline row detail → split panel → inspector drawer → full workstation route.
+- Back-to-workflow handoff after inspecting evidence, map regions, or report output.
+- Layout-matched skeletons that preserve final geometry.
+
+Route progress is a navigation cue only. It must never imply extraction, review, report generation, export, or publication completion.
 
 ## Appropriate Motion
 
@@ -80,6 +103,18 @@ Authoritative CRE references include route-level property skeletons, HITL queue 
 
 Avoid gamified or over-animated marketing patterns from generic conversion playbooks (bounce easing, pulse loops, urgency animations, celebration overlays). Sophex is a CRE evidence and valuation product — motion must reinforce trust and seriousness, not distract from source limitations.
 
+## Primitive Graduation Checklist
+
+Before a motion pattern becomes a shared Sophex primitive, require:
+
+- Token defined and named in Sophex-neutral language.
+- Consumer wired through the token/helper, not hardcoded timing.
+- Reduced-motion behavior verified.
+- Keyboard and focus behavior verified for sheets, drawers, and collapses.
+- Mobile density tested with long lists or small screens.
+- Context reviewed: universal, report-only, map-only, or operator-only.
+- Proof exists: unit, E2E, or manual QA note.
+
 ## Trust Visualization
 
 Use badges, panels, and accessible labels for:
@@ -99,6 +134,7 @@ See `docs/SOPHEX_TRUST_UI_GUIDELINES.md`.
 - Over-animation that makes evidence feel unserious.
 - Gamification celebration overlays (CRE has these; Sophex must not inherit).
 - `statusPulse`, `pinPulse`, typing-dot, and spin loops on public financial data.
+- P51/ICSC `war-room-*` naming or legacy 500ms/ease-heavy bulk motion fixes.
 - Count-up metrics that imply live recalculation when data is mocked or stale.
 - Hover-only provenance that fails on mobile or assistive technology.
 - Treating AI confidence animation as authority.

@@ -6,6 +6,8 @@ Sophex should inherit UX doctrine from CRE Platform (`apps/core`), Content Engin
 
 CRE Platform `apps/core` in the clean clone `C:\Projects\cre-platform-master-clean` is the richest sister-project design-system source. See `docs/SISTER_PROJECT_SOURCE_MAP.md`, [CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md), and [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) for paths. Finem Fabricator has minimal UI stubs; Content Engine provides marketing/interactive patterns.
 
+P51 CRE adds a provisional high-end animation supplement for workflow continuity and OS motion primitives. See [P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md).
+
 ## Public Marketing Surfaces Vs Authenticated Workstations
 
 | Surface | Purpose | Content Engine patterns allowed |
@@ -43,6 +45,13 @@ Clean-master UX validation adds route status and mobile-nav nuance:
 - `RouteClassificationBanner` and `route-status.config.ts` are useful for stub/working/legacy/canonical labels during MVP0.
 - `components/mobile/MobileBottomNav.tsx` is the canonical mobile nav reference; `components/navigation/MobileBottomNav.tsx` exists as a legacy duplicate and should not be copied.
 - `UniversalCommandPalette` is powerful but risky because it can merge entity, RAG, graph, document, and agent hits; keep it post-MVP and permission-filtered.
+
+P51 animation doctrine adds that Sophex workstations should feel like one continuous operating surface:
+
+- Keep workflow name, stage, selected record, proof posture, and return target visible across property, evidence, comp, report, and export handoffs.
+- Prefer inline disclosure or an inspector drawer before sending users to a full workstation route.
+- Pair route transitions with focus placement and skeleton geometry so users do not lose context.
+- Treat stage rails and proof badges as orientation aids, not as proof that workflow gates are complete.
 
 Authenticated workstations:
 
@@ -136,6 +145,8 @@ Distinguish comp types:
 CRE `CompMapView` is stubbed; do not ship fake geo precision. Label mock maps clearly.
 
 Clean-master map references are stronger around `MapClient`, `SelectedObjectDrawer`, `MapFocusModeShell`, and eligibility-gated action baskets. Treat duplicate heatmap widgets as reference only; do not pick a duplicated component as canonical.
+
+P51 adds a map-motion caveat: map pulses, ring draws, and marker flourishes are context-specific. Public Sophex maps should use selection, short opacity fades, and evidence drawers; time-limited pulse cues are operator-only and future-gated.
 
 ## Report And Marketing UX (Content Engine)
 

@@ -23,6 +23,15 @@ This screen map is **future-gated** for clickable prototype or mock-data MVP0 on
 - **Authenticated routes:** minimal workspace header with account, reports, upload, and privacy settings.
 - **Do not import:** CRE PersistentMainMenu, full RootProviders tree, or Fabricator mission control as MVP0 shell.
 
+## P51 Animation Additions
+
+- Public landing/search uses a slim subset: route progress, fade, skeleton, and short result reveal only.
+- Property intelligence and comp comparison should preserve selected property/row context when drawers open.
+- Upload, report preview, and export gate should use a stage rail or stepper only when tied to real or clearly mocked phase state.
+- Evidence review and moderation queues may use restrained row/drawer motion, but public users never see operator pulse loops or raw queue motion.
+- Map screens use selection-to-drawer continuity and focus mode; no infinite public pin pulse or precision-implying marker flourish.
+- Every MVP0 animation must preserve proof labels, source state, and stub/non-production banners.
+
 ## Mock-Data Safety
 
 All MVP0 screens that show sample comps, valuations, or market stats must display a non-production/stub banner until real data contracts and consent gates exist.

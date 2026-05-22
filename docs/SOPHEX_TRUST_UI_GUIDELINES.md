@@ -9,6 +9,7 @@ Visual trust language for Sophex MVP0 and later phases. These guidelines inherit
 3. Privacy state is visible — Public, Account-private, Contribution-shared, and Premium-private must be distinguishable.
 4. Export and share are gated actions — disabled states must explain why.
 5. Non-production surfaces must be obvious — stub/mock/demo banners on MVP0 previews.
+6. Motion must not upgrade proof posture — animation can orient the user, but it cannot make candidate, mocked, blocked, or unreviewed data feel approved.
 
 ## Authority Badge Taxonomy
 
@@ -90,6 +91,7 @@ Authoritative CRE clean-master also points to source-bundle review panels, gener
 - Export button disabled until review complete and consent captured.
 - Show content hash or receipt reference after export.
 - White-label branding must not hide source limitations or permission boundaries.
+- Route progress, stepper motion, or loading overlays must not imply export authority; disabled states still need plain-language reasons.
 
 ## Content Engine / Marketing Trust Boundaries
 
@@ -112,6 +114,7 @@ Authoritative CRE clean-master also points to source-bundle review panels, gener
 - Provenance available via click/tap, not hover-only.
 - `role="status"` for stub banners and export progress.
 - Decorative sparklines and confidence rings need text equivalents nearby.
+- Reduced-motion users must receive the same proof, privacy, and export state through stable layout and text labels.
 
 ## Pitfalls (from CRE + Content Engine harvest)
 
@@ -120,3 +123,4 @@ Authoritative CRE clean-master also points to source-bundle review panels, gener
 - Placeholder maps presented as live geo precision.
 - Command palette or global search indexing private observations.
 - Treating AI confidence badges as authority without review state.
+- Animated transitions that make review-pending or mock data feel production-approved.

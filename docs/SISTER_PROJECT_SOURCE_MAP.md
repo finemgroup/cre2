@@ -34,6 +34,21 @@ This map records **reference-only** sister-project paths that informed Sophex do
 
 **Stale/forbidden for authoritative harvest:** `C:\Projects\cre-platform-erofs-master-landing` remains a dirty/stale checkout and should not be used for authoritative CRE path references.
 
+## P51 CRE Animation Supplement
+
+| Area | Reference path | Why Sophex should inspect it |
+| --- | --- | --- |
+| Workflow continuity standard | `C:\Projects\p51 Site Selection Tool\cre-platform\docs\program\frontend-experience\WORKFLOW_CONTINUITY_AND_MOTION_STANDARD_2026-05-02.md` | Workflow-first route continuity, disclosure ladder, duration bands, and proof-safe route handoffs |
+| OS motion audit | `C:\Projects\p51 Site Selection Tool\cre-platform\docs\briefing\CRE1_OS_MOTION_AND_VISUAL_STANDARD_AUDIT_2026-05-13.md` | High-end institutional motion rules, OS-neutral primitive extraction, primitive graduation checklist |
+| Motion tokens | `C:\Projects\p51 Site Selection Tool\cre-platform\apps\core\lib\motion-tokens.ts` | OS primitives, easing, duration, translate/opacity/stagger tokens, reduced-motion helper |
+| Workflow motion | `C:\Projects\p51 Site Selection Tool\cre-platform\apps\core\lib\motion\workflow-motion.ts` | `page`, `section`, `drawerRight`, `drawerLeft`, and `timeline` transition presets |
+| OS motion primitives | `C:\Projects\p51 Site Selection Tool\cre-platform\apps\core\components\os\OSMotion.tsx` | Focus-trapped sheets, collapses, active indicators, reduced-motion metadata |
+| Brief motion facade | `C:\Projects\p51 Site Selection Tool\cre-platform\apps\core\components\brief\BriefMotion.tsx` | Product-specific wrappers over OS-neutral motion primitives |
+| Document intelligence animations | `C:\Projects\p51 Site Selection Tool\cre-platform\apps\core\lib\document-intelligence\animations.ts` | Upload/review list, modal, slide, scale, and tap motion variants |
+| Motion tests | `C:\Projects\p51 Site Selection Tool\cre-platform\apps\core\tests\unit\os\os-motion-primitives.test.tsx`; `apps\core\tests\unit\brief\brief-motion.test.tsx` | Proof expectations for reduced motion, data attributes, focus trap, Escape, and sheet lifecycle |
+
+**Caveat:** P51 tracked `master` matched `origin/master` at harvest, but untracked `.tmp` schema/proof artifacts were present. Use as a provisional animation supplement until reconciled against a clean authoritative CRE checkout.
+
 ## Finem Fabricator
 
 | Area | Reference path | Why Sophex should inspect it |
