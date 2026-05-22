@@ -62,6 +62,16 @@ Do not expose internal queue names, provider details, raw receipts, or execution
 - Row highlight on comp selection; drawer enter with `briefPanel`-style motion.
 - Map pin select: CSS transition only; no infinite pin pulse on public maps.
 - Heatmap layer add/remove: immediate or short opacity fade.
+- **Metric drill-down transitions** — expand row or callout to reveal evidence panel with citation list stagger.
+- **Comparison expand/collapse** — accordion or drawer for comp detail without full page navigation.
+- **Map click-to-region** — select region updates comparison context; must not imply precision on mock data.
+- **Save-report interaction** — short scale/fade confirm; stops at account/consent gate in MVP0.
+- **Gated export progress** — multi-step wizard (sections → consent → generating → receipt placeholder).
+- **Contribution unlock progress** — upload phase labels tied to real or honest indeterminate states.
+
+## Content Engine Motion Warning
+
+Avoid gamified or over-animated marketing patterns from generic conversion playbooks (bounce easing, pulse loops, urgency animations, celebration overlays). Sophex is a CRE evidence and valuation product — motion must reinforce trust and seriousness, not distract from source limitations.
 
 ## Trust Visualization
 

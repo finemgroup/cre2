@@ -31,23 +31,40 @@ Explicitly disabled until gates clear:
 
 ## SEO, Indexing, And Syndication
 
-- No indexing of user-contributed facts before visibility rules and review states exist.
-- Content Engine syndication concepts apply to **operator-authored public reports**, not private uploads or comps.
-- Public market pages may be indexed only when they show public baseline or approved aggregates.
+- **No indexing of user-contributed facts** until visibility rules, review states, and source-use terms exist.
+- **No syndication of private observations** to third-party channels (Medium, LinkedIn, industry publications, partner feeds).
+- **No public terms ambiguity** for free-user uploads — contribution terms must be explicit before capture.
+- Content Engine syndication concepts apply to **operator-authored public reports** using public baseline or approved aggregates — not private uploads, comps, or user-derived facts.
+- Public market and property pages may be indexed only when they show public baseline or operator-approved aggregates.
 
-## Visual Privacy Labels
+## Send Automation Gate
 
-UI must distinguish Public, Account-private, Contribution-shared, and Premium-private at field, document, comp, and report levels. See `docs/SOPHEX_TRUST_UI_GUIDELINES.md`.
+No send automation until **all** of the following are proven:
 
-## Analytics And PII
+- Provider integration and queue/worker reliability.
+- Consent capture, suppression, unsubscribe, and idempotency.
+- Audit trail and operator approval for outbound actions.
 
-Engagement scoring may be used internally before outbound sales is allowed. Analytics events must not carry raw PII in public/logging pipelines. Content Engine-style lead scoring is internal-prioritization only until consent stack is proven.
+This blocks email nurture, CRM-triggered sends, partner notifications, and queue-driven marketing workflows in setup and MVP0.
 
-## Export And Gated PDF
+## Analytics Redaction Rules
 
-- Export/download/share requires consent copy and audit receipt.
+- Analytics events must not carry raw PII in public or shared logging pipelines.
+- Engagement scoring may be used **internally** for prioritization before outbound is allowed — it must not trigger outbound until consent stack clears.
+- Do not attach contributed document content, private comp values, or source-owner identity to analytics payloads.
+- A/B test hooks for copy/layout are acceptable in MVP0 prototypes; do not wire conversion events to CRM or email until gates clear.
+
+## Export, Download, And Share Audit
+
+- Export/download/share actions require consent copy where applicable and an audit trail (receipt, hash, or governed action record).
 - Gated PDF must not leak private fields into public templates.
 - Export actions require idempotency and operator-auditable receipts when implemented.
+- Share actions must log actor, artifact, visibility class, and consent posture.
+
+## Engagement Scoring And Outbound
+
+- Internal engagement scoring (page depth, comparison usage, save-report intent) may inform product and sales prioritization.
+- **Engagement scoring cannot trigger outbound** (email, CRM tasks, retargeting, syndication) until consent, suppression, unsubscribe, idempotency, audit, and operator approval are proven.
 
 ## Fabricator-Derived Privacy And Idempotency Rules (Provisional)
 

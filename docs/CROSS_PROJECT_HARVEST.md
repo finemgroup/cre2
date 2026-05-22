@@ -4,7 +4,7 @@ Source: Ara cross-project harvest packets integrated on 2026-05-22.
 
 - `CRE_TO_SOPHEX_HARVEST_PACKET` — see **[CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)** (authoritative CRE harvest pending clean master)
 - `FABRICATOR_TO_SOPHEX_HARVEST_PACKET` — see **[FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)** (authoritative Fabricator harvest pending clean checkout)
-- `CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET` — see **[CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)** (untracked reference folder)
+- `CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET` — see **[CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md)** (reference-only; untracked `Content Engine/` folder). Prior provisional archive: [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md).
 - `UX_MOTION_TO_SOPHEX_HARVEST_PACKET` — see **[UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)** (same stale CRE checkout)
 
 **Doc hierarchy (anti-drift):** [HARVEST_DOC_HIERARCHY.md](HARVEST_DOC_HIERARCHY.md) — canonical map of packets vs integrated doctrine.
@@ -19,7 +19,7 @@ This document records what Sophex should inherit from CRE Platform, Finem Fabric
 - CRE `apps/core` is the primary UX/design-system reference (motion tokens, provenance UI, BOV export gates, shell patterns).
 - Finem Fabricator contributes workflow, agent, HITL, report-generation, control-plane, and job-status projection patterns, but it does not own Sophex data truth.
 - **Fabricator harvest is provisional only** — sourced from `main` @ `89b2a651a` with dirty memory-bank and untracked audit docs. See [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md). Authoritative Fabricator harvest requires clean working tree.
-- Content Engine contributes interactive marketing surfaces, comparison/heatmap UX, gated export, and contribution flywheel concepts for **operator-authored public content only**. See [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) — source is untracked `Content Engine/` reference folder.
+- Content Engine contributes interactive marketing surfaces, comparison/heatmap UX, gated export, contribution exchange, and marketplace flywheel concepts for **operator-authored public content only**. See [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md) — **reference-only**; sourced from untracked `Content Engine/` strategy folder inside the Sophex workspace. SQL, n8n, CRM, send automation, and runtime implementation from Content Engine tech spec are **not authorized** for Sophex setup.
 - UX/motion patterns from CRE `apps/core` are **provisional** (same stale CRE checkout). See [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md). Canonical UX/motion doctrine: `FRONTEND_UX_INHERITANCE.md`, `MOTION_AND_INTERACTION_GUIDELINES.md`, `SOPHEX_TRUST_UI_GUIDELINES.md`.
 - The core Sophex primitive is permissioned evidence and field observation resolution, not a flat comps table.
 - Uploaded documents are evidence; chunks and embeddings are derived retrieval sidecars.
@@ -36,7 +36,34 @@ This document records what Sophex should inherit from CRE Platform, Finem Fabric
 | --- | --- | --- | --- |
 | CRE | `cre-platform-erofs-master-landing` | [CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) ⚠️ provisional | `CRE_PLATFORM_ALIGNMENT.md`, evidence/trust docs |
 | Fabricator | `finem_factory_mvp` | [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) ⚠️ provisional | `FINEM_FABRICATOR_ALIGNMENT.md`, agent/contracts docs |
-| Content Engine | `Content Engine/` reference folder | [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) ⚠️ provisional | valuation, privacy, roadmap, MVP0 map |
+| Content Engine | `Content Engine/` reference folder | [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md) ⚠️ reference-only | valuation, privacy, roadmap, MVP0 map, frontend UX |
+
+### Content Engine Reference Summary (Strategy / UX Only)
+
+**Source:** Untracked `Content Engine/` folder (8 markdown strategy docs). Not an authoritative runtime repo.
+
+**Borrow (product / UX / marketplace doctrine):**
+
+- Interactive evidence-first reports with comparison dashboard and regional heat map.
+- Outcome-first hero, segment selector, scannable callouts, progressive forms.
+- Partial valuation preview and personalized report builder (section toggles).
+- Soft-then-hard CTA ladder: preview → save → upload docs/comps → gated export.
+- Contribution exchange: upload documents/comps to unlock report depth (explicit terms).
+- Gated PDF/export/share as permissioned, audited value exchange.
+- White-label broker report possibility with warnings/citations retained.
+- Public SEO/GEO property and market pages using public baseline or approved aggregates only.
+- Mobile conversion patterns (sticky CTA, swipe comparison, collapsible evidence).
+- Internal engagement scoring for prioritization — not outbound triggers until consent stack clears.
+
+**Deferred / forbidden (do not implement in Sophex setup):**
+
+- Content Engine SQL schemas, n8n workflows, CRM sync, email nurture automation.
+- Provider/send, queue-driven outbound, syndication of user-derived or private content.
+- Public indexing of user-contributed facts before visibility/review/source-use gates.
+- Exit-intent capture, retargeting, paid ads using contributed intelligence.
+- Treating gated export as a simple lead form without consent, audit, and permission checks.
+- Scraping without license; appraisal-superiority marketing claims.
+
 | UX/Motion | CRE `apps/core` | [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) ⚠️ provisional | frontend UX, motion, trust UI docs |
 
 See also: [HARVEST_DOC_HIERARCHY.md](HARVEST_DOC_HIERARCHY.md), [HARVEST_PACKET_INDEX.md](HARVEST_PACKET_INDEX.md), `SISTER_PROJECT_SOURCE_MAP.md`, `SOPHEX_REFERENCE_PATHS.md`, `SOPHEX_CONCEPTUAL_CONTRACTS.md`.

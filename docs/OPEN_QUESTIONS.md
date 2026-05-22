@@ -34,6 +34,10 @@
 - What export/share actions require consent and audit?
 - Which CRE schema or evidence contract wave must land before Sophex can use real data?
 - Which public pages may be indexed first under SEO/GEO strategy?
+- **What data rights support public baseline pages** (GIS, records, aggregates) before indexing?
+- **What does free tier contribute publicly vs keep private** by default?
+- **What are gated export terms** (consent copy, audit, section eligibility)?
+- **What is white-label broker report scope** (branding, evidence appendix, permission boundaries)?
 - What minimum consent copy is required for forms, uploads, and gated exports?
 - Can engagement scoring be used internally before outbound sales automation is allowed?
 - Which syndication channels are permitted for operator-authored vs user-derived content?

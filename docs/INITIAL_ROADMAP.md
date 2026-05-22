@@ -15,14 +15,17 @@ All runtime, schema, deploy, and production integration phases are future-gated.
 - Validate user journeys for property search, upload, report output, and contribution.
 - Define authority labels, source panels, and query-level permission expectations.
 - Prototype with mock data and non-production banners on all preview surfaces.
+- **Include mock comparison dashboard, regional heat map, interactive report preview, gated export UX, and upload/contribution exchange UI** (Content Engine reference patterns — UI only).
 - No production runtime.
+- **Content Engine SQL/n8n/CRM implementation is not authorized** in Sophex setup — borrow UX and strategy only.
 
 ## Phase 1b: Interactive Marketing Surfaces (Future-Gated)
 
 - Public comparison dashboard and heat map with sample data.
-- SEO/GEO market pages using public baseline only.
+- SEO/GEO market pages using **public baseline or approved aggregates only** — not user-contributed facts.
 - Gated export UX stopping at consent/terms screen (no send).
-- Defer email nurture, CRM sync, and syndication automation.
+- Upload/contribution exchange prototype (unlock depth UI with explicit terms placeholder).
+- **Defer:** email nurture, CRM sync, syndication automation, paid ads/retargeting — post-privacy-and-consent-gate phases only.
 
 ## Phase 2: Ingestion Proof Of Concept
 

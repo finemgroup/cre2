@@ -6,6 +6,31 @@ Sophex should inherit UX doctrine from CRE Platform (`apps/core`), Content Engin
 
 CRE Platform `apps/core` is the richest sister-project design-system source. See `docs/SISTER_PROJECT_SOURCE_MAP.md` for paths. Finem Fabricator has minimal UI stubs; Content Engine provides marketing/interactive patterns.
 
+## Public Marketing Surfaces Vs Authenticated Workstations
+
+| Surface | Purpose | Content Engine patterns allowed |
+| --- | --- | --- |
+| **Public marketing shell** | Landing, SEO/GEO market pages, sample interactive reports, comparison/heatmap demos | Outcome-first hero, segment selector, scannable callouts, soft CTAs, mock comparison/heatmap |
+| **Authenticated contribution workstation** | Upload, save report, contribution exchange, privacy settings | Progressive form, upload → unlock depth, gated export intent |
+| **Authenticated report workstation** | Full report builder, section review, export gate | Personalized report builder, citations/warnings, BOV-style section approve |
+
+Public surfaces must use public baseline or sample/mock data with stub banners. Authenticated workstations handle private uploads and permissioned report depth.
+
+## Content Engine UX Patterns (Reference-Only)
+
+From [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md):
+
+- **Outcome-first hero** — clear outcome headline, proof above fold, segment selector (investor/broker/advisor).
+- **Comparison dashboard** — interactive comp/tenant compare with filters, sort, search.
+- **Heat map / regional map** — anonymized or sample regional layers; explicit sample labels in MVP0.
+- **Filters / sort / search** — comp discovery and report section navigation.
+- **Personalized report builder** — toggle charts, map, table, statistics before export.
+- **Progressive form** — minimal fields first; expand on save/upload intent.
+- **Scannable callout layout** — metrics and proof in callout boxes, not wall-of-text.
+- **Mobile conversion patterns** — sticky soft CTA, swipe comparison, collapsible evidence panels.
+
+Do **not** implement on public surfaces: exit-intent popups, email nurture hooks, CRM auto-sync, syndication widgets.
+
 ## Shell And Workstations
 
 Use a **lightweight public shell** for landing, search, market pages, and sample interactive reports. Use a **minimal authenticated workspace** for upload, reports, contributions, and privacy settings.

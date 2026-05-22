@@ -22,9 +22,19 @@ Sophex should use valuation and reporting as the immediate user-facing value of 
 - Gate export/share actions according to actor, source-use policy, and report visibility.
 - Avoid claims such as "better than an appraisal" unless validated and legally approved.
 
+## Interactive Evidence-First Report (Content Engine Reference)
+
+Sophex reports should be **interactive and evidence-first**, not static essay or PDF-first surfaces. Borrow from Content Engine reference doctrine (see [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md)):
+
+- **Comparison dashboard sections** — side-by-side comp/tenant/property compare with authority labels.
+- **Regional heat map sections** — market density or cap-rate bands with sample/anonymized labels until live data rights clear.
+- **Partial valuation preview** — top drivers, confidence band, and comp preview before full report unlock.
+- **Personalized report builder** — section toggles (charts, map, table, statistics) before export intent.
+- **Scannable callout layout** — proof and metrics above fold; long-form text secondary.
+
 ## Lead-Gen And Content Engine Connections
 
-The Content Engine reference materials point toward interactive reports, comparison tools, heat maps, market research pages, SEO/GEO-friendly content, gated PDF exports, and contribution flywheels.
+The Content Engine reference materials point toward interactive reports, comparison tools, heat maps, market research pages, SEO/GEO-friendly content, gated PDF exports, contribution exchange, and data flywheels.
 
 Sophex may later use those patterns for lead generation and user acquisition on **operator-authored public surfaces**.
 
@@ -32,15 +42,44 @@ Borrow conceptually:
 
 - Interactive comparison dashboard and regional heat map (mock data in MVP0).
 - Outcome-first hero, segment selector, scannable callout layout.
-- Soft-then-hard CTA ladder: preview → save → upload → export.
+- Soft-then-hard CTA ladder: preview → save → upload docs/comps → export.
 - Gated export dialog with section toggles (charts, map, table, statistics).
 - Progressive profiling forms (minimal fields first).
+- **Contribution exchange:** upload documents or comps to unlock deeper report sections.
 
-This setup packet does not authorize marketing automation, email sends, CRM sync, syndication automation, provider actions, analytics wiring, report-generation runtime, n8n workflows, or deployment.
+### Explicit deferrals
 
-## Fabricator AnalysisResponse-Style Output (Provisional)
+This setup packet does not authorize:
 
-From Fabricator Analysis OS doctrine (conceptual only — see [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)):
+- Marketing automation, email nurture, or drip sequences.
+- CRM sync (Salesforce, HubSpot, etc.).
+- Provider/send automation or queue-driven outbound.
+- Public syndication of user-derived content.
+- Analytics wiring tied to outbound triggers.
+- Report-generation runtime, n8n workflows, Content Engine SQL implementation, or deployment.
+
+## Gated PDF / Export / Share Flow
+
+From Content Engine and CRE export doctrine:
+
+- Export is a **permissioned, audited value exchange** — not a simple lead form.
+- Gated PDF/export/share UI may prototype section selection, consent copy, and disabled export until review gates pass.
+- Export/download/share actions require audit trail (receipt or content hash reference).
+- Share links must respect viewer permissions and must not leak private observations.
+- White-label PDF may carry partner branding but must retain warnings, citations, evidence appendix, and permission boundaries.
+
+## Contribution Exchange
+
+Users may upload documents or comps to unlock deeper report sections. Terms must clearly state:
+
+- What visibility class applies to uploaded material.
+- Whether extracted facts may become public, shared, anonymized, or internal-only.
+- That extraction produces candidate evidence subject to review — not automatic truth.
+- That export depth unlock does not imply outbound marketing consent.
+
+## Source Citations, Warnings, And reviewRequired Posture
+
+From Fabricator Analysis OS and Content Engine trust doctrine (conceptual only — see [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) and [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md)):
 
 Future Sophex report artifacts should support structured output comparable to AnalysisResponse:
 

@@ -1,6 +1,6 @@
 # CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL
 
-> **This packet is provisional.** Source material lives in the untracked `Content Engine/` reference folder inside the Sophex workspace (`C:\Projects\Sophex Marketplace and Content Engine\Content Engine\`). Those strategy docs are not committed to Sophex Git and may change or diverge. Use for directional marketing/interactive UX doctrine only until reference files are committed or re-harvested. Do not treat SQL/n8n/CRM sections in the tech spec as authorized for Sophex implementation.
+> **Superseded for operator reference — use [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md).** Canonical integration: `docs/HARVEST_DOC_HIERARCHY.md`.
 
 **Mode:** `CONTENT_ENGINE_TO_SOPHEX_READ_ONLY_HARVEST` (provisional)  
 **Harvest date:** 2026-05-22  

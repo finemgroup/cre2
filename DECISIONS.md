@@ -155,3 +155,31 @@ This file is the initial ADR-style decision log for the Sophex setup phase.
 - Date: 2026-05-22
 - Decision: Valuation/report outputs inspired by Fabricator Analysis OS must include confidence, warnings, citations, and reviewRequired semantics; no headline valuation without evidence and review posture.
 - Consequence: ReportGenerationRun artifacts are candidates until HITL and export gates clear; white-label output cannot hide warnings or permission limits.
+
+## ADR-0023: Content Engine Is Product UX Reference Only Not Runtime Authority
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Content Engine reference material in the untracked `Content Engine/` folder informs Sophex product strategy, UX doctrine, and marketplace concepts only. It is not an authoritative runtime repository and does not authorize SQL, n8n, CRM, send automation, or analytics implementation in Sophex setup.
+- Consequence: See [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](docs/CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md); integrated doctrine lives in topic docs per harvest hierarchy.
+
+## ADR-0024: Sophex Reports Are Interactive Evidence-First Not Static Essay PDF-First
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Sophex valuation and reporting surfaces should prioritize interactive evidence-first UX (comparison, heat map, drill-down, citations) over static long-form essay or PDF-first delivery.
+- Consequence: MVP0 clickable concepts should prototype comparison dashboard, heat map, and report preview; PDF/export remains gated and audited.
+
+## ADR-0025: Gated Export Is Permissioned Audited Value Exchange Not Simple Lead Form
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Gated PDF/export/share flows are permissioned value exchanges requiring consent, section review, and audit trail — not generic lead-capture forms.
+- Consequence: Export UI may be prototyped disabled-first; contribution exchange (upload → unlock depth) requires explicit terms before capture.
+
+## ADR-0026: Public SEO GEO Surfaces Require Public Baseline Or Aggregates Only
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: Public SEO/GEO property and market pages may use public baseline data or approved aggregated/anonymized statistics only until visibility rules, review states, and source-use terms exist for user-contributed facts.
+- Consequence: No indexing or syndication of user-contributed observations; operator-authored public content remains a separate lane from contribution marketplace data.

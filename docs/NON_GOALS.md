@@ -25,8 +25,12 @@ This setup packet intentionally does not authorize:
 - No public search indexing of user-contributed facts before visibility and source-use rules exist.
 - No claims of appraisal superiority without validation and legal review.
 - No copying CRE operator shell (Jarvis, dialer, gamification, full command palette) into Sophex MVP0.
-- No Content Engine n8n/SQL/CRM/email implementation in setup phase.
-- No syndication of private observations to third-party channels.
+- No Content Engine n8n/SQL/CRM/email implementation in setup phase or MVP0.
+- **No email nurture automation** in setup/MVP0.
+- **No CRM sync** in setup/MVP0.
+- **No public indexing of user-contributed facts** before visibility and source-use rules exist.
+- **No syndication of user-derived or private content** to third-party channels.
+- **No paid ads or retargeting** using contributed intelligence.
 - No exit-intent capture or outbound automation before consent stack is proven.
 - No treating Fabricator queue completion as evidence promotion.
 - No broad formatting rewrites.
