@@ -1,0 +1,12 @@
+---
+description: Block schema, migration, deploy, and production automation in Sophex setup
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+No Prisma migrate, db push, migrate resolve, destructive DDL, schema creation, generated-client edits, or production database commands are allowed in this setup lane.
+
+No deploy commands, production services, provider sends, queue launches, R2/Docling runtime, MotherDuck/vector runtime, CRE production lane, or Fabricator runtime work is allowed.
+
+If a request needs any of the above, stop and ask for explicit operator approval in the correct lane.

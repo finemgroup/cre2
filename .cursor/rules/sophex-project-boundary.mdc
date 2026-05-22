@@ -1,0 +1,18 @@
+---
+description: Sophex project boundary and docs-first setup rules
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+Sophex is a separate public-facing CRE intelligence marketplace and external trust boundary.
+
+This project is docs-first unless a later prompt explicitly authorizes implementation.
+
+Do not use worktrees.
+
+Do not implement runtime code, schema, migrations, deploys, production service calls, provider sends, or queue automation from this setup lane.
+
+Keep work scoped to Sophex setup docs, project rules, and explicit operator-approved paths.
+
+Stop on wrong project path, dirty unexpected files, secret/private-data ambiguity, or remote ambiguity.
