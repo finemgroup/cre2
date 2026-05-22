@@ -183,3 +183,10 @@ This file is the initial ADR-style decision log for the Sophex setup phase.
 - Date: 2026-05-22
 - Decision: Public SEO/GEO property and market pages may use public baseline data or approved aggregated/anonymized statistics only until visibility rules, review states, and source-use terms exist for user-contributed facts.
 - Consequence: No indexing or syndication of user-contributed observations; operator-authored public content remains a separate lane from contribution marketplace data.
+
+## ADR-0027: Authoritative CRE Clean-Master Harvest Supersedes Stale Provisional Packet
+
+- Status: Accepted
+- Date: 2026-05-22
+- Decision: The CRE harvest from clean clone `C:\Projects\cre-platform-master-clean` on `master` at `5300e7e5510e27d5ba505bfba8bec39990f68f7c` supersedes the earlier CRE provisional packet generated from stale/dirty branch `agent/03-operating-lens-navigation`.
+- Consequence: `CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md` is the current CRE source archive for Sophex docs doctrine; provisional CRE packets remain archive-only and must not drive implementation.

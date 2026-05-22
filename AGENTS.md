@@ -17,6 +17,7 @@ This project is the Sophex separate product setup lane. Treat it as a public-fac
 - Do not edit CRE production, CRE schema lanes, Fabricator runtime lanes, R2/Docling, MotherDuck/vector runtime, provider/send context, queue/Dragonfly, or deploy contexts from this project.
 - Use explicit path staging only. Never use `git add -A` for this lane.
 - Do not stage or commit untracked source/reference material, including `Content Engine/`, unless the operator explicitly includes those paths.
+- Authoritative sister-project harvests must come from clean source checkouts at the expected branch and upstream HEAD. Stale or dirty-source harvest packets are provisional archives only.
 
 ## Stop Conditions
 

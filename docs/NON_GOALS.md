@@ -16,6 +16,7 @@ This setup packet intentionally does not authorize:
 - No exposure of user-private data.
 - No migration of CRE truth into Sophex by copy-paste.
 - No direct coupling to CRE production services.
+- No copying CRE `prisma/schema.prisma`, migrations, generated clients, packages, components, or app routes into Sophex.
 - No Fabricator runtime build.
 - **Fabricator does not own Sophex marketplace truth.**
 - **No Fabricator runtime coupling in setup phase.**
@@ -25,6 +26,7 @@ This setup packet intentionally does not authorize:
 - No public search indexing of user-contributed facts before visibility and source-use rules exist.
 - No claims of appraisal superiority without validation and legal review.
 - No copying CRE operator shell (Jarvis, dialer, gamification, full command palette) into Sophex MVP0.
+- No treating CRE clean-master harvest as implementation authorization; it is docs doctrine only.
 - No Content Engine n8n/SQL/CRM/email implementation in setup phase or MVP0.
 - **No email nurture automation** in setup/MVP0.
 - **No CRM sync** in setup/MVP0.

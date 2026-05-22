@@ -6,19 +6,24 @@ This map records **reference-only** sister-project paths that informed Sophex do
 
 | Area | Reference path | Why Sophex should inspect it |
 | --- | --- | --- |
-| Relationship truth doctrine | `cre-platform-erofs-master-landing/docs/governance/RELATIONSHIP_TRUTH_DOCTRINE.md` | Governed truth posture; avoid collapsing notes, audit, and evidence |
-| Root shell | `cre-platform-erofs-master-landing/apps/core/components/providers/RootProviders.tsx` | Lightweight public shell vs full operator shell |
-| Evidence citation | `cre-platform-erofs-master-landing/apps/core/components/ui/source-citation.tsx` | Inline source links with match/confidence labels |
-| Provenance drill-down | `cre-platform-erofs-master-landing/apps/core/components/alphaDrop/v2/ProvenanceModal.tsx` | Field-level provenance drawer pattern |
-| Provenance cell | `cre-platform-erofs-master-landing/apps/core/components/data-studio/ProvenanceCell.tsx` | Table-cell trust micro-UI |
-| BOV provenance/export | `cre-platform-erofs-master-landing/apps/core/components/bov/BOVProvenanceCard.tsx`, `BOVExportCard.tsx`, `BOVSectionCard.tsx` | Section review and export gate patterns |
-| Trust tier badge | `cre-platform-erofs-master-landing/apps/core/components/voltron/TrustTierBadge.tsx` | AUTO/NOTIFY/HITL/BLOCK review posture labels |
-| Motion tokens | `cre-platform-erofs-master-landing/apps/core/lib/motion-tokens.ts` | Restrained framer-motion presets and reduced-motion handling |
-| Command palette | `cre-platform-erofs-master-landing/apps/core/components/navigation/UniversalCommandPalette.tsx` | Future power-user search; permission-filter required |
-| Map/heatmap | `cre-platform-erofs-master-landing/apps/core/components/map/PropertyHeatmap.tsx` | Regional opportunity visualization concept |
-| Non-production banner | `cre-platform-erofs-master-landing/apps/core/components/surfaces/NonProductionReportingBanner.tsx` | MVP0 stub/demo warning pattern |
-| Sophex-named surface | `cre-platform-erofs-master-landing/apps/core/components/sophex/ai/AIUnderwritingInterface.tsx` | Existing Sophex UI stub; reframe as valuation preview, not approve/reject |
-| UX assessment | `cre-platform-erofs-master-landing/apps/core/docs/SOPHEX_OS_UX_ASSESSMENT.md` | Scope warning against importing full OS complexity |
+| Relationship truth doctrine | `cre-platform-master-clean/docs/governance/RELATIONSHIP_TRUTH_DOCTRINE.md` | Governed truth posture; avoid collapsing notes, documents, comments, activities, audit, and evidence |
+| Document evidence registry | `cre-platform-master-clean/prisma/schema.prisma` (`DocumentEvidence`); `apps/core/components/documents/generated-document-authority/` | Conceptual file identity, evidence posture, publication holds, receipt refs |
+| Staged import / citations | `cre-platform-master-clean/apps/core/components/documents/staged-import/` | Candidate-only document extraction review and source citation patterns |
+| Pilot document intake | `cre-platform-master-clean/apps/core/app/pilot/document-intake/`; `apps/core/lib/pilot/document-intake/` | Hash/idempotency/production-gate intake doctrine |
+| Root shell | `cre-platform-master-clean/apps/core/components/providers/RootProviders.tsx`; `SessionGate.tsx` | Lightweight public/auth shell vs full authenticated shell |
+| Navigation | `cre-platform-master-clean/apps/core/components/navigation/TopBar.tsx`; `PersistentMainMenu.tsx`; `UniversalCommandPalette.tsx`; `apps/core/components/mobile/MobileBottomNav.tsx` | Authenticated shell/search patterns; simplify for Sophex |
+| Evidence citation | `cre-platform-master-clean/components/ui/source-citation.tsx`; `apps/core/components/documents/staged-import/SourceCitationList.tsx` | Inline source links with match/confidence labels |
+| Provenance drill-down | `cre-platform-master-clean/apps/core/components/alphaDrop/v2/ProvenanceModal.tsx` | Field-level provenance drawer pattern |
+| Provenance cell | `cre-platform-master-clean/apps/core/components/data-studio/ProvenanceCell.tsx` | Table-cell trust micro-UI |
+| BOV provenance/export | `cre-platform-master-clean/apps/core/components/bov/BOVProvenanceCard.tsx`, `BOVExportCard.tsx`, `BOVSectionCard.tsx`; `apps/core/lib/bov/output-guard.ts` | Section review, output-rights guard, export gate patterns |
+| Trust tier badge | `cre-platform-master-clean/apps/core/components/voltron/TrustTierBadge.tsx`; `packages/shared-types/src/voltron/trust.ts` | AUTO/NOTIFY/HITL/BLOCK review posture labels; no autonomous public publication |
+| Motion tokens | `cre-platform-master-clean/apps/core/lib/motion-tokens.ts`; `apps/core/components/os/OSMotion.tsx` | Restrained framer-motion presets, sheets, focus traps, reduced-motion handling |
+| Map/evidence drawer | `cre-platform-master-clean/apps/core/app/map/MapClient.tsx`; `apps/core/components/map/selected-object/`; `MapFocusModeShell.tsx` | Map selection with evidence panels and shell-preserving focus mode |
+| Non-production banner | `cre-platform-master-clean/apps/core/components/surfaces/NonProductionReportingBanner.tsx` | MVP0 stub/demo warning pattern |
+| Sophex-named surface | `cre-platform-master-clean/apps/core/components/sophex/ai/AIUnderwritingInterface.tsx`; `apps/core/app/sophex/**` | Existing CRE lab/stub surfaces; reframe as valuation preview, not approve/reject |
+| UX assessment | `cre-platform-master-clean/apps/core/docs/SOPHEX_OS_UX_ASSESSMENT.md` | Scope warning against importing full OS complexity |
+
+**Stale/forbidden for authoritative harvest:** `C:\Projects\cre-platform-erofs-master-landing` remains a dirty/stale checkout and should not be used for authoritative CRE path references.
 
 ## Finem Fabricator
 
@@ -44,5 +49,5 @@ This map records **reference-only** sister-project paths that informed Sophex do
 ## Harvest Posture
 
 - All paths above are **reference-only**.
-- Sister repos may be on dirty or non-`master` branches; harvest doctrine still applies, but no runtime coupling is authorized.
+- CRE authoritative references now come from the clean `cre-platform-master-clean` clone. Fabricator and UX/motion still carry provisional caveats until clean reruns.
 - Sophex inherits patterns and contracts, not copied components, migrations, queues, or production data.

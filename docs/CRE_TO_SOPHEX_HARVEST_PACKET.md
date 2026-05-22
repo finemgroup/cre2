@@ -1,6 +1,6 @@
 # CRE_TO_SOPHEX_HARVEST_PACKET
 
-> **Superseded for trust purposes by [CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)** — this file is an earlier draft from the same stale/dirty CRE checkout. Use the provisional packet for Sophex doctrine until authoritative clean-master harvest exists.
+> **Superseded by [CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md).** This file is an earlier draft from the stale/dirty CRE checkout and remains archive-only.
 
 **Mode:** `CRE_TO_SOPHEX_READ_ONLY_HARVEST`  
 **Source:** `C:\Projects\cre-platform-erofs-master-landing`  

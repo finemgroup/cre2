@@ -29,6 +29,14 @@ All MVP0 screens that show sample comps, valuations, or market stats must displa
 
 ## Sister-Project References
 
-- UX/motion patterns: CRE `apps/core` (see `docs/SISTER_PROJECT_SOURCE_MAP.md`)
+- UX/motion patterns: CRE clean-master `apps/core` (see `docs/SISTER_PROJECT_SOURCE_MAP.md` and `CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md`)
 - Interactive marketing patterns: Content Engine reference docs
 - Workflow status labels: Finem Fabricator control-plane concepts
+
+## Authoritative CRE MVP0 Additions
+
+- Property intelligence page should borrow the clean-master property detail tab structure only as doctrine: overview, comps, documents, activity, relationships, and tasks become Sophex-specific public/private tabs.
+- Evidence review panel should borrow staged import/source-bundle/generated-document-authority patterns: candidate-only labels, source citations, publication holds, and blocked actions.
+- Report preview/export should borrow BOV wizard, output guard, publication-hold banner, and export readiness patterns.
+- Map screens should prefer map selection plus evidence drawer over duplicate heatmap components.
+- All mock/report screens retain non-production banners until real data rights and source-use policy exist.

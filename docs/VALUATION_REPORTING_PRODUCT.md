@@ -107,6 +107,14 @@ From CRE BOV patterns (doctrine):
 - Export completion should surface an audit hash or receipt reference.
 - White-label output must retain evidence appendix and permission boundaries.
 
+Authoritative CRE clean-master adds stronger report-governance references:
+
+- BOV generation wizard and mission-control patterns show report generation as a staged workflow, not a one-click PDF.
+- `output-guard` style filtering blocks restricted vendor comps from report output.
+- Generated-document authority panels model publication holds, version timelines, file-ref authority, and citation lineage.
+- Provider export readiness panels model public/client delivery holds.
+- Export hashes should cover the artifact bundle and source manifest, not just a visual PDF.
+
 ## Interactive Preview Surfaces
 
 Public market and property pages may include:

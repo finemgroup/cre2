@@ -33,11 +33,21 @@ Public records are not proprietary by default. Public property records, acreage,
 
 ## Future CRE Alignment
 
-Sophex should later align with the CRE source observation ledger and evidence architecture through approved contracts. Expected alignment concepts include governed source observations, document references, operational receipts, idempotency keys, correlation identifiers, audit trails, and relationship-truth separation (notes/comments/audit/evidence remain distinct).
+Sophex should later align with CRE evidence architecture through approved contracts. The authoritative clean-master harvest confirmed these reference concepts:
+
+- Relationship Truth Doctrine separates notes, documents, comments, activities, evidence, receipts, and projections.
+- `documents.file_ref` style byte-pointer authority separates file bytes from business/evidence metadata.
+- `DocumentEvidence` style registry carries source family, source hashes, review/promotion status, receipt refs, idempotency, correlation, supersession, freshness, and HITL review.
+- Source observation timing and digest fields distinguish observed/uploaded/extracted times.
+- `DoclingChunk` style chunks and embeddings remain retrieval sidecars.
+- Policy and operational receipts provide replay-safe audit anchors with redacted evidence references.
+- Comp intelligence uses source, confidence, verification, provider rights, and review gates before public use.
 
 ## Provenance UI Contract (Future)
 
 Future APIs and UI should support inline citation, table provenance cells, and provenance drawers filtered by actor permissions. CRE `SourceCitation`, `ProvenanceCell`, and `ProvenanceModal` patterns are reference shapes only.
+
+Clean-master path references live in [CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md); topic docs remain canonical.
 
 ## Audit And Event Separation
 

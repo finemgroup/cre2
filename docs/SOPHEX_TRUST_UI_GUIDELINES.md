@@ -24,6 +24,10 @@ Visual trust language for Sophex MVP0 and later phases. These guidelines inherit
 | Blocked | Cannot be used in outputs | Error |
 | Model-inferred | AI/model derived, not verified fact | Purple/info outline |
 | Premium-private | Paid-tier private data | Muted + lock icon |
+| Candidate evidence only | Extracted/imported evidence not promoted to truth | Warning outline |
+| Publication hold | Blocked from public/client/share/export surfaces | Error / blocked |
+| Provider-restricted | Licensed source cannot be displayed/exported publicly | Error outline |
+| AI estimate needs confirmation | Synthetic value pending human/source confirmation | Purple warning |
 
 Do not rely on color alone; every badge needs readable text.
 
@@ -67,6 +71,8 @@ Deep drill-down with sources, conflicts, reliability (CRE `ProvenanceModal` patt
 Section approval counts, source UW/report version reference, export hash (CRE `BOVProvenanceCard` / `BOVExportCard` pattern).
 
 Unauthorized viewers receive filtered provenance only.
+
+Authoritative CRE clean-master also points to source-bundle review panels, generated-document authority panels, provider export readiness banners, and `output-guard` style blocked-output explanations. Sophex should show why a report, public page, share link, or export is blocked rather than hiding the control silently.
 
 ## Report And Export Trust
 

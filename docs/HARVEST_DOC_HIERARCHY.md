@@ -4,16 +4,16 @@ Single map of **where Sophex doctrine lives** after sister-project harvest integ
 
 ## Rule
 
-1. **Provisional packets** = source archives + caveats + path appendices. Do not copy their body text into other docs.
+1. **Packets** = source archives + caveats + path appendices. Do not copy their body text into other docs.
 2. **This hierarchy + `CROSS_PROJECT_HARVEST.md`** = integrated summary and cross-links.
 3. **Topic docs below** = canonical place to update doctrine when harvest findings change.
-4. **Superseded drafts** (`*_HARVEST_PACKET.md` without `_PROVISIONAL`) = do not edit; use provisional files.
+4. **Superseded drafts/provisional packets** remain archives only. Use the current authoritative/reference packet for each source.
 
-## Source Archives (Provisional Packets)
+## Source Archives
 
 | Packet | File | Trust |
 | --- | --- | --- |
-| CRE | [CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) | ⚠️ Stale/dirty CRE branch |
+| CRE | [CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) | ✅ Clean CRE `master` @ `5300e7e5510e27d5ba505bfba8bec39990f68f7c` |
 | Fabricator | [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) | ⚠️ Dirty Fabricator worktree |
 | Content Engine | [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md) | ⚠️ Untracked reference folder |
 | UX/Motion | [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) | ⚠️ Same stale CRE checkout |
@@ -53,4 +53,4 @@ Index: [HARVEST_PACKET_INDEX.md](HARVEST_PACKET_INDEX.md)
 
 ## Authoritative Rerun Checklist (Future)
 
-When clean sister checkouts exist, create `*_HARVEST_PACKET_AUTHORITATIVE.md`, diff against provisional, update topic docs once, then mark provisional files superseded.
+When clean sister checkouts exist, create `*_HARVEST_PACKET_AUTHORITATIVE.md`, diff against provisional, update topic docs once, then mark provisional files superseded. CRE now follows this pattern; Fabricator and UX/motion still need clean-source reruns.

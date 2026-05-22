@@ -6,7 +6,7 @@ This document defines **conceptual contracts only**. It contains no Prisma schem
 
 Represents durable identity and policy for an uploaded or referenced source document.
 
-**Fields (conceptual):** evidence id, property link, uploader actor, organization scope, source type, visibility class, source-use policy, hash, upload timestamp, review state, publication eligibility, clean-vs-scanned classification, revocation/supersession state.
+**Fields (conceptual):** evidence id, property link, uploader actor, organization scope, source type/source family, visibility class, source-use policy, source hash, payload digest, observed/uploaded/extracted timestamps, review state, publication eligibility, receipt refs, idempotency key, correlation id, clean-vs-scanned classification, revocation/supersession state.
 
 **Invariants:** bytes live in storage; business record lives in evidence identity; chunks/embeddings are sidecars.
 
@@ -68,6 +68,14 @@ Audit and idempotency reference for a governed action.
 
 **Invariants:** replay-safe; user-facing status is a projection of receipt state, not queue internals.
 
+## Contract: AuditReceipt
+
+Policy and operational receipt family for source-sensitive governed actions.
+
+**Fields (conceptual):** receipt id, receipt kind, actor, target artifact, evidence refs (redacted where needed), policy decision, safe next action, idempotency key, correlation id, replay hash, timestamp.
+
+**Invariants:** receipt existence is not execution authority; public routes store redacted refs and never expose raw internal logs.
+
 ## Contract: ContributionExchange
 
 Terms governing free valuation/reporting in exchange for uploads or comps.
@@ -94,7 +102,7 @@ SEO/GEO-facing public property or market page view.
 
 ## Cross-Project Alignment Notes
 
-- **CRE Platform** owns governed source observations, document references, receipts, and internal review workflows.
+- **CRE Platform** clean-master harvest confirms governed source observations, document references, document evidence registry, chunks as sidecars, receipts, and internal review workflows as conceptual references.
 - **Finem Fabricator** may project job/workflow status and agent outputs as candidates until HITL and permissions apply.
 - **Content Engine** informs public marketing surfaces and interactive UX; it does not authorize syndication of private observations.
 

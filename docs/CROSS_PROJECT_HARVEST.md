@@ -2,7 +2,7 @@
 
 Source: Ara cross-project harvest packets integrated on 2026-05-22.
 
-- `CRE_TO_SOPHEX_HARVEST_PACKET` — see **[CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)** (authoritative CRE harvest pending clean master)
+- `CRE_TO_SOPHEX_HARVEST_PACKET` — see **[CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md)** (clean CRE `master` @ `5300e7e5510e27d5ba505bfba8bec39990f68f7c`; prior provisional remains archived)
 - `FABRICATOR_TO_SOPHEX_HARVEST_PACKET` — see **[FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)** (authoritative Fabricator harvest pending clean checkout)
 - `CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET` — see **[CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md)** (reference-only; untracked `Content Engine/` folder). Prior provisional archive: [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md).
 - `UX_MOTION_TO_SOPHEX_HARVEST_PACKET` — see **[UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)** (same stale CRE checkout)
@@ -15,8 +15,8 @@ This document records what Sophex should inherit from CRE Platform, Finem Fabric
 
 - Sophex remains a separate product and public trust boundary.
 - CRE Platform remains the governed internal substrate for evidence, source observations, comp intelligence, receipts, audit, idempotency, and correlation.
-- **CRE harvest is provisional only** — sourced from `agent/03-operating-lens-navigation` @ `48d7e5f910`, dirty, 758 commits behind `origin/master`. See [CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md). Authoritative CRE harvest requires clean `master` with `HEAD == origin/master`.
-- CRE `apps/core` is the primary UX/design-system reference (motion tokens, provenance UI, BOV export gates, shell patterns).
+- **CRE harvest is now authoritative for docs doctrine** — sourced read-only from clean clone `C:\Projects\cre-platform-master-clean` on `master` with `HEAD == origin/master` at `5300e7e5510e27d5ba505bfba8bec39990f68f7c`. See [CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md). The stale/dirty provisional packet remains archived for provenance.
+- CRE `apps/core` is the primary UX/design-system reference (RootProviders/SessionGate shell split, motion tokens, provenance UI, BOV/export gates, upload/intake, source bundles, generated-document authority, map evidence drawers).
 - Finem Fabricator contributes workflow, agent, HITL, report-generation, control-plane, and job-status projection patterns, but it does not own Sophex data truth.
 - **Fabricator harvest is provisional only** — sourced from `main` @ `89b2a651a` with dirty memory-bank and untracked audit docs. See [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md). Authoritative Fabricator harvest requires clean working tree.
 - Content Engine contributes interactive marketing surfaces, comparison/heatmap UX, gated export, contribution exchange, and marketplace flywheel concepts for **operator-authored public content only**. See [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md) — **reference-only**; sourced from untracked `Content Engine/` strategy folder inside the Sophex workspace. SQL, n8n, CRM, send automation, and runtime implementation from Content Engine tech spec are **not authorized** for Sophex setup.
@@ -34,9 +34,10 @@ This document records what Sophex should inherit from CRE Platform, Finem Fabric
 
 | Harvest packet | Primary sister source | Standalone file | Integrated into |
 | --- | --- | --- | --- |
-| CRE | `cre-platform-erofs-master-landing` | [CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) ⚠️ provisional | `CRE_PLATFORM_ALIGNMENT.md`, evidence/trust docs |
+| CRE | `C:\Projects\cre-platform-master-clean` | [CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) ✅ authoritative docs reference | `CRE_PLATFORM_ALIGNMENT.md`, evidence/trust/UX/reporting docs |
 | Fabricator | `finem_factory_mvp` | [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) ⚠️ provisional | `FINEM_FABRICATOR_ALIGNMENT.md`, agent/contracts docs |
 | Content Engine | `Content Engine/` reference folder | [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md) ⚠️ reference-only | valuation, privacy, roadmap, MVP0 map, frontend UX |
+| UX/Motion | CRE `apps/core` | [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) ⚠️ provisional | frontend UX, motion, trust UI docs |
 
 ### Content Engine Reference Summary (Strategy / UX Only)
 
@@ -64,8 +65,6 @@ This document records what Sophex should inherit from CRE Platform, Finem Fabric
 - Treating gated export as a simple lead form without consent, audit, and permission checks.
 - Scraping without license; appraisal-superiority marketing claims.
 
-| UX/Motion | CRE `apps/core` | [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) ⚠️ provisional | frontend UX, motion, trust UI docs |
-
 See also: [HARVEST_DOC_HIERARCHY.md](HARVEST_DOC_HIERARCHY.md), [HARVEST_PACKET_INDEX.md](HARVEST_PACKET_INDEX.md), `SISTER_PROJECT_SOURCE_MAP.md`, `SOPHEX_REFERENCE_PATHS.md`, `SOPHEX_CONCEPTUAL_CONTRACTS.md`.
 
 ## Gap List Against Harvest Packets
@@ -77,6 +76,7 @@ See also: [HARVEST_DOC_HIERARCHY.md](HARVEST_DOC_HIERARCHY.md), [HARVEST_PACKET_
 | CRE provenance cell/modal/citation patterns | Partial UX | Added trust UI and frontend inheritance |
 | CRE motion tokens + reduced motion | Missing | Added motion guidelines |
 | CRE non-production reporting banner | Missing | Added MVP0 screen map and trust UI |
+| CRE clean-master path verification | Pending | Added authoritative packet; updated source map and stale path labels |
 | Fabricator control-plane / receipt doctrine | Partial | Expanded Fabricator alignment and contracts |
 | Fabricator queue status as projection not truth | Missing | Added agent workflow and ADR |
 | Content Engine interactive comparison/heatmap | Missing | Added frontend inheritance and MVP0 map |

@@ -51,6 +51,8 @@ Permission filtering must apply at every retrieval hop, including:
 
 The system cannot rely on hiding buttons in the UI. A user, organization, source owner, partner, or internal operator should receive only the observations, evidence, report artifacts, and aggregates their policy allows.
 
+Authoritative CRE clean-master harvest confirms this must also cover graph/RAG hits, chunk retrieval, command-palette sources, source-bundle review panels, generated-document publication holds, map evidence drawers, and report output guards. Retrieval projections must carry source tags and visibility checks before they are rendered.
+
 ## Authority Labels
 
 Future UI and API contracts should carry labels that explain the authority of a value:
@@ -68,6 +70,18 @@ Future UI and API contracts should carry labels that explain the authority of a 
 - Model-inferred.
 
 Labels should explain why a value is visible, such as "visible because your organization uploaded this lease" or "public GIS baseline."
+
+CRE source-bundle and generated-document authority patterns add useful public-facing states for Sophex:
+
+- Candidate evidence only.
+- Publication hold.
+- Provider-restricted.
+- Public export blocked.
+- Client/share blocked.
+- AI estimate needs confirmation.
+- HITL required.
+
+No `AUTO` trust tier should publish user-contributed data or private observations to public Sophex surfaces.
 
 ## Cleanup Without Exposure
 

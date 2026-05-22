@@ -4,7 +4,7 @@ Sophex should inherit UX doctrine from CRE Platform (`apps/core`), Content Engin
 
 ## Primary Reference
 
-CRE Platform `apps/core` is the richest sister-project design-system source. See `docs/SISTER_PROJECT_SOURCE_MAP.md` for paths. Finem Fabricator has minimal UI stubs; Content Engine provides marketing/interactive patterns.
+CRE Platform `apps/core` in the clean clone `C:\Projects\cre-platform-master-clean` is the richest sister-project design-system source. See `docs/SISTER_PROJECT_SOURCE_MAP.md` and [CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) for paths. Finem Fabricator has minimal UI stubs; Content Engine provides marketing/interactive patterns.
 
 ## Public Marketing Surfaces Vs Authenticated Workstations
 
@@ -35,6 +35,8 @@ Do **not** implement on public surfaces: exit-intent popups, email nurture hooks
 
 Use a **lightweight public shell** for landing, search, market pages, and sample interactive reports. Use a **minimal authenticated workspace** for upload, reports, contributions, and privacy settings.
 
+Authoritative CRE confirms this split in `RootProviders.tsx` and `SessionGate.tsx`: public/auth route prefixes receive lightweight handling, while authenticated workstations mount TopBar, route transitions, mobile nav, command palette, and fuller providers. Sophex should keep the principle but simplify the operator shell.
+
 Authenticated workstations:
 
 - Property intelligence page.
@@ -50,6 +52,7 @@ Authenticated workstations:
 - Jarvis, dialer, gamification overlays, and celebration toasts.
 - Full RootProviders provider tree (20+ providers).
 - Universal command palette as primary navigation (future-gated, permission-filtered).
+- Legacy duplicate mobile nav from `apps/core/components/navigation/MobileBottomNav.tsx`; clean master shows canonical mobile nav under `apps/core/components/mobile/MobileBottomNav.tsx`.
 
 ## Evidence-First UI
 
@@ -69,6 +72,8 @@ Borrow CRE patterns as doctrine:
 - **ProvenanceCell** — table rows with source chip, confidence dot, freshness.
 - **ProvenanceModal** — tabbed deep provenance with conflicts and reliability.
 - **BOVSectionCard / BOVProvenanceCard** — report section review and chain summary.
+- **SelectedObjectDrawer / SourceEvidenceBlockCard / StagedImportReviewPanel** — evidence-first drawer and review panels.
+- **Generated document authority panels** — publication holds, version timelines, and file-ref authority.
 
 Unauthorized viewers must not see private actor identity, private values, or private source documents.
 
@@ -119,6 +124,8 @@ Distinguish comp types:
 - Excluded, stale, or disputed comps.
 
 CRE `CompMapView` is stubbed; do not ship fake geo precision. Label mock maps clearly.
+
+Clean-master map references are stronger around `MapClient`, `SelectedObjectDrawer`, `MapFocusModeShell`, and eligibility-gated action baskets. Treat duplicate heatmap widgets as reference only; do not pick a duplicated component as canonical.
 
 ## Report And Marketing UX (Content Engine)
 

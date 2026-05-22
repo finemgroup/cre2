@@ -4,6 +4,8 @@ Finem Fabricator can inspire Sophex workflows and agents, but agents do not own 
 
 **Source:** [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) (provisional — clean Fabricator rerun pending).
 
+**CRE reference:** [CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) confirms review display, document evidence, receipt, and BOV/report gate patterns from clean `master`.
+
 ## Ingestion Classifier
 
 | Field | Detail |
@@ -95,3 +97,5 @@ Finem Fabricator can inspire Sophex workflows and agents, but agents do not own 
 ## Fabricator Rule (All Agents)
 
 Job/workflow/agent completion is a **status projection**, not evidence promotion or canonical marketplace truth. HITL review and permission filters remain mandatory after any completion event.
+
+CRE clean-master review display tables reinforce the same rule: display substrates and receipt rows do not grant execution authority or public publication rights.

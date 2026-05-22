@@ -1,5 +1,7 @@
 # CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL
 
+> **Superseded by [CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md).** This file remains an archive of the stale/dirty CRE checkout harvest only. Do not use it as current CRE doctrine.
+
 > **This packet is provisional.** It was generated from `C:\Projects\cre-platform-erofs-master-landing` while that checkout was on branch `agent/03-operating-lens-navigation`, dirty, 758 commits behind `origin/master`, and not suitable as CRE control-panel truth. Use for directional doctrine only until rerun from clean CRE `master`.
 >
 > An authoritative harvest (`CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE`) was **not executed** — preconditions failed (`STOP_FOR_CONTROL_PANEL_STATE` on 2026-05-22).

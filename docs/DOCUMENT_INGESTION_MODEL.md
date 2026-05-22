@@ -3,10 +3,13 @@
 This document describes intended ingestion behavior only. No implementation is authorized in this setup phase.
 
 **Fabricator reference:** [FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) — provisional.
+**CRE reference:** [CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](CRE_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) — clean-master source archive.
 
 ## Evidence-First Ingestion
 
 Ingestion creates **document evidence identity and policy metadata** before extraction drives product behavior. Upload bytes are stored; business records track evidence identity, source-use policy, visibility, and review eligibility. Extraction produces **candidates only** — never automatic public promotion.
+
+Authoritative CRE clean-master patterns reinforce a two-layer model: file byte identity (`file_ref` style pointer) plus `DocumentEvidence` style policy/review registry. Hashes, source family, observed/uploaded/extracted timestamps, idempotency keys, correlation IDs, and receipt references belong to the evidence lifecycle, not to public field truth directly.
 
 ## Source Classification
 
@@ -52,6 +55,7 @@ Extraction must **not** proceed when:
 - Extracted values become `ExtractionCandidate` records, not observations promoted to public baseline.
 - Chunks and embeddings are retrieval sidecars — never canonical truth.
 - Public promotion requires HITL review, source-use eligibility, and permission filters.
+- Staged import review, source citation lists, and generated-document authority panels are reference UX: they display candidates and publication holds without granting execution authority.
 
 ## Source Types
 
@@ -86,7 +90,7 @@ Possible review states include unreviewed, needs evidence, conflicting, accepted
 
 ## Sister-Project References
 
-- CRE uploader and document-viewer patterns inform intake UX — doctrine only.
+- CRE pilot document intake, staged import review, source citation lists, generated-document authority panels, and `DoclingChunk` sidecar doctrine inform intake UX — doctrine only.
 - Content Engine gated-export concepts inform terms copy, not ingestion runtime.
 - Fabricator ingestion classifier and evidence envelope: `docs/AGENT_WORKFLOW_CONCEPTS.md`.
 

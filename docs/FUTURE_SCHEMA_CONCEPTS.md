@@ -21,6 +21,7 @@ Before schema or runtime work, Sophex needs:
 - Property: public or private property subject.
 - Public baseline fact: public-record/GIS/title/demographic value.
 - Source document: durable evidence identity and metadata; blob storage owns bytes.
+- Document evidence registry: policy/review/source-family layer over file identity with hashes, timestamps, receipt refs, idempotency, correlation, supersession, freshness, and HITL state.
 - Source extract: derived text/table/value span from a source document.
 - Chunk/embedding: retrieval sidecar derived from a document or extract, never business truth.
 - Observation: sourced claim about a property field.
@@ -30,6 +31,7 @@ Before schema or runtime work, Sophex needs:
 - Resolved comp set: permission-filtered comp set used for a report or valuation.
 - Review state: unreviewed, needs evidence, conflicting, accepted public, accepted private, rejected, revoked, superseded, or blocked.
 - Operational receipt: audit/correlation reference for upload, extraction, review, report generation, export, or publication.
+- Policy decision receipt: source/policy outcome record that may block or permit a future operational action.
 - Report artifact: valuation/reporting output with evidence appendix and export/share policy.
 - Contribution exchange terms: visibility, aggregation, and model-training consent bound to free/paid tiers.
 - Lead capture intent (future-gated): consent-scoped capture record without send automation.
@@ -51,6 +53,7 @@ These are conceptual contract names for future discussion. They do not authorize
 ## Invariants
 
 - Documents are evidence; chunks and embeddings are retrieval sidecars.
+- Document evidence registry is separate from source document bytes and from public field truth.
 - Observations do not overwrite truth by default.
 - Resolved values are actor-specific and permission-filtered.
 - Public baseline values may remain visible even when private observations differ.
@@ -59,6 +62,7 @@ These are conceptual contract names for future discussion. They do not authorize
 - Private uploads must not leak through search, report generation, export, or aggregate views.
 - Audit and activity records should not be collapsed into narrative comments or evidence records.
 - Queue or job completion does not promote candidates to observations (Fabricator boundary).
+- Receipt/display-table existence does not grant execution authority.
 - JobStatusProjection is user-safe; internal run logs are operator-only.
 
 ## Future Contract Ideas
@@ -68,6 +72,7 @@ These are conceptual contract names for future discussion. They do not authorize
 - `ResolvedFieldValue` contract for actor-specific field resolution.
 - `CompCandidate` and `ResolvedCompSet` contracts for reviewed and permissioned valuation inputs.
 - `OperationalReceipt` contract for idempotency, correlation, replay safety, and audit references.
+- `AuditReceipt` / policy receipt contract for redacted evidence refs, safe next action, and execution-authority separation.
 - `ContributionExchange` contract for free-for-contribution terms and visibility grants.
 - `LeadCaptureIntent` contract for consent-bound capture without authorizing send automation.
 - `PublicMarketPageProjection` contract for indexable public baseline pages.

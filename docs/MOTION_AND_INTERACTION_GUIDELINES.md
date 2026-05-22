@@ -2,7 +2,7 @@
 
 Sophex motion should feel restrained, legible, and confidence-building. This is a CRE evidence and valuation product, not an AI toy.
 
-Primary reference: CRE `apps/core/lib/motion-tokens.ts` (doctrine only — do not copy runtime dependency graph into Sophex setup).
+Primary reference: CRE clean-master `apps/core/lib/motion-tokens.ts`, `apps/core/lib/motion/workflow-motion.ts`, and `apps/core/components/os/OSMotion.tsx` (doctrine only — do not copy runtime dependency graph into Sophex setup).
 
 ## Motion Tiers
 
@@ -21,6 +21,8 @@ Primary reference: CRE `apps/core/lib/motion-tokens.ts` (doctrine only — do no
 - **listStagger** — 0.03–0.04s stagger for evidence citation lists only.
 
 Always honor **reduced motion**: collapse animations to instant or near-instant opacity when user prefers reduced motion (`getMotionProps` / `useReducedMotionPreference` pattern).
+
+CRE `OSMotion` also confirms that drawers/sheets should restore focus, trap focus while open, support Escape, and use `aria-modal` for modal surfaces.
 
 ## Appropriate Motion
 
@@ -49,6 +51,8 @@ Use real workflow labels where possible:
 Use layout-matched skeletons (property page, table, report sections) instead of generic spinners alone.
 
 Do not expose internal queue names, provider details, raw receipts, or execution controls to public users.
+
+Authoritative CRE references include route-level property skeletons, HITL queue skeleton rows, BOV wizard progress, BOV mission-control gate counts, generated-document version timelines, and publication hold `role="alert"` banners.
 
 ## Report Generation Progress
 
