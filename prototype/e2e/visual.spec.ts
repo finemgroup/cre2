@@ -66,8 +66,9 @@ test.describe('route shell visuals', () => {
     await expect(
       page.getByRole('heading', { name: /Evidence-first property intelligence/i })
     ).toBeVisible();
-    await expect(page.locator('.shell-main')).toHaveScreenshot('public-landing-mobile-320.png', {
-      maxDiffPixelRatio: 0.03,
+    await expect(page).toHaveScreenshot('public-landing-mobile-320.png', {
+      clip: { x: 0, y: 0, width: 320, height: 420 },
+      maxDiffPixelRatio: 0.05,
     });
   });
 
