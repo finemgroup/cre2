@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Broker OS Control Panel</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#004ac6",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-tint": "#0053db",
+                        "primary-fixed": "#dbe1ff",
+                        "on-error": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-tertiary-container": "#ffede6",
+                        "secondary": "#565e74",
+                        "on-secondary-fixed": "#131b2e",
+                        "surface-container": "#eceef0",
+                        "secondary-container": "#dae2fd",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#e6e8ea",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "on-surface": "#191c1e",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#943700",
+                        "on-secondary-container": "#5c647a",
+                        "on-primary-fixed": "#00174b",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "outline": "#737686",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-background": "#191c1e",
+                        "inverse-primary": "#b4c5ff",
+                        "outline-variant": "#c3c6d7",
+                        "surface-bright": "#f7f9fb",
+                        "secondary-fixed": "#dae2fd",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-dim": "#d8dadc",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-container": "#eeefff",
+                        "tertiary-container": "#bc4800",
+                        "tertiary-fixed": "#ffdbcd",
+                        "primary-container": "#2563eb",
+                        "on-surface-variant": "#434655"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "standard-padding": "16px",
+                        "unit": "4px",
+                        "container-max-width": "1440px",
+                        "gutter": "16px",
+                        "compact-padding": "8px",
+                        "section-gap": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "data-mono": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "500" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .json-key { color: #004ac6; }
+        .json-string { color: #166534; }
+        .json-number { color: #93000a; }
+        .json-boolean { color: #943700; }
+        .ambient-shadow { box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.04), 0 2px 4px -2px rgba(15, 23, 42, 0.04); }
+        .sharp-border { border: 1px solid #E2E8F0; }
+        
+        /* Custom scrollbar for JSON areas */
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f7f9fb; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #c3c6d7; border-radius: 3px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #737686; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="hidden md:flex flex-col bg-[#0F172A] fixed left-0 top-0 h-full w-64 z-50 overflow-y-auto">
+<div class="px-margin py-6 border-b border-[#1E293B]">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">precision_manufacturing</span>
+</div>
+<div class="text-headline-sm font-headline-sm font-bold text-white">Finem Studio</div>
+</div>
+<div class="text-label-sm font-label-sm text-secondary-fixed-dim mt-1 uppercase tracking-wider">Enterprise Plan</div>
+</div>
+<div class="flex-1 py-4">
+<div class="px-4 mb-2 text-label-sm font-label-sm text-secondary-fixed-dim uppercase tracking-wider">Broker OS</div>
+<a class="flex items-center gap-3 px-4 py-3 text-white bg-primary/10 border-l-4 border-primary hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-primary-fixed">dashboard</span>
+<span class="text-label-md font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white border-l-4 border-transparent hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">add_box</span>
+<span class="text-label-md font-label-md">Deal Intake</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white border-l-4 border-transparent hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">business_center</span>
+<span class="text-label-md font-label-md">Deals</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white border-l-4 border-transparent hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-label-md font-label-md">Comps</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white border-l-4 border-transparent hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">calculate</span>
+<span class="text-label-md font-label-md">Underwriting</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white border-l-4 border-transparent hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">assessment</span>
+<span class="text-label-md font-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white border-l-4 border-transparent hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+</div>
+<div class="py-4 border-t border-[#1E293B]">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">contact_support</span>
+<span class="text-label-md font-label-md">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-label-md font-label-md">Sign Out</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 flex flex-col min-h-screen max-w-container-max-width">
+<!-- TopAppBar (Mobile Navigation & Global Actions) -->
+<header class="sticky top-0 z-40 flex justify-between items-center w-full px-margin h-16 bg-surface border-b border-outline-variant flat no shadows md:hidden">
+<div class="flex items-center gap-3">
+<button class="text-on-surface p-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="text-headline-md font-headline-md font-bold text-primary">Finem CRE Studio</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-on-surface-variant p-2 rounded-full hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<img alt="User profile" class="w-8 h-8 rounded-full ml-2" data-alt="A professional headshot of a person looking directly at the camera. The individual has short dark hair and is wearing a light blue button-down shirt. The background is a soft, blurred out-of-focus setting, suggesting a bright office environment. The lighting is natural and flattering." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAL4gABNeTELxmUlyLJSk1TISfoTULNTqJMTsava9RCLMiszWkbaHOcPZBiZBnfkbqWowxp8bAqRXqkosLpOUCF6VAS4LQnNE7kAOiabiGzSh9BySnCgilJJ_dH48SCBumKXgbKLiWekbNV3vZGJY6xGVeaz-FPrlaorAJKq-WGep_L1edgjqVSBNg1U5Wig9wxJ3-Vw5-rfPRrhptunl5FgHBjXsBuCsP1HZsgqi8gz7LwuXLsVMR7ZHUr-_Wz8hyd7BAsao-VNaE"/>
+</div>
+</header>
+<!-- Page Header -->
+<div class="px-margin py-8 border-b border-outline-variant bg-surface-container-lowest">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h1 class="text-display-lg font-display-lg text-on-surface">Broker OS Control Panel</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant mt-2 max-w-2xl">Read-only monitoring interface for system health, agent inventory, and operational context.</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-label-sm font-label-sm font-medium bg-[#DCFCE7] text-[#166534]">
+<span class="w-2 h-2 mr-1.5 bg-[#166534] rounded-full animate-pulse"></span>
+                        System Operational
+                    </span>
+<span class="text-label-sm font-label-sm text-on-surface-variant font-data-mono">Uptime: 99.9%</span>
+</div>
+</div>
+</div>
+<!-- Content Canvas -->
+<div class="flex-1 p-margin space-y-section-gap bg-surface">
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- System Readiness Summary (Left Col, Span 8) -->
+<section class="lg:col-span-8 bg-surface-container-lowest rounded-xl sharp-border ambient-shadow overflow-hidden flex flex-col">
+<div class="px-standard-padding py-3 border-b border-outline-variant bg-surface flex justify-between items-center">
+<h2 class="text-headline-sm font-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">monitor_heart</span>
+                            Readiness Summary
+                        </h2>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Last ping: 2s ago</span>
+</div>
+<div class="p-standard-padding grid grid-cols-2 md:grid-cols-4 gap-4">
+<!-- Metric Card 1 -->
+<div class="p-compact-padding border border-outline-variant rounded-lg bg-surface-bright flex flex-col">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase mb-1">API Gateway</span>
+<div class="flex items-end justify-between mt-auto">
+<span class="text-headline-md font-headline-md font-data-mono text-on-surface">42ms</span>
+<span class="material-symbols-outlined text-[#166534] text-sm">check_circle</span>
+</div>
+</div>
+<!-- Metric Card 2 -->
+<div class="p-compact-padding border border-outline-variant rounded-lg bg-surface-bright flex flex-col">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase mb-1">Agent Nodes</span>
+<div class="flex items-end justify-between mt-auto">
+<span class="text-headline-md font-headline-md font-data-mono text-on-surface">12/12</span>
+<span class="material-symbols-outlined text-[#166534] text-sm">check_circle</span>
+</div>
+</div>
+<!-- Metric Card 3 -->
+<div class="p-compact-padding border border-outline-variant rounded-lg bg-surface-bright flex flex-col">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase mb-1">DB Pool</span>
+<div class="flex items-end justify-between mt-auto">
+<span class="text-headline-md font-headline-md font-data-mono text-on-surface">45%</span>
+<span class="material-symbols-outlined text-primary text-sm">water_drop</span>
+</div>
+</div>
+<!-- Metric Card 4 -->
+<div class="p-compact-padding border border-outline-variant rounded-lg bg-surface-bright flex flex-col">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase mb-1">Error Rate</span>
+<div class="flex items-end justify-between mt-auto">
+<span class="text-headline-md font-headline-md font-data-mono text-on-surface">0.01%</span>
+<span class="material-symbols-outlined text-[#166534] text-sm">trending_down</span>
+</div>
+</div>
+</div>
+<!-- Skills/Jobs GET Summaries (Nested Table) -->
+<div class="border-t border-outline-variant mt-auto">
+<div class="px-standard-padding py-2 bg-surface-container-low border-b border-outline-variant">
+<h3 class="text-label-sm font-label-sm uppercase text-on-surface-variant tracking-wider">Active Job Streams (GET /api/v1/jobs)</h3>
+</div>
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-[#F8FAFC] border-b border-outline-variant">
+<th class="py-2 px-4 text-label-sm font-label-sm text-secondary uppercase font-semibold">Job ID</th>
+<th class="py-2 px-4 text-label-sm font-label-sm text-secondary uppercase font-semibold">Type</th>
+<th class="py-2 px-4 text-label-sm font-label-sm text-secondary uppercase font-semibold">Status</th>
+<th class="py-2 px-4 text-label-sm font-label-sm text-secondary uppercase font-semibold">Duration</th>
+</tr>
+</thead>
+<tbody class="font-data-mono text-body-md text-on-surface">
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="py-2 px-4 text-primary">REQ-8902</td>
+<td class="py-2 px-4">Market_Scrape</td>
+<td class="py-2 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm bg-[#DBEAFE] text-[#1E3A8A]">Running</span>
+</td>
+<td class="py-2 px-4 text-on-surface-variant">45s</td>
+</tr>
+<tr class="border-b border-outline-variant hover:bg-surface-container-lowest transition-colors">
+<td class="py-2 px-4 text-primary">REQ-8901</td>
+<td class="py-2 px-4">Underwrite_Model</td>
+<td class="py-2 px-4">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm bg-[#DCFCE7] text-[#166534]">Complete</span>
+</td>
+<td class="py-2 px-4 text-on-surface-variant">1m 12s</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Agent/Tool Inventory (Right Col, Span 4) -->
+<section class="lg:col-span-4 bg-surface-container-lowest rounded-xl sharp-border ambient-shadow overflow-hidden flex flex-col h-[500px]">
+<div class="px-standard-padding py-3 border-b border-outline-variant bg-surface flex justify-between items-center">
+<h2 class="text-headline-sm font-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">smart_toy</span>
+                            Agent Inventory
+                        </h2>
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm bg-surface-container-high text-on-surface">RO</span>
+</div>
+<div class="overflow-y-auto custom-scrollbar flex-1 p-standard-padding space-y-3">
+<!-- Agent Item -->
+<div class="p-3 border border-outline-variant rounded-lg hover:border-primary/50 transition-colors bg-surface-bright">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">find_in_page</span>
+<span class="text-label-md font-label-md text-on-surface">Data_Extractor_v2</span>
+</div>
+<span class="w-2 h-2 bg-[#166534] rounded-full mt-1"></span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant line-clamp-2">Parses OM PDFs and extracts key financial metrics into structured JSON.</p>
+<div class="mt-2 flex gap-2">
+<span class="text-[10px] uppercase font-semibold bg-surface-container-low text-secondary px-1.5 py-0.5 rounded">PDF</span>
+<span class="text-[10px] uppercase font-semibold bg-surface-container-low text-secondary px-1.5 py-0.5 rounded">NLP</span>
+</div>
+</div>
+<!-- Agent Item -->
+<div class="p-3 border border-outline-variant rounded-lg hover:border-primary/50 transition-colors bg-surface-bright">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">query_stats</span>
+<span class="text-label-md font-label-md text-on-surface">Comp_Matcher_AI</span>
+</div>
+<span class="w-2 h-2 bg-[#166534] rounded-full mt-1"></span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant line-clamp-2">Queries CoStar/RCA API for comparable sales based on asset profile.</p>
+<div class="mt-2 flex gap-2">
+<span class="text-[10px] uppercase font-semibold bg-surface-container-low text-secondary px-1.5 py-0.5 rounded">API</span>
+<span class="text-[10px] uppercase font-semibold bg-surface-container-low text-secondary px-1.5 py-0.5 rounded">Search</span>
+</div>
+</div>
+<!-- Agent Item -->
+<div class="p-3 border border-outline-variant rounded-lg hover:border-primary/50 transition-colors bg-surface-bright">
+<div class="flex justify-between items-start mb-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">edit_document</span>
+<span class="text-label-md font-label-md text-on-surface">IC_Memo_Generator</span>
+</div>
+<span class="w-2 h-2 bg-[#F59E0B] rounded-full mt-1"></span>
+</div>
+<p class="text-label-sm font-label-sm text-on-surface-variant line-clamp-2">Drafts initial Investment Committee memos from structured deal data.</p>
+<div class="mt-2 flex gap-2">
+<span class="text-[10px] uppercase font-semibold bg-surface-container-low text-secondary px-1.5 py-0.5 rounded">GenAI</span>
+<span class="text-[10px] uppercase font-semibold bg-[#FEF3C7] text-[#92400E] px-1.5 py-0.5 rounded">Standby</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Planning Context Builder (Full Width Bottom) -->
+<section class="lg:col-span-12 bg-[#1E293B] rounded-xl sharp-border ambient-shadow overflow-hidden flex flex-col mt-4">
+<div class="px-standard-padding py-3 border-b border-[#334155] bg-[#0F172A] flex justify-between items-center">
+<h2 class="text-headline-sm font-headline-sm text-white flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed text-[20px]">data_object</span>
+                            Planning Context Builder
+                        </h2>
+<div class="flex gap-2">
+<span class="inline-flex items-center px-2 py-0.5 rounded text-label-sm bg-[#334155] text-secondary-fixed-dim">Mission Brief Preview</span>
+</div>
+</div>
+<div class="p-standard-padding overflow-x-auto custom-scrollbar font-data-mono text-body-md text-[#E2E8F0] whitespace-pre relative group">
+<button class="absolute top-2 right-2 p-1.5 rounded bg-[#334155] text-white opacity-0 group-hover:opacity-100 transition-opacity" title="Copy to clipboard">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+<code>{
+  <span class="json-key">"mission_id"</span>: <span class="json-string">"mb_2024_08_x9A"</span>,
+  <span class="json-key">"asset_class"</span>: <span class="json-string">"Multifamily"</span>,
+  <span class="json-key">"target_markets"</span>: [
+    <span class="json-string">"Austin, TX"</span>,
+    <span class="json-string">"Nashville, TN"</span>
+  ],
+  <span class="json-key">"parameters"</span>: {
+    <span class="json-key">"min_units"</span>: <span class="json-number">150</span>,
+    <span class="json-key">"max_vintage"</span>: <span class="json-number">2010</span>,
+    <span class="json-key">"value_add_req"</span>: <span class="json-boolean">true</span>
+  },
+  <span class="json-key">"assigned_agents"</span>: [
+    <span class="json-string">"Comp_Matcher_AI"</span>,
+    <span class="json-string">"Underwrite_Model"</span>
+  ],
+  <span class="json-key">"execution_status"</span>: <span class="json-string">"PENDING_REVIEW"</span>
+}</code>
+</div>
+</section>
+</div>
+</div>
+</main>
+</body></html>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finem CRE Studio - Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#004ac6",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-tint": "#0053db",
+                        "primary-fixed": "#dbe1ff",
+                        "on-error": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-tertiary-container": "#ffede6",
+                        "secondary": "#565e74",
+                        "on-secondary-fixed": "#131b2e",
+                        "surface-container": "#eceef0",
+                        "secondary-container": "#dae2fd",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#e6e8ea",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "on-surface": "#191c1e",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#943700",
+                        "on-secondary-container": "#5c647a",
+                        "on-primary-fixed": "#00174b",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "outline": "#737686",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-background": "#191c1e",
+                        "inverse-primary": "#b4c5ff",
+                        "outline-variant": "#c3c6d7",
+                        "surface-bright": "#f7f9fb",
+                        "secondary-fixed": "#dae2fd",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-dim": "#d8dadc",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-container": "#eeefff",
+                        "tertiary-container": "#bc4800",
+                        "tertiary-fixed": "#ffdbcd",
+                        "primary-container": "#2563eb",
+                        "on-surface-variant": "#434655"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "standard-padding": "16px",
+                        "unit": "4px",
+                        "container-max-width": "1440px",
+                        "gutter": "16px",
+                        "compact-padding": "8px",
+                        "section-gap": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "data-mono": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "500"}],
+                        "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Custom radio button styles to match design system */
+        input[type="radio"]:checked + div {
+            border-color: theme('colors.primary');
+            background-color: theme('colors.surface-container-lowest');
+        }
+        input[type="radio"]:checked + div .radio-indicator {
+            border-color: theme('colors.primary');
+            background-color: theme('colors.primary');
+        }
+        
+        .chip-checkbox:checked + label {
+            background-color: theme('colors.primary-fixed');
+            color: theme('colors.on-primary-fixed');
+            border-color: theme('colors.primary');
+        }
+    </style>
+</head>
+<body class="bg-surface-container font-body-md text-on-surface antialiased min-h-screen flex items-center justify-center p-standard-padding">
+<!-- Modal Container -->
+<main class="w-full max-w-2xl bg-surface-container-lowest rounded-xl border border-outline-variant p-section-gap flex flex-col shadow-[0_4px_24px_-8px_rgba(15,23,42,0.08)] relative overflow-hidden">
+<!-- Header -->
+<header class="flex flex-col items-center mb-8 relative z-10">
+<h1 class="text-headline-sm font-headline-sm text-on-surface tracking-tight mb-8">Finem CRE Studio</h1>
+<!-- Stepper -->
+<div class="w-full max-w-md mx-auto relative">
+<div class="absolute top-1/2 left-0 w-full h-[1px] bg-surface-variant -translate-y-1/2 z-0"></div>
+<div class="absolute top-1/2 left-0 w-0 h-[2px] bg-primary -translate-y-1/2 z-0 transition-all duration-300" id="progress-bar"></div>
+<div class="flex justify-between items-center relative z-10">
+<!-- Step 1 Indicator -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-primary text-on-primary flex items-center justify-center text-label-sm font-label-sm border-2 border-surface-container-lowest transition-colors" id="ind-1">1</div>
+</div>
+<!-- Step 2 Indicator -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center text-label-sm font-label-sm border-2 border-surface-container-lowest transition-colors" id="ind-2">2</div>
+</div>
+<!-- Step 3 Indicator -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center text-label-sm font-label-sm border-2 border-surface-container-lowest transition-colors" id="ind-3">3</div>
+</div>
+<!-- Step 4 Indicator -->
+<div class="flex flex-col items-center gap-2">
+<div class="w-8 h-8 rounded-full bg-surface-variant text-on-surface-variant flex items-center justify-center text-label-sm font-label-sm border-2 border-surface-container-lowest transition-colors" id="ind-4">4</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Views -->
+<div class="relative min-h-[320px]">
+<!-- Step 1: Plan Selection -->
+<section class="absolute inset-0 w-full transition-opacity duration-300 opacity-100 z-10 flex flex-col" id="step-1">
+<div class="text-center mb-6">
+<h2 class="text-headline-md font-headline-md text-on-surface mb-2">Select your tier</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Choose the analytical power that matches your firm's volume.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-margin">
+<!-- Plan Card: Standard -->
+<label class="cursor-pointer relative">
+<input checked="" class="peer sr-only" name="plan" type="radio" value="standard"/>
+<div class="h-full border border-outline-variant rounded-lg p-margin transition-all hover:border-primary peer-checked:border-primary peer-checked:bg-primary-fixed/20 flex flex-col">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Boutique</h3>
+<div class="mt-1 flex items-baseline gap-1">
+<span class="text-headline-md font-headline-md text-on-surface">$149</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">/mo</span>
+</div>
+</div>
+<div class="w-4 h-4 rounded-full border border-outline-variant flex-shrink-0 radio-indicator mt-1"></div>
+</div>
+<ul class="flex flex-col gap-3 text-body-md font-body-md text-on-surface-variant mt-auto pt-4 border-t border-surface-variant">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary">check</span> Up to 5 Active Deals</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary">check</span> Standard Comp Database</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary">check</span> PDF Export</li>
+</ul>
+</div>
+</label>
+<!-- Plan Card: Institutional -->
+<label class="cursor-pointer relative">
+<input class="peer sr-only" name="plan" type="radio" value="institutional"/>
+<div class="h-full border border-outline-variant rounded-lg p-margin transition-all hover:border-primary peer-checked:border-primary peer-checked:bg-primary-fixed/20 flex flex-col relative overflow-hidden">
+<div class="absolute top-0 right-0 bg-primary text-on-primary text-label-sm font-label-sm px-3 py-1 rounded-bl-lg">Popular</div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Institutional</h3>
+<div class="mt-1 flex items-baseline gap-1">
+<span class="text-headline-md font-headline-md text-on-surface">$499</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">/mo</span>
+</div>
+</div>
+<div class="w-4 h-4 rounded-full border border-outline-variant flex-shrink-0 radio-indicator mt-1"></div>
+</div>
+<ul class="flex flex-col gap-3 text-body-md font-body-md text-on-surface-variant mt-auto pt-4 border-t border-surface-variant">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary">check</span> Unlimited Deals</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary">check</span> Advanced Argus Integration</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-primary">check</span> Custom API Access</li>
+</ul>
+</div>
+</label>
+</div>
+</section>
+<!-- Step 2: Account Creation -->
+<section class="absolute inset-0 w-full transition-opacity duration-300 opacity-0 pointer-events-none z-0 flex flex-col" id="step-2">
+<div class="text-center mb-6">
+<h2 class="text-headline-md font-headline-md text-on-surface mb-2">Create your credentials</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Secure access to your investment workspace.</p>
+</div>
+<div class="flex flex-col gap-4 max-w-md mx-auto w-full">
+<div class="flex flex-col gap-1.5">
+<label class="text-label-md font-label-md text-on-surface" for="fullName">Full Name</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-[4px] px-3 py-2 text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-shadow" id="fullName" placeholder="Jane Doe" type="text"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-label-md font-label-md text-on-surface" for="workEmail">Work Email</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-[4px] px-3 py-2 text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-shadow" id="workEmail" placeholder="jane@capitalfirm.com" type="email"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-label-md font-label-md text-on-surface" for="password">Password</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-[4px] px-3 py-2 text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-shadow" id="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+</section>
+<!-- Step 3: Workspace Setup -->
+<section class="absolute inset-0 w-full transition-opacity duration-300 opacity-0 pointer-events-none z-0 flex flex-col" id="step-3">
+<div class="text-center mb-6">
+<h2 class="text-headline-md font-headline-md text-on-surface mb-2">Configure workspace</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Help us tailor the underwriting models to your focus.</p>
+</div>
+<div class="flex flex-col gap-6 max-w-md mx-auto w-full">
+<div class="flex flex-col gap-1.5">
+<label class="text-label-md font-label-md text-on-surface" for="companyName">Entity / Company Name</label>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-[4px] px-3 py-2 text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-shadow" id="companyName" placeholder="e.g. Apex Equities" type="text"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-label-md font-label-md text-on-surface" for="role">Primary Role</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-lowest border border-outline-variant rounded-[4px] px-3 py-2 text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-shadow" id="role">
+<option disabled="" selected="" value="">Select a role...</option>
+<option value="analyst">Financial Analyst</option>
+<option value="broker">Investment Sales Broker</option>
+<option value="principal">Principal / GP</option>
+<option value="lender">Lender / Underwriter</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-[20px]">expand_more</span>
+</div>
+</div>
+<div class="flex flex-col gap-2">
+<label class="text-label-md font-label-md text-on-surface">Primary Asset Classes</label>
+<div class="flex flex-wrap gap-2">
+<div>
+<input class="chip-checkbox sr-only" id="ac-multi" type="checkbox"/>
+<label class="inline-flex items-center justify-center px-4 py-1.5 rounded-full border border-outline-variant text-label-md font-label-md text-on-surface-variant cursor-pointer transition-colors hover:bg-surface-container" for="ac-multi">Multifamily</label>
+</div>
+<div>
+<input class="chip-checkbox sr-only" id="ac-office" type="checkbox"/>
+<label class="inline-flex items-center justify-center px-4 py-1.5 rounded-full border border-outline-variant text-label-md font-label-md text-on-surface-variant cursor-pointer transition-colors hover:bg-surface-container" for="ac-office">Office</label>
+</div>
+<div>
+<input class="chip-checkbox sr-only" id="ac-retail" type="checkbox"/>
+<label class="inline-flex items-center justify-center px-4 py-1.5 rounded-full border border-outline-variant text-label-md font-label-md text-on-surface-variant cursor-pointer transition-colors hover:bg-surface-container" for="ac-retail">Retail</label>
+</div>
+<div>
+<input class="chip-checkbox sr-only" id="ac-industrial" type="checkbox"/>
+<label class="inline-flex items-center justify-center px-4 py-1.5 rounded-full border border-outline-variant text-label-md font-label-md text-on-surface-variant cursor-pointer transition-colors hover:bg-surface-container" for="ac-industrial">Industrial</label>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Step 4: Initial Workflow -->
+<section class="absolute inset-0 w-full transition-opacity duration-300 opacity-0 pointer-events-none z-0 flex flex-col" id="step-4">
+<div class="text-center mb-6">
+<h2 class="text-headline-md font-headline-md text-on-surface mb-2">Start your first deal</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">How would you like to initialize your first underwriting model?</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-full max-w-3xl mx-auto w-full">
+<!-- Workflow 1 -->
+<button class="flex flex-col items-center justify-center gap-4 p-margin border border-outline-variant rounded-lg hover:border-primary hover:bg-surface-container transition-all group h-full">
+<div class="w-12 h-12 rounded-full bg-surface-container border border-outline-variant flex items-center justify-center group-hover:bg-primary-fixed group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[24px] text-on-surface group-hover:text-primary">add</span>
+</div>
+<div class="text-center">
+<span class="block text-headline-sm font-headline-sm text-on-surface mb-1">Start Blank</span>
+<span class="block text-label-sm font-label-sm text-on-surface-variant">Build from scratch</span>
+</div>
+</button>
+<!-- Workflow 2 -->
+<button class="flex flex-col items-center justify-center gap-4 p-margin border border-outline-variant rounded-lg hover:border-primary hover:bg-surface-container transition-all group h-full">
+<div class="w-12 h-12 rounded-full bg-surface-container border border-outline-variant flex items-center justify-center group-hover:bg-primary-fixed group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[24px] text-on-surface group-hover:text-primary">upload_file</span>
+</div>
+<div class="text-center">
+<span class="block text-headline-sm font-headline-sm text-on-surface mb-1">Upload OM</span>
+<span class="block text-label-sm font-label-sm text-on-surface-variant">Auto-extract data</span>
+</div>
+</button>
+<!-- Workflow 3 -->
+<button class="flex flex-col items-center justify-center gap-4 p-margin border border-outline-variant rounded-lg hover:border-primary hover:bg-surface-container transition-all group h-full">
+<div class="w-12 h-12 rounded-full bg-surface-container border border-outline-variant flex items-center justify-center group-hover:bg-primary-fixed group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-[24px] text-on-surface group-hover:text-primary">topic</span>
+</div>
+<div class="text-center">
+<span class="block text-headline-sm font-headline-sm text-on-surface mb-1">Sample Deal</span>
+<span class="block text-label-sm font-label-sm text-on-surface-variant">Explore platform</span>
+</div>
+</button>
+</div>
+</section>
+</div>
+<!-- Footer / Navigation Controls -->
+<footer class="mt-8 pt-4 border-t border-outline-variant flex justify-between items-center relative z-10 bg-surface-container-lowest">
+<button class="px-4 py-2 text-label-md font-label-md text-on-surface-variant hover:text-on-surface transition-colors invisible" id="btn-back">Back</button>
+<button class="px-6 py-2 bg-primary text-on-primary rounded-[6px] text-label-md font-label-md hover:bg-primary-fixed-variant transition-colors shadow-sm ml-auto" id="btn-next">Continue</button>
+</footer>
+</main>
+<script>
+        // Simple state management for the multi-step form demonstration
+        let currentStep = 1;
+        const totalSteps = 4;
+
+        const btnNext = document.getElementById('btn-next');
+        const btnBack = document.getElementById('btn-back');
+        const progressBar = document.getElementById('progress-bar');
+
+        function updateUI() {
+            // Update views
+            for (let i = 1; i <= totalSteps; i++) {
+                const section = document.getElementById(`step-${i}`);
+                if (i === currentStep) {
+                    section.classList.remove('opacity-0', 'pointer-events-none', 'z-0');
+                    section.classList.add('opacity-100', 'z-10');
+                } else {
+                    section.classList.remove('opacity-100', 'z-10');
+                    section.classList.add('opacity-0', 'pointer-events-none', 'z-0');
+                }
+            }
+
+            // Update progress bar
+            const progressPercentage = ((currentStep - 1) / (totalSteps - 1)) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+
+            // Update indicators
+            for (let i = 1; i <= totalSteps; i++) {
+                const indicator = document.getElementById(`ind-${i}`);
+                if (i <= currentStep) {
+                    indicator.classList.remove('bg-surface-variant', 'text-on-surface-variant');
+                    indicator.classList.add('bg-primary', 'text-on-primary');
+                } else {
+                    indicator.classList.remove('bg-primary', 'text-on-primary');
+                    indicator.classList.add('bg-surface-variant', 'text-on-surface-variant');
+                }
+            }
+
+            // Update Buttons
+            if (currentStep === 1) {
+                btnBack.classList.add('invisible');
+            } else {
+                btnBack.classList.remove('invisible');
+            }
+
+            if (currentStep === totalSteps) {
+                btnNext.classList.add('hidden'); // Hide continue on last step as options are buttons
+            } else {
+                btnNext.classList.remove('hidden');
+            }
+        }
+
+        btnNext.addEventListener('click', () => {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateUI();
+            }
+        });
+
+        btnBack.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateUI();
+            }
+        });
+
+        // Initialize
+        updateUI();
+    </script>
+</body></html>

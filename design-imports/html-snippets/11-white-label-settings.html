@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>White Label Settings - Finem CRE Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#004ac6",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-tint": "#0053db",
+                        "primary-fixed": "#dbe1ff",
+                        "on-error": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-tertiary-container": "#ffede6",
+                        "secondary": "#565e74",
+                        "on-secondary-fixed": "#131b2e",
+                        "surface-container": "#eceef0",
+                        "secondary-container": "#dae2fd",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#e6e8ea",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "on-surface": "#191c1e",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#943700",
+                        "on-secondary-container": "#5c647a",
+                        "on-primary-fixed": "#00174b",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "outline": "#737686",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-background": "#191c1e",
+                        "inverse-primary": "#b4c5ff",
+                        "outline-variant": "#c3c6d7",
+                        "surface-bright": "#f7f9fb",
+                        "secondary-fixed": "#dae2fd",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-dim": "#d8dadc",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-container": "#eeefff",
+                        "tertiary-container": "#bc4800",
+                        "tertiary-fixed": "#ffdbcd",
+                        "primary-container": "#2563eb",
+                        "on-surface-variant": "#434655"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "margin": "24px",
+                        "standard-padding": "16px",
+                        "unit": "4px",
+                        "container-max-width": "1440px",
+                        "gutter": "16px",
+                        "compact-padding": "8px",
+                        "section-gap": "32px"
+                    },
+                    fontFamily: {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "data-mono": ["Inter"]
+                    },
+                    fontSize: {
+                        "body-md": ["14px", { lineHeight: "20px", fontWeight: "400" }],
+                        "label-md": ["12px", { lineHeight: "16px", letterSpacing: "0.01em", fontWeight: "600" }],
+                        "headline-md": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "body-lg": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "display-lg": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "headline-sm": ["18px", { lineHeight: "24px", fontWeight: "600" }],
+                        "label-sm": ["11px", { lineHeight: "14px", letterSpacing: "0.03em", fontWeight: "500" }],
+                        "data-mono": ["14px", { lineHeight: "20px", fontWeight: "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Custom scrollbar for institutional look */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #c3c6d7;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #737686;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md flex h-screen overflow-hidden antialiased">
+<!-- SideNavBar Component -->
+<nav class="fixed left-0 top-0 h-full w-64 flex flex-col z-50 overflow-y-auto bg-[#0F172A]">
+<!-- Header -->
+<div class="p-6 flex flex-col gap-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-white font-bold">F</div>
+<div>
+<h1 class="text-headline-sm font-headline-sm font-bold text-white">Finem Studio</h1>
+<p class="text-label-sm font-label-sm text-secondary-fixed-dim">Enterprise Plan</p>
+</div>
+</div>
+<button class="w-full bg-primary text-white py-2 px-4 rounded font-label-md text-label-md flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Deal
+            </button>
+</div>
+<!-- Main Navigation -->
+<div class="flex-1 flex flex-col py-2">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="text-label-md font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">add_box</span>
+<span class="text-label-md font-label-md">Deal Intake</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">business_center</span>
+<span class="text-label-md font-label-md">Deals</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">analytics</span>
+<span class="text-label-md font-label-md">Comps</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">calculate</span>
+<span class="text-label-md font-label-md">Underwriting</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#">
+<span class="material-symbols-outlined text-[20px]">assessment</span>
+<span class="text-label-md font-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-white bg-primary/10 border-l-4 border-primary translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+</div>
+<!-- Footer Navigation -->
+<div class="mt-auto border-t border-white/10 py-4 flex flex-col">
+<a class="flex items-center gap-3 px-4 py-2 text-secondary-fixed-dim hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">contact_support</span>
+<span class="text-label-md font-label-md">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-secondary-fixed-dim hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-[20px]">logout</span>
+<span class="text-label-md font-label-md">Sign Out</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 ml-64 flex flex-col min-w-0 bg-surface h-full">
+<!-- TopNavBar Component -->
+<header class="sticky top-0 z-40 flex justify-between items-center w-full px-margin h-16 bg-surface dark:bg-inverse-surface border-b border-outline-variant dark:border-outline">
+<!-- Left: Search/Brand (Contextual) -->
+<div class="flex items-center gap-4">
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary">Finem CRE Studio</span>
+</div>
+<!-- Center: Navigation (Hidden on specific settings page, but keeping structure per JSON) -->
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-on-surface-variant dark:text-surface-variant text-label-md font-label-md hover:text-primary transition-colors py-5 border-b-2 border-transparent" href="#">Dashboard</a>
+<a class="text-on-surface-variant dark:text-surface-variant text-label-md font-label-md hover:text-primary transition-colors py-5 border-b-2 border-transparent" href="#">Deals</a>
+<a class="text-on-surface-variant dark:text-surface-variant text-label-md font-label-md hover:text-primary transition-colors py-5 border-b-2 border-transparent" href="#">Reports</a>
+</nav>
+<!-- Right: Actions -->
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container-low text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container-low text-on-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[20px]">help</span>
+</button>
+</div>
+<button class="text-label-md font-label-md text-primary font-semibold hover:bg-surface-container-low px-3 py-1.5 rounded transition-colors">
+                    Export
+                </button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant overflow-hidden">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVWnLyGN75L83BxmTg7mT8OKzIvKHR-qaQ0xnu9oc24y77HJha-dDflrJwGWYfluf_-qUzlLLKFwvVvPVP1O5IPufEfFupvSYKYWghBC8wc3lIkFbB4vAW_LuNhAdc2Am-YaZuk8O7QpGAbOcC0AnPoM3ylNS9-_VQNGA-dyM_aMuKw0vc1FWO9ZNXXEg2jh9QIFssQWDBhavHVO1fG435N3H-pZttC65QhBRLR36gGfn4ugw-Qxe4LAIlyrfdnCxJtWZUzrnV5j0"/>
+</div>
+</div>
+</header>
+<!-- Page Content Scrollable Area -->
+<main class="flex-1 overflow-y-auto p-margin">
+<div class="max-w-container-max-width mx-auto flex gap-section-gap relative">
+<!-- Left Column: Settings Form -->
+<div class="flex-1 max-w-3xl flex flex-col gap-6 pb-20">
+<!-- Page Header -->
+<div class="flex justify-between items-end border-b border-outline-variant pb-4 mb-2">
+<div>
+<h2 class="text-display-lg font-display-lg text-on-surface">White Label Settings</h2>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">Customize the platform appearance for your clients and reports.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-outline-variant rounded bg-surface-container-lowest text-on-surface font-label-md text-label-md hover:bg-surface-container-low transition-colors">Discard</button>
+<button class="px-4 py-2 bg-primary text-white rounded font-label-md text-label-md hover:bg-primary/90 transition-colors shadow-sm">Save Changes</button>
+</div>
+</div>
+<!-- Section: Brand Basics -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-4">Brand Basics</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="flex flex-col gap-1.5">
+<label class="text-label-md font-label-md text-on-surface-variant">Company Display Name</label>
+<input class="w-full bg-surface border border-outline-variant rounded px-3 py-2 text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" type="text" value="Acme Real Estate Partners"/>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-label-md font-label-md text-on-surface-variant">Support Email</label>
+<input class="w-full bg-surface border border-outline-variant rounded px-3 py-2 text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" type="email" value="investors@acmecapital.com"/>
+</div>
+</div>
+</section>
+<!-- Section: Logo & Assets -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-4">Logo &amp; Assets</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Primary Logo -->
+<div class="flex flex-col gap-2">
+<label class="text-label-md font-label-md text-on-surface-variant">Primary Logo (Light Backgrounds)</label>
+<div class="border-2 border-dashed border-outline-variant rounded-lg p-6 flex flex-col items-center justify-center gap-3 bg-surface hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">upload_file</span>
+</div>
+<div class="text-center">
+<p class="text-label-md font-label-md text-primary">Click to upload</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-1">SVG, PNG, JPG (Max 2MB)</p>
+</div>
+</div>
+</div>
+<!-- Favicon -->
+<div class="flex flex-col gap-2">
+<label class="text-label-md font-label-md text-on-surface-variant">Favicon</label>
+<div class="border-2 border-dashed border-outline-variant rounded-lg p-6 flex flex-col items-center justify-center gap-3 bg-surface hover:bg-surface-container-low transition-colors cursor-pointer group h-full">
+<div class="w-12 h-12 rounded bg-surface-container flex items-center justify-center group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">image</span>
+</div>
+<div class="text-center">
+<p class="text-label-md font-label-md text-primary">Upload icon</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant mt-1">1:1 Ratio (PNG, ICO)</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Colors & Typography -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-4">Colors &amp; Typography</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Primary Color -->
+<div class="flex flex-col gap-1.5">
+<label class="text-label-md font-label-md text-on-surface-variant">Primary Brand Color</label>
+<div class="flex items-center gap-2 border border-outline-variant rounded p-1 bg-surface">
+<input class="w-8 h-8 rounded cursor-pointer border-0 p-0 bg-transparent" type="color" value="#0F172A"/>
+<input class="flex-1 bg-transparent border-none text-body-md font-data-mono text-on-surface focus:ring-0 px-2 outline-none uppercase" type="text" value="#0F172A"/>
+</div>
+</div>
+<!-- Accent Color -->
+<div class="flex flex-col gap-1.5">
+<label class="text-label-md font-label-md text-on-surface-variant">Accent Color</label>
+<div class="flex items-center gap-2 border border-outline-variant rounded p-1 bg-surface">
+<input class="w-8 h-8 rounded cursor-pointer border-0 p-0 bg-transparent" type="color" value="#2563EB"/>
+<input class="flex-1 bg-transparent border-none text-body-md font-data-mono text-on-surface focus:ring-0 px-2 outline-none uppercase" type="text" value="#2563EB"/>
+</div>
+</div>
+<!-- Typography -->
+<div class="flex flex-col gap-1.5">
+<label class="text-label-md font-label-md text-on-surface-variant">Heading Typeface</label>
+<select class="w-full bg-surface border border-outline-variant rounded px-3 py-2 text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all appearance-none cursor-pointer">
+<option>Inter (Default)</option>
+<option>Roboto</option>
+<option>Playfair Display</option>
+</select>
+</div>
+</div>
+</section>
+<!-- Section: Report Branding -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+<h3 class="text-headline-sm font-headline-sm text-on-surface mb-4">Report Branding</h3>
+<div class="flex flex-col gap-4">
+<div class="flex flex-col gap-1.5">
+<label class="text-label-md font-label-md text-on-surface-variant">Cover Page Disclaimer</label>
+<textarea class="w-full bg-surface border border-outline-variant rounded px-3 py-2 text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all resize-none" rows="3">Confidential and proprietary. Do not distribute without explicit permission from Acme Real Estate Partners.</textarea>
+</div>
+<div class="flex flex-col gap-1.5">
+<label class="text-label-md font-label-md text-on-surface-variant">Footer Text</label>
+<input class="w-full bg-surface border border-outline-variant rounded px-3 py-2 text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" type="text" value="© 2024 Acme Real Estate Partners LLC."/>
+</div>
+</div>
+</section>
+<!-- Section: Client Portal (Enterprise) -->
+<section class="bg-surface-container-lowest border border-outline-variant rounded-xl p-6 shadow-[0_1px_2px_rgba(15,23,42,0.04)] relative overflow-hidden">
+<div class="absolute top-0 left-0 w-1 h-full bg-tertiary"></div>
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface flex items-center gap-2">
+                                    Client Portal Access
+                                    <span class="bg-tertiary-container text-on-tertiary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider">Enterprise</span>
+</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">Host the investor portal on your own domain.</p>
+</div>
+<div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+<input checked="" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 border-surface-container-highest appearance-none cursor-pointer transition-transform duration-200 ease-in-out" id="domain-toggle" name="toggle" type="checkbox"/>
+<label class="toggle-label block overflow-hidden h-5 rounded-full bg-primary cursor-pointer" for="domain-toggle"></label>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 mt-4">
+<label class="text-label-md font-label-md text-on-surface-variant">Custom Domain</label>
+<div class="flex">
+<span class="inline-flex items-center px-3 rounded-l border border-r-0 border-outline-variant bg-surface-container-low text-on-surface-variant text-body-md font-body-md">https://</span>
+<input class="flex-1 bg-surface border border-outline-variant rounded-r px-3 py-2 text-body-md font-body-md text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all" type="text" value="investors.acmecapital.com"/>
+</div>
+<p class="text-label-sm font-label-sm text-secondary mt-1">Requires DNS CNAME configuration. <a class="text-primary hover:underline" href="#">View instructions</a>.</p>
+</div>
+</section>
+</div>
+<!-- Right Column: Live Preview Sticky -->
+<div class="hidden xl:block w-[400px] flex-shrink-0">
+<div class="sticky top-6 flex flex-col gap-4">
+<!-- Toggle Controls -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-1.5 flex gap-1 shadow-sm">
+<button class="flex-1 py-1.5 px-3 rounded text-label-md font-label-md bg-surface-container-high text-on-surface transition-colors" id="btn-preview-portal">Portal View</button>
+<button class="flex-1 py-1.5 px-3 rounded text-label-md font-label-md text-on-surface-variant hover:bg-surface-container-low transition-colors" id="btn-preview-report">Report PDF</button>
+</div>
+<!-- Preview Canvas -->
+<div class="border border-outline-variant rounded-xl bg-surface overflow-hidden shadow-[0_4px_6px_-1px_rgba(15,23,42,0.08)] flex flex-col h-[600px]">
+<!-- Browser Chrome (Portal View) -->
+<div class="bg-surface-container-highest border-b border-outline-variant px-3 py-2 flex items-center gap-2" id="preview-chrome">
+<div class="flex gap-1.5">
+<div class="w-2.5 h-2.5 rounded-full bg-outline-variant"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-outline-variant"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-outline-variant"></div>
+</div>
+<div class="mx-auto bg-surface border border-outline-variant rounded-md px-24 py-1 text-[10px] text-on-surface-variant font-data-mono flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">lock</span>
+                                    investors.acmecapital.com
+                                </div>
+</div>
+<!-- Preview Inner Content -->
+<div class="flex-1 bg-surface-container-lowest p-4 flex flex-col relative">
+<!-- Mock Portal Header -->
+<div class="flex justify-between items-center pb-4 border-b border-outline-variant mb-4">
+<div class="font-bold text-[#0F172A] text-headline-sm flex items-center gap-2">
+<div class="w-6 h-6 bg-[#2563EB] rounded-sm"></div>
+                                        Acme Partners
+                                    </div>
+<div class="w-6 h-6 rounded-full bg-surface-container-highest"></div>
+</div>
+<!-- Mock Portal Content -->
+<div class="flex flex-col gap-4">
+<div class="h-8 w-1/3 bg-surface-container-high rounded"></div>
+<div class="grid grid-cols-2 gap-3">
+<div class="h-24 bg-surface rounded border border-outline-variant"></div>
+<div class="h-24 bg-surface rounded border border-outline-variant"></div>
+</div>
+<div class="h-40 bg-surface rounded border border-outline-variant mt-2 relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-[#2563EB]"></div>
+</div>
+</div>
+<!-- Floating Watermark -->
+<div class="absolute bottom-4 right-4 text-[10px] text-secondary font-label-sm flex items-center gap-1 opacity-50">
+                                    Powered by Finem Studio
+                                </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Minimal JS for Toggle Interaction Demo -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnPortal = document.getElementById('btn-preview-portal');
+            const btnReport = document.getElementById('btn-preview-report');
+            const chrome = document.getElementById('preview-chrome');
+
+            btnPortal.addEventListener('click', () => {
+                btnPortal.classList.add('bg-surface-container-high', 'text-on-surface');
+                btnPortal.classList.remove('text-on-surface-variant', 'hover:bg-surface-container-low');
+                
+                btnReport.classList.remove('bg-surface-container-high', 'text-on-surface');
+                btnReport.classList.add('text-on-surface-variant', 'hover:bg-surface-container-low');
+
+                chrome.style.display = 'flex';
+            });
+
+            btnReport.addEventListener('click', () => {
+                btnReport.classList.add('bg-surface-container-high', 'text-on-surface');
+                btnReport.classList.remove('text-on-surface-variant', 'hover:bg-surface-container-low');
+                
+                btnPortal.classList.remove('bg-surface-container-high', 'text-on-surface');
+                btnPortal.classList.add('text-on-surface-variant', 'hover:bg-surface-container-low');
+
+                // Hide browser chrome for "Report" view
+                chrome.style.display = 'none';
+            });
+            
+            // Simple toggle styling (since tailwind forms plugin might conflict slightly with pure CSS toggles if not careful, applying inline for the visual demo)
+            const toggleCheckbox = document.getElementById('domain-toggle');
+            toggleCheckbox.addEventListener('change', function() {
+                if(this.checked) {
+                    this.nextElementSibling.classList.replace('bg-surface-variant', 'bg-primary');
+                    this.style.transform = 'translateX(100%)';
+                } else {
+                    this.nextElementSibling.classList.replace('bg-primary', 'bg-surface-variant');
+                    this.style.transform = 'translateX(0)';
+                }
+            });
+            // Init toggle state visually
+             if(toggleCheckbox.checked) {
+                 toggleCheckbox.style.transform = 'translateX(100%)';
+             }
+        });
+    </script>
+</body></html>

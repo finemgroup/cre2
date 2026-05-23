@@ -10,6 +10,8 @@ export type MotionSpec = {
 export type SophexMotionSpecName =
   | 'reveal'
   | 'stageItem'
+  | 'listStagger'
+  | 'railEnter'
   | 'collapse'
   | 'sheetBackdrop'
   | 'sheetPanel'
@@ -47,6 +49,24 @@ export const SOPHEX_MOTION_SPECS: Record<SophexMotionSpecName, MotionSpec> = {
     initial: { opacity: 0, y: 8 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: 4 },
+    transition: {
+      duration: msToSeconds(MOTION_DURATION_MS.instantFeedback),
+      ease: MOTION_EASING.standard,
+    },
+  },
+  listStagger: {
+    initial: { opacity: 0, y: 6 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 4 },
+    transition: {
+      duration: msToSeconds(MOTION_DURATION_MS.standardReveal),
+      ease: MOTION_EASING.standard,
+    },
+  },
+  railEnter: {
+    initial: { opacity: 0, x: -6 },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: -4 },
     transition: {
       duration: msToSeconds(MOTION_DURATION_MS.instantFeedback),
       ease: MOTION_EASING.standard,
@@ -118,6 +138,8 @@ export function getMotionProps(
 export const WORKFLOW_TRANSITION_PRESETS = {
   page: SOPHEX_MOTION_SPECS.reveal,
   section: SOPHEX_MOTION_SPECS.stageItem,
+  list: SOPHEX_MOTION_SPECS.listStagger,
+  rail: SOPHEX_MOTION_SPECS.railEnter,
   drawerRight: SOPHEX_MOTION_SPECS.drawerRight,
 } as const;
 

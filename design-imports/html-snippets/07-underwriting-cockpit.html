@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finem CRE Studio - Underwriting Cockpit</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#004ac6",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-tint": "#0053db",
+                        "primary-fixed": "#dbe1ff",
+                        "on-error": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-tertiary-container": "#ffede6",
+                        "secondary": "#565e74",
+                        "on-secondary-fixed": "#131b2e",
+                        "surface-container": "#eceef0",
+                        "secondary-container": "#dae2fd",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#e6e8ea",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "on-surface": "#191c1e",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#943700",
+                        "on-secondary-container": "#5c647a",
+                        "on-primary-fixed": "#00174b",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "outline": "#737686",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-background": "#191c1e",
+                        "inverse-primary": "#b4c5ff",
+                        "outline-variant": "#c3c6d7",
+                        "surface-bright": "#f7f9fb",
+                        "secondary-fixed": "#dae2fd",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-dim": "#d8dadc",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-container": "#eeefff",
+                        "tertiary-container": "#bc4800",
+                        "tertiary-fixed": "#ffdbcd",
+                        "primary-container": "#2563eb",
+                        "on-surface-variant": "#434655",
+                        "warning": "#f59e0b",
+                        "warning-container": "#fef3c7",
+                        "on-warning-container": "#92400e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "standard-padding": "16px",
+                        "unit": "4px",
+                        "container-max-width": "1440px",
+                        "gutter": "16px",
+                        "compact-padding": "8px",
+                        "section-gap": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "data-mono": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "500" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .table-sharp th, .table-sharp td {
+            border-bottom: 1px solid theme('colors.surface-variant');
+        }
+        .table-sharp th {
+            background-color: theme('colors.surface-container-low');
+        }
+        /* Custom scrollbar for data tables */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: theme('colors.surface-container-lowest');
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: theme('colors.surface-variant');
+            border-radius: theme('borderRadius.full');
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<nav class="fixed left-0 top-0 h-full w-64 flex flex-col z-50 overflow-y-auto bg-[#0F172A] text-primary-fixed docked left-0 h-full w-64 bg-[#0F172A] flat no shadows">
+<div class="p-standard-padding flex items-center gap-3 border-b border-[#1E293B]">
+<div class="w-8 h-8 rounded-DEFAULT bg-primary flex items-center justify-center text-white font-bold">F</div>
+<div>
+<h1 class="text-headline-sm font-headline-sm font-bold text-white">Finem Studio</h1>
+<p class="text-label-md font-label-md text-secondary-fixed-dim">Enterprise Plan</p>
+</div>
+</div>
+<div class="px-4 py-6">
+<button class="w-full bg-primary hover:bg-surface-tint text-white rounded-DEFAULT py-2 px-4 flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span class="text-label-md font-label-md">New Deal</span>
+</button>
+</div>
+<ul class="flex-1 flex flex-col gap-1 px-2">
+<li><a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-DEFAULT" href="#"><span class="material-symbols-outlined">dashboard</span><span class="text-label-md font-label-md">Dashboard</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-DEFAULT" href="#"><span class="material-symbols-outlined">add_box</span><span class="text-label-md font-label-md">Deal Intake</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-DEFAULT" href="#"><span class="material-symbols-outlined">business_center</span><span class="text-label-md font-label-md">Deals</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-DEFAULT" href="#"><span class="material-symbols-outlined">analytics</span><span class="text-label-md font-label-md">Comps</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-white bg-primary/10 border-l-4 border-primary translate-x-1 transition-transform rounded-r-DEFAULT" href="#"><span class="material-symbols-outlined">calculate</span><span class="text-label-md font-label-md">Underwriting</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-DEFAULT" href="#"><span class="material-symbols-outlined">assessment</span><span class="text-label-md font-label-md">Reports</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-DEFAULT" href="#"><span class="material-symbols-outlined">settings</span><span class="text-label-md font-label-md">Settings</span></a></li>
+</ul>
+<div class="p-4 border-t border-[#1E293B] mt-auto">
+<ul class="flex flex-col gap-1">
+<li><a class="flex items-center gap-3 px-4 py-2 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-DEFAULT" href="#"><span class="material-symbols-outlined text-[18px]">contact_support</span><span class="text-label-md font-label-md">Support</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-2 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-DEFAULT" href="#"><span class="material-symbols-outlined text-[18px]">logout</span><span class="text-label-md font-label-md">Sign Out</span></a></li>
+</ul>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-64 flex-1 flex flex-col h-screen overflow-hidden bg-background">
+<!-- TopAppBar Contextual (Not the JSON shell, just local header for Cockpit) -->
+<header class="h-16 bg-surface border-b border-surface-variant flex items-center justify-between px-margin shrink-0">
+<div class="flex items-center gap-4">
+<h2 class="text-headline-md font-headline-md text-on-surface">1200 Tech Boulevard</h2>
+<span class="px-2 py-1 bg-surface-container-low text-on-surface-variant text-label-sm font-label-sm rounded-DEFAULT border border-outline-variant">Base Scenario</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex bg-surface-container-low p-1 rounded-DEFAULT border border-surface-variant">
+<button class="px-3 py-1 bg-white text-primary text-label-md font-label-md rounded-sm shadow-sm">Base</button>
+<button class="px-3 py-1 text-on-surface-variant hover:text-on-surface text-label-md font-label-md rounded-sm">Upside</button>
+<button class="px-3 py-1 text-on-surface-variant hover:text-on-surface text-label-md font-label-md rounded-sm">Downside</button>
+</div>
+<button class="h-8 w-8 flex items-center justify-center text-on-surface-variant hover:bg-surface-container-high rounded-DEFAULT transition-colors">
+<span class="material-symbols-outlined">more_vert</span>
+</button>
+<button class="bg-primary text-white px-4 py-2 rounded-DEFAULT text-label-md font-label-md hover:bg-surface-tint transition-colors">Save Model</button>
+</div>
+</header>
+<!-- Cockpit Layout -->
+<div class="flex-1 overflow-hidden p-margin flex gap-gutter">
+<!-- Left: Assumptions Editor -->
+<section class="w-80 flex flex-col bg-surface-container-lowest rounded-lg border border-surface-variant shadow-sm overflow-hidden shrink-0">
+<div class="p-standard-padding border-b border-surface-variant bg-surface-bright flex justify-between items-center">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Assumptions</h3>
+<span class="material-symbols-outlined text-outline text-[20px]">tune</span>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-standard-padding flex flex-col gap-6">
+<!-- Acquisition -->
+<div class="flex flex-col gap-3">
+<h4 class="text-label-md font-label-md text-on-surface uppercase tracking-wider">Acquisition</h4>
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface-variant">Purchase Price</label>
+<div class="relative">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant font-data-mono text-data-mono">$</span>
+<input class="w-full pl-7 pr-3 py-1.5 bg-surface border border-outline-variant rounded-DEFAULT focus:border-primary focus:ring-1 focus:ring-primary outline-none font-data-mono text-data-mono text-right text-on-surface" type="text" value="45,000,000"/>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface-variant">Going-in Cap Rate</label>
+<div class="relative">
+<input class="w-full pl-3 pr-7 py-1.5 bg-surface border border-outline-variant rounded-DEFAULT focus:border-primary focus:ring-1 focus:ring-primary outline-none font-data-mono text-data-mono text-right text-on-surface" type="text" value="5.25"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant font-data-mono text-data-mono">%</span>
+</div>
+</div>
+</div>
+<div class="h-px bg-surface-variant"></div>
+<!-- Debt -->
+<div class="flex flex-col gap-3">
+<h4 class="text-label-md font-label-md text-on-surface uppercase tracking-wider">Debt Sizing</h4>
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface-variant">LTV Target</label>
+<div class="relative">
+<input class="w-full pl-3 pr-7 py-1.5 bg-surface border border-outline-variant rounded-DEFAULT focus:border-primary focus:ring-1 focus:ring-primary outline-none font-data-mono text-data-mono text-right text-on-surface" type="text" value="65.0"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant font-data-mono text-data-mono">%</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface-variant">Interest Rate</label>
+<div class="relative">
+<input class="w-full pl-3 pr-7 py-1.5 bg-surface border border-outline-variant rounded-DEFAULT focus:border-primary focus:ring-1 focus:ring-primary outline-none font-data-mono text-data-mono text-right text-on-surface" type="text" value="6.50"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant font-data-mono text-data-mono">%</span>
+</div>
+</div>
+</div>
+<div class="h-px bg-surface-variant"></div>
+<!-- Disposition -->
+<div class="flex flex-col gap-3">
+<h4 class="text-label-md font-label-md text-on-surface uppercase tracking-wider">Disposition</h4>
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface-variant">Hold Period</label>
+<div class="relative">
+<input class="w-full pl-3 pr-10 py-1.5 bg-surface border border-outline-variant rounded-DEFAULT focus:border-primary focus:ring-1 focus:ring-primary outline-none font-data-mono text-data-mono text-right text-on-surface" type="text" value="10"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant font-data-mono text-data-mono">Yrs</span>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-label-md font-label-md text-on-surface-variant flex items-center justify-between">
+                                Exit Cap Rate
+                                <span class="material-symbols-outlined text-[14px] text-warning" title="Warning: Lower than going-in cap">warning</span>
+</label>
+<div class="relative">
+<input class="w-full pl-3 pr-7 py-1.5 bg-warning-container/30 border border-warning/50 rounded-DEFAULT focus:border-warning focus:ring-1 focus:ring-warning outline-none font-data-mono text-data-mono text-right text-on-surface" type="text" value="5.00"/>
+<span class="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant font-data-mono text-data-mono">%</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Center: Metrics & Cash Flow -->
+<section class="flex-1 flex flex-col gap-gutter min-w-0">
+<!-- KPI Bento Grid -->
+<div class="grid grid-cols-4 gap-gutter shrink-0">
+<div class="bg-surface-container-lowest p-standard-padding rounded-lg border border-surface-variant shadow-sm flex flex-col justify-between h-24">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Indicated Value</span>
+<div class="flex items-end justify-between">
+<span class="text-headline-md font-headline-md text-on-surface font-data-mono">$52.4M</span>
+<span class="text-label-sm font-label-sm text-green-600 bg-green-50 px-1.5 py-0.5 rounded-sm">+16.4%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-standard-padding rounded-lg border border-warning/50 bg-warning-container/10 shadow-sm flex flex-col justify-between h-24">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider flex items-center gap-1">Avg DSCR <span class="material-symbols-outlined text-[14px] text-warning">warning</span></span>
+<div class="flex items-end justify-between">
+<span class="text-headline-md font-headline-md text-on-surface font-data-mono">1.24x</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Min: 1.25x</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-standard-padding rounded-lg border border-surface-variant shadow-sm flex flex-col justify-between h-24">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Unlevered IRR</span>
+<div class="flex items-end justify-between">
+<span class="text-headline-md font-headline-md text-on-surface font-data-mono">12.8%</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Target: 12%</span>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-standard-padding rounded-lg border border-surface-variant shadow-sm flex flex-col justify-between h-24">
+<span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">Avg Cash-on-Cash</span>
+<div class="flex items-end justify-between">
+<span class="text-headline-md font-headline-md text-on-surface font-data-mono">8.2%</span>
+</div>
+</div>
+</div>
+<!-- Cash Flow Table -->
+<div class="flex-1 bg-surface-container-lowest rounded-lg border border-surface-variant shadow-sm overflow-hidden flex flex-col">
+<div class="p-standard-padding border-b border-surface-variant bg-surface-bright flex justify-between items-center shrink-0">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Pro Forma Cash Flow</h3>
+<div class="flex gap-2">
+<button class="p-1 hover:bg-surface-container-high rounded-DEFAULT text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">fullscreen</span></button>
+<button class="p-1 hover:bg-surface-container-high rounded-DEFAULT text-on-surface-variant"><span class="material-symbols-outlined text-[18px]">download</span></button>
+</div>
+</div>
+<div class="flex-1 overflow-auto custom-scrollbar">
+<table class="w-full text-left border-collapse table-sharp min-w-[800px]">
+<thead class="sticky top-0 z-10 shadow-sm">
+<tr>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant font-medium w-48 sticky left-0 z-20 bg-surface-container-low border-r border-surface-variant">Item ($000s)</th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant font-medium text-right font-data-mono">Year 1</th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant font-medium text-right font-data-mono">Year 2</th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant font-medium text-right font-data-mono">Year 3</th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant font-medium text-right font-data-mono">Year 4</th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant font-medium text-right font-data-mono">Year 5</th>
+</tr>
+</thead>
+<tbody class="text-body-md font-body-md">
+<tr class="hover:bg-surface-container-lowest bg-surface-bright/30">
+<td class="p-compact-padding text-on-surface font-medium sticky left-0 bg-surface-container-lowest border-r border-surface-variant group-hover:bg-surface-container-lowest">Gross Potential Rent</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono">3,450</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono">3,553</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono">3,660</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono">3,770</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono">3,883</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest">
+<td class="p-compact-padding pl-6 text-on-surface-variant sticky left-0 bg-white border-r border-surface-variant">Vacancy &amp; Credit Loss</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono text-error">(172)</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono text-error">(177)</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono text-error">(183)</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono text-error">(188)</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono text-error">(194)</td>
+</tr>
+<tr class="bg-surface-container-lowest border-t border-surface-variant border-b-2 hover:bg-surface-container-lowest">
+<td class="p-compact-padding text-on-surface font-semibold sticky left-0 bg-surface-container-lowest border-r border-surface-variant">Effective Gross Income</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono font-semibold">3,278</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono font-semibold">3,376</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono font-semibold">3,477</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono font-semibold">3,582</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono font-semibold">3,689</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest bg-surface-bright/30">
+<td class="p-compact-padding text-on-surface sticky left-0 bg-surface-container-lowest border-r border-surface-variant">Total Operating Expenses</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono text-error">(915)</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono text-error">(942)</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono text-error">(970)</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono text-error">(999)</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono text-error">(1,029)</td>
+</tr>
+<tr class="bg-surface-container-low border-t border-surface-variant border-b-2 font-semibold">
+<td class="p-compact-padding text-primary-fixed-variant sticky left-0 bg-surface-container-low border-r border-surface-variant">Net Operating Income</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono">2,363</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono">2,434</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono">2,507</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono">2,583</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono">2,660</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest">
+<td class="p-compact-padding text-on-surface sticky left-0 bg-white border-r border-surface-variant">Debt Service</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono text-error">(1,901)</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono text-error bg-warning-container/20" title="DSCR 1.28x">(1,901)</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono text-error bg-warning-container/40" title="DSCR 1.31x">(1,901)</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono text-error">(1,901)</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono text-error">(1,901)</td>
+</tr>
+<tr class="bg-surface-container-lowest border-t-2 border-surface-variant font-semibold">
+<td class="p-compact-padding text-on-surface sticky left-0 bg-surface-container-lowest border-r border-surface-variant">Net Cash Flow</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono">462</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono">533</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono">606</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono">682</td>
+<td class="p-compact-padding text-right font-data-mono text-data-mono">759</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<!-- Right: Review Flags -->
+<section class="w-72 bg-surface-container-lowest rounded-lg border border-surface-variant shadow-sm flex flex-col shrink-0">
+<div class="p-standard-padding border-b border-surface-variant bg-surface-bright flex justify-between items-center shrink-0">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Review Flags</h3>
+<span class="bg-warning-container text-on-warning-container text-label-sm font-label-sm px-2 py-0.5 rounded-full font-bold">2</span>
+</div>
+<div class="p-standard-padding flex flex-col gap-4 overflow-y-auto custom-scrollbar">
+<!-- Flag 1 -->
+<div class="bg-warning-container/20 border border-warning/30 rounded-DEFAULT p-3 flex flex-col gap-2">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-warning text-[20px] shrink-0 mt-0.5">warning</span>
+<div>
+<h4 class="text-label-md font-label-md text-on-surface">DSCR below minimum threshold</h4>
+<p class="text-body-md font-body-md text-on-surface-variant text-[13px] mt-1">Average DSCR of 1.24x is below the institutional minimum target of 1.25x.</p>
+</div>
+</div>
+<div class="flex justify-end mt-1">
+<button class="text-label-md font-label-md text-primary hover:underline">Adjust Debt Sizing</button>
+</div>
+</div>
+<!-- Flag 2 -->
+<div class="bg-warning-container/20 border border-warning/30 rounded-DEFAULT p-3 flex flex-col gap-2">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-warning text-[20px] shrink-0 mt-0.5">trending_down</span>
+<div>
+<h4 class="text-label-md font-label-md text-on-surface">Aggressive Exit Cap</h4>
+<p class="text-body-md font-body-md text-on-surface-variant text-[13px] mt-1">Exit cap rate (5.00%) is lower than going-in cap rate (5.25%), assuming aggressive market compression.</p>
+</div>
+</div>
+<div class="flex justify-end mt-1">
+<button class="text-label-md font-label-md text-primary hover:underline">Review Disposition</button>
+</div>
+</div>
+<!-- Informational -->
+<div class="bg-surface-container border border-surface-variant rounded-DEFAULT p-3 flex items-start gap-2">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px] shrink-0 mt-0.5">info</span>
+<div>
+<h4 class="text-label-md font-label-md text-on-surface">Rent Growth Alignment</h4>
+<p class="text-body-md font-body-md text-on-surface-variant text-[13px] mt-1">Year 1-3 rent growth assumptions align with selected market comp set.</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</body></html>
