@@ -81,7 +81,10 @@ export const DEFAULT_DEAL_ID = 'riverside-flats';
 
 export type StudioDealSection = 'overview' | 'comps' | 'underwriting' | 'scenarios';
 
-export function studioDealPath(dealId = DEFAULT_DEAL_ID, section: StudioDealSection = 'overview'): string {
+export function studioDealPath(
+  dealId = DEFAULT_DEAL_ID,
+  section: StudioDealSection = 'overview'
+): string {
   const suffix = section === 'overview' ? '' : `/${section}`;
   return `/studio/deals/${dealId}${suffix}`;
 }
@@ -102,14 +105,39 @@ export function getDealIdFromPath(pathname: string): string {
 export function getStudioNavItems(dealId = DEFAULT_DEAL_ID) {
   return [
     { label: 'Dashboard', href: '/studio/dashboard', icon: 'dashboard', match: 'dashboard' },
-    { label: 'Deal Intake', href: '/studio/deal-intake', icon: 'add_box', match: 'deal-intake' },
-    { label: 'Deals', href: studioDealPath(dealId), icon: 'business_center', match: 'deal-overview' },
+    {
+      label: 'Deal Intake',
+      href: `/studio/deals/${dealId}/intake`,
+      icon: 'add_box',
+      match: 'deal-intake',
+    },
+    {
+      label: 'Deals',
+      href: studioDealPath(dealId),
+      icon: 'business_center',
+      match: 'deal-overview',
+    },
     { label: 'Comps', href: studioDealPath(dealId, 'comps'), icon: 'analytics', match: 'comps' },
-    { label: 'Underwriting', href: studioDealPath(dealId, 'underwriting'), icon: 'calculate', match: 'underwriting' },
+    {
+      label: 'Underwriting',
+      href: studioDealPath(dealId, 'underwriting'),
+      icon: 'calculate',
+      match: 'underwriting',
+    },
     { label: 'Reports', href: studioReportPath(dealId), icon: 'assessment', match: 'reports' },
     { label: 'Billing', href: '/studio/settings/billing', icon: 'payments', match: 'billing' },
-    { label: 'Settings', href: '/studio/settings/white-label', icon: 'settings', match: 'white-label' },
-    { label: 'Broker OS', href: '/studio/broker-os', icon: 'precision_manufacturing', match: 'broker-os' },
+    {
+      label: 'Settings',
+      href: '/studio/settings/white-label',
+      icon: 'settings',
+      match: 'white-label',
+    },
+    {
+      label: 'Broker OS',
+      href: '/studio/broker-os',
+      icon: 'precision_manufacturing',
+      match: 'broker-os',
+    },
   ] as const;
 }
 
@@ -194,10 +222,38 @@ export const comps: Comp[] = [
 ];
 
 export const scenarios: Scenario[] = [
-  { id: 'base', name: 'Base Case', irr: '14.8%', equityMultiple: '1.82x', exitCap: '5.75%', status: 'Current' },
-  { id: 'upside', name: 'Upside', irr: '18.4%', equityMultiple: '2.05x', exitCap: '5.50%', status: 'Draft' },
-  { id: 'downside', name: 'Downside', irr: '10.1%', equityMultiple: '1.42x', exitCap: '6.25%', status: 'Stress' },
-  { id: 'renovation', name: 'Renovation Push', irr: '16.7%', equityMultiple: '1.94x', exitCap: '5.65%', status: 'Review' },
+  {
+    id: 'base',
+    name: 'Base Case',
+    irr: '14.8%',
+    equityMultiple: '1.82x',
+    exitCap: '5.75%',
+    status: 'Current',
+  },
+  {
+    id: 'upside',
+    name: 'Upside',
+    irr: '18.4%',
+    equityMultiple: '2.05x',
+    exitCap: '5.50%',
+    status: 'Draft',
+  },
+  {
+    id: 'downside',
+    name: 'Downside',
+    irr: '10.1%',
+    equityMultiple: '1.42x',
+    exitCap: '6.25%',
+    status: 'Stress',
+  },
+  {
+    id: 'renovation',
+    name: 'Renovation Push',
+    irr: '16.7%',
+    equityMultiple: '1.94x',
+    exitCap: '5.65%',
+    status: 'Review',
+  },
 ];
 
 export const reportSections: ReportSection[] = [

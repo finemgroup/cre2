@@ -1,6 +1,12 @@
 import type { ReactElement } from 'react';
 
-import { DataTable, MaterialIcon, MetricCard, StatusBadge, StudioCard } from '@/components/studio/StudioPrimitives';
+import {
+  DataTable,
+  MaterialIcon,
+  MetricCard,
+  StatusBadge,
+  StudioCard,
+} from '@/components/studio/StudioPrimitives';
 import {
   formatCurrency,
   formatMultiple,
@@ -63,7 +69,9 @@ export function DataProvenanceLabel({ provenance }: { provenance: DataProvenance
       <span>{provenance.sourceDetail}</span>
       <span>{provenance.asOfDate}</span>
       <span>{provenance.confidence} confidence</span>
-      {provenance.requiresConfirmation ? <span className="trust-badge trust-candidate-evidence">Needs confirmation</span> : null}
+      {provenance.requiresConfirmation ? (
+        <span className="trust-badge trust-candidate-evidence">Needs confirmation</span>
+      ) : null}
     </div>
   );
 }
@@ -106,11 +114,28 @@ export function MetricsPanel({ metrics }: { metrics: UnderwritingMetrics }): Rea
     <StudioCard title="Calculated Metrics" eyebrow="Formula-backed mock">
       <div className="metric-grid">
         <MetricCard label="NOI" value={formatCurrency(metrics.noi)} detail="EGI - expenses" />
-        <MetricCard label="Cap Rate" value={formatPercent(metrics.capRate)} detail="NOI / purchase price" />
-        <MetricCard label="Indicated Value" value={formatCurrency(metrics.indicatedValue)} detail="NOI / exit cap" />
-        <MetricCard label="DSCR" value={formatMultiple(metrics.dscr)} detail="NOI / debt service" icon={metrics.dscr >= 1.25 ? 'check_circle' : 'warning'} />
+        <MetricCard
+          label="Cap Rate"
+          value={formatPercent(metrics.capRate)}
+          detail="NOI / purchase price"
+        />
+        <MetricCard
+          label="Indicated Value"
+          value={formatCurrency(metrics.indicatedValue)}
+          detail="NOI / exit cap"
+        />
+        <MetricCard
+          label="DSCR"
+          value={formatMultiple(metrics.dscr)}
+          detail="NOI / debt service"
+          icon={metrics.dscr >= 1.25 ? 'check_circle' : 'warning'}
+        />
         <MetricCard label="IRR" value={formatPercent(metrics.irr)} detail="Model-inferred" />
-        <MetricCard label="Equity Multiple" value={formatMultiple(metrics.equityMultiple)} detail="5-year mock hold" />
+        <MetricCard
+          label="Equity Multiple"
+          value={formatMultiple(metrics.equityMultiple)}
+          detail="5-year mock hold"
+        />
       </div>
     </StudioCard>
   );
@@ -140,7 +165,11 @@ export function GatesPanel({
             <div className="studio-actions">
               <StatusBadge status={gate.status} />
               {(gate.status === 'WARN' || gate.status === 'BLOCKED') && (
-                <button type="button" className="btn btn-secondary" onClick={() => onOverride(gate.id)}>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => onOverride(gate.id)}
+                >
                   Override
                 </button>
               )}
@@ -187,7 +216,9 @@ export function SensitivityMatrix({ grid }: { grid: SensitivityGrid }): ReactEle
       headers={['Purchase Price', ...grid.columns.map((cap) => formatPercent(cap))]}
       rows={grid.rows.map((price, rowIndex) => [
         formatCurrency(price),
-        ...grid.cells[rowIndex].map((cell) => `${formatPercent(cell.irr)} / ${formatMultiple(cell.dscr)}`),
+        ...grid.cells[rowIndex].map(
+          (cell) => `${formatPercent(cell.irr)} / ${formatMultiple(cell.dscr)}`
+        ),
       ])}
       getRowKey={(_row, index) => String(grid.rows[index])}
     />

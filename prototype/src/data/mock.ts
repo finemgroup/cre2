@@ -69,8 +69,23 @@ export const mockComps: CompRecord[] = [
 ];
 
 export const mockReportSections: ReportSection[] = [
-  { id: 'summary', title: 'Executive summary', status: 'ready', citation: 'Public baseline + 2 comps' },
-  { id: 'comps', title: 'Comp set', status: 'review-required', citation: '1 candidate comp pending review' },
+  {
+    id: 'summary',
+    title: 'Executive summary',
+    status: 'ready',
+    citation: 'Public baseline + 2 comps',
+  },
+  {
+    id: 'comps',
+    title: 'Comp set',
+    status: 'review-required',
+    citation: '1 candidate comp pending review',
+  },
   { id: 'map', title: 'Regional context', status: 'ready', citation: 'Sample aggregate layer' },
-  { id: 'export', title: 'Export eligibility', status: 'blocked', citation: 'Review and consent required' },
+  {
+    id: 'export',
+    title: 'Export eligibility',
+    status: 'blocked',
+    citation: 'Review and consent required',
+  },
 ];

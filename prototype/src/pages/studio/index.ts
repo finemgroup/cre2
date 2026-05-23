@@ -1,4 +1,8 @@
-export { StudioLandingPage, StudioOnboardingPage, StudioPricingPage } from '@/pages/studio/MarketingRoutes';
+export {
+  StudioLandingPage,
+  StudioOnboardingPage,
+  StudioPricingPage,
+} from '@/pages/studio/MarketingRoutes';
 export {
   StudioCompsPage,
   StudioDashboardPage,

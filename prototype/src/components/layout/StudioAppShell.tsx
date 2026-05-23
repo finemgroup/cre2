@@ -1,14 +1,26 @@
+import { useState, type ReactElement } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import type { ReactElement } from 'react';
 
+import {
+  HelpPanel,
+  NotificationsPanel,
+  SupportSignOutPanel,
+} from '@/components/overlays/StudioTopbarPanels';
+import { StudioMobileNavDrawer } from '@/components/overlays/StudioMobileNavDrawer';
 import { PageTransition } from '@/components/motion/PageTransition';
 import { RouteProgress } from '@/components/layout/RouteProgress';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
-import { getDealIdFromPath, getStudioNavItems, studioDealPath, studioReportPath } from '@/data/studio';
+import {
+  getDealIdFromPath,
+  getStudioNavItems,
+  studioDealPath,
+  studioReportPath,
+} from '@/data/studio';
+import { useRouteTitle } from '@/lib/a11y/useRouteTitle';
 
 function isActiveMatch(path: string, match: string): boolean {
   if (match === 'dashboard') return path === '/studio/dashboard' || path === '/studio';
-  if (match === 'deal-intake') return path === '/studio/deal-intake';
+  if (match === 'deal-intake') return path === '/studio/deal-intake' || /\/intake$/.test(path);
   if (match === 'deal-overview') return /^\/studio\/deals\/[^/]+$/.test(path);
   if (match === 'comps') return /\/comps$/.test(path);
   if (match === 'underwriting') return /\/underwriting$/.test(path) || /\/scenarios$/.test(path);
@@ -26,6 +38,14 @@ export function StudioAppShell(): ReactElement {
   const isBrokerOs = location.pathname === '/studio/broker-os';
   const activeDealId = getDealIdFromPath(location.pathname);
   const navItems = getStudioNavItems(activeDealId);
+  const activeItem = navItems.find((item) => isActiveMatch(location.pathname, item.match));
+  useRouteTitle(`${activeItem?.label ?? 'Studio'} - Finem CRE Studio`);
+
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [supportOpen, setSupportOpen] = useState(false);
+  const [signOutOpen, setSignOutOpen] = useState(false);
 
   if (isStandaloneMarketing) {
     return (
@@ -78,43 +98,98 @@ export function StudioAppShell(): ReactElement {
           ))}
         </nav>
         <div className="studio-sidebar-footer">
-          <a href="#support">
+          <button type="button" className="btn btn-ghost" onClick={() => setSupportOpen(true)}>
             <MaterialIcon name="contact_support" />
             Support
-          </a>
-          <a href="#sign-out">
+          </button>
+          <button type="button" className="btn btn-ghost" onClick={() => setSignOutOpen(true)}>
             <MaterialIcon name="logout" />
             Sign Out
-          </a>
+          </button>
         </div>
       </aside>
       <div className="studio-main">
-        {isBrokerOs ? null : <header className="studio-topbar">
-          <Link to="/studio" className="studio-topbar-brand">
-            Finem CRE Studio
-          </Link>
-          <nav aria-label="Studio quick links">
-            <Link to="/studio/dashboard">Dashboard</Link>
-            <Link to={studioDealPath(activeDealId)}>Deals</Link>
-            <Link to={studioReportPath(activeDealId)}>Reports</Link>
-            <Link to="/">Sophex</Link>
-          </nav>
-          <div className="studio-topbar-actions">
-            <button type="button" aria-label="Notifications">
-              <MaterialIcon name="notifications" />
+        {isBrokerOs ? null : (
+          <header className="studio-topbar">
+            <button
+              type="button"
+              className="studio-mobile-menu btn btn-ghost"
+              aria-label="Open navigation menu"
+              onClick={() => setMobileNavOpen(true)}
+            >
+              <MaterialIcon name="menu" />
             </button>
-            <button type="button" aria-label="Help">
-              <MaterialIcon name="help" />
-            </button>
-            <span className="avatar" aria-label="User avatar" />
-          </div>
-        </header>}
+            <Link to="/studio" className="studio-topbar-brand">
+              Finem CRE Studio
+            </Link>
+            <nav aria-label="Studio quick links">
+              <Link to="/studio/dashboard">Dashboard</Link>
+              <Link to={studioDealPath(activeDealId)}>Deals</Link>
+              <Link to={studioReportPath(activeDealId)}>Reports</Link>
+              <Link to="/">Sophex</Link>
+            </nav>
+            <div className="studio-topbar-actions">
+              <button
+                type="button"
+                aria-label="Notifications"
+                aria-expanded={notificationsOpen}
+                onClick={() => {
+                  setNotificationsOpen((open) => !open);
+                  setHelpOpen(false);
+                }}
+              >
+                <MaterialIcon name="notifications" />
+              </button>
+              <button
+                type="button"
+                aria-label="Help"
+                aria-expanded={helpOpen}
+                onClick={() => {
+                  setHelpOpen((open) => !open);
+                  setNotificationsOpen(false);
+                }}
+              >
+                <MaterialIcon name="help" />
+              </button>
+              <span className="avatar" aria-label="User avatar" />
+              <HelpPanel isOpen={helpOpen} onClose={() => setHelpOpen(false)} />
+              <NotificationsPanel
+                isOpen={notificationsOpen}
+                onClose={() => setNotificationsOpen(false)}
+              />
+            </div>
+          </header>
+        )}
         <main className="studio-content">
           <PageTransition>
             <Outlet />
           </PageTransition>
         </main>
       </div>
+      <StudioMobileNavDrawer
+        isOpen={mobileNavOpen}
+        onClose={() => setMobileNavOpen(false)}
+        navItems={navItems}
+        isActiveMatch={isActiveMatch}
+        onSupport={() => {
+          setMobileNavOpen(false);
+          setSupportOpen(true);
+        }}
+        onSignOut={() => {
+          setMobileNavOpen(false);
+          setSignOutOpen(true);
+        }}
+      />
+      <SupportSignOutPanel
+        isOpen={supportOpen}
+        onClose={() => setSupportOpen(false)}
+        mode="support"
+      />
+      <SupportSignOutPanel
+        isOpen={signOutOpen}
+        onClose={() => setSignOutOpen(false)}
+        mode="sign-out"
+      />
     </div>
   );
 }

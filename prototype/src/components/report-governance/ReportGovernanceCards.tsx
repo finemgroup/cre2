@@ -1,5 +1,6 @@
-import type { ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 
+import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceModal';
 import { MaterialIcon, StatusBadge, StudioCard } from '@/components/studio/StudioPrimitives';
 import { evaluateExportReadiness } from '@/lib/report-governance';
 import type { ReportSection } from '@/data/studio';
@@ -19,15 +20,20 @@ export function ReportSectionReviewCard({ section }: { section: ReportSection })
 
 export function ReportProvenanceCard({ sections }: { sections: ReportSection[] }): ReactElement {
   const readiness = evaluateExportReadiness(sections);
-  const coverage = Math.round((readiness.approvedCount / readiness.totalCount) * 100);
+  const coverage =
+    readiness.totalCount === 0
+      ? 'N/A'
+      : `${Math.round((readiness.approvedCount / readiness.totalCount) * 100)}%`;
 
   return (
     <StudioCard title="Provenance Coverage" eyebrow="BOV governance adapted">
       <div className="metric-grid">
         <div className="metric-card">
           <span>Approved sections</span>
-          <strong>{readiness.approvedCount}/{readiness.totalCount}</strong>
-          <small>{coverage}% coverage</small>
+          <strong>
+            {readiness.approvedCount}/{readiness.totalCount}
+          </strong>
+          <small>{coverage} coverage</small>
           <MaterialIcon name="fact_check" />
         </div>
         <div className="metric-card">
@@ -43,6 +49,7 @@ export function ReportProvenanceCard({ sections }: { sections: ReportSection[] }
 
 export function ExportReadinessCard({ sections }: { sections: ReportSection[] }): ReactElement {
   const readiness = evaluateExportReadiness(sections);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <StudioCard title="Export Readiness" eyebrow="Output guard">
@@ -63,9 +70,30 @@ export function ExportReadinessCard({ sections }: { sections: ReportSection[] })
           </ul>
         </>
       )}
-      <button className="btn btn-primary" type="button" disabled={!readiness.ready}>
+      <button
+        className="btn btn-primary"
+        type="button"
+        disabled={!readiness.ready}
+        aria-describedby={!readiness.ready ? 'export-readiness-blocked' : undefined}
+        onClick={() => setModalOpen(true)}
+      >
         Export PDF
       </button>
+      {!readiness.ready ? (
+        <button type="button" className="btn btn-secondary" onClick={() => setModalOpen(true)}>
+          Review blockers
+        </button>
+      ) : null}
+      {!readiness.ready ? (
+        <p className="sr-only" id="export-readiness-blocked">
+          Export is blocked until governance issues clear.
+        </p>
+      ) : null}
+      <ExportGovernanceModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        readiness={readiness}
+      />
     </StudioCard>
   );
 }

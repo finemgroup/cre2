@@ -92,12 +92,20 @@ export function MetricCard({
 
 export function TrustBadge({ state }: { state: AuthorityState | string }): ReactElement {
   const normalized = state.toLowerCase().replace(/[^a-z]+/g, '-');
-  return <span className={`trust-badge trust-${normalized}`}>{state}</span>;
+  return (
+    <span className={`trust-badge trust-${normalized}`} aria-label={`Authority state: ${state}`}>
+      {state}
+    </span>
+  );
 }
 
 export function StatusBadge({ status }: { status: string }): ReactElement {
   const normalized = status.toLowerCase().replace(/[^a-z]+/g, '-');
-  return <span className={`status-badge status-${normalized}`}>{status}</span>;
+  return (
+    <span className={`status-badge status-${normalized}`} aria-label={`Status: ${status}`}>
+      {status}
+    </span>
+  );
 }
 
 export function NonProductionCallout({ children }: ChildrenProps): ReactElement {

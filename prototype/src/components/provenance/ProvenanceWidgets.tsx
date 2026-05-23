@@ -1,7 +1,16 @@
 import type { ReactElement, ReactNode } from 'react';
 
-import { MaterialIcon, StatusBadge, StudioCard, TrustBadge } from '@/components/studio/StudioPrimitives';
-import { summarizeSourceBundle, type SourceCitation as Citation, type SourceEvidenceBlock } from '@/lib/source-bundle';
+import {
+  MaterialIcon,
+  StatusBadge,
+  StudioCard,
+  TrustBadge,
+} from '@/components/studio/StudioPrimitives';
+import {
+  summarizeSourceBundle,
+  type SourceCitation as Citation,
+  type SourceEvidenceBlock,
+} from '@/lib/source-bundle';
 
 export function SourceCitation({ citation }: { citation: Citation }): ReactElement {
   return (
@@ -58,8 +67,12 @@ export function ReviewPostureBanner({ blocks }: { blocks: SourceEvidenceBlock[] 
       <MaterialIcon name={summary.posture === 'ready' ? 'verified' : 'gpp_maybe'} />
       <div>
         <strong>Source bundle posture: {summary.posture}</strong>
-        <span>{summary.citationCount} citations · {summary.warnings.length} warnings</span>
-        {summary.blockedActions.length ? <small>Blocked: {summary.blockedActions.join(', ')}</small> : null}
+        <span>
+          {summary.citationCount} citations · {summary.warnings.length} warnings
+        </span>
+        {summary.blockedActions.length ? (
+          <small>Blocked: {summary.blockedActions.join(', ')}</small>
+        ) : null}
       </div>
     </aside>
   );

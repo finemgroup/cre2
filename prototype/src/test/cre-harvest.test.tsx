@@ -10,6 +10,7 @@ import {
   evaluateUnderwritingGates,
 } from '@/lib/underwriting';
 import { mockSourceBlocks } from '@/lib/source-bundle';
+import { evaluateExportReadiness } from '@/lib/report-governance';
 import { reportSections } from '@/data/studio';
 
 describe('CRE harvest underwriting adapters', () => {
@@ -46,5 +47,15 @@ describe('CRE harvest provenance and report governance adapters', () => {
     render(<ExportReadinessCard sections={reportSections} />);
     expect(screen.getByText(/Export remains disabled/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Export PDF/i })).toBeDisabled();
+  });
+
+  it('evaluates readiness from passed source blocks instead of hidden global state', () => {
+    const readiness = evaluateExportReadiness(
+      [{ id: 'summary', name: 'Executive summary', status: 'Approved' }],
+      []
+    );
+
+    expect(readiness.ready).toBe(true);
+    expect(readiness.receiptHash).toMatch(/sha256/);
   });
 });

@@ -16,9 +16,19 @@ export function UploadDropzone({ files }: { files: MockUploadFile[] }): ReactEle
           <div className="upload-file-row" key={file.id}>
             <MaterialIcon name="description" />
             <div>
-              <strong>{file.name}</strong>
-              <span>{file.type} · {file.progress}%</span>
-              <i style={{ width: `${file.progress}%` }} />
+              <strong id={`${file.id}-label`}>{file.name}</strong>
+              <span>
+                {file.type} · {file.progress}%
+              </span>
+              <i
+                role="progressbar"
+                aria-labelledby={`${file.id}-label`}
+                aria-valuenow={file.progress}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuetext={`${file.progress}% complete`}
+                style={{ width: `${file.progress}%` }}
+              />
               {file.issue ? <small role="alert">{file.issue}</small> : null}
             </div>
             <StatusBadge status={file.status} />

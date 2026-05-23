@@ -20,6 +20,7 @@ describe('Finem CRE Studio routes', () => {
     ['/studio/settings/billing', 'Billing & Plans', 1],
     ['/studio/dashboard', 'Main Deal Dashboard', 1],
     ['/studio/deal-intake', 'Deal Intake', 1],
+    ['/studio/deals/riverside-flats/intake', 'Deal Intake', 1],
     ['/studio/deals/riverside-flats', 'Riverside Flats', 1],
     ['/studio/deals/riverside-flats/comps', 'Riverside Flats', 1],
     ['/studio/deals/riverside-flats/underwriting', 'Riverside Flats', 1],
@@ -65,6 +66,10 @@ describe('Finem CRE Studio routes', () => {
 
   it('keeps deal workflow links on the active deal id', () => {
     renderRoute('/studio/deals/1200-tech/comps');
+    expect(screen.getAllByRole('link', { name: /Inputs/i }).at(-1)).toHaveAttribute(
+      'href',
+      '/studio/deals/1200-tech/intake'
+    );
     expect(screen.getAllByRole('link', { name: /Underwriting/i }).at(-1)).toHaveAttribute(
       'href',
       '/studio/deals/1200-tech/underwriting'
@@ -97,8 +102,72 @@ describe('Finem CRE Studio routes', () => {
     expect(screen.getByText(/Sample map view/i)).toBeInTheDocument();
   });
 
+  it('updates underwriting metrics when scenario controls change', async () => {
+    const user = userEvent.setup();
+    renderRoute('/studio/deals/riverside-flats/underwriting');
+
+    const initialIrr = screen
+      .getByText('IRR')
+      .closest('.metric-card')
+      ?.querySelector('strong')?.textContent;
+    await user.click(screen.getByRole('button', { name: /Upside/i }));
+    const upsideIrr = screen
+      .getByText('IRR')
+      .closest('.metric-card')
+      ?.querySelector('strong')?.textContent;
+
+    expect(upsideIrr).not.toBe(initialIrr);
+  });
+
   it('renders explicit route guard for unknown deal ids', () => {
     renderRoute('/studio/deals/not-a-deal/comps');
     expect(screen.getByRole('heading', { name: /Deal not found/i })).toBeInTheDocument();
+  });
+
+  it('opens help and notifications panels from the top bar', async () => {
+    const user = userEvent.setup();
+    renderRoute('/studio/dashboard');
+
+    await user.click(screen.getByRole('button', { name: /Help/i }));
+    expect(screen.getByRole('dialog', { name: /Help/i })).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /Notifications/i }));
+    expect(screen.getByRole('dialog', { name: /Notifications/i })).toBeInTheDocument();
+  });
+
+  it('requires a reason before confirming a gate override', async () => {
+    const user = userEvent.setup();
+    renderRoute('/studio/deals/riverside-flats/underwriting');
+
+    const overrideButtons = screen.getAllByRole('button', { name: /Override/i });
+    await user.click(overrideButtons[0]);
+    expect(screen.getByRole('dialog', { name: /Override workflow gate/i })).toBeInTheDocument();
+
+    const confirm = screen.getByRole('button', { name: /Confirm override/i });
+    expect(confirm).toBeDisabled();
+
+    await user.type(screen.getByLabelText(/Override reason/i), 'Analyst approved temporary basis.');
+    await user.click(confirm);
+
+    await waitFor(() =>
+      expect(screen.queryByRole('dialog', { name: /Override workflow gate/i })).not.toBeInTheDocument()
+    );
+    expect(screen.getByText(/Override recorded for Comp readiness/i)).toBeInTheDocument();
+  });
+
+  it('opens the premium upgrade modal from locked comps', async () => {
+    const user = userEvent.setup();
+    renderRoute('/studio/deals/riverside-flats/comps');
+
+    await user.click(screen.getByRole('button', { name: /^Upgrade$/i }));
+    expect(screen.getByRole('dialog', { name: /Upgrade to Premium/i })).toBeInTheDocument();
+  });
+
+  it('shows save draft feedback on deal intake', async () => {
+    const user = userEvent.setup();
+    renderRoute('/studio/deal-intake');
+
+    await user.click(screen.getByRole('button', { name: /Save draft/i }));
+    expect(screen.getByRole('status')).toHaveTextContent(/Draft saved locally/i);
   });
 });

@@ -73,7 +73,11 @@ export function safeDivide(numerator: number, denominator: number): number {
   return denominator === 0 ? 0 : numerator / denominator;
 }
 
-export function annualDebtService(principal: number, annualRate: number, amortizationYears: number): number {
+export function annualDebtService(
+  principal: number,
+  annualRate: number,
+  amortizationYears: number
+): number {
   const months = amortizationYears * 12;
   const monthlyRate = annualRate / 12;
   if (monthlyRate === 0) return safeDivide(principal, months) * 12;
@@ -94,14 +98,23 @@ export function calculateUnderwritingMetrics(
     assumptions.purchasePrice * (1 + assumptions.closingCosts) + assumptions.renovationBudget;
   const indicatedValue = safeDivide(noi, assumptions.exitCapRate);
   const debtAmount = totalBasis * assumptions.ltv;
-  const annualDebt = annualDebtService(debtAmount, assumptions.interestRate, assumptions.amortizationYears);
+  const annualDebt = annualDebtService(
+    debtAmount,
+    assumptions.interestRate,
+    assumptions.amortizationYears
+  );
   const equity = Math.max(totalBasis - debtAmount, 1);
   const cashFlow = noi - annualDebt;
-  const exitValue =
-    safeDivide(noi * Math.pow(1 + assumptions.annualAppreciationRate, assumptions.holdYears), assumptions.exitCapRate);
+  const exitValue = safeDivide(
+    noi * Math.pow(1 + assumptions.annualAppreciationRate, assumptions.holdYears),
+    assumptions.exitCapRate
+  );
   const totalCashFlow = cashFlow * assumptions.holdYears + (exitValue - debtAmount);
   const equityMultiple = safeDivide(totalCashFlow, equity);
-  const irr = Math.max(-0.05, Math.min(0.42, Math.pow(Math.max(equityMultiple, 0.01), 1 / assumptions.holdYears) - 1));
+  const irr = Math.max(
+    -0.05,
+    Math.min(0.42, Math.pow(Math.max(equityMultiple, 0.01), 1 / assumptions.holdYears) - 1)
+  );
 
   return {
     effectiveGrossIncome,
@@ -149,7 +162,10 @@ export function evaluateUnderwritingGates(
       id: 'GATE_UW_NOI_IDENTITY',
       label: 'NOI identity',
       status: metrics.noi > 0 ? 'PASS' : 'BLOCKED',
-      detail: metrics.noi > 0 ? 'EGI less operating expenses produces positive NOI.' : 'NOI is not positive.',
+      detail:
+        metrics.noi > 0
+          ? 'EGI less operating expenses produces positive NOI.'
+          : 'NOI is not positive.',
       source: 'formula',
     },
     {
@@ -191,7 +207,8 @@ export function buildProFormaRows(assumptions: UnderwritingAssumptions): string[
     const expenses = assumptions.operatingExpenses * Math.pow(1.025, index);
     const noi = grossRevenue * (1 - assumptions.vacancyRate) - expenses;
     const debt = annualDebtService(
-      (assumptions.purchasePrice * (1 + assumptions.closingCosts) + assumptions.renovationBudget) * assumptions.ltv,
+      (assumptions.purchasePrice * (1 + assumptions.closingCosts) + assumptions.renovationBudget) *
+        assumptions.ltv,
       assumptions.interestRate,
       assumptions.amortizationYears
     );
@@ -206,7 +223,11 @@ export function buildProFormaRows(assumptions: UnderwritingAssumptions): string[
   });
 }
 
-export function getGateSummary(gates: UnderwritingGate[]): { blocked: number; warnings: number; passed: number } {
+export function getGateSummary(gates: UnderwritingGate[]): {
+  blocked: number;
+  warnings: number;
+  passed: number;
+} {
   return {
     blocked: gates.filter((gate) => gate.status === 'BLOCKED').length,
     warnings: gates.filter((gate) => gate.status === 'WARN').length,

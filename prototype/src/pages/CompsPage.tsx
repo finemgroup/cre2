@@ -1,10 +1,13 @@
 import { useState, type ReactElement } from 'react';
+import { Link, useParams } from 'react-router-dom';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
-import { mockComps } from '@/data/mock';
+import { mockComps, mockProperties } from '@/data/mock';
 
 export function CompsPage(): ReactElement {
+  const { id } = useParams();
+  const property = mockProperties.find((item) => item.id === id) ?? mockProperties[0];
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selected = mockComps.find((c) => c.id === selectedId);
 
@@ -13,12 +16,15 @@ export function CompsPage(): ReactElement {
       <header className="page-header">
         <p className="eyebrow">Comp comparison</p>
         <h1>Side-by-side comp dashboard</h1>
-        <p className="lede">Permission-filtered comps with authority labels and blocked rows omitted from export.</p>
+        <p className="lede">
+          Permission-filtered comps for {property.address} with authority labels and blocked rows
+          omitted from export.
+        </p>
       </header>
 
       <div className="table-wrap">
         <table>
-          <caption>Sample comp set for 1200 Commerce St</caption>
+          <caption>Sample comp set for {property.address}</caption>
           <thead>
             <tr>
               <th scope="col">Comp</th>
@@ -35,7 +41,9 @@ export function CompsPage(): ReactElement {
                 <td>{comp.distanceMi} mi</td>
                 <td>{comp.capRate}</td>
                 <td>
-                  <AuthorityBadge label={comp.authority === 'blocked' ? 'blocked' : comp.authority} />
+                  <AuthorityBadge
+                    label={comp.authority === 'blocked' ? 'blocked' : comp.authority}
+                  />
                 </td>
                 <td>
                   <button
@@ -43,9 +51,17 @@ export function CompsPage(): ReactElement {
                     className="btn btn-ghost"
                     onClick={() => setSelectedId(comp.id)}
                     disabled={comp.authority === 'blocked'}
+                    aria-describedby={
+                      comp.authority === 'blocked' ? `${comp.id}-blocked-reason` : undefined
+                    }
                   >
                     Inspect
                   </button>
+                  {comp.authority === 'blocked' ? (
+                    <span id={`${comp.id}-blocked-reason`} className="sr-only">
+                      Omitted from public comparison because source rights block inspection.
+                    </span>
+                  ) : null}
                 </td>
               </tr>
             ))}
@@ -61,10 +77,17 @@ export function CompsPage(): ReactElement {
         {selected ? (
           <>
             <p>{selected.note ?? 'Permitted comp detail for prototype viewer.'}</p>
-            <AuthorityBadge label={selected.authority === 'blocked' ? 'blocked' : selected.authority} />
+            <AuthorityBadge
+              label={selected.authority === 'blocked' ? 'blocked' : selected.authority}
+            />
           </>
         ) : null}
       </SophexSheet>
+      <div className="action-row">
+        <Link to={`/report/${property.id}`} className="btn btn-primary">
+          Preview report for {property.address}
+        </Link>
+      </div>
     </section>
   );
 }

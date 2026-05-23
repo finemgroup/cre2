@@ -5,8 +5,11 @@ import { PageTransition } from '@/components/motion/PageTransition';
 import { RouteProgress } from '@/components/layout/RouteProgress';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
 import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
+import { useRouteTitle } from '@/lib/a11y/useRouteTitle';
 
 export function StudioStandaloneShell(): ReactElement {
+  useRouteTitle('Report Builder - Finem CRE Studio');
+
   return (
     <div className="studio-standalone">
       <a href="#page-content" className="skip-link">
@@ -26,7 +29,12 @@ export function StudioStandaloneShell(): ReactElement {
           <button type="button" className="btn btn-primary" disabled>
             Export
           </button>
-          <button type="button" aria-label="Report help">
+          <button
+            type="button"
+            aria-label="Report help"
+            disabled
+            title="Prototype report help is not wired"
+          >
             <MaterialIcon name="help" />
           </button>
           <span className="avatar" aria-label="User avatar" />

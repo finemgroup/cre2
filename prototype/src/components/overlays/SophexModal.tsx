@@ -3,17 +3,24 @@ import { useEffect, useId, useRef, type ReactElement, type ReactNode } from 'rea
 
 import { getMotionProps, getMotionSpec, useReducedMotionPreference } from '@/lib/motion';
 
-type SophexSheetProps = {
+type SophexModalProps = {
   isOpen: boolean;
   label: string;
   children: ReactNode;
   onClose: () => void;
+  size?: 'sm' | 'md' | 'lg';
 };
 
 const FOCUSABLE =
   'a[href],button:not([disabled]),textarea:not([disabled]),input:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])';
 
-export function SophexSheet({ isOpen, label, children, onClose }: SophexSheetProps): ReactElement {
+export function SophexModal({
+  isOpen,
+  label,
+  children,
+  onClose,
+  size = 'md',
+}: SophexModalProps): ReactElement {
   const reducedMotion = useReducedMotionPreference();
   const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
@@ -78,36 +85,36 @@ export function SophexSheet({ isOpen, label, children, onClose }: SophexSheetPro
   }, [isOpen, onClose]);
 
   const backdropProps = getMotionProps(getMotionSpec('sheetBackdrop'), reducedMotion);
-  const panelProps = getMotionProps(getMotionSpec('drawerRight'), reducedMotion);
+  const panelProps = getMotionProps(getMotionSpec('sheetPanel'), reducedMotion);
 
   return (
     <AnimatePresence>
       {isOpen ? (
-        <div className="sheet-root" role="presentation">
+        <div className="modal-root" role="presentation">
           <motion.button
             type="button"
-            className="sheet-backdrop"
-            aria-label="Close panel"
+            className="modal-backdrop"
+            aria-label="Close dialog"
             onClick={onClose}
             {...backdropProps}
           />
           <motion.div
             ref={panelRef}
-            className="sheet-panel"
+            className={`modal-panel modal-panel-${size}`}
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
             tabIndex={-1}
-            data-sophex-motion="drawerRight"
+            data-sophex-motion="sheetPanel"
             {...panelProps}
           >
-            <header className="sheet-header">
+            <header className="modal-header">
               <h2 id={titleId}>{label}</h2>
               <button type="button" className="btn btn-ghost" onClick={onClose}>
                 Close
               </button>
             </header>
-            <div className="sheet-body">{children}</div>
+            <div className="modal-body">{children}</div>
           </motion.div>
         </div>
       ) : null}

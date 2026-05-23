@@ -25,7 +25,7 @@ type AuthorityBadgeProps = {
 
 export function AuthorityBadge({ label }: AuthorityBadgeProps): ReactElement {
   return (
-    <span className={`badge badge-${label}`} aria-label={LABELS[label]}>
+    <span className={`badge badge-${label}`} aria-label={`Authority state: ${LABELS[label]}`}>
       {LABELS[label]}
     </span>
   );

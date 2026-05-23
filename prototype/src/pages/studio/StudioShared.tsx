@@ -2,12 +2,7 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import type { ReactElement } from 'react';
 
 import { StudioCard } from '@/components/studio/StudioPrimitives';
-import {
-  getStudioDeal,
-  studioDealPath,
-  studioReportPath,
-  type Deal,
-} from '@/data/studio';
+import { getStudioDeal, studioDealPath, studioReportPath, type Deal } from '@/data/studio';
 
 export function useStudioDeal(): Deal | undefined {
   const { dealId } = useParams();
@@ -29,7 +24,7 @@ export function DealWorkflowTabs({ deal }: { deal: Deal }): ReactElement {
   const location = useLocation();
   const tabs = [
     ['Overview', studioDealPath(deal.id), /^\/studio\/deals\/[^/]+$/],
-    ['Inputs', '/studio/deal-intake', /^\/studio\/deal-intake$/],
+    ['Inputs', `/studio/deals/${deal.id}/intake`, /\/intake$/],
     ['Comps', studioDealPath(deal.id, 'comps'), /\/comps$/],
     ['Underwriting', studioDealPath(deal.id, 'underwriting'), /\/underwriting$/],
     ['Scenarios', studioDealPath(deal.id, 'scenarios'), /\/scenarios$/],

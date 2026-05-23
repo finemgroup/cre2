@@ -33,7 +33,8 @@ export function summarizeSourceBundle(blocks: SourceEvidenceBlock[]): SourceBund
     posture: blocked ? 'blocked' : degraded ? 'degraded' : 'ready',
     citationCount,
     warnings,
-    blockedActions: blocked || degraded ? ['Export PDF', 'Client share link', 'White-label delivery'] : [],
+    blockedActions:
+      blocked || degraded ? ['Export PDF', 'Client share link', 'White-label delivery'] : [],
   };
 }
 
@@ -44,8 +45,22 @@ export const mockSourceBlocks: SourceEvidenceBlock[] = [
     posture: 'degraded',
     notes: 'Purchase price and unit count are candidate evidence until source review clears.',
     citations: [
-      { id: 'om-1', label: 'OM page 4 - Executive summary', sourceType: 'OM', page: 4, confidence: 'High', visibility: 'Candidate-only' },
-      { id: 'om-2', label: 'OM page 12 - Unit mix', sourceType: 'OM', page: 12, confidence: 'Medium', visibility: 'Candidate-only' },
+      {
+        id: 'om-1',
+        label: 'OM page 4 - Executive summary',
+        sourceType: 'OM',
+        page: 4,
+        confidence: 'High',
+        visibility: 'Candidate-only',
+      },
+      {
+        id: 'om-2',
+        label: 'OM page 12 - Unit mix',
+        sourceType: 'OM',
+        page: 12,
+        confidence: 'Medium',
+        visibility: 'Candidate-only',
+      },
     ],
     missingCitations: ['Tax reassessment source still missing.'],
   },
@@ -55,7 +70,13 @@ export const mockSourceBlocks: SourceEvidenceBlock[] = [
     posture: 'ready',
     notes: 'Rent roll supports vacancy and unit count assumptions for prototype review.',
     citations: [
-      { id: 'rr-1', label: 'Rent roll tab - occupied units', sourceType: 'Rent roll', confidence: 'High', visibility: 'Org-private' },
+      {
+        id: 'rr-1',
+        label: 'Rent roll tab - occupied units',
+        sourceType: 'Rent roll',
+        confidence: 'High',
+        visibility: 'Org-private',
+      },
     ],
   },
   {
@@ -64,7 +85,13 @@ export const mockSourceBlocks: SourceEvidenceBlock[] = [
     posture: 'blocked',
     notes: 'Premium-private comp cannot be exported into public/client-facing report output.',
     citations: [
-      { id: 'comp-1', label: 'Reviewed comp set v0.3', sourceType: 'Comp set', confidence: 'Medium', visibility: 'Premium-private' },
+      {
+        id: 'comp-1',
+        label: 'Reviewed comp set v0.3',
+        sourceType: 'Comp set',
+        confidence: 'Medium',
+        visibility: 'Premium-private',
+      },
     ],
     missingCitations: ['Provider-restricted comp must be removed or summarized before export.'],
   },
