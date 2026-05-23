@@ -90,10 +90,12 @@ export function WorkflowContextHeader({
   dealName,
   stage,
   returnTo,
+  returnLabel = 'Return to dashboard',
 }: {
   dealName: string;
   stage: string;
   returnTo?: string;
+  returnLabel?: string;
 }): ReactElement {
   return (
     <div className="workflow-context">
@@ -104,7 +106,7 @@ export function WorkflowContextHeader({
       </div>
       {returnTo ? (
         <Link to={returnTo} className="btn btn-secondary">
-          Return to dashboard
+          {returnLabel}
         </Link>
       ) : null}
     </div>
@@ -167,13 +169,16 @@ export function DetailDrawer({
 export function DataTable({
   headers,
   rows,
+  caption,
 }: {
   headers: string[];
   rows: Array<ReactNode[]>;
+  caption?: string;
 }): ReactElement {
   return (
     <div className="studio-table-wrap">
       <table className="studio-table">
+        {caption ? <caption>{caption}</caption> : null}
         <thead>
           <tr>
             {headers.map((header) => (
@@ -213,10 +218,20 @@ export function PaywallOverlay({ children }: ChildrenProps): ReactElement {
 }
 
 export function JsonContextViewer({ value }: { value: unknown }): ReactElement {
+  const json = JSON.stringify(value, null, 2)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
+    .replace(/: "([^"]*)"/g, ': <span class="json-string">"$1"</span>')
+    .replace(/: (\d+|true|false)/g, ': <span class="json-value">$1</span>');
+
   return (
-    <pre className="json-viewer" aria-label="Planning context JSON">
-      {JSON.stringify(value, null, 2)}
-    </pre>
+    <pre
+      className="json-viewer"
+      aria-label="Planning context JSON"
+      dangerouslySetInnerHTML={{ __html: json }}
+    />
   );
 }
 

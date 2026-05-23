@@ -21,6 +21,7 @@ Phase 1 clickable concept implementation. **Mock data only.** No schema, API, de
 | Studio shells | `prototype/src/components/layout/StudioAppShell.tsx`; `StudioStandaloneShell.tsx` | Sidebar app shell and report-builder shell for `/studio/*` routes |
 | Studio primitives | `prototype/src/components/studio/StudioPrimitives.tsx` | Metric cards, tables, drawers, stage stepper, paywall, JSON viewer, trust/status badges |
 | Studio mock data | `prototype/src/data/studio.ts` | Deals, comps, scenarios, reports, branding, agents, and sanitized job streams |
+| Studio tests | `prototype/src/test/studio.test.tsx` | Route coverage, deal-id consistency, onboarding flow, and drawer smoke tests |
 
 ## Doctrine Sources (Docs Only)
 
@@ -60,6 +61,16 @@ The imported HTML design queue is implemented as mock-only Studio routes:
 | `/studio/broker-os` | Read-only Broker OS control panel |
 
 These pages follow the execution matrix in `docs/PROTOTYPE_FINEM_CRE_STUDIO_EXECUTION_MATRIX.md`.
+
+## Fidelity Hardening Notes
+
+The `/studio/*` implementation now includes:
+
+- Standalone shell posture for public landing and onboarding.
+- Deal-aware routing for overview, comps, underwriting, and scenario pages.
+- Expanded per-screen content for pricing FAQ, dashboard plan rail, deal notes/team, intake assumptions, comps view toggle, scenario chart, report branding pane, white-label report branding, and Broker OS JSON copy.
+- Additional accessibility affordances: table captions, keyboard-operable upload zones, tab/radio-style state attributes, and retained drawer focus management.
+- Studio route and interaction tests in `prototype/src/test/studio.test.tsx`.
 
 ## Still Future-Gated
 

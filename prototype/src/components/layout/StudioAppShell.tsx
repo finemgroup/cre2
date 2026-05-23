@@ -8,7 +8,9 @@ import { studioNavItems } from '@/data/studio';
 
 function isActiveMatch(path: string, href: string): boolean {
   if (href === '/studio/dashboard') return path === href || path === '/studio';
-  if (href.includes('/settings/white-label')) return path.startsWith('/studio/settings');
+  if (href.includes('/settings/billing')) return path === href;
+  if (href.includes('/settings/white-label')) return path === href;
+  if (href.includes('/broker-os')) return path === href;
   if (href.includes('/comps')) return path.includes('/comps');
   if (href.includes('/underwriting')) return path.includes('/underwriting') || path.includes('/scenarios');
   if (href.includes('/reports')) return path.includes('/reports');
@@ -18,9 +20,28 @@ function isActiveMatch(path: string, href: string): boolean {
 
 export function StudioAppShell(): ReactElement {
   const location = useLocation();
+  const isStandaloneMarketing =
+    location.pathname === '/studio' || location.pathname === '/studio/onboarding';
+  const isBrokerOs = location.pathname === '/studio/broker-os';
+
+  if (isStandaloneMarketing) {
+    return (
+      <div className="studio-standalone studio-marketing-shell">
+        <a href="#page-content" className="skip-link">
+          Skip to content
+        </a>
+        <RouteProgress />
+        <main className="studio-standalone-content">
+          <PageTransition>
+            <Outlet />
+          </PageTransition>
+        </main>
+      </div>
+    );
+  }
 
   return (
-    <div className="studio-shell">
+    <div className={isBrokerOs ? 'studio-shell broker-os-shell' : 'studio-shell'}>
       <a href="#page-content" className="skip-link">
         Skip to content
       </a>
@@ -65,7 +86,7 @@ export function StudioAppShell(): ReactElement {
         </div>
       </aside>
       <div className="studio-main">
-        <header className="studio-topbar">
+        {isBrokerOs ? null : <header className="studio-topbar">
           <Link to="/studio" className="studio-topbar-brand">
             Finem CRE Studio
           </Link>
@@ -84,8 +105,8 @@ export function StudioAppShell(): ReactElement {
             </button>
             <span className="avatar" aria-label="User avatar" />
           </div>
-        </header>
-        <main id="page-content" className="studio-content">
+        </header>}
+        <main className="studio-content">
           <PageTransition>
             <Outlet />
           </PageTransition>

@@ -1,6 +1,6 @@
 # Finem CRE Studio Prototype Execution Matrix
 
-Status: implementation baseline for the 12 imported HTML snippets in `design-imports/html-snippets/`.
+Status: implemented and fidelity-hardened baseline for the 12 imported HTML snippets in `design-imports/html-snippets/`.
 
 ## Architecture Decisions
 
@@ -50,3 +50,11 @@ Status: implementation baseline for the 12 imported HTML snippets in `design-imp
 - Every mock financial/report/comp/operator route needs visible non-production or sample-state labeling.
 - Every drawer/modal must support keyboard close, focus containment, and focus restore.
 - Sister-project source paths remain reference-only; no runtime imports, schema, queue, provider, or production service coupling.
+
+## Hardening Pass Closeout
+
+- Landing and onboarding now use standalone shell posture instead of the app chrome.
+- Deal workflow pages resolve the active `:dealId` from route params.
+- Broker OS is exposed in navigation and suppresses the generic desktop topbar.
+- Major section gaps from the source snippets were filled for pricing, dashboard, deal overview, intake, comps, underwriting, scenarios, report builder, white-label settings, and Broker OS.
+- Studio route coverage and interaction smoke tests live in `prototype/src/test/studio.test.tsx`.

@@ -21,7 +21,7 @@ export function StudioStandaloneShell(): ReactElement {
           <Link to="/studio/settings/white-label">White Label</Link>
         </nav>
       </header>
-      <main id="page-content" className="studio-standalone-content">
+      <main className="studio-standalone-content">
         <PageTransition>
           <Outlet />
         </PageTransition>

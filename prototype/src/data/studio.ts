@@ -82,7 +82,9 @@ export const studioNavItems = [
   { label: 'Comps', href: '/studio/deals/riverside-flats/comps', icon: 'analytics' },
   { label: 'Underwriting', href: '/studio/deals/riverside-flats/underwriting', icon: 'calculate' },
   { label: 'Reports', href: '/studio/reports/riverside-flats/builder', icon: 'assessment' },
+  { label: 'Billing', href: '/studio/settings/billing', icon: 'payments' },
   { label: 'Settings', href: '/studio/settings/white-label', icon: 'settings' },
+  { label: 'Broker OS', href: '/studio/broker-os', icon: 'precision_manufacturing' },
 ];
 
 export const deals: Deal[] = [
