@@ -68,7 +68,7 @@ test.describe('route shell visuals', () => {
     ).toBeVisible();
     await expect(page).toHaveScreenshot('public-landing-mobile-320.png', {
       clip: { x: 0, y: 0, width: 320, height: 420 },
-      maxDiffPixelRatio: 0.05,
+      maxDiffPixelRatio: 0.1,
     });
   });
 

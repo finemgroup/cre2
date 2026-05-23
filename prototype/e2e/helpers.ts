@@ -8,8 +8,16 @@ export async function gotoRoute(page: Page, path: string) {
 export async function stabilizePage(page: Page) {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.addStyleTag({
-    content:
-      '*, *::before, *::after { animation-duration: 0s !important; transition-duration: 0s !important; }',
+    content: `
+      *, *::before, *::after {
+        animation-duration: 0s !important;
+        transition-duration: 0s !important;
+        font-family: Arial, Helvetica, sans-serif !important;
+      }
+      .material-symbols-outlined {
+        font-family: 'Material Symbols Outlined' !important;
+      }
+    `,
   });
   await page.evaluate(async () => {
     if ('fonts' in document) {
