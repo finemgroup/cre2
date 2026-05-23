@@ -3,6 +3,8 @@ import type { ReactElement } from 'react';
 
 import { PageTransition } from '@/components/motion/PageTransition';
 import { RouteProgress } from '@/components/layout/RouteProgress';
+import { MaterialIcon } from '@/components/studio/StudioPrimitives';
+import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
 
 export function StudioStandaloneShell(): ReactElement {
   return (
@@ -17,9 +19,18 @@ export function StudioStandaloneShell(): ReactElement {
         </Link>
         <nav aria-label="Report builder links">
           <Link to="/studio/dashboard">Dashboard</Link>
-          <Link to="/studio/deals/riverside-flats">Deals</Link>
+          <Link to={studioDealPath(DEFAULT_DEAL_ID)}>Deals</Link>
           <Link to="/studio/settings/white-label">White Label</Link>
         </nav>
+        <div className="studio-topbar-actions">
+          <button type="button" className="btn btn-primary" disabled>
+            Export
+          </button>
+          <button type="button" aria-label="Report help">
+            <MaterialIcon name="help" />
+          </button>
+          <span className="avatar" aria-label="User avatar" />
+        </div>
       </header>
       <main className="studio-standalone-content">
         <PageTransition>

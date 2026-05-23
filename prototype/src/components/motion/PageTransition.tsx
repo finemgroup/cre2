@@ -1,6 +1,6 @@
 import { AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
-import type { ReactElement, ReactNode } from 'react';
+import { useEffect, useRef, type ReactElement, type ReactNode } from 'react';
 
 import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
 
@@ -10,11 +10,16 @@ type PageTransitionProps = {
 
 export function PageTransition({ children }: PageTransitionProps): ReactElement {
   const location = useLocation();
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    contentRef.current?.focus({ preventScroll: true });
+  }, [location.pathname]);
 
   return (
     <AnimatePresence mode="wait" initial={false}>
       <SophexMotionSurface key={location.pathname} motionName="reveal" className="page-transition">
-        <div id="page-content" tabIndex={-1}>
+        <div ref={contentRef} id="page-content" tabIndex={-1}>
           {children}
         </div>
       </SophexMotionSurface>

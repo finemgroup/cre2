@@ -1,4 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 
@@ -36,15 +37,68 @@ describe('Finem CRE Studio routes', () => {
     expect(screen.getByText('1200 Tech Boulevard')).toBeInTheDocument();
   });
 
-  it('advances onboarding steps', () => {
+  it('advances onboarding steps and toggles asset chips', async () => {
+    const user = userEvent.setup();
     renderRoute('/studio/onboarding');
-    fireEvent.click(screen.getByRole('button', { name: /Continue/i }));
+    await user.click(screen.getByRole('button', { name: /Continue/i }));
     expect(screen.getByLabelText(/Full name/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /Continue/i }));
+    const office = screen.getByRole('button', { name: /Office/i });
+    await user.click(office);
+    expect(office).toHaveAttribute('aria-pressed', 'true');
   });
 
-  it('opens a comp detail drawer from the comps table', () => {
+  it('opens and closes a comp detail drawer with keyboard focus restored', async () => {
+    const user = userEvent.setup();
     renderRoute('/studio/deals/riverside-flats/comps');
-    fireEvent.click(screen.getByRole('button', { name: /Eastline Apartments/i }));
+    const trigger = screen.getByRole('button', { name: /Eastline Apartments/i });
+    await user.click(trigger);
     expect(screen.getByRole('dialog', { name: /Eastline Apartments/i })).toBeInTheDocument();
+    expect(document.body.style.overflow).toBe('hidden');
+    await user.keyboard('{Escape}');
+    await waitFor(() =>
+      expect(screen.queryByRole('dialog', { name: /Eastline Apartments/i })).not.toBeInTheDocument()
+    );
+    expect(trigger).toHaveFocus();
+    expect(document.body.style.overflow).toBe('');
+  });
+
+  it('keeps deal workflow links on the active deal id', () => {
+    renderRoute('/studio/deals/1200-tech/comps');
+    expect(screen.getAllByRole('link', { name: /Underwriting/i }).at(-1)).toHaveAttribute(
+      'href',
+      '/studio/deals/1200-tech/underwriting'
+    );
+    expect(screen.getAllByRole('link', { name: /Reports/i }).at(-1)).toHaveAttribute(
+      'href',
+      '/studio/reports/1200-tech/builder'
+    );
+  });
+
+  it('marks active sidebar navigation from route patterns', () => {
+    renderRoute('/studio/deals/1200-tech/scenarios');
+    const sidebar = screen.getByRole('navigation', { name: /Finem Studio navigation/i });
+    expect(within(sidebar).getByRole('link', { name: /Underwriting/i })).toHaveClass('active');
+  });
+
+  it('switches billing cadence with pressed state', async () => {
+    const user = userEvent.setup();
+    renderRoute('/studio/settings/billing');
+    const monthly = screen.getByRole('button', { name: /Monthly/i });
+    await user.click(monthly);
+    expect(monthly).toHaveAttribute('aria-pressed', 'true');
+    expect(screen.getByText('$199/mo')).toBeInTheDocument();
+  });
+
+  it('switches comp view mode and white-label preview mode', async () => {
+    const user = userEvent.setup();
+    renderRoute('/studio/deals/riverside-flats/comps');
+    await user.click(screen.getByRole('button', { name: /map/i }));
+    expect(screen.getByText(/Sample map view/i)).toBeInTheDocument();
+  });
+
+  it('renders explicit route guard for unknown deal ids', () => {
+    renderRoute('/studio/deals/not-a-deal/comps');
+    expect(screen.getByRole('heading', { name: /Deal not found/i })).toBeInTheDocument();
   });
 });

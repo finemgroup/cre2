@@ -1,0 +1,30 @@
+import type { ReactElement } from 'react';
+
+import { MaterialIcon, StatusBadge } from '@/components/studio/StudioPrimitives';
+import type { MockUploadFile } from '@/lib/staged-import';
+
+export function UploadDropzone({ files }: { files: MockUploadFile[] }): ReactElement {
+  return (
+    <div className="mock-upload-dropzone">
+      <button type="button" className="upload-zone">
+        <MaterialIcon name="upload_file" />
+        <strong>Drop OM, rent roll, and T12 files here</strong>
+        <span>Mock queue only. Source-use and review gates apply before promotion.</span>
+      </button>
+      <div className="upload-queue">
+        {files.map((file) => (
+          <div className="upload-file-row" key={file.id}>
+            <MaterialIcon name="description" />
+            <div>
+              <strong>{file.name}</strong>
+              <span>{file.type} · {file.progress}%</span>
+              <i style={{ width: `${file.progress}%` }} />
+              {file.issue ? <small role="alert">{file.issue}</small> : null}
+            </div>
+            <StatusBadge status={file.status} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}

@@ -1,3 +1,5 @@
+import type { DataProvenance, UnderwritingAssumptions } from '@/lib/underwriting';
+
 export type AuthorityState =
   | 'Public baseline'
   | 'Candidate evidence'
@@ -75,17 +77,43 @@ export type JobStatusProjection = {
   duration: string;
 };
 
-export const studioNavItems = [
-  { label: 'Dashboard', href: '/studio/dashboard', icon: 'dashboard' },
-  { label: 'Deal Intake', href: '/studio/deal-intake', icon: 'add_box' },
-  { label: 'Deals', href: '/studio/deals/riverside-flats', icon: 'business_center' },
-  { label: 'Comps', href: '/studio/deals/riverside-flats/comps', icon: 'analytics' },
-  { label: 'Underwriting', href: '/studio/deals/riverside-flats/underwriting', icon: 'calculate' },
-  { label: 'Reports', href: '/studio/reports/riverside-flats/builder', icon: 'assessment' },
-  { label: 'Billing', href: '/studio/settings/billing', icon: 'payments' },
-  { label: 'Settings', href: '/studio/settings/white-label', icon: 'settings' },
-  { label: 'Broker OS', href: '/studio/broker-os', icon: 'precision_manufacturing' },
-];
+export const DEFAULT_DEAL_ID = 'riverside-flats';
+
+export type StudioDealSection = 'overview' | 'comps' | 'underwriting' | 'scenarios';
+
+export function studioDealPath(dealId = DEFAULT_DEAL_ID, section: StudioDealSection = 'overview'): string {
+  const suffix = section === 'overview' ? '' : `/${section}`;
+  return `/studio/deals/${dealId}${suffix}`;
+}
+
+export function studioReportPath(reportId = DEFAULT_DEAL_ID): string {
+  return `/studio/reports/${reportId}/builder`;
+}
+
+export function getStudioDeal(dealId?: string): Deal | undefined {
+  return deals.find((deal) => deal.id === dealId);
+}
+
+export function getDealIdFromPath(pathname: string): string {
+  const match = pathname.match(/\/studio\/(?:deals|reports)\/([^/]+)/);
+  return match?.[1] ?? DEFAULT_DEAL_ID;
+}
+
+export function getStudioNavItems(dealId = DEFAULT_DEAL_ID) {
+  return [
+    { label: 'Dashboard', href: '/studio/dashboard', icon: 'dashboard', match: 'dashboard' },
+    { label: 'Deal Intake', href: '/studio/deal-intake', icon: 'add_box', match: 'deal-intake' },
+    { label: 'Deals', href: studioDealPath(dealId), icon: 'business_center', match: 'deal-overview' },
+    { label: 'Comps', href: studioDealPath(dealId, 'comps'), icon: 'analytics', match: 'comps' },
+    { label: 'Underwriting', href: studioDealPath(dealId, 'underwriting'), icon: 'calculate', match: 'underwriting' },
+    { label: 'Reports', href: studioReportPath(dealId), icon: 'assessment', match: 'reports' },
+    { label: 'Billing', href: '/studio/settings/billing', icon: 'payments', match: 'billing' },
+    { label: 'Settings', href: '/studio/settings/white-label', icon: 'settings', match: 'white-label' },
+    { label: 'Broker OS', href: '/studio/broker-os', icon: 'precision_manufacturing', match: 'broker-os' },
+  ] as const;
+}
+
+export const studioNavItems = getStudioNavItems(DEFAULT_DEAL_ID);
 
 export const deals: Deal[] = [
   {
@@ -178,6 +206,80 @@ export const reportSections: ReportSection[] = [
   { id: 'comps', name: 'Comparable Sales', status: 'Needs review', citationCount: 8 },
   { id: 'underwriting', name: 'Underwriting Assumptions', status: 'Draft', citationCount: 5 },
 ];
+
+export const underwritingAssumptionsByDeal: Record<string, UnderwritingAssumptions> = {
+  'riverside-flats': {
+    grossPotentialRent: 7_200_000,
+    vacancyRate: 0.045,
+    otherIncome: 320_000,
+    operatingExpenses: 3_100_000,
+    purchasePrice: 42_500_000,
+    closingCosts: 0.015,
+    renovationBudget: 2_352_000,
+    ltv: 0.62,
+    interestRate: 0.0675,
+    amortizationYears: 30,
+    holdYears: 5,
+    annualAppreciationRate: 0.03,
+    exitCapRate: 0.0575,
+  },
+  '1200-tech': {
+    grossPotentialRent: 8_900_000,
+    vacancyRate: 0.083,
+    otherIncome: 410_000,
+    operatingExpenses: 4_050_000,
+    purchasePrice: 63_000_000,
+    closingCosts: 0.018,
+    renovationBudget: 1_800_000,
+    ltv: 0.58,
+    interestRate: 0.071,
+    amortizationYears: 25,
+    holdYears: 5,
+    annualAppreciationRate: 0.022,
+    exitCapRate: 0.0625,
+  },
+  'canyon-logistics': {
+    grossPotentialRent: 10_800_000,
+    vacancyRate: 0.035,
+    otherIncome: 260_000,
+    operatingExpenses: 4_900_000,
+    purchasePrice: 88_000_000,
+    closingCosts: 0.012,
+    renovationBudget: 4_200_000,
+    ltv: 0.6,
+    interestRate: 0.069,
+    amortizationYears: 30,
+    holdYears: 7,
+    annualAppreciationRate: 0.026,
+    exitCapRate: 0.065,
+  },
+};
+
+export const underwritingProvenanceByDeal: Record<string, DataProvenance> = {
+  'riverside-flats': {
+    source: 'Rent roll',
+    sourceDetail: 'Rent roll + OM packet, candidate evidence',
+    asOfDate: 'May 2026',
+    confidence: 'Medium',
+    freshness: 'Fresh',
+    requiresConfirmation: true,
+  },
+  '1200-tech': {
+    source: 'Model estimate',
+    sourceDetail: 'Office model with lender terms pending',
+    asOfDate: 'May 2026',
+    confidence: 'Low',
+    freshness: 'Watch',
+    requiresConfirmation: true,
+  },
+  'canyon-logistics': {
+    source: 'T12',
+    sourceDetail: 'Industrial T12 and OM summary',
+    asOfDate: 'Apr 2026',
+    confidence: 'Medium',
+    freshness: 'Fresh',
+  },
+};
 
 export const brandConfig: BrandConfig = {
   company: 'Acme Real Estate Partners',

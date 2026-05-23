@@ -4,18 +4,19 @@ import type { ReactElement } from 'react';
 import { PageTransition } from '@/components/motion/PageTransition';
 import { RouteProgress } from '@/components/layout/RouteProgress';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
-import { studioNavItems } from '@/data/studio';
+import { getDealIdFromPath, getStudioNavItems, studioDealPath, studioReportPath } from '@/data/studio';
 
-function isActiveMatch(path: string, href: string): boolean {
-  if (href === '/studio/dashboard') return path === href || path === '/studio';
-  if (href.includes('/settings/billing')) return path === href;
-  if (href.includes('/settings/white-label')) return path === href;
-  if (href.includes('/broker-os')) return path === href;
-  if (href.includes('/comps')) return path.includes('/comps');
-  if (href.includes('/underwriting')) return path.includes('/underwriting') || path.includes('/scenarios');
-  if (href.includes('/reports')) return path.includes('/reports');
-  if (href.includes('/deals/riverside-flats')) return path === href;
-  return path.startsWith(href);
+function isActiveMatch(path: string, match: string): boolean {
+  if (match === 'dashboard') return path === '/studio/dashboard' || path === '/studio';
+  if (match === 'deal-intake') return path === '/studio/deal-intake';
+  if (match === 'deal-overview') return /^\/studio\/deals\/[^/]+$/.test(path);
+  if (match === 'comps') return /\/comps$/.test(path);
+  if (match === 'underwriting') return /\/underwriting$/.test(path) || /\/scenarios$/.test(path);
+  if (match === 'reports') return path.startsWith('/studio/reports/');
+  if (match === 'billing') return path === '/studio/settings/billing';
+  if (match === 'white-label') return path === '/studio/settings/white-label';
+  if (match === 'broker-os') return path === '/studio/broker-os';
+  return path.startsWith(match);
 }
 
 export function StudioAppShell(): ReactElement {
@@ -23,6 +24,8 @@ export function StudioAppShell(): ReactElement {
   const isStandaloneMarketing =
     location.pathname === '/studio' || location.pathname === '/studio/onboarding';
   const isBrokerOs = location.pathname === '/studio/broker-os';
+  const activeDealId = getDealIdFromPath(location.pathname);
+  const navItems = getStudioNavItems(activeDealId);
 
   if (isStandaloneMarketing) {
     return (
@@ -60,13 +63,13 @@ export function StudioAppShell(): ReactElement {
           <MaterialIcon name="add" />
           New Deal
         </Link>
-        <nav className="studio-nav">
-          {studioNavItems.map((item) => (
+        <nav className="studio-nav" aria-label="Finem Studio navigation">
+          {navItems.map((item) => (
             <NavLink
               key={item.href}
               to={item.href}
               className={({ isActive }) =>
-                isActive || isActiveMatch(location.pathname, item.href) ? 'active' : undefined
+                isActive || isActiveMatch(location.pathname, item.match) ? 'active' : undefined
               }
             >
               <MaterialIcon name={item.icon} />
@@ -92,8 +95,8 @@ export function StudioAppShell(): ReactElement {
           </Link>
           <nav aria-label="Studio quick links">
             <Link to="/studio/dashboard">Dashboard</Link>
-            <Link to="/studio/deals/riverside-flats">Deals</Link>
-            <Link to="/studio/reports/riverside-flats/builder">Reports</Link>
+            <Link to={studioDealPath(activeDealId)}>Deals</Link>
+            <Link to={studioReportPath(activeDealId)}>Reports</Link>
             <Link to="/">Sophex</Link>
           </nav>
           <div className="studio-topbar-actions">

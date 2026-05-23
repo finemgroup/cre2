@@ -9,7 +9,9 @@ import {
   JsonContextViewer,
   MaterialIcon,
   MetricCard,
+  MotionBlock,
   NonProductionCallout,
+  PageTitle,
   PaywallOverlay,
   StageStepper,
   StatusBadge,
@@ -20,45 +22,63 @@ import {
   WorkflowContextHeader,
 } from '@/components/studio/StudioPrimitives';
 import {
+  AssumptionsPanel,
+  GatesPanel,
+  MetricsPanel,
+  SensitivityMatrix,
+  SyntheticDataBanner,
+  VersionLockCard,
+} from '@/components/underwriting/UnderwritingPanels';
+import {
+  ProvenanceCell,
+  ReviewPostureBanner,
+  SourceEvidenceBlockCard,
+} from '@/components/provenance/ProvenanceWidgets';
+import {
+  ExportReadinessCard,
+  ReportProvenanceCard,
+  ReportSectionReviewCard,
+} from '@/components/report-governance/ReportGovernanceCards';
+import { UploadDropzone } from '@/components/upload/UploadDropzone';
+import { StagedImportReviewPanel } from '@/components/review/StagedImportReviewPanel';
+import {
+  ActivityTimelinePanel,
+  ScreenReaderAnnouncement,
+  WorkflowContinuityContainer,
+  WorkflowHandoffLink,
+} from '@/components/workflow/WorkflowPrimitives';
+import { useA11yAnnouncement } from '@/lib/a11y/useA11yAnnouncement';
+import {
+  buildProFormaRows,
+  buildSensitivityGrid,
+  calculateUnderwritingMetrics,
+  evaluateUnderwritingGates,
+  formatCurrency,
+  formatMultiple,
+  formatPercent,
+} from '@/lib/underwriting';
+import { mockSourceBlocks } from '@/lib/source-bundle';
+import { mockCandidateFields, mockUploadFiles } from '@/lib/staged-import';
+import {
   activity,
   agentCapabilities,
   brandConfig,
   comps,
   deals,
+  getStudioDeal,
   jobStreams,
   reportSections,
-  scenarios,
+  studioDealPath,
+  underwritingAssumptionsByDeal,
+  underwritingProvenanceByDeal,
   type Comp,
 } from '@/data/studio';
-
-const primaryDeal = deals[0];
-function useStudioDeal() {
-  const { dealId } = useParams();
-  return deals.find((deal) => deal.id === dealId) ?? primaryDeal;
-}
-
-function PageTitle({
-  eyebrow,
-  title,
-  lede,
-  actions,
-}: {
-  eyebrow?: string;
-  title: string;
-  lede?: string;
-  actions?: ReactElement;
-}): ReactElement {
-  return (
-    <header className="studio-page-title">
-      <div>
-        {eyebrow ? <p className="studio-eyebrow">{eyebrow}</p> : null}
-        <h1>{title}</h1>
-        {lede ? <p>{lede}</p> : null}
-      </div>
-      {actions ? <div className="studio-actions">{actions}</div> : null}
-    </header>
-  );
-}
+import {
+  DealWorkflowTabs,
+  SegmentedControl,
+  StudioDealNotFound,
+  useStudioDeal,
+} from '@/pages/studio/StudioShared';
 
 export function StudioLandingPage(): ReactElement {
   return (
@@ -75,7 +95,7 @@ export function StudioLandingPage(): ReactElement {
         </nav>
       </header>
       <section className="studio-hero">
-        <div>
+        <MotionBlock motionName="stageItem">
           <p className="studio-eyebrow">CRE intelligence for modern broker teams</p>
           <h1>From intake packet to investor-ready report in one governed workflow.</h1>
           <p>
@@ -90,8 +110,8 @@ export function StudioLandingPage(): ReactElement {
               View dashboard
             </Link>
           </div>
-        </div>
-        <div className="hero-product-card" aria-label="Product preview">
+        </MotionBlock>
+        <MotionBlock className="hero-product-card" motionName="railEnter">
           <div className="mini-browser-bar">
             <span />
             <span />
@@ -106,7 +126,7 @@ export function StudioLandingPage(): ReactElement {
               </div>
             ))}
           </div>
-        </div>
+        </MotionBlock>
       </section>
 
       <NonProductionCallout>
@@ -124,7 +144,7 @@ export function StudioLandingPage(): ReactElement {
         ))}
       </section>
 
-      <section id="workflows" className="workflow-bento">
+      <AnimatedList id="workflows" className="workflow-bento">
         {[
           ['Deal Intake', 'Capture property, deal, assumptions, and source packet context.'],
           ['Comps & Evidence', 'Compare public, reviewed, premium-private, and candidate comparable sales.'],
@@ -136,7 +156,7 @@ export function StudioLandingPage(): ReactElement {
             <p>{copy}</p>
           </StudioCard>
         ))}
-      </section>
+      </AnimatedList>
 
       <section className="studio-cta-band">
         <div>
@@ -158,10 +178,17 @@ export function StudioLandingPage(): ReactElement {
 export function StudioOnboardingPage(): ReactElement {
   const [step, setStep] = useState(0);
   const [tier, setTier] = useState<'Boutique' | 'Institutional'>('Institutional');
+  const [assetClasses, setAssetClasses] = useState(['Multifamily']);
+  const { message, announce } = useA11yAnnouncement();
   const steps = ['Tier', 'Account', 'Workspace', 'First deal'];
+  const goToStep = (nextStep: number) => {
+    setStep(nextStep);
+    announce(`Onboarding step ${nextStep + 1}: ${steps[nextStep]}`);
+  };
 
   return (
     <div className="onboarding-wrap">
+      <ScreenReaderAnnouncement message={message} />
       <StudioCard title="Set up Finem CRE Studio" eyebrow="Step-guided onboarding">
         <StageStepper stages={steps} activeIndex={step} />
         <div className="onboarding-panel">
@@ -212,11 +239,26 @@ export function StudioOnboardingPage(): ReactElement {
                 </select>
               </label>
               <div className="chip-group" aria-label="Asset classes">
-                {['Multifamily', 'Office', 'Industrial', 'Retail'].map((asset, index) => (
-                  <button type="button" key={asset} className={index === 0 ? 'chip active' : 'chip'}>
+                {['Multifamily', 'Office', 'Industrial', 'Retail'].map((asset) => {
+                  const selected = assetClasses.includes(asset);
+                  return (
+                  <button
+                    type="button"
+                    key={asset}
+                    className={selected ? 'chip active' : 'chip'}
+                    aria-pressed={selected}
+                    onClick={() =>
+                      setAssetClasses((current) =>
+                        current.includes(asset)
+                          ? current.filter((item) => item !== asset)
+                          : [...current, asset]
+                      )
+                    }
+                  >
                     {asset}
                   </button>
-                ))}
+                  );
+                })}
               </div>
             </div>
           ) : null}
@@ -230,7 +272,7 @@ export function StudioOnboardingPage(): ReactElement {
                 <strong>Explore dashboard</strong>
                 <span>Review the mock broker workspace first.</span>
               </Link>
-              <Link to="/studio/deals/riverside-flats" className="choice-card">
+              <Link to={studioDealPath()} className="choice-card">
                 <strong>Open sample deal</strong>
                 <span>Use Riverside Flats to inspect the full workflow.</span>
               </Link>
@@ -238,11 +280,11 @@ export function StudioOnboardingPage(): ReactElement {
           ) : null}
         </div>
         <div className="wizard-actions">
-          <button className="btn btn-secondary" type="button" disabled={step === 0} onClick={() => setStep(step - 1)}>
+          <button className="btn btn-secondary" type="button" disabled={step === 0} onClick={() => goToStep(step - 1)}>
             Back
           </button>
           {step < steps.length - 1 ? (
-            <button className="btn btn-primary" type="button" onClick={() => setStep(step + 1)}>
+            <button className="btn btn-primary" type="button" onClick={() => goToStep(step + 1)}>
               Continue
             </button>
           ) : (
@@ -260,7 +302,7 @@ export function StudioPricingPage(): ReactElement {
   const [annual, setAnnual] = useState(true);
   const plans = [
     ['Free', '$0', 'Starter comps and one draft report'],
-    ['Premium', annual ? '$199/mo' : '$249/mo', 'Pipeline, comps, underwriting, report builder'],
+    ['Premium', annual ? '$149/mo' : '$199/mo', 'Pipeline, comps, underwriting, report builder'],
     ['Enterprise', 'Custom', 'White-label portal, team governance, Broker OS'],
   ];
 
@@ -271,9 +313,12 @@ export function StudioPricingPage(): ReactElement {
         title="Billing & Plans"
         lede="Choose the workspace tier that fits your broker workflow."
         actions={
-          <button className="btn btn-secondary" type="button" onClick={() => setAnnual(!annual)}>
-            {annual ? 'Annual billing' : 'Monthly billing'}
-          </button>
+          <SegmentedControl
+            label="Billing cadence"
+            value={annual ? 'Annual' : 'Monthly'}
+            options={['Monthly', 'Annual']}
+            onChange={(value) => setAnnual(value === 'Annual')}
+          />
         }
       />
       <div className="pricing-grid">
@@ -300,15 +345,17 @@ export function StudioPricingPage(): ReactElement {
         />
       </StudioCard>
       <StudioCard title="FAQ">
-        <div className="faq-list">
-          <details open>
-            <summary>Can I upgrade later?</summary>
-            <p>Yes. Upgrade paths are mocked here and route through the same governed workspace.</p>
-          </details>
-          <details>
-            <summary>Do reports export automatically?</summary>
-            <p>No. Exports remain gated by review, consent, and source-rights posture.</p>
-          </details>
+        <div className="faq-list faq-card-list">
+          {[
+            ['Can I upgrade later?', 'Yes. Upgrade paths are mocked here and route through the same governed workspace.'],
+            ['Do reports export automatically?', 'No. Exports remain gated by review, consent, and source-rights posture.'],
+            ['Does white-label change source limits?', 'No. Branding never hides evidence posture, consent state, or non-production labels.'],
+          ].map(([question, answer]) => (
+            <div className="faq-card" key={question}>
+              <strong>{question}</strong>
+              <p>{answer}</p>
+            </div>
+          ))}
         </div>
       </StudioCard>
       <footer className="studio-footer">Billing prototype · no live Stripe or provider calls.</footer>
@@ -323,7 +370,7 @@ export function StudioDashboardPage(): ReactElement {
         eyebrow="Welcome back, Alex"
         title="Main Deal Dashboard"
         lede="Track active mandates, plan usage, and source-aware broker workflow activity."
-        actions={<><Link to="/studio/deal-intake" className="btn btn-primary">Import OM</Link><Link to="/studio/deal-intake" className="btn btn-secondary">New Deal</Link></>}
+        actions={<><div className="usage-pill"><span>Plan usage</span><strong>1 of 2 deals</strong><i style={{ width: '50%' }} /></div><Link to="/studio/deal-intake" className="btn btn-primary">Import OM</Link><Link to="/studio/deal-intake" className="btn btn-secondary">New Deal</Link></>}
       />
       <NonProductionCallout>Dashboard KPIs are synthetic projections for product validation.</NonProductionCallout>
       <div className="metric-grid four">
@@ -337,8 +384,9 @@ export function StudioDashboardPage(): ReactElement {
           <DataTable
             caption="Deal pipeline"
             headers={['Deal', 'Market', 'Stage', 'Value', 'Authority']}
+            getRowKey={(_row, index) => deals[index].id}
             rows={deals.map((deal) => [
-              <Link to={`/studio/deals/${deal.id}`}>{deal.name}</Link>,
+              <Link to={studioDealPath(deal.id)}>{deal.name}</Link>,
               deal.market,
               <StatusBadge status={deal.stage} />,
               deal.value,
@@ -353,13 +401,7 @@ export function StudioDashboardPage(): ReactElement {
         </StudioCard>
         <StudioCard title="Recent Activity">
           <AnimatedList className="activity-list">
-            {activity.map((item) => (
-              <div key={item}>
-                <MaterialIcon name="history" />
-                <span>{item}</span>
-                <TrustBadge state="Candidate evidence" />
-              </div>
-            ))}
+            <ActivityTimelinePanel items={activity} />
           </AnimatedList>
         </StudioCard>
         </div>
@@ -372,6 +414,8 @@ export function StudioDashboardPage(): ReactElement {
 export function StudioDealOverviewPage(): ReactElement {
   const deal = useStudioDeal();
   const [drawerOpen, setDrawerOpen] = useState(false);
+  if (!deal) return <StudioDealNotFound />;
+
   return (
     <div>
       <WorkflowContextHeader dealName={deal.name} stage="Underwriting workspace" returnTo="/studio/dashboard" />
@@ -382,20 +426,7 @@ export function StudioDealOverviewPage(): ReactElement {
         <MetricCard label="Target IRR" value="14.8%" detail="Scenario draft" />
         <MetricCard label="Equity Multiple" value="1.82x" detail="Analyst review active" />
       </div>
-      <div className="tabs-row" role="tablist" aria-label="Deal workflow sections">
-        {[
-          ['Overview', `/studio/deals/${deal.id}`],
-          ['Inputs', '/studio/deal-intake'],
-          ['Comps', `/studio/deals/${deal.id}/comps`],
-          ['Underwriting', `/studio/deals/${deal.id}/underwriting`],
-          ['Scenarios', `/studio/deals/${deal.id}/scenarios`],
-          ['Reports', '/studio/reports/riverside-flats/builder'],
-        ].map(([tab, href], index) => (
-          <Link key={tab} className={index === 0 ? 'active tab-link' : 'tab-link'} to={href} role="tab" aria-selected={index === 0}>
-            {tab}
-          </Link>
-        ))}
-      </div>
+      <DealWorkflowTabs deal={deal} />
       <div className="dashboard-grid">
         <StudioCard title="Property Snapshot" className="wide-card">
           <div className="property-snapshot">
@@ -421,16 +452,23 @@ export function StudioDealOverviewPage(): ReactElement {
         <StudioCard title="Source Documents" actions={<button className="btn btn-secondary" type="button" onClick={() => setDrawerOpen(true)}>Open drawer</button>}>
           <DataTable
             caption="Source documents"
-            headers={['Document', 'State']}
+            headers={['Document', 'Type', 'Uploaded', 'State']}
             rows={[
-              ['Offering memorandum.pdf', <TrustBadge state="Candidate evidence" />],
-              ['Rent roll.xlsx', <TrustBadge state="Reviewed" />],
-              ['T12.pdf', <TrustBadge state="Candidate evidence" />],
+              ['Offering memorandum.pdf', 'Offering memorandum', 'Today', <TrustBadge state="Candidate evidence" />],
+              ['Rent roll.xlsx', 'Rent roll', 'Yesterday', <TrustBadge state="Reviewed" />],
+              ['T12.pdf', 'Operating statement', 'Yesterday', <TrustBadge state="Candidate evidence" />],
             ]}
           />
         </StudioCard>
         <StudioCard title="Analyst Notes">
-          <p>Rent roll normalization and exit cap assumptions require final review before report export.</p>
+          <div className="notes-thread">
+            <p><strong>Alex:</strong> Rent roll normalization and exit cap assumptions require final review before report export.</p>
+            <p><strong>Priya:</strong> Waiting on lender quote before clearing DSCR warning.</p>
+            <label>
+              Add note
+              <textarea defaultValue="Mock note draft only." />
+            </label>
+          </div>
           <TrustBadge state="Candidate evidence" />
         </StudioCard>
         <StudioCard title="Deal Team">
@@ -489,32 +527,24 @@ export function StudioDealIntakePage(): ReactElement {
               </select>
             </label>
           </div>
-          <p className="field-error">Validation: cap-rate basis requires a cited source before export.</p>
+          <p className="field-error" id="cap-rate-error">Validation: cap-rate basis requires a cited source before export.</p>
         </StudioCard>
         <StudioCard title="Source Materials">
-          <button type="button" className="upload-zone">
-            <MaterialIcon name="upload_file" />
-            <strong>Drop OM, rent roll, and T12 files here</strong>
-            <span>Mock upload only. Extracted values remain candidate evidence.</span>
-          </button>
-          <div className="uploaded-list">
-            {['Offering memorandum.pdf', 'Rent roll.xlsx', 'T12.pdf'].map((file) => (
-              <div key={file}><MaterialIcon name="description" /> {file} <TrustBadge state="Candidate evidence" /></div>
-            ))}
-          </div>
+          <UploadDropzone files={mockUploadFiles} />
         </StudioCard>
         <StudioCard title="Financial Assumptions">
           <div className="form-grid">
             <label>T12 NOI<input defaultValue="$2,900,000" /></label>
             <label>Implied Cap Rate<input defaultValue="5.8%" /></label>
-            <label>Vacancy<input defaultValue="4.5%" aria-invalid="true" /></label>
+            <label>Vacancy<input defaultValue="4.5%" aria-invalid="true" aria-describedby="vacancy-error" /></label>
           </div>
-          <p className="field-error">Vacancy assumption requires a supporting rent roll citation.</p>
+          <p className="field-error" id="vacancy-error">Vacancy assumption requires a supporting rent roll citation.</p>
         </StudioCard>
+        <StagedImportReviewPanel files={mockUploadFiles} candidates={mockCandidateFields} />
         <StickyActionBar>
           <span>Last saved just now</span>
           <button className="btn btn-secondary" type="button">Save draft</button>
-          <Link to="/studio/deals/riverside-flats/comps" className="btn btn-primary">Continue to Comps</Link>
+          <Link to={studioDealPath(undefined, 'comps')} className="btn btn-primary">Continue to Comps</Link>
         </StickyActionBar>
       </div>
       <StudioCard title="Packet Preview">
@@ -538,12 +568,15 @@ export function StudioCompsPage(): ReactElement {
   const [selected, setSelected] = useState<Comp | null>(comps[0]);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [view, setView] = useState<'table' | 'map'>('table');
+  if (!deal) return <StudioDealNotFound />;
 
   return (
     <div>
-      <WorkflowContextHeader dealName={deal.name} stage="Comparable sales review" returnTo={`/studio/deals/${deal.id}`} returnLabel="Return to deal" />
+      <WorkflowContextHeader dealName={deal.name} stage="Comparable sales review" returnTo={studioDealPath(deal.id)} returnLabel="Return to deal" />
+      <DealWorkflowTabs deal={deal} />
       <NonProductionCallout>Comparable sales are sample rows with mixed authority states.</NonProductionCallout>
-      <div className="dashboard-grid">
+      <ReviewPostureBanner blocks={mockSourceBlocks} />
+      <div className="comps-grid">
         <StudioCard title="Subject Property">
           <div className="property-image small" aria-label="Mock subject property image" />
           <p>{deal.address}</p>
@@ -554,10 +587,7 @@ export function StudioCompsPage(): ReactElement {
           title="Sales Comparables"
           className="wide-card"
           actions={
-            <div className="segmented-control" role="tablist" aria-label="Comp view mode">
-              <button type="button" role="tab" aria-selected={view === 'table'} className={view === 'table' ? 'active' : ''} onClick={() => setView('table')}>Table</button>
-              <button type="button" role="tab" aria-selected={view === 'map'} className={view === 'map' ? 'active' : ''} onClick={() => setView('map')}>Map</button>
-            </div>
+            <SegmentedControl label="Comp view mode" value={view} options={['table', 'map']} onChange={setView} />
           }
         >
           {view === 'map' ? (
@@ -569,11 +599,12 @@ export function StudioCompsPage(): ReactElement {
           <DataTable
             caption="Sales comparables"
             headers={['Comp', 'Distance', 'Units', 'Sale Price', 'Authority']}
+            getRowKey={(_row, index) => comps[index].id}
             rows={comps.map((comp) => [
               <button type="button" className="table-link" onClick={() => { setSelected(comp); setDrawerOpen(true); }}>{comp.name}</button>,
               comp.distance,
               comp.units,
-              comp.salePrice,
+              <ProvenanceCell value={comp.salePrice} citation={mockSourceBlocks[2].citations[0]} state={comp.authority} />,
               <TrustBadge state={comp.authority} />,
             ])}
           />
@@ -585,6 +616,17 @@ export function StudioCompsPage(): ReactElement {
             </PaywallOverlay>
           </div>
         </StudioCard>
+        <StudioCard title="Comp Detail" className="comp-aside">
+          {selected ? (
+            <div className="drawer-facts">
+              <MetricCard label="Selected comp" value={selected.name} detail={`${selected.distance} from subject`} />
+              <MetricCard label="Price / Unit" value={selected.pricePerUnit} detail={selected.authority} />
+              <TrustBadge state={selected.authority} />
+            </div>
+          ) : (
+            <p>Select a comparable sale to inspect authority and valuation context.</p>
+          )}
+        </StudioCard>
       </div>
       <DetailDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} title={selected?.name ?? 'Comparable'}>
         {selected ? (
@@ -592,6 +634,9 @@ export function StudioCompsPage(): ReactElement {
             <MetricCard label="Price / Unit" value={selected.pricePerUnit} detail={selected.authority} />
             <MetricCard label="Cap Rate" value={selected.capRate} detail="Reviewed comparison basis" />
             <TrustBadge state={selected.authority} />
+            {mockSourceBlocks.map((block) => (
+              <SourceEvidenceBlockCard key={block.id} block={block} />
+            ))}
           </div>
         ) : null}
       </DetailDrawer>
@@ -601,127 +646,139 @@ export function StudioCompsPage(): ReactElement {
 
 export function StudioUnderwritingPage(): ReactElement {
   const deal = useStudioDeal();
+  const [activeScenario, setActiveScenario] = useState('Base Case');
+  const [locked, setLocked] = useState(false);
+  const [overriddenGates, setOverriddenGates] = useState<string[]>([]);
+  const [assumptions, setAssumptions] = useState(() => underwritingAssumptionsByDeal[deal?.id ?? ''] ?? underwritingAssumptionsByDeal['riverside-flats']);
+  const metrics = useMemo(() => calculateUnderwritingMetrics(assumptions), [assumptions]);
+  const gates = useMemo(
+    () =>
+      evaluateUnderwritingGates(
+        assumptions,
+        metrics,
+        comps.filter((comp) => comp.authority === 'Reviewed').length
+      ).map((gate) => (overriddenGates.includes(gate.id) ? { ...gate, status: 'OVERRIDDEN' as const } : gate)),
+    [assumptions, metrics, overriddenGates]
+  );
+  const proFormaRows = useMemo(() => buildProFormaRows(assumptions), [assumptions]);
+  if (!deal) return <StudioDealNotFound />;
+
   return (
-    <div>
-      <WorkflowContextHeader dealName={deal.name} stage="Underwriting cockpit" returnTo={`/studio/deals/${deal.id}`} returnLabel="Return to deal" />
-      <div className="tabs-row" role="tablist" aria-label="Scenario tabs">
-        {['Base Case', 'Upside', 'Downside'].map((scenario, index) => (
-          <button key={scenario} type="button" role="tab" aria-selected={index === 0} className={index === 0 ? 'active' : ''}>
+    <WorkflowContinuityContainer label="Underwriting workflow">
+      <WorkflowContextHeader dealName={deal.name} stage="Underwriting cockpit" returnTo={studioDealPath(deal.id)} returnLabel="Return to deal" />
+      <DealWorkflowTabs deal={deal} />
+      <SyntheticDataBanner />
+      <div className="tabs-row" role="group" aria-label="Scenario controls">
+        {['Base Case', 'Upside', 'Downside'].map((scenario) => (
+          <button
+            key={scenario}
+            type="button"
+            aria-pressed={activeScenario === scenario}
+            className={activeScenario === scenario ? 'active' : ''}
+            onClick={() => setActiveScenario(scenario)}
+          >
             {scenario}
           </button>
         ))}
-        <Link to={`/studio/deals/${deal.id}/scenarios`} className="btn btn-secondary">Compare Scenarios</Link>
+        <Link to={studioDealPath(deal.id, 'scenarios')} className="btn btn-secondary">Compare Scenarios</Link>
       </div>
       <div className="cockpit-grid">
-        <StudioCard title="Assumptions Editor">
-          <h3>Acquisition</h3>
-          {['Purchase Price', 'Closing Costs', 'Renovation Budget'].map((label) => (
-            <label key={label}>
-              {label}
-              <input defaultValue={label === 'Purchase Price' ? deal.value : label === 'Closing Costs' ? '1.5%' : '$12,000/unit'} />
-            </label>
-          ))}
-          <h3>Debt & Exit</h3>
-          {['Debt Yield', 'Exit Cap', 'Rent Growth'].map((label) => (
-            <label key={label}>
-              {label}
-              <input defaultValue={label === 'Exit Cap' ? '5.75%' : label === 'Debt Yield' ? '8.4%' : '3.0%'} />
-            </label>
-          ))}
-        </StudioCard>
-        <StudioCard title="Key Metrics">
-          <div className="metric-grid">
-            <MetricCard label="IRR" value="14.8%" detail="Model-inferred" />
-            <MetricCard label="EMx" value="1.82x" detail="Base case" />
-            <MetricCard label="Yield" value="7.1%" detail="Stabilized" />
-            <MetricCard label="DSCR" value="1.31x" detail="Needs lender quote" icon="warning" />
-          </div>
-          <NonProductionCallout>Metrics are mock calculations and require review before export.</NonProductionCallout>
-        </StudioCard>
-        <StudioCard title="Review Flags">
-          {['Rent growth exceeds market sample', 'Exit cap sourced from candidate comp', 'Debt terms need lender quote'].map((flag) => (
-            <div className="flag-row" key={flag}>
-              <MaterialIcon name="warning" />
-              {flag}
-            </div>
-          ))}
-        </StudioCard>
+        <AssumptionsPanel assumptions={assumptions} provenance={underwritingProvenanceByDeal[deal.id]} onChange={setAssumptions} />
+        <MetricsPanel metrics={metrics} />
+        <GatesPanel gates={gates} onOverride={(gateId) => setOverriddenGates((current) => [...new Set([...current, gateId])])} />
       </div>
       <StudioCard title="Pro Forma Cash Flow">
         <DataTable
           caption="Five-year pro forma cash flow"
-          headers={['Line Item', 'Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5']}
-          rows={[
-            ['Gross Revenue', '$7.2M', '$7.5M', '$7.8M', '$8.0M', '$8.3M'],
-            ['Operating Expenses', '($3.1M)', '($3.1M)', '($3.2M)', '($3.3M)', '($3.4M)'],
-            ['NOI', '$4.1M', '$4.4M', '$4.6M', '$4.8M', '$4.9M'],
-            ['Debt Service', '($2.0M)', '($2.0M)', '($2.0M)', '($2.0M)', '($2.0M)'],
-            ['Cash Flow', '$2.1M', '$2.4M', '$2.6M', '$2.8M', '$2.9M'],
-          ]}
+          headers={['Year', 'Gross Revenue', 'Expenses', 'NOI', 'Debt Service', 'Cash Flow']}
+          rows={proFormaRows}
         />
       </StudioCard>
-    </div>
+      <div className="dashboard-grid">
+        <VersionLockCard canLock={gates.every((gate) => gate.status !== 'BLOCKED')} locked={locked} onLock={() => setLocked(true)} />
+        <StudioCard title="Next Handoff">
+          <WorkflowHandoffLink
+            to={studioDealPath(deal.id, 'scenarios')}
+            label="Compare scenarios"
+            reason={`${activeScenario} metrics are formula-backed but still mock-only.`}
+          />
+        </StudioCard>
+      </div>
+    </WorkflowContinuityContainer>
   );
 }
 
 export function StudioScenarioComparisonPage(): ReactElement {
   const deal = useStudioDeal();
+  const assumptions = underwritingAssumptionsByDeal[deal?.id ?? ''] ?? underwritingAssumptionsByDeal['riverside-flats'];
+  const grid = useMemo(() => buildSensitivityGrid(assumptions), [assumptions]);
+  const scenarioMetrics = useMemo(
+    () =>
+      [
+        ['Base Case', assumptions],
+        ['Upside', { ...assumptions, annualAppreciationRate: assumptions.annualAppreciationRate + 0.012, vacancyRate: Math.max(0.02, assumptions.vacancyRate - 0.01) }],
+        ['Downside', { ...assumptions, annualAppreciationRate: assumptions.annualAppreciationRate - 0.012, exitCapRate: assumptions.exitCapRate + 0.005 }],
+        ['Lender Case', { ...assumptions, ltv: Math.max(0.5, assumptions.ltv - 0.06), interestRate: assumptions.interestRate + 0.004 }],
+      ].map(([name, scenarioAssumptions]) => ({
+        name: name as string,
+        metrics: calculateUnderwritingMetrics(scenarioAssumptions as typeof assumptions),
+      })),
+    [assumptions]
+  );
+  if (!deal) return <StudioDealNotFound />;
+
   return (
     <div>
-      <WorkflowContextHeader dealName={deal.name} stage="Scenario comparison" returnTo={`/studio/deals/${deal.id}/underwriting`} returnLabel="Return to underwriting" />
+      <WorkflowContextHeader dealName={deal.name} stage="Scenario comparison" returnTo={studioDealPath(deal.id, 'underwriting')} returnLabel="Return to underwriting" />
+      <DealWorkflowTabs deal={deal} />
       <NonProductionCallout>Scenario outputs are mock calculations and not investment recommendations.</NonProductionCallout>
       <div className="scenario-grid">
-        {scenarios.map((scenario) => (
-          <StudioCard key={scenario.id} title={scenario.name}>
-            <MetricCard label="IRR" value={scenario.irr} detail={scenario.status} />
-            <MetricCard label="Equity Multiple" value={scenario.equityMultiple} detail={`Exit cap ${scenario.exitCap}`} />
+        {scenarioMetrics.map((scenario) => (
+          <StudioCard key={scenario.name} title={scenario.name}>
+            <MetricCard label="IRR" value={formatPercent(scenario.metrics.irr)} detail="Model-inferred" />
+            <MetricCard label="Equity Multiple" value={formatMultiple(scenario.metrics.equityMultiple)} detail={`Value ${formatCurrency(scenario.metrics.indicatedValue)}`} />
           </StudioCard>
         ))}
       </div>
       <StudioCard title="Key Metrics Matrix">
-        <DataTable
-          caption="Scenario comparison matrix"
-          headers={['Metric', ...scenarios.map((scenario) => scenario.name)]}
-          rows={[
-            ['IRR', ...scenarios.map((scenario) => scenario.irr)],
-            ['Equity Multiple', ...scenarios.map((scenario) => scenario.equityMultiple)],
-            ['Exit Cap', ...scenarios.map((scenario) => scenario.exitCap)],
-            ['Status', ...scenarios.map((scenario) => <StatusBadge status={scenario.status} />)],
-            ['Premium Sensitivity', ...scenarios.map(() => <span className="blurred-cell">Locked</span>)],
-          ]}
-        />
+        <SensitivityMatrix grid={grid} />
       </StudioCard>
       <StudioCard title="IRR Bar Chart">
-        <div className="bar-chart" aria-label="IRR bar chart">
-          {scenarios.map((scenario) => (
-            <div key={scenario.id}>
+        <div className="bar-chart vertical-bars" aria-label="IRR bar chart">
+          {scenarioMetrics.map((scenario) => (
+            <div key={scenario.name}>
               <span>{scenario.name}</span>
-              <div><i style={{ width: scenario.irr }} /></div>
-              <strong>{scenario.irr}</strong>
+              <div><i style={{ '--bar-height': formatPercent(scenario.metrics.irr) } as CSSProperties} /></div>
+              <strong>{formatPercent(scenario.metrics.irr)}</strong>
             </div>
           ))}
         </div>
       </StudioCard>
-      <div className="locked-panel">
+      <MotionBlock className="locked-panel" motionName="collapse">
         <PaywallOverlay>
           <h3>Sensitivity heatmap locked</h3>
           <p>Premium tier required for advanced scenario sensitivity views.</p>
           <Link className="btn btn-primary" to="/studio/settings/billing">View plans</Link>
         </PaywallOverlay>
-      </div>
+      </MotionBlock>
     </div>
   );
 }
 
 export function StudioReportBuilderPage(): ReactElement {
+  const { reportId } = useParams();
+  const deal = getStudioDeal(reportId);
   const approvedCount = reportSections.filter((section) => section.status === 'Approved').length;
+  if (!deal) return <StudioDealNotFound />;
+
   return (
-    <div>
+    <div className="report-builder-workspace">
       <PageTitle
         title="Report Builder"
         lede="Review sections, citations, branding, and export readiness before delivery."
-        actions={<StatusBadge status={`${approvedCount}/${reportSections.length} approved`} />}
+        actions={<><StatusBadge status={`${approvedCount}/${reportSections.length} approved`} /><button className="btn btn-primary" type="button" disabled>Export PDF</button></>}
       />
+      <ReviewPostureBanner blocks={mockSourceBlocks} />
       <div className="report-builder-grid">
         <StudioCard title="Sections">
           <label>
@@ -732,26 +789,17 @@ export function StudioReportBuilderPage(): ReactElement {
               <option>IC Memo</option>
             </select>
           </label>
-          {reportSections.map((section) => (
-            <div className="section-check" key={section.id}>
-              <span className="drag-handle" aria-hidden="true">::</span>
-              <MaterialIcon name={section.status === 'Approved' ? 'check_circle' : 'radio_button_unchecked'} />
-              <div>
-                <strong>{section.name}</strong>
-                <span>{section.citationCount} citations</span>
-              </div>
-              <StatusBadge status={section.status} />
-            </div>
-          ))}
+          {reportSections.map((section) => <ReportSectionReviewCard key={section.id} section={section} />)}
           <div className="studio-actions">
             <button type="button" className="btn btn-secondary">Export Excel</button>
             <button type="button" className="btn btn-primary" disabled>Export PDF</button>
           </div>
+          <ReportProvenanceCard sections={reportSections} />
         </StudioCard>
         <StudioCard title="Live PDF Preview" className="pdf-preview-card">
           <div className="pdf-preview">
             <h2>{brandConfig.company}</h2>
-            <p>Riverside Flats Investment Preview</p>
+            <p>{deal.name} Investment Preview</p>
             <div className="property-image report-hero" aria-label="Mock report hero image" />
             <div className="metric-grid">
               <MetricCard label="Target IRR" value="14.8%" detail="Draft" />
@@ -771,7 +819,7 @@ export function StudioReportBuilderPage(): ReactElement {
           <label>Disclaimer<textarea defaultValue={brandConfig.disclaimer} /></label>
           <TrustBadge state="Candidate evidence" />
           <NonProductionCallout>Export is disabled until section review and source-rights gates clear.</NonProductionCallout>
-          <button className="btn btn-primary" type="button" disabled>Export PDF</button>
+          <ExportReadinessCard sections={reportSections} />
           <Link to="/studio/settings/white-label" className="btn btn-secondary">Edit branding</Link>
         </StudioCard>
       </div>
@@ -829,10 +877,7 @@ export function StudioWhiteLabelPage(): ReactElement {
       <StudioCard
         title="Live Preview"
         actions={
-          <div className="segmented-control">
-            <button type="button" className={preview === 'portal' ? 'active' : ''} onClick={() => setPreview('portal')}>Portal</button>
-            <button type="button" className={preview === 'report' ? 'active' : ''} onClick={() => setPreview('report')}>Report</button>
-          </div>
+          <SegmentedControl label="Preview mode" value={preview} options={['portal', 'report']} onChange={setPreview} />
         }
       >
         <div className="portal-preview" style={{ '--brand-accent': accent, '--brand-primary': primary } as CSSProperties}>

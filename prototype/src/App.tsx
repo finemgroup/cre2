@@ -23,7 +23,7 @@ import {
   StudioScenarioComparisonPage,
   StudioUnderwritingPage,
   StudioWhiteLabelPage,
-} from '@/pages/StudioPages';
+} from '@/pages/studio';
 
 export default function App(): ReactElement {
   return (

@@ -46,6 +46,29 @@ export function StudioCard({
   );
 }
 
+export function PageTitle({
+  eyebrow,
+  title,
+  lede,
+  actions,
+}: {
+  eyebrow?: string;
+  title: string;
+  lede?: string;
+  actions?: ReactNode;
+}): ReactElement {
+  return (
+    <header className="studio-page-title">
+      <div>
+        {eyebrow ? <p className="studio-eyebrow">{eyebrow}</p> : null}
+        <h1>{title}</h1>
+        {lede ? <p>{lede}</p> : null}
+      </div>
+      {actions ? <div className="studio-actions">{actions}</div> : null}
+    </header>
+  );
+}
+
 export function MetricCard({
   label,
   value,
@@ -139,11 +162,30 @@ export function StageStepper({
 export function AnimatedList({
   children,
   className = '',
-}: ChildrenProps & { className?: string }): ReactElement {
+  id,
+}: ChildrenProps & { className?: string; id?: string }): ReactElement {
   const reducedMotion = useReducedMotionPreference();
   const props = getMotionProps(getMotionSpec('listStagger'), reducedMotion);
   return (
-    <motion.div className={className} data-sophex-motion="listStagger" {...props}>
+    <motion.div id={id} className={className} data-sophex-motion="listStagger" {...props}>
+      {children}
+    </motion.div>
+  );
+}
+
+export function MotionBlock({
+  children,
+  className = '',
+  motionName = 'stageItem',
+}: ChildrenProps & {
+  className?: string;
+  motionName?: 'stageItem' | 'listStagger' | 'railEnter' | 'collapse';
+}): ReactElement {
+  const reducedMotion = useReducedMotionPreference();
+  const props = getMotionProps(getMotionSpec(motionName), reducedMotion);
+
+  return (
+    <motion.div className={className} data-sophex-motion={motionName} {...props}>
       {children}
     </motion.div>
   );
@@ -170,10 +212,12 @@ export function DataTable({
   headers,
   rows,
   caption,
+  getRowKey,
 }: {
   headers: string[];
   rows: Array<ReactNode[]>;
   caption?: string;
+  getRowKey?: (row: ReactNode[], index: number) => string;
 }): ReactElement {
   return (
     <div className="studio-table-wrap">
@@ -190,7 +234,7 @@ export function DataTable({
         </thead>
         <tbody>
           {rows.map((row, index) => (
-            <tr key={index}>
+            <tr key={getRowKey ? getRowKey(row, index) : row.map((cell) => String(cell)).join('|')}>
               {row.map((cell, cellIndex) => (
                 <td key={cellIndex}>{cell}</td>
               ))}
@@ -218,26 +262,17 @@ export function PaywallOverlay({ children }: ChildrenProps): ReactElement {
 }
 
 export function JsonContextViewer({ value }: { value: unknown }): ReactElement {
-  const json = JSON.stringify(value, null, 2)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"([^"]+)":/g, '<span class="json-key">"$1"</span>:')
-    .replace(/: "([^"]*)"/g, ': <span class="json-string">"$1"</span>')
-    .replace(/: (\d+|true|false)/g, ': <span class="json-value">$1</span>');
-
   return (
-    <pre
-      className="json-viewer"
-      aria-label="Planning context JSON"
-      dangerouslySetInnerHTML={{ __html: json }}
-    />
+    <pre className="json-viewer" aria-label="Planning context JSON">
+      {JSON.stringify(value, null, 2)}
+    </pre>
   );
 }
 
 export function JobStreamsTable({ jobs }: { jobs: JobStatusProjection[] }): ReactElement {
   return (
     <DataTable
+      caption="Sanitized Broker OS job streams"
       headers={['Job ID', 'Type', 'Status', 'Duration']}
       rows={jobs.map((job) => [
         <span className="linkish">{job.id}</span>,
