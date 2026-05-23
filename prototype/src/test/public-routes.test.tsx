@@ -1,32 +1,25 @@
-import { render, screen, within } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
-import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 
-import App from '@/App';
-
-function renderRoute(path: string) {
-  return render(
-    <MemoryRouter initialEntries={[path]}>
-      <App />
-    </MemoryRouter>
-  );
-}
+import { renderRoute } from '@/test/renderRoute';
 
 describe('public Sophex routes', () => {
   it('renders the public shell without basic accessibility violations', async () => {
-    const { container } = renderRoute('/');
+    const { container } = await renderRoute('/');
     expect(
       screen.getByRole('heading', { name: /Evidence-first property intelligence/i })
     ).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /Start with a market or address/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: /Start with a market or address/i })
+    ).toBeInTheDocument();
     expect(await axe(container)).toHaveNoViolations();
   });
 
   it('searches sample properties and keeps property links route-scoped', async () => {
     const user = userEvent.setup();
-    renderRoute('/');
+    await renderRoute('/');
 
     await user.type(screen.getByLabelText(/Property or market/i), 'Austin');
     await user.click(screen.getByRole('button', { name: /^Search$/ }));
@@ -39,7 +32,7 @@ describe('public Sophex routes', () => {
 
   it('shows an empty-state message when search returns no matches', async () => {
     const user = userEvent.setup();
-    renderRoute('/');
+    await renderRoute('/');
 
     await user.type(screen.getByLabelText(/Property or market/i), 'zzzz-no-match');
     await user.click(screen.getByRole('button', { name: /^Search$/ }));
@@ -47,8 +40,8 @@ describe('public Sophex routes', () => {
     expect(screen.getByRole('heading', { name: /No sample matches/i })).toBeInTheDocument();
   });
 
-  it('keeps the selected property context through comps and report links', () => {
-    renderRoute('/property/demo-002');
+  it('keeps the selected property context through comps and report links', async () => {
+    await renderRoute('/property/demo-002');
 
     expect(screen.getByRole('heading', { name: /4400 Research Blvd/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Compare comps/i })).toHaveAttribute(
@@ -61,8 +54,8 @@ describe('public Sophex routes', () => {
     );
   });
 
-  it('labels comps with the active subject property', () => {
-    renderRoute('/property/demo-002/comps');
+  it('labels comps with the active subject property', async () => {
+    await renderRoute('/property/demo-002/comps');
     expect(screen.getByText(/Sample comp set for 4400 Research Blvd/i)).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: /Preview report for 4400 Research Blvd/i })
@@ -71,7 +64,7 @@ describe('public Sophex routes', () => {
 
   it('runs upload as an exclusive stage flow with progress semantics', async () => {
     const user = userEvent.setup();
-    renderRoute('/upload');
+    await renderRoute('/upload');
 
     await user.upload(screen.getByLabelText(/Drag lease/i), new File(['sample'], 'rent-roll.pdf'));
     await user.click(screen.getByRole('checkbox', { name: /source-use/i }));
@@ -84,8 +77,8 @@ describe('public Sophex routes', () => {
     expect(screen.queryByRole('button', { name: /Start upload/i })).not.toBeInTheDocument();
   });
 
-  it('derives export blockers from report governance readiness', () => {
-    renderRoute('/export/demo-001');
+  it('derives export blockers from report governance readiness', async () => {
+    await renderRoute('/export/demo-001');
     const blockers = screen.getByRole('list', { name: /Export blockers/i });
 
     expect(within(blockers).getByText(/Comp set is review required/i)).toBeInTheDocument();
@@ -94,17 +87,23 @@ describe('public Sophex routes', () => {
 
   it('opens the export governance modal from the export page', async () => {
     const user = userEvent.setup();
-    renderRoute('/export/demo-001');
+    await renderRoute('/export/demo-001');
 
     await user.click(screen.getByRole('button', { name: /Review blockers/i }));
     expect(screen.getByRole('dialog', { name: /Export blocked/i })).toBeInTheDocument();
   });
 
-  it('renders explicit route guards for missing pages and properties', () => {
-    renderRoute('/property/not-real');
+  it('renders explicit route guards for missing pages and properties', async () => {
+    await renderRoute('/property/not-real');
     expect(screen.getByRole('heading', { name: /Property not found/i })).toBeInTheDocument();
 
-    renderRoute('/not-a-route');
+    await renderRoute('/not-a-route');
     expect(screen.getByRole('heading', { name: /Page not found/i })).toBeInTheDocument();
+  });
+
+  it('shows public trust footer links', async () => {
+    await renderRoute('/');
+    expect(screen.getByRole('navigation', { name: /Trust and legal/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Source trust tiers/i })).toBeInTheDocument();
   });
 });

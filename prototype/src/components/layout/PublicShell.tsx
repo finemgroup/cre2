@@ -44,6 +44,15 @@ export function PublicShell(): ReactElement {
           <Outlet />
         </PageTransition>
       </main>
+      <footer className="shell-footer">
+        <nav aria-label="Trust and legal">
+          <Link to="/upload">Contribute evidence</Link>
+          <Link to="/studio/settings/billing">Plans</Link>
+          <a href="#source-trust">Source trust tiers</a>
+          <a href="#privacy">Privacy (prototype)</a>
+        </nav>
+        <p>Mock marketplace prototype — no live valuations, exports, or syndication.</p>
+      </footer>
     </div>
   );
 }

@@ -30,7 +30,9 @@ export function ExportGovernanceModal({
           <p>All review and source-use gates are clear for this prototype export.</p>
           <ul className="governance-list">
             <li>Receipt hash: {readiness.receiptHash}</li>
-            <li>Approved sections: {readiness.approvedCount}/{readiness.totalCount}</li>
+            <li>
+              Approved sections: {readiness.approvedCount}/{readiness.totalCount}
+            </li>
           </ul>
           <div className="modal-actions">
             <button type="button" className="btn btn-secondary" onClick={onClose}>

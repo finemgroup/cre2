@@ -37,7 +37,9 @@ export function GateOverrideModal({
         You are requesting an override for <strong>{gateLabel}</strong>.
       </p>
       {gateDetail ? <p className="muted">{gateDetail}</p> : null}
-      <p className="warning">Overrides are audited and require a documented reason in production.</p>
+      <p className="warning">
+        Overrides are audited and require a documented reason in production.
+      </p>
       <label htmlFor="override-reason">
         Override reason
         <textarea

@@ -454,7 +454,11 @@ export function StudioCompsPage(): ReactElement {
             <PaywallOverlay>
               <h3>Premium comp set locked</h3>
               <p>Upgrade to view provider-restricted and organization-private comparables.</p>
-              <button type="button" className="btn btn-primary" onClick={() => setUpgradeOpen(true)}>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => setUpgradeOpen(true)}
+              >
                 Upgrade
               </button>
             </PaywallOverlay>
@@ -546,9 +550,11 @@ export function StudioUnderwritingPage(): ReactElement {
   const [activeScenario, setActiveScenario] = useState('Base Case');
   const [locked, setLocked] = useState(false);
   const [overriddenGates, setOverriddenGates] = useState<string[]>([]);
-  const [overrideTarget, setOverrideTarget] = useState<{ id: string; label: string; detail: string } | null>(
-    null
-  );
+  const [overrideTarget, setOverrideTarget] = useState<{
+    id: string;
+    label: string;
+    detail: string;
+  } | null>(null);
   const { pushToast } = usePrototypeToast();
   const [assumptions, setAssumptions] = useState(() => baseAssumptions);
   const metrics = useMemo(() => calculateUnderwritingMetrics(assumptions), [assumptions]);

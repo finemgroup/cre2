@@ -100,7 +100,11 @@ export function LandingPage(): ReactElement {
               description={`Nothing in the prototype matched "${query}". Try Austin, Commerce, or Research.`}
               tone="warning"
               actions={
-                <button type="button" className="btn btn-secondary" onClick={() => runSearch('Austin')}>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => runSearch('Austin')}
+                >
                   Search Austin
                 </button>
               }

@@ -59,6 +59,8 @@ a {
 
 .shell {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .skip-link {
@@ -150,6 +152,36 @@ a {
   max-width: 1100px;
   margin: 0 auto;
   padding: 1.5rem;
+  flex: 1;
+}
+
+.shell-footer {
+  margin-top: auto;
+  padding: 1.25rem 1.5rem 1.75rem;
+  border-top: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.shell-footer nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.shell-footer a {
+  font-size: 0.875rem;
+}
+
+.shell-footer p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+
+.route-fallback {
+  padding: 2rem 0;
+  color: var(--muted);
 }
 
 .page-header h1 {
@@ -2050,6 +2082,12 @@ button.upload-zone {
 
 .studio-mobile-menu {
   display: none;
+}
+
+@media (max-width: 1000px) {
+  .studio-mobile-menu {
+    display: inline-flex;
+  }
 }
 
 .studio-mobile-nav {

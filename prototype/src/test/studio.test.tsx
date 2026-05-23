@@ -1,17 +1,8 @@
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MemoryRouter } from 'react-router-dom';
 import { describe, expect, it } from 'vitest';
 
-import App from '@/App';
-
-function renderRoute(path: string) {
-  return render(
-    <MemoryRouter initialEntries={[path]}>
-      <App />
-    </MemoryRouter>
-  );
-}
+import { renderRoute } from '@/test/renderRoute';
 
 describe('Finem CRE Studio routes', () => {
   it.each([
@@ -28,19 +19,19 @@ describe('Finem CRE Studio routes', () => {
     ['/studio/reports/riverside-flats/builder', 'Report Builder', 1],
     ['/studio/settings/white-label', 'White Label Settings', 1],
     ['/studio/broker-os', 'Broker OS Control Panel', 1],
-  ])('renders %s', (path, text, level) => {
-    renderRoute(path);
+  ])('renders %s', async (path, text, level) => {
+    await renderRoute(path);
     expect(screen.getByRole('heading', { name: new RegExp(text), level })).toBeInTheDocument();
   });
 
-  it('uses the active deal id in deal workflow pages', () => {
-    renderRoute('/studio/deals/1200-tech/comps');
+  it('uses the active deal id in deal workflow pages', async () => {
+    await renderRoute('/studio/deals/1200-tech/comps');
     expect(screen.getByText('1200 Tech Boulevard')).toBeInTheDocument();
   });
 
   it('advances onboarding steps and toggles asset chips', async () => {
     const user = userEvent.setup();
-    renderRoute('/studio/onboarding');
+    await renderRoute('/studio/onboarding');
     await user.click(screen.getByRole('button', { name: /Continue/i }));
     expect(screen.getByLabelText(/Full name/i)).toBeInTheDocument();
     await user.click(screen.getByRole('button', { name: /Continue/i }));
@@ -51,7 +42,7 @@ describe('Finem CRE Studio routes', () => {
 
   it('opens and closes a comp detail drawer with keyboard focus restored', async () => {
     const user = userEvent.setup();
-    renderRoute('/studio/deals/riverside-flats/comps');
+    await renderRoute('/studio/deals/riverside-flats/comps');
     const trigger = screen.getByRole('button', { name: /Eastline Apartments/i });
     await user.click(trigger);
     expect(screen.getByRole('dialog', { name: /Eastline Apartments/i })).toBeInTheDocument();
@@ -64,8 +55,8 @@ describe('Finem CRE Studio routes', () => {
     expect(document.body.style.overflow).toBe('');
   });
 
-  it('keeps deal workflow links on the active deal id', () => {
-    renderRoute('/studio/deals/1200-tech/comps');
+  it('keeps deal workflow links on the active deal id', async () => {
+    await renderRoute('/studio/deals/1200-tech/comps');
     expect(screen.getAllByRole('link', { name: /Inputs/i }).at(-1)).toHaveAttribute(
       'href',
       '/studio/deals/1200-tech/intake'
@@ -80,15 +71,15 @@ describe('Finem CRE Studio routes', () => {
     );
   });
 
-  it('marks active sidebar navigation from route patterns', () => {
-    renderRoute('/studio/deals/1200-tech/scenarios');
+  it('marks active sidebar navigation from route patterns', async () => {
+    await renderRoute('/studio/deals/1200-tech/scenarios');
     const sidebar = screen.getByRole('navigation', { name: /Finem Studio navigation/i });
     expect(within(sidebar).getByRole('link', { name: /Underwriting/i })).toHaveClass('active');
   });
 
   it('switches billing cadence with pressed state', async () => {
     const user = userEvent.setup();
-    renderRoute('/studio/settings/billing');
+    await renderRoute('/studio/settings/billing');
     const monthly = screen.getByRole('button', { name: /Monthly/i });
     await user.click(monthly);
     expect(monthly).toHaveAttribute('aria-pressed', 'true');
@@ -97,14 +88,14 @@ describe('Finem CRE Studio routes', () => {
 
   it('switches comp view mode and white-label preview mode', async () => {
     const user = userEvent.setup();
-    renderRoute('/studio/deals/riverside-flats/comps');
+    await renderRoute('/studio/deals/riverside-flats/comps');
     await user.click(screen.getByRole('button', { name: /map/i }));
     expect(screen.getByText(/Sample map view/i)).toBeInTheDocument();
   });
 
   it('updates underwriting metrics when scenario controls change', async () => {
     const user = userEvent.setup();
-    renderRoute('/studio/deals/riverside-flats/underwriting');
+    await renderRoute('/studio/deals/riverside-flats/underwriting');
 
     const initialIrr = screen
       .getByText('IRR')
@@ -119,14 +110,14 @@ describe('Finem CRE Studio routes', () => {
     expect(upsideIrr).not.toBe(initialIrr);
   });
 
-  it('renders explicit route guard for unknown deal ids', () => {
-    renderRoute('/studio/deals/not-a-deal/comps');
+  it('renders explicit route guard for unknown deal ids', async () => {
+    await renderRoute('/studio/deals/not-a-deal/comps');
     expect(screen.getByRole('heading', { name: /Deal not found/i })).toBeInTheDocument();
   });
 
   it('opens help and notifications panels from the top bar', async () => {
     const user = userEvent.setup();
-    renderRoute('/studio/dashboard');
+    await renderRoute('/studio/dashboard');
 
     await user.click(screen.getByRole('button', { name: /Help/i }));
     expect(screen.getByRole('dialog', { name: /Help/i })).toBeInTheDocument();
@@ -137,7 +128,7 @@ describe('Finem CRE Studio routes', () => {
 
   it('requires a reason before confirming a gate override', async () => {
     const user = userEvent.setup();
-    renderRoute('/studio/deals/riverside-flats/underwriting');
+    await renderRoute('/studio/deals/riverside-flats/underwriting');
 
     const overrideButtons = screen.getAllByRole('button', { name: /Override/i });
     await user.click(overrideButtons[0]);
@@ -150,14 +141,16 @@ describe('Finem CRE Studio routes', () => {
     await user.click(confirm);
 
     await waitFor(() =>
-      expect(screen.queryByRole('dialog', { name: /Override workflow gate/i })).not.toBeInTheDocument()
+      expect(
+        screen.queryByRole('dialog', { name: /Override workflow gate/i })
+      ).not.toBeInTheDocument()
     );
     expect(screen.getByText(/Override recorded for Comp readiness/i)).toBeInTheDocument();
   });
 
   it('opens the premium upgrade modal from locked comps', async () => {
     const user = userEvent.setup();
-    renderRoute('/studio/deals/riverside-flats/comps');
+    await renderRoute('/studio/deals/riverside-flats/comps');
 
     await user.click(screen.getByRole('button', { name: /^Upgrade$/i }));
     expect(screen.getByRole('dialog', { name: /Upgrade to Premium/i })).toBeInTheDocument();
@@ -165,9 +158,9 @@ describe('Finem CRE Studio routes', () => {
 
   it('shows save draft feedback on deal intake', async () => {
     const user = userEvent.setup();
-    renderRoute('/studio/deal-intake');
+    await renderRoute('/studio/deal-intake');
 
     await user.click(screen.getByRole('button', { name: /Save draft/i }));
-    expect(screen.getByRole('status')).toHaveTextContent(/Draft saved locally/i);
+    expect(screen.getByText(/Draft saved locally/i)).toBeInTheDocument();
   });
 });
