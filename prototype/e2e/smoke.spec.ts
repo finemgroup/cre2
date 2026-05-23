@@ -1,9 +1,6 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
-async function gotoRoute(page: Page, path: string) {
-  await page.goto(path, { waitUntil: 'domcontentloaded' });
-  await expect(page.getByText(/Loading view…/i)).toBeHidden({ timeout: 15_000 });
-}
+import { gotoRoute } from './helpers';
 
 test.describe('public Sophex smoke', () => {
   test('landing search returns sample properties', async ({ page }) => {

@@ -83,20 +83,23 @@ export function StudioAppShell(): ReactElement {
           <MaterialIcon name="add" />
           New Deal
         </Link>
-        <nav className="studio-nav" aria-label="Finem Studio navigation">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.href}
-              to={item.href}
-              className={({ isActive }) =>
-                isActive || isActiveMatch(location.pathname, item.match) ? 'active' : undefined
-              }
-            >
-              <MaterialIcon name={item.icon} />
-              {item.label}
-            </NavLink>
-          ))}
-        </nav>
+        <div className="studio-nav-scroll-wrap">
+          <nav className="studio-nav" aria-label="Finem Studio navigation">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.href}
+                to={item.href}
+                className={({ isActive }) =>
+                  isActive || isActiveMatch(location.pathname, item.match) ? 'active' : undefined
+                }
+              >
+                <MaterialIcon name={item.icon} />
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+          <p className="studio-nav-scroll-hint">Scroll for more sections</p>
+        </div>
         <div className="studio-sidebar-footer">
           <button type="button" className="btn btn-ghost" onClick={() => setSupportOpen(true)}>
             <MaterialIcon name="contact_support" />

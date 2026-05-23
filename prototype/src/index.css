@@ -1792,6 +1792,20 @@ button.upload-zone {
   }
 }
 
+.studio-nav-scroll-hint {
+  display: none;
+  margin: 0;
+  padding: 0 1rem 0.75rem;
+  font-size: 0.75rem;
+  color: #bec6e0;
+}
+
+@media (min-width: 641px) and (max-width: 1000px) {
+  .studio-nav-scroll-hint {
+    display: block;
+  }
+}
+
 @media (max-width: 1000px) {
   .studio-sidebar {
     position: static;
@@ -1816,8 +1830,34 @@ button.upload-zone {
     flex-direction: row;
     gap: 0.35rem;
     overflow-x: auto;
-    padding: 0 1rem 1rem;
+    padding: 0 1rem 0.35rem;
     scroll-padding-inline: 1rem;
+    scrollbar-width: thin;
+  }
+
+  .studio-nav-scroll-wrap {
+    position: relative;
+  }
+
+  .studio-nav-scroll-wrap::before,
+  .studio-nav-scroll-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 1.35rem;
+    width: 1.25rem;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .studio-nav-scroll-wrap::before {
+    left: 0;
+    background: linear-gradient(to right, var(--surface), transparent);
+  }
+
+  .studio-nav-scroll-wrap::after {
+    right: 0;
+    background: linear-gradient(to left, var(--surface), transparent);
   }
 
   .studio-nav a {
@@ -1856,18 +1896,6 @@ button.upload-zone {
   .report-builder-grid,
   .property-snapshot {
     grid-template-columns: 1fr;
-  }
-
-  .studio-mobile-menu {
-    display: inline-flex;
-  }
-
-  .studio-sidebar .studio-nav {
-    display: none;
-  }
-
-  .studio-sidebar .studio-new-deal {
-    display: none;
   }
 }
 
@@ -2084,9 +2112,14 @@ button.upload-zone {
   display: none;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 640px) {
   .studio-mobile-menu {
     display: inline-flex;
+  }
+
+  .studio-sidebar .studio-nav-scroll-wrap,
+  .studio-sidebar .studio-new-deal {
+    display: none;
   }
 }
 

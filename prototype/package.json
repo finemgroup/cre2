@@ -14,6 +14,9 @@
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install chromium",
+    "test:e2e:visual": "playwright test e2e/visual.spec.ts --project=visual",
+    "test:e2e:update-snapshots": "playwright test e2e/visual.spec.ts --project=visual --update-snapshots",
+    "test:lighthouse": "lhci autorun --config=./lighthouserc.cjs",
     "bundle:analyze": "vite build --mode analyze",
     "test:watch": "vitest"
   },
@@ -26,6 +29,7 @@
     "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.14.0",
     "@playwright/test": "^1.51.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
