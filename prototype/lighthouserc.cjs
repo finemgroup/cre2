@@ -8,6 +8,8 @@ module.exports = {
         'http://127.0.0.1:4173/',
         'http://127.0.0.1:4173/studio/dashboard',
         'http://127.0.0.1:4173/studio/deals/riverside-flats/underwriting',
+        'http://127.0.0.1:4173/studio/settings/billing',
+        'http://127.0.0.1:4173/studio/reports/riverside-flats/builder',
       ],
       numberOfRuns: 1,
       settings: {

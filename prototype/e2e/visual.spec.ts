@@ -59,4 +59,48 @@ test.describe('route shell visuals', () => {
       maxDiffPixelRatio: 0.03,
     });
   });
+
+  test('public landing mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 800 });
+    await gotoRoute(page, '/');
+    await expect(
+      page.getByRole('heading', { name: /Evidence-first property intelligence/i })
+    ).toBeVisible();
+    await expect(page).toHaveScreenshot('public-landing-mobile-320.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
+  test('studio dashboard at 1000px breakpoint', async ({ page }) => {
+    await page.setViewportSize({ width: 1000, height: 900 });
+    await gotoRoute(page, '/studio/dashboard');
+    await expect(page.getByRole('heading', { name: /Main Deal Dashboard/i })).toBeVisible();
+    const scrollWrap = page.locator('.studio-nav-scroll-wrap');
+    await expect(scrollWrap.locator('.studio-nav-scroll-hint')).toHaveCSS('display', 'block');
+    await expect(page).toHaveScreenshot('studio-dashboard-1000px.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
+  test('studio pricing', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/studio/settings/billing');
+    await expect(page.getByRole('heading', { name: /Billing & Plans/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('studio-pricing-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
+  test('studio report builder', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/studio/reports/riverside-flats/builder');
+    await expect(page.getByRole('heading', { name: /Report Builder/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('studio-report-builder-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
 });
