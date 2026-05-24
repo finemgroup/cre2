@@ -19,6 +19,7 @@ import {
   ReportProvenanceCard,
   ReportSectionReviewCard,
 } from '@/components/report-governance/ReportGovernanceCards';
+import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { getSourceBlocksForDeal } from '@/lib/source-bundle';
 import { evaluateExportReadiness } from '@/lib/report-governance';
 import { getStudioReportSections } from '@/lib/workflow-identity';
@@ -88,9 +89,9 @@ export function StudioReportBuilderPage(): ReactElement {
             <ReportSectionReviewCard key={section.id} section={section} />
           ))}
           <div className="studio-actions">
-            <button type="button" className="btn btn-secondary">
+            <PrototypeActionButton feature="Export Excel" className="btn btn-secondary">
               Export Excel
-            </button>
+            </PrototypeActionButton>
             <button
               type="button"
               className="btn btn-primary"
@@ -122,9 +123,9 @@ export function StudioReportBuilderPage(): ReactElement {
         <StudioCard title="Branding & Export">
           <div className="form-field">
             <strong>Logo upload</strong>
-            <div className="upload-zone">
+            <PrototypeActionButton feature="Logo upload" className="upload-zone">
               <MaterialIcon name="upload_file" /> Mock logo dropzone
-            </div>
+            </PrototypeActionButton>
           </div>
           <p>
             <Swatch color={brandConfig.accentColor} /> Accent color

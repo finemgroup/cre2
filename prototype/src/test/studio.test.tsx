@@ -29,6 +29,13 @@ describe('Finem CRE Studio routes', () => {
     expect(screen.getByDisplayValue('Riverside Flats')).toBeInTheDocument();
   });
 
+  it('shows prototype feedback for inert report builder actions', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/studio/reports/riverside-flats/builder');
+    await user.click(screen.getByRole('button', { name: /Export Excel/i }));
+    expect(screen.getByText(/Export Excel is simulated/i)).toBeInTheDocument();
+  });
+
   it('requires a valid deal id on deal-scoped intake', async () => {
     await renderRoute('/studio/deals/not-real/intake');
     expect(screen.getByRole('heading', { name: /Deal not found/i })).toBeInTheDocument();

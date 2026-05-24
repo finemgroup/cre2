@@ -115,18 +115,33 @@ export function SupportSignOutPanel({
     >
       {mode === 'support' ? (
         <>
-          <p>Prototype support surfaces only — no tickets are created.</p>
-          <button type="button" className="btn btn-secondary" disabled>
+          <p id="support-disabled-note">Prototype support surfaces only — no tickets are created.</p>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            disabled
+            aria-describedby="support-disabled-note"
+          >
             Open support chat
           </button>
-          <button type="button" className="btn btn-ghost" disabled>
+          <button
+            type="button"
+            className="btn btn-ghost"
+            disabled
+            aria-describedby="support-disabled-note"
+          >
             Email support@finem.studio
           </button>
         </>
       ) : (
         <>
-          <p>Sign out is disabled in the clickable prototype.</p>
-          <button type="button" className="btn btn-secondary" disabled>
+          <p id="signout-disabled-note">Sign out is disabled in the clickable prototype.</p>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            disabled
+            aria-describedby="signout-disabled-note"
+          >
             Sign out of Studio
           </button>
         </>

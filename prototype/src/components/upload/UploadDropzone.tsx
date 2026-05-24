@@ -1,16 +1,17 @@
 import type { ReactElement } from 'react';
 
+import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { MaterialIcon, StatusBadge } from '@/components/studio/StudioPrimitives';
 import type { MockUploadFile } from '@/lib/staged-import';
 
 export function UploadDropzone({ files }: { files: MockUploadFile[] }): ReactElement {
   return (
     <div className="mock-upload-dropzone">
-      <button type="button" className="upload-zone">
+      <PrototypeActionButton feature="Studio file dropzone" className="upload-zone">
         <MaterialIcon name="upload_file" />
         <strong>Drop OM, rent roll, and T12 files here</strong>
         <span>Mock queue only. Source-use and review gates apply before promotion.</span>
-      </button>
+      </PrototypeActionButton>
       <div className="upload-queue">
         {files.map((file) => (
           <div className="upload-file-row" key={file.id}>
@@ -20,15 +21,17 @@ export function UploadDropzone({ files }: { files: MockUploadFile[] }): ReactEle
               <span>
                 {file.type} · {file.progress}%
               </span>
-              <i
+              <div
+                className="progress-bar progress-bar-compact"
                 role="progressbar"
                 aria-labelledby={`${file.id}-label`}
                 aria-valuenow={file.progress}
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-valuetext={`${file.progress}% complete`}
-                style={{ width: `${file.progress}%` }}
-              />
+              >
+                <div className="progress-fill" style={{ width: `${file.progress}%` }} />
+              </div>
               {file.issue ? <small role="alert">{file.issue}</small> : null}
             </div>
             <StatusBadge status={file.status} />

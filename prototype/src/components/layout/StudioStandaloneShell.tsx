@@ -26,9 +26,17 @@ export function StudioStandaloneShell(): ReactElement {
           <Link to="/studio/settings/white-label">White Label</Link>
         </nav>
         <div className="studio-topbar-actions">
-          <button type="button" className="btn btn-primary" disabled>
+          <button
+            type="button"
+            className="btn btn-primary"
+            disabled
+            aria-describedby="report-export-disabled-note"
+          >
             Export
           </button>
+          <p id="report-export-disabled-note" className="sr-only">
+            Export stays disabled until report sections and source-rights gates clear.
+          </p>
           <button
             type="button"
             aria-label="Report help"

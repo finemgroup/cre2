@@ -89,7 +89,7 @@ export function UploadPage(): ReactElement {
       ) : null}
 
       {stage === 2 ? (
-        <div className="card">
+        <div className="card" aria-busy="true" aria-live="polite">
           <p id="upload-progress-label">Uploading sample document...</p>
           <div
             className="progress-bar"

@@ -14,18 +14,6 @@
   --border: #d8d2c6;
   --shadow: 0 8px 24px rgba(28, 26, 23, 0.08);
   --focus-ring: rgba(31, 77, 58, 0.42);
-  --button-radius: 8px;
-  --button-padding: 0.5rem 0.875rem;
-  --button-font-weight: 600;
-  --button-bg: var(--surface);
-  --button-color: var(--text);
-  --button-border: var(--border);
-  --button-primary-bg: var(--accent);
-  --button-primary-color: #fff;
-  --button-primary-border: var(--accent);
-  --button-secondary-bg: var(--accent-soft);
-  --button-secondary-color: var(--accent);
-  --button-secondary-border: #b8d9c7;
   font-family: 'Segoe UI', system-ui, sans-serif;
   line-height: 1.5;
   color: var(--text);
@@ -54,13 +42,29 @@ body {
 }
 
 a {
-  color: var(--accent);
+  color: inherit;
 }
 
 .shell {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  --button-radius: 8px;
+  --button-padding: 0.5rem 0.875rem;
+  --button-font-weight: 600;
+  --button-bg: var(--surface);
+  --button-color: var(--text);
+  --button-border: var(--border);
+  --button-primary-bg: var(--accent);
+  --button-primary-color: #fff;
+  --button-primary-border: var(--accent);
+  --button-secondary-bg: var(--accent-soft);
+  --button-secondary-color: var(--accent);
+  --button-secondary-border: #b8d9c7;
+}
+
+.shell a:not(.btn) {
+  color: var(--accent);
 }
 
 .skip-link {
@@ -175,7 +179,7 @@ a {
 
 .shell-footer p {
   margin: 0;
-  color: var(--muted);
+  color: var(--text-muted);
   font-size: 0.8125rem;
 }
 
@@ -448,6 +452,16 @@ td {
   height: 100%;
   background: var(--accent);
   transition: width 180ms linear;
+}
+
+.progress-bar-compact {
+  height: 6px;
+  margin-top: 0.35rem;
+}
+
+.studio-shell .progress-fill,
+.studio-standalone .progress-fill {
+  background: var(--studio-primary);
 }
 
 .warning {
@@ -1725,13 +1739,6 @@ button.upload-zone {
 .workflow-timeline {
   display: grid;
   gap: 0.75rem;
-}
-
-.upload-file-row i {
-  display: block;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--studio-primary);
 }
 
 .upload-file-row small {
