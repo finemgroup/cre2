@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { useEffect, useRef, type ReactElement, type ReactNode } from 'react';
+import { useEffect, useId, useRef, type ReactElement, type ReactNode } from 'react';
 
 import { getMotionProps, getMotionSpec, useReducedMotionPreference } from '@/lib/motion';
 
@@ -15,18 +15,31 @@ const FOCUSABLE =
 
 export function SophexSheet({ isOpen, label, children, onClose }: SophexSheetProps): ReactElement {
   const reducedMotion = useReducedMotionPreference();
+  const titleId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
   const invokerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (!isOpen) return;
 
-    invokerRef.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    invokerRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
     const first = panelRef.current?.querySelector<HTMLElement>(FOCUSABLE);
     first?.focus();
 
     return () => {
       invokerRef.current?.focus();
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
     };
   }, [isOpen]);
 
@@ -65,7 +78,7 @@ export function SophexSheet({ isOpen, label, children, onClose }: SophexSheetPro
   }, [isOpen, onClose]);
 
   const backdropProps = getMotionProps(getMotionSpec('sheetBackdrop'), reducedMotion);
-  const panelProps = getMotionProps(getMotionSpec('sheetPanel'), reducedMotion);
+  const panelProps = getMotionProps(getMotionSpec('drawerRight'), reducedMotion);
 
   return (
     <AnimatePresence>
@@ -83,13 +96,13 @@ export function SophexSheet({ isOpen, label, children, onClose }: SophexSheetPro
             className="sheet-panel"
             role="dialog"
             aria-modal="true"
-            aria-label={label}
+            aria-labelledby={titleId}
             tabIndex={-1}
-            data-sophex-motion="sheetPanel"
+            data-sophex-motion="drawerRight"
             {...panelProps}
           >
             <header className="sheet-header">
-              <h2>{label}</h2>
+              <h2 id={titleId}>{label}</h2>
               <button type="button" className="btn btn-ghost" onClick={onClose}>
                 Close
               </button>

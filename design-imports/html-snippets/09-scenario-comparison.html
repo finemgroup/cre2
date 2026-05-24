@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finem CRE Studio - Scenario Comparison</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+        .material-symbols-outlined {
+            font-family: 'Material Symbols Outlined';
+            font-weight: normal;
+            font-style: normal;
+            font-size: 24px;
+            line-height: 1;
+            letter-spacing: normal;
+            text-transform: none;
+            display: inline-block;
+            white-space: nowrap;
+            word-wrap: normal;
+            direction: ltr;
+            -webkit-font-feature-settings: 'liga';
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Custom scrollbar for data tables */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: theme('colors.surface-container'); 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: theme('colors.outline-variant'); 
+            border-radius: theme('borderRadius.full');
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline'); 
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary": "#004ac6",
+                    "surface-container-low": "#f2f4f6",
+                    "surface-tint": "#0053db",
+                    "primary-fixed": "#dbe1ff",
+                    "on-error": "#ffffff",
+                    "surface": "#f7f9fb",
+                    "secondary-fixed-dim": "#bec6e0",
+                    "surface-container-lowest": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed-variant": "#7d2d00",
+                    "on-tertiary-container": "#ffede6",
+                    "secondary": "#565e74",
+                    "on-secondary-fixed": "#131b2e",
+                    "surface-container": "#eceef0",
+                    "secondary-container": "#dae2fd",
+                    "on-error-container": "#93000a",
+                    "surface-container-high": "#e6e8ea",
+                    "on-secondary-fixed-variant": "#3f465c",
+                    "on-surface": "#191c1e",
+                    "tertiary-fixed-dim": "#ffb596",
+                    "on-secondary": "#ffffff",
+                    "tertiary": "#943700",
+                    "on-secondary-container": "#5c647a",
+                    "on-primary-fixed": "#00174b",
+                    "surface-variant": "#e0e3e5",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "outline": "#737686",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#360f00",
+                    "on-background": "#191c1e",
+                    "inverse-primary": "#b4c5ff",
+                    "outline-variant": "#c3c6d7",
+                    "surface-bright": "#f7f9fb",
+                    "secondary-fixed": "#dae2fd",
+                    "on-tertiary": "#ffffff",
+                    "background": "#f7f9fb",
+                    "inverse-on-surface": "#eff1f3",
+                    "surface-dim": "#d8dadc",
+                    "inverse-surface": "#2d3133",
+                    "on-primary-container": "#eeefff",
+                    "tertiary-container": "#bc4800",
+                    "tertiary-fixed": "#ffdbcd",
+                    "primary-container": "#2563eb",
+                    "on-surface-variant": "#434655"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin": "24px",
+                    "standard-padding": "16px",
+                    "unit": "4px",
+                    "container-max-width": "1440px",
+                    "gutter": "16px",
+                    "compact-padding": "8px",
+                    "section-gap": "32px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "display-lg": ["Inter"],
+                    "headline-sm": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "data-mono": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                    "label-sm": ["11px", {"lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "500"}],
+                    "data-mono": ["14px", {"lineHeight": "20px", "fontWeight": "500"}]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased overflow-hidden flex h-screen">
+<!-- SideNavBar (from JSON) -->
+<nav class="hidden md:flex fixed left-0 top-0 h-full w-64 flex-col z-50 overflow-y-auto bg-[#0F172A]">
+<!-- Header -->
+<div class="px-margin py-standard-padding mb-gutter flex items-center gap-3">
+<div class="w-8 h-8 rounded-md bg-primary-fixed flex items-center justify-center text-on-primary-fixed font-bold">
+                F
+            </div>
+<div>
+<h1 class="text-headline-sm font-headline-sm font-bold text-white">Finem Studio</h1>
+<p class="text-label-sm font-label-sm text-secondary-fixed-dim">Enterprise Plan</p>
+</div>
+</div>
+<!-- CTA -->
+<div class="px-4 mb-margin">
+<button class="w-full bg-primary hover:bg-surface-tint text-white py-2 rounded-lg font-label-md text-label-md flex items-center justify-center gap-2 transition-colors shadow-sm">
+<span class="material-symbols-outlined" style="font-size: 18px;">add</span>
+                New Deal
+            </button>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 px-2 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-md" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-label-md font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-md" href="#">
+<span class="material-symbols-outlined" data-icon="add_box">add_box</span>
+<span class="text-label-md font-label-md">Deal Intake</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-md" href="#">
+<span class="material-symbols-outlined" data-icon="business_center">business_center</span>
+<span class="text-label-md font-label-md">Deals</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-md" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-label-md font-label-md">Comps</span>
+</a>
+<!-- Active State: Underwriting -->
+<a class="flex items-center gap-3 px-4 py-3 text-white bg-primary/10 border-l-4 border-primary rounded-r-md translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="calculate" data-weight="fill" style="font-variation-settings: 'FILL' 1;">calculate</span>
+<span class="text-label-md font-label-md">Underwriting</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-md" href="#">
+<span class="material-symbols-outlined" data-icon="assessment">assessment</span>
+<span class="text-label-md font-label-md">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-md" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+</div>
+<!-- Footer Links -->
+<div class="px-2 pb-margin flex flex-col gap-1 mt-auto">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-md" href="#">
+<span class="material-symbols-outlined" data-icon="contact_support">contact_support</span>
+<span class="text-label-md font-label-md">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200 rounded-md" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="text-label-md font-label-md">Sign Out</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 md:ml-64 flex flex-col h-screen overflow-hidden bg-background">
+<!-- Header -->
+<header class="h-16 border-b border-outline-variant bg-surface px-margin flex items-center justify-between shrink-0">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h2 class="text-headline-md font-headline-md text-on-surface">Scenario Comparison</h2>
+<div class="hidden md:flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full text-label-sm font-label-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span> Auto-saved 2m ago
+                </div>
+</div>
+<div class="flex items-center gap-3">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container rounded-md transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">ios_share</span>
+</button>
+<button class="px-4 py-2 border border-outline-variant rounded-md text-label-md font-label-md text-on-surface hover:bg-surface-container transition-colors shadow-sm">
+                    Export Model
+                </button>
+</div>
+</header>
+<!-- Scrollable Content Canvas -->
+<div class="flex-1 overflow-y-auto custom-scrollbar p-margin">
+<div class="max-w-container-max-width mx-auto flex flex-col gap-section-gap">
+<!-- Scenario Cards Grid -->
+<section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Base Case Card -->
+<div class="bg-surface rounded-xl border border-primary shadow-[0_4px_6px_-1px_rgba(15,23,42,0.08)] p-standard-padding flex flex-col gap-4 relative overflow-hidden group hover:shadow-[0_10px_15px_-3px_rgba(15,23,42,0.1)] transition-all cursor-pointer">
+<div class="absolute top-0 left-0 w-full h-1 bg-primary"></div>
+<div class="flex justify-between items-start">
+<div>
+<span class="px-2 py-1 bg-primary/10 text-primary rounded-full text-label-sm font-label-sm inline-block mb-2">Active Model</span>
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Base Case</h3>
+</div>
+<button class="text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined">more_vert</span></button>
+</div>
+<div class="pt-2 border-t border-outline-variant/50">
+<div class="text-label-md font-label-md text-on-surface-variant mb-1">Target IRR</div>
+<div class="text-headline-md font-headline-md text-primary">14.2%</div>
+</div>
+</div>
+<!-- Downside Card -->
+<div class="bg-surface rounded-xl border border-outline-variant shadow-[0_4px_6px_-1px_rgba(15,23,42,0.04)] p-standard-padding flex flex-col gap-4 relative group hover:border-outline transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<div>
+<span class="px-2 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-label-sm font-label-sm inline-block mb-2">Draft</span>
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Downside</h3>
+</div>
+<button class="text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined">more_vert</span></button>
+</div>
+<div class="pt-2 border-t border-outline-variant/50">
+<div class="text-label-md font-label-md text-on-surface-variant mb-1">Target IRR</div>
+<div class="text-headline-sm font-headline-sm text-error">9.8%</div>
+</div>
+</div>
+<!-- Upside Card -->
+<div class="bg-surface rounded-xl border border-outline-variant shadow-[0_4px_6px_-1px_rgba(15,23,42,0.04)] p-standard-padding flex flex-col gap-4 relative group hover:border-outline transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<div>
+<span class="px-2 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-label-sm font-label-sm inline-block mb-2">Draft</span>
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Upside</h3>
+</div>
+<button class="text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined">more_vert</span></button>
+</div>
+<div class="pt-2 border-t border-outline-variant/50">
+<div class="text-label-md font-label-md text-on-surface-variant mb-1">Target IRR</div>
+<div class="text-headline-sm font-headline-sm text-emerald-600">18.5%</div>
+</div>
+</div>
+<!-- Lender Case Card -->
+<div class="bg-surface rounded-xl border border-outline-variant shadow-[0_4px_6px_-1px_rgba(15,23,42,0.04)] p-standard-padding flex flex-col gap-4 relative group hover:border-outline transition-colors cursor-pointer">
+<div class="flex justify-between items-start">
+<div>
+<span class="px-2 py-1 bg-surface-container-high text-on-surface-variant rounded-full text-label-sm font-label-sm inline-block mb-2">Stress Test</span>
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Lender Case</h3>
+</div>
+<button class="text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity"><span class="material-symbols-outlined">more_vert</span></button>
+</div>
+<div class="pt-2 border-t border-outline-variant/50">
+<div class="text-label-md font-label-md text-on-surface-variant mb-1">Target IRR</div>
+<div class="text-headline-sm font-headline-sm text-on-surface">11.0%</div>
+</div>
+</div>
+</section>
+<!-- Comparison Table & Freemium Overlay -->
+<section class="bg-surface rounded-xl border border-outline-variant overflow-hidden shadow-[0_4px_6px_-1px_rgba(15,23,42,0.04)] relative">
+<div class="px-standard-padding py-3 border-b border-outline-variant bg-surface-container-lowest flex justify-between items-center">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Key Metrics Matrix</h3>
+<button class="text-label-md font-label-md text-primary hover:text-surface-tint transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 16px;">filter_list</span> Filter Rows
+                        </button>
+</div>
+<div class="overflow-x-auto custom-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low border-b border-outline-variant">
+<th class="p-compact-padding pl-standard-padding text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-semibold w-1/5">Metric</th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-semibold w-1/5 border-l border-outline-variant/30 bg-primary/5">Base Case</th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-semibold w-1/5 border-l border-outline-variant/30">Downside</th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-semibold w-1/5 border-l border-outline-variant/30">Upside</th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider font-semibold w-1/5 border-l border-outline-variant/30">Lender Case</th>
+</tr>
+</thead>
+<tbody class="text-data-mono font-data-mono divide-y divide-outline-variant/50">
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="p-compact-padding pl-standard-padding text-on-surface font-body-md text-body-md">Purchase Price</td>
+<td class="p-compact-padding border-l border-outline-variant/30 bg-primary/5 font-semibold">$45,000,000</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">$45,000,000</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">$45,000,000</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">$45,000,000</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors bg-surface-container-low/30">
+<td class="p-compact-padding pl-standard-padding text-on-surface font-body-md text-body-md">Year 1 NOI</td>
+<td class="p-compact-padding border-l border-outline-variant/30 bg-primary/5 font-semibold">$3,150,000</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">$2,800,000</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">$3,400,000</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">$2,950,000</td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="p-compact-padding pl-standard-padding text-on-surface font-body-md text-body-md">Exit Cap Rate</td>
+<td class="p-compact-padding border-l border-outline-variant/30 bg-primary/5 font-semibold">6.25%</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant text-error">7.00%</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant text-emerald-600">5.75%</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">6.50%</td>
+</tr>
+<!-- FREEMIUM BLURRED ROWS -->
+<tr class="relative group blur-[3px] opacity-60 select-none pointer-events-none bg-surface-container-low/30">
+<td class="p-compact-padding pl-standard-padding text-on-surface font-body-md text-body-md">Avg DSCR</td>
+<td class="p-compact-padding border-l border-outline-variant/30 bg-primary/5 font-semibold">1.45x</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">1.10x</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">1.75x</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">1.25x</td>
+</tr>
+<tr class="relative group blur-[4px] opacity-50 select-none pointer-events-none">
+<td class="p-compact-padding pl-standard-padding text-on-surface font-body-md text-body-md">Equity Multiple</td>
+<td class="p-compact-padding border-l border-outline-variant/30 bg-primary/5 font-semibold">2.1x</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">1.3x</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">2.8x</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">1.6x</td>
+</tr>
+<tr class="relative group blur-[5px] opacity-40 select-none pointer-events-none bg-surface-container-low/30">
+<td class="p-compact-padding pl-standard-padding text-on-surface font-body-md text-body-md">Levered IRR</td>
+<td class="p-compact-padding border-l border-outline-variant/30 bg-primary/5 font-semibold">14.2%</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">9.8%</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">18.5%</td>
+<td class="p-compact-padding border-l border-outline-variant/30 text-on-surface-variant">11.0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Freemium CTA Overlay -->
+<div class="absolute inset-0 top-[150px] flex items-center justify-center bg-gradient-to-t from-surface via-surface/80 to-transparent z-10">
+<div class="bg-surface border border-outline-variant rounded-xl shadow-[0_10px_15px_-3px_rgba(15,23,42,0.1)] p-margin max-w-md text-center transform translate-y-4">
+<div class="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+<span class="material-symbols-outlined" style="font-size: 24px;">lock</span>
+</div>
+<h4 class="text-headline-sm font-headline-sm text-on-surface mb-2">Unlock Advanced Metrics</h4>
+<p class="text-body-md font-body-md text-on-surface-variant mb-6">Upgrade to Premium to view detailed risk analysis, DSCR breakdowns, and proprietary equity multiple projections across all scenarios.</p>
+<button class="w-full bg-primary hover:bg-surface-tint text-white py-2.5 rounded-lg font-label-md text-label-md transition-colors shadow-sm">
+                                Upgrade to Premium
+                            </button>
+</div>
+</div>
+</section>
+<!-- Charts Section -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-gutter mb-section-gap">
+<!-- Bar Chart Card -->
+<div class="bg-surface rounded-xl border border-outline-variant shadow-[0_4px_6px_-1px_rgba(15,23,42,0.04)] p-margin flex flex-col h-80">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">IRR by Scenario</h3>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+<!-- Abstract CSS Bar Chart -->
+<div class="flex-1 flex items-end justify-around pb-6 relative border-b border-outline-variant/50 px-4 mt-4">
+<!-- Y-axis labels -->
+<div class="absolute left-0 top-0 h-full flex flex-col justify-between text-label-sm font-label-sm text-on-surface-variant/70 -translate-x-full pr-2">
+<span>20%</span>
+<span>15%</span>
+<span>10%</span>
+<span>5%</span>
+</div>
+<!-- Grid lines -->
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none">
+<div class="w-full border-t border-outline-variant/20"></div>
+<div class="w-full border-t border-outline-variant/20"></div>
+<div class="w-full border-t border-outline-variant/20"></div>
+<div class="w-full border-t border-outline-variant/20"></div>
+</div>
+<!-- Bars -->
+<div class="relative w-16 group flex flex-col items-center">
+<div class="w-full bg-primary/80 hover:bg-primary transition-colors rounded-t-sm h-[71%] relative z-10 shadow-sm"></div>
+<span class="absolute -bottom-6 text-label-sm font-label-sm text-on-surface">Base</span>
+</div>
+<div class="relative w-16 group flex flex-col items-center">
+<div class="w-full bg-error/70 hover:bg-error transition-colors rounded-t-sm h-[49%] relative z-10 shadow-sm"></div>
+<span class="absolute -bottom-6 text-label-sm font-label-sm text-on-surface-variant">Down</span>
+</div>
+<div class="relative w-16 group flex flex-col items-center">
+<div class="w-full bg-emerald-500/80 hover:bg-emerald-500 transition-colors rounded-t-sm h-[92%] relative z-10 shadow-sm"></div>
+<span class="absolute -bottom-6 text-label-sm font-label-sm text-on-surface-variant">Up</span>
+</div>
+<div class="relative w-16 group flex flex-col items-center">
+<div class="w-full bg-secondary-fixed-dim hover:bg-secondary transition-colors rounded-t-sm h-[55%] relative z-10 shadow-sm"></div>
+<span class="absolute -bottom-6 text-label-sm font-label-sm text-on-surface-variant">Lender</span>
+</div>
+</div>
+</div>
+<!-- Heatmap Card -->
+<div class="bg-surface rounded-xl border border-outline-variant shadow-[0_4px_6px_-1px_rgba(15,23,42,0.04)] p-margin flex flex-col h-80 relative overflow-hidden">
+<div class="flex justify-between items-center mb-4 relative z-20">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Value Sensitivity Matrix</h3>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined">more_horiz</span></button>
+</div>
+<!-- Premium Locked State for Heatmap -->
+<div class="absolute inset-0 z-10 bg-surface/50 backdrop-blur-[2px] flex items-center justify-center">
+<div class="bg-surface border border-outline-variant rounded-lg p-4 shadow-sm flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">lock</span>
+<span class="text-label-md font-label-md text-on-surface">Premium Feature</span>
+</div>
+</div>
+<!-- Abstract Heatmap Structure (blurred by overlay) -->
+<div class="flex-1 flex flex-col pt-4">
+<div class="flex justify-between text-label-sm font-label-sm text-on-surface-variant mb-2">
+<span>Exit Cap \ Rent Growth</span>
+</div>
+<div class="grid grid-cols-5 grid-rows-4 gap-1 flex-1 opacity-40">
+<div class="bg-emerald-500/20 rounded-sm"></div><div class="bg-emerald-500/40 rounded-sm"></div><div class="bg-emerald-500/60 rounded-sm"></div><div class="bg-emerald-500/80 rounded-sm"></div><div class="bg-emerald-500 rounded-sm"></div>
+<div class="bg-emerald-500/10 rounded-sm"></div><div class="bg-emerald-500/30 rounded-sm"></div><div class="bg-emerald-500/50 rounded-sm"></div><div class="bg-emerald-500/70 rounded-sm"></div><div class="bg-emerald-500/90 rounded-sm"></div>
+<div class="bg-error/10 rounded-sm"></div><div class="bg-surface-variant rounded-sm"></div><div class="bg-emerald-500/20 rounded-sm"></div><div class="bg-emerald-500/40 rounded-sm"></div><div class="bg-emerald-500/60 rounded-sm"></div>
+<div class="bg-error/30 rounded-sm"></div><div class="bg-error/20 rounded-sm"></div><div class="bg-error/10 rounded-sm"></div><div class="bg-surface-variant rounded-sm"></div><div class="bg-emerald-500/20 rounded-sm"></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</body></html>

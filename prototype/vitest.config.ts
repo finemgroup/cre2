@@ -1,17 +1,26 @@
-import { fileURLToPath, URL } from 'node:url';
+import { mergeConfig } from 'vite';
 import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
 
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+import viteConfig from './vite.config';
+
+export default mergeConfig(
+  viteConfig,
+  defineConfig({
+    test: {
+      environment: 'jsdom',
+      setupFiles: ['./src/test/setup.ts'],
+      globals: true,
+      exclude: ['**/node_modules/**', '**/dist/**', 'e2e/**', 'src/stories/**'],
+      coverage: {
+        provider: 'v8',
+        reporter: ['text', 'html'],
+        thresholds: {
+          branches: 45,
+          functions: 55,
+          lines: 60,
+          statements: 60,
+        },
+      },
     },
-  },
-  test: {
-    environment: 'jsdom',
-    setupFiles: ['./src/test/setup.ts'],
-    globals: true,
-  },
-});
+  })
+);

@@ -60,6 +60,12 @@
 - [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md): Authoritative UX/motion validation from clean CRE `apps/core`.
 - [P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md): Provisional P51 high-end animation and workflow-continuity supplement.
 - [PROTOTYPE_MVP0.md](PROTOTYPE_MVP0.md): Phase 1 clickable prototype lane (`prototype/`, mock data only).
+- [schema/SOPHEX_SCHEMA_FOUNDATION_CONTRACT_2026-05-22.md](schema/SOPHEX_SCHEMA_FOUNDATION_CONTRACT_2026-05-22.md): Schema foundation contract — local contracts only, no DB apply.
+- [schema/SOPHEX_PSEUDO_GRAPH_TARGET_MODEL_2026-05-22.md](schema/SOPHEX_PSEUDO_GRAPH_TARGET_MODEL_2026-05-22.md): Pseudo-graph target model for properties, deals, leases, tenants, rent schedules, projections, and edges.
+- [schema/SOPHEX_PERMISSIONED_FIELD_OBSERVATION_MODEL_2026-05-22.md](schema/SOPHEX_PERMISSIONED_FIELD_OBSERVATION_MODEL_2026-05-22.md): Public/private field observation and resolved-value model.
+- [project/SOPHEX_CRE2_NEON_DEV_CONFIGURATION_2026-05-22.md](project/SOPHEX_CRE2_NEON_DEV_CONFIGURATION_2026-05-22.md): Safe CRE2 Neon dev configuration plan with placeholder env names only.
+- [closeouts/SOPHEX_CRE2_NEON_READONLY_PREFLIGHT_2026-05-22.md](closeouts/SOPHEX_CRE2_NEON_READONLY_PREFLIGHT_2026-05-22.md): Read-only Neon metadata preflight result with no secrets recorded.
+- [closeouts/SOPHEX_LOCAL_ENV_ACTIVE_2026-05-22.md](closeouts/SOPHEX_LOCAL_ENV_ACTIVE_2026-05-22.md): Local ignored `.env` active for CRE2 Neon dev use.
 - [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md): Superseded provisional UX/motion harvest (stale CRE checkout).
 - [SISTER_PROJECT_SOURCE_MAP.md](SISTER_PROJECT_SOURCE_MAP.md): Reference-only sister-project paths and why they matter.
 - [SOPHEX_REFERENCE_PATHS.md](SOPHEX_REFERENCE_PATHS.md): Workspace and sister-project path registry (reference-only).

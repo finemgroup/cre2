@@ -225,3 +225,24 @@ This file is the initial ADR-style decision log for the Sophex setup phase.
 - Date: 2026-05-22
 - Decision: Sophex may host a Phase 1 clickable MVP0 prototype under `prototype/` using mock data, Sophex-native motion primitives, and non-production banners. This lane does not authorize schema, migrations, deploy, provider/send, queue, CRM, production APIs, or direct imports from CRE/P51/Fabricator runtime repos.
 - Consequence: `docs/PROTOTYPE_MVP0.md` and `prototype/README.md` document the implementation lane. Sister-project harvest packets remain doctrine archives; runtime promotion requires a separate approved app/package lane.
+
+## ADR-0033: Finem CRE Studio Prototype Lives Under Studio Routes
+
+- Status: Accepted
+- Date: 2026-05-23
+- Decision: The 12 imported Finem CRE Studio design snippets are implemented as a mock-data prototype route family under `prototype/` using `/studio/*` routes, while preserving the existing Sophex MVP0 routes.
+- Consequence: Finem CRE Studio screens can use their imported product labels and app shell without replacing Sophex public marketplace pages or coupling to production CRE/Fabricator runtime systems.
+
+## ADR-0034: Prototype Styling Uses A Local Token Layer
+
+- Status: Accepted
+- Date: 2026-05-23
+- Decision: The prototype adopts the imported Finem/Tailwind visual vocabulary through local Sophex CSS tokens and React primitives rather than importing sister-project design-system packages.
+- Consequence: The build can match the imported HTML screens while keeping the implementation portable, mock-only, and independent from CRE/Fabricator runtime packages.
+
+## ADR-0035: Broker OS Is Operator-Scoped And Read-Only In MVP0
+
+- Status: Accepted
+- Date: 2026-05-23
+- Decision: Broker OS is implemented as a read-only internal/operator mock surface with sanitized job phases and capability inventory.
+- Consequence: Public/contributor users do not see raw queues, logs, Fabricator worker names, or execution controls; Fabricator remains doctrine for control-plane posture only.

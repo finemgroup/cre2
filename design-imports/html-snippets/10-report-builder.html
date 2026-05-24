@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+
+<html class="h-full" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Finem CRE Studio - Report Builder</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#004ac6",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-tint": "#0053db",
+                        "primary-fixed": "#dbe1ff",
+                        "on-error": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-tertiary-container": "#ffede6",
+                        "secondary": "#565e74",
+                        "on-secondary-fixed": "#131b2e",
+                        "surface-container": "#eceef0",
+                        "secondary-container": "#dae2fd",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#e6e8ea",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "on-surface": "#191c1e",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#943700",
+                        "on-secondary-container": "#5c647a",
+                        "on-primary-fixed": "#00174b",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "outline": "#737686",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-background": "#191c1e",
+                        "inverse-primary": "#b4c5ff",
+                        "outline-variant": "#c3c6d7",
+                        "surface-bright": "#f7f9fb",
+                        "secondary-fixed": "#dae2fd",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-dim": "#d8dadc",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-container": "#eeefff",
+                        "tertiary-container": "#bc4800",
+                        "tertiary-fixed": "#ffdbcd",
+                        "primary-container": "#2563eb",
+                        "on-surface-variant": "#434655"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "standard-padding": "16px",
+                        "unit": "4px",
+                        "container-max-width": "1440px",
+                        "gutter": "16px",
+                        "compact-padding": "8px",
+                        "section-gap": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "data-mono": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "500" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-full flex flex-col font-body-md overflow-hidden antialiased">
+<!-- TopNavBar -->
+<nav class="sticky top-0 z-40 flex justify-between items-center w-full px-margin h-16 bg-surface dark:bg-inverse-surface border-b border-outline-variant shrink-0">
+<div class="flex items-center gap-6">
+<span class="text-headline-md font-headline-md font-bold text-primary dark:text-inverse-primary">Finem CRE Studio</span>
+<div class="hidden md:flex gap-4">
+<a class="text-on-surface-variant dark:text-surface-variant text-label-md font-label-md px-3 py-2 rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors" href="#">Dashboard</a>
+<a class="text-on-surface-variant dark:text-surface-variant text-label-md font-label-md px-3 py-2 rounded-DEFAULT hover:bg-surface-container-low dark:hover:bg-surface-container-high transition-colors" href="#">Deals</a>
+<a class="text-primary dark:text-inverse-primary font-bold border-b-2 border-primary text-label-md font-label-md px-3 py-2 opacity-80 transition-opacity" href="#">Reports</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<button aria-label="Notifications" class="p-2 hover:bg-surface-container-low rounded-full transition-colors"><span class="material-symbols-outlined text-[20px]">notifications</span></button>
+<button aria-label="Help" class="p-2 hover:bg-surface-container-low rounded-full transition-colors"><span class="material-symbols-outlined text-[20px]">help</span></button>
+</div>
+<button class="bg-primary-container text-on-primary px-4 py-2 rounded-DEFAULT text-label-md font-label-md hover:bg-surface-tint transition-colors shadow-[0_1px_2px_rgba(15,23,42,0.08)]">Export</button>
+<img alt="User profile" class="w-8 h-8 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDgmWAYrR7BOFF0A2vSU_lzU2zAttZt6VetMEyf1cDA0z6p72GdPf6w1dzZMS_YkQtD4QYiHrBTtjfGgJtK_ANvm8-cRY8d_feuVmJD8v62u7AzSLKcsb7meMFVJP0LkqToVY_J4E7r3w1Zjl4zzZWHHsmVXxW8Tspj2PWAHAEoa1x0ffvADv-XO8OEB6CskAzVKOcVbo44CE0DipY9of3IBFpJDO_Ddsqx5FQunowg_qQseWtv4OHE9eWvB1c0BEkX6kcLmv8Fqk"/>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="flex-1 flex overflow-hidden">
+<!-- Left Checklist Pane -->
+<aside class="w-80 border-r border-outline-variant bg-surface-container-lowest flex flex-col shrink-0">
+<div class="p-standard-padding border-b border-outline-variant">
+<h2 class="text-headline-sm font-headline-sm text-on-surface mb-4">Report Builder</h2>
+<div class="flex flex-col gap-2">
+<label class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Report Type</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface border border-outline-variant rounded-DEFAULT px-3 py-2 text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors pr-8">
+<option>Quick Summary</option>
+<option>Full Investment Memo</option>
+<option>BOV</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">arrow_drop_down</span>
+</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-standard-padding">
+<h3 class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider mb-3">Included Sections</h3>
+<div class="space-y-2">
+<!-- Checklist Item -->
+<label class="flex items-start gap-3 p-2 rounded-DEFAULT hover:bg-surface-container-low transition-colors cursor-pointer group">
+<input checked="" class="mt-1 w-4 h-4 text-primary bg-surface border-outline-variant rounded focus:ring-primary focus:ring-offset-0" type="checkbox"/>
+<div class="flex-1">
+<span class="text-body-md font-body-md text-on-surface block group-hover:text-primary transition-colors">Cover Page</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Title, Logo, Key Image</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity cursor-grab">drag_indicator</span>
+</label>
+<!-- Checklist Item -->
+<label class="flex items-start gap-3 p-2 rounded-DEFAULT hover:bg-surface-container-low transition-colors cursor-pointer group">
+<input checked="" class="mt-1 w-4 h-4 text-primary bg-surface border-outline-variant rounded focus:ring-primary focus:ring-offset-0" type="checkbox"/>
+<div class="flex-1">
+<span class="text-body-md font-body-md text-on-surface block group-hover:text-primary transition-colors">Executive Summary</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Investment thesis, highlights</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity cursor-grab">drag_indicator</span>
+</label>
+<!-- Checklist Item -->
+<label class="flex items-start gap-3 p-2 rounded-DEFAULT hover:bg-surface-container-low transition-colors cursor-pointer group">
+<input checked="" class="mt-1 w-4 h-4 text-primary bg-surface border-outline-variant rounded focus:ring-primary focus:ring-offset-0" type="checkbox"/>
+<div class="flex-1">
+<span class="text-body-md font-body-md text-on-surface block group-hover:text-primary transition-colors">Financial Overview</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Pro forma, returns, debt</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity cursor-grab">drag_indicator</span>
+</label>
+<!-- Checklist Item -->
+<label class="flex items-start gap-3 p-2 rounded-DEFAULT hover:bg-surface-container-low transition-colors cursor-pointer group">
+<input class="mt-1 w-4 h-4 text-primary bg-surface border-outline-variant rounded focus:ring-primary focus:ring-offset-0" type="checkbox"/>
+<div class="flex-1">
+<span class="text-body-md font-body-md text-on-surface block group-hover:text-primary transition-colors">Market Comps</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Sales &amp; Rent comparables</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant opacity-0 group-hover:opacity-100 transition-opacity cursor-grab">drag_indicator</span>
+</label>
+</div>
+</div>
+<div class="p-standard-padding border-t border-outline-variant bg-surface-container flex flex-col gap-3">
+<button class="w-full bg-primary-container text-on-primary px-4 py-2 rounded-DEFAULT text-label-md font-label-md flex justify-center items-center gap-2 hover:bg-surface-tint transition-colors shadow-[0_1px_2px_rgba(15,23,42,0.08)]">
+<span class="material-symbols-outlined text-[18px]">picture_as_pdf</span>
+                    Export PDF
+                </button>
+<button class="w-full bg-surface-container-lowest border border-outline-variant text-on-surface px-4 py-2 rounded-DEFAULT text-label-md font-label-md flex justify-center items-center gap-2 hover:bg-surface-container-low transition-colors flex items-center justify-between group">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-surface-tint">table_view</span>
+<span>Export Excel</span>
+</div>
+<span class="material-symbols-outlined text-[16px] text-tertiary">workspace_premium</span>
+</button>
+</div>
+</aside>
+<!-- Center Live Preview Pane -->
+<section class="flex-1 bg-surface-container-low overflow-y-auto custom-scrollbar p-section-gap flex justify-center items-start">
+<!-- Simulated PDF Page -->
+<div class="w-full max-w-[816px] aspect-[8.5/11] bg-surface-container-lowest shadow-[0_4px_12px_rgba(15,23,42,0.08)] rounded-sm flex flex-col relative overflow-hidden group">
+<!-- Preview Overlay Controls -->
+<div class="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 z-10">
+<button class="bg-surface-container-lowest border border-outline-variant text-on-surface p-1.5 rounded-DEFAULT hover:bg-surface-container-low transition-colors" title="Zoom In"><span class="material-symbols-outlined text-[18px]">zoom_in</span></button>
+<button class="bg-surface-container-lowest border border-outline-variant text-on-surface p-1.5 rounded-DEFAULT hover:bg-surface-container-low transition-colors" title="Zoom Out"><span class="material-symbols-outlined text-[18px]">zoom_out</span></button>
+</div>
+<!-- Cover Page Content -->
+<div class="flex-1 flex flex-col p-12">
+<div class="flex justify-between items-start mb-16">
+<!-- Branding Logo Placeholder -->
+<div class="h-12 w-32 bg-primary/10 border border-primary/20 rounded flex items-center justify-center">
+<span class="text-primary font-bold text-lg tracking-tight">BRAND<span class="font-normal text-secondary">LOGO</span></span>
+</div>
+<div class="text-right">
+<p class="text-label-md font-label-md text-on-surface-variant uppercase tracking-widest">Confidential Offering Memorandum</p>
+<p class="text-body-md font-body-md text-on-surface mt-1">October 24, 2024</p>
+</div>
+</div>
+<div class="flex-1 flex flex-col justify-center">
+<h1 class="text-display-lg font-display-lg text-on-surface mb-2 leading-tight">Riverside Flats</h1>
+<h2 class="text-headline-md font-headline-md text-on-surface-variant font-normal mb-8">244-Unit Class A Multifamily Development</h2>
+<div class="w-full h-80 rounded-lg overflow-hidden bg-surface-dim mb-8 relative border border-outline-variant/30 shadow-[0_2px_8px_rgba(15,23,42,0.04)]">
+<img alt="Riverside Flats Exterior" class="w-full h-full object-cover" data-alt="A modern, high-end multifamily residential building exterior named Riverside Flats, shot during golden hour with warm sunlight reflecting off glass balconies. The architecture is clean, geometric, and institutional, featuring brick and steel accents. The mood is sophisticated and investment-grade." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_hxBf6xPlGE5dME0n4Y8R9oSZiOoPYCZBCSldix0pv9MN_1LfaxtiemPOR_1FVKsmcn0K_WBv5-feAZTSf2SgSFHXcL6PwoC8-dGc94qDwDPCipnq5M8RPXKxtGdylt8N7ZOELatCx50-xt9R61r6t-M23kv1quEioDKhy5I4UyG67sWesMknWraogC5NADAq50wuaZB3KrEqT7GODUtzWNlUgB1W49IhQgHkQrZR_O4YNRUqoYd0OfsOEgAhAb-x71NEZdBHAmw"/>
+<div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/60 to-transparent">
+<p class="text-on-primary text-body-md font-body-md flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                                    Austin, Texas
+                                </p>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-6 border-t border-outline-variant pt-6">
+<div>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Target IRR</p>
+<p class="text-headline-sm font-headline-sm text-primary font-bold">16.4%</p>
+</div>
+<div>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Equity Req.</p>
+<p class="text-headline-sm font-headline-sm text-on-surface font-bold">$18.5M</p>
+</div>
+<div>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Hold Period</p>
+<p class="text-headline-sm font-headline-sm text-on-surface font-bold">5 Years</p>
+</div>
+</div>
+</div>
+<div class="mt-auto border-t border-outline-variant pt-4 text-center">
+<p class="text-label-sm font-label-sm text-on-surface-variant max-w-2xl mx-auto italic">This document is confidential and intended solely for the use of the individual or entity to whom it is addressed. It contains forward-looking statements subject to risks and uncertainties.</p>
+</div>
+</div>
+<!-- Bottom Decorative Bar -->
+<div class="h-2 w-full bg-primary mt-auto"></div>
+</div>
+</section>
+<!-- Right Settings Pane -->
+<aside class="w-80 border-l border-outline-variant bg-surface-container-lowest flex flex-col shrink-0">
+<div class="p-standard-padding border-b border-outline-variant bg-surface">
+<h2 class="text-headline-sm font-headline-sm text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant">tune</span>
+                    Branding Settings
+                </h2>
+</div>
+<div class="flex-1 overflow-y-auto custom-scrollbar p-standard-padding space-y-6">
+<!-- Logo Upload -->
+<div>
+<label class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider mb-2 block">Cover Logo</label>
+<div class="border border-dashed border-outline-variant rounded-lg p-4 flex flex-col items-center justify-center gap-2 bg-surface hover:bg-surface-container-low transition-colors cursor-pointer group">
+<span class="material-symbols-outlined text-[24px] text-on-surface-variant group-hover:text-primary transition-colors">cloud_upload</span>
+<p class="text-label-md font-label-md text-on-surface">Upload Logo</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant text-center">PNG or SVG, max 2MB</p>
+</div>
+</div>
+<!-- Color Theme -->
+<div>
+<label class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider mb-2 block">Primary Brand Color</label>
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-DEFAULT bg-primary border border-outline-variant/20 shadow-sm cursor-pointer ring-2 ring-offset-1 ring-primary"></div>
+<div class="w-8 h-8 rounded-DEFAULT bg-surface-tint border border-outline-variant/20 shadow-sm cursor-pointer hover:scale-105 transition-transform"></div>
+<div class="w-8 h-8 rounded-DEFAULT bg-[#0F172A] border border-outline-variant/20 shadow-sm cursor-pointer hover:scale-105 transition-transform"></div>
+<div class="w-8 h-8 rounded-DEFAULT bg-error border border-outline-variant/20 shadow-sm cursor-pointer hover:scale-105 transition-transform"></div>
+<div class="flex-1">
+<input class="w-full text-data-mono font-data-mono text-on-surface border border-outline-variant rounded-DEFAULT px-2 py-1.5 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary" type="text" value="#004ac6"/>
+</div>
+</div>
+</div>
+<!-- Typography -->
+<div>
+<label class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider mb-2 block">Header Font</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface border border-outline-variant rounded-DEFAULT px-3 py-2 text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors pr-8">
+<option>Inter (Modern Sans)</option>
+<option>Georgia (Classic Serif)</option>
+<option>Roboto (Clean Sans)</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">arrow_drop_down</span>
+</div>
+</div>
+<hr class="border-outline-variant"/>
+<!-- Disclaimer Text -->
+<div>
+<label class="text-label-md font-label-md text-on-surface-variant uppercase tracking-wider mb-2 flex justify-between items-center">
+                        Footer Disclaimer
+                        <button class="text-primary hover:text-surface-tint text-label-sm font-label-sm underline transition-colors">Reset</button>
+</label>
+<textarea class="w-full bg-surface border border-outline-variant rounded-DEFAULT px-3 py-2 text-body-md font-body-md text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors h-32 resize-none custom-scrollbar" placeholder="Enter legal disclaimer...">This document is confidential and intended solely for the use of the individual or entity to whom it is addressed. It contains forward-looking statements subject to risks and uncertainties.</textarea>
+</div>
+</div>
+</aside>
+</main>
+</body></html>

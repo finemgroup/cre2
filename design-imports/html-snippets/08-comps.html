@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Comps - Riverside Flats - Finem CRE Studio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#004ac6",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-tint": "#0053db",
+                        "primary-fixed": "#dbe1ff",
+                        "on-error": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "on-tertiary-fixed-variant": "#7d2d00",
+                        "on-tertiary-container": "#ffede6",
+                        "secondary": "#565e74",
+                        "on-secondary-fixed": "#131b2e",
+                        "surface-container": "#eceef0",
+                        "secondary-container": "#dae2fd",
+                        "on-error-container": "#93000a",
+                        "surface-container-high": "#e6e8ea",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "on-surface": "#191c1e",
+                        "tertiary-fixed-dim": "#ffb596",
+                        "on-secondary": "#ffffff",
+                        "tertiary": "#943700",
+                        "on-secondary-container": "#5c647a",
+                        "on-primary-fixed": "#00174b",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary-fixed-variant": "#003ea8",
+                        "outline": "#737686",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-background": "#191c1e",
+                        "inverse-primary": "#b4c5ff",
+                        "outline-variant": "#c3c6d7",
+                        "surface-bright": "#f7f9fb",
+                        "secondary-fixed": "#dae2fd",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-dim": "#d8dadc",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-container": "#eeefff",
+                        "tertiary-container": "#bc4800",
+                        "tertiary-fixed": "#ffdbcd",
+                        "primary-container": "#2563eb",
+                        "on-surface-variant": "#434655"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin": "24px",
+                        "standard-padding": "16px",
+                        "unit": "4px",
+                        "container-max-width": "1440px",
+                        "gutter": "16px",
+                        "compact-padding": "8px",
+                        "section-gap": "32px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "data-mono": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "display-lg": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-sm": ["11px", { "lineHeight": "14px", "letterSpacing": "0.03em", "fontWeight": "500" }],
+                        "data-mono": ["14px", { "lineHeight": "20px", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined[data-weight="fill"] {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Custom scrollbar for tables/drawers to keep it sleek */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md min-h-screen flex text-body-md">
+<!-- SideNavBar -->
+<nav aria-label="Sidebar Navigation" class="fixed left-0 top-0 h-full w-64 flex flex-col z-50 overflow-y-auto bg-[#0F172A] border-r border-slate-800">
+<div class="px-margin py-6 border-b border-white/10 flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-white font-bold font-headline-sm">F</div>
+<div>
+<h1 class="text-headline-sm font-headline-sm font-bold text-white leading-tight">Finem Studio</h1>
+<p class="text-label-sm font-label-sm text-secondary-fixed-dim">Enterprise Plan</p>
+</div>
+</div>
+<div class="px-4 py-4">
+<button class="w-full bg-primary-container text-white py-2 px-4 rounded-md flex items-center justify-center gap-2 font-label-md hover:bg-primary-container/90 transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Deal
+            </button>
+</div>
+<ul class="flex flex-col py-2 flex-grow">
+<li><a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">dashboard</span><span class="text-label-md font-label-md">Dashboard</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">add_box</span><span class="text-label-md font-label-md">Deal Intake</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">business_center</span><span class="text-label-md font-label-md">Deals</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-white bg-primary/10 border-l-4 border-primary" href="#"><span class="material-symbols-outlined text-[20px]">analytics</span><span class="text-label-md font-label-md">Comps</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">calculate</span><span class="text-label-md font-label-md">Underwriting</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">assessment</span><span class="text-label-md font-label-md">Reports</span></a></li>
+<li><a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="text-label-md font-label-md">Settings</span></a></li>
+</ul>
+<div class="mt-auto border-t border-white/10 py-2">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">contact_support</span><span class="text-label-md font-label-md">Support</span></a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary-fixed-dim hover:text-white hover:bg-white/5 transition-all duration-200" href="#"><span class="material-symbols-outlined text-[20px]">logout</span><span class="text-label-md font-label-md">Sign Out</span></a>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="ml-64 flex-1 flex flex-col min-w-0 bg-surface">
+<!-- TopAppBar (Contextual for Deal) -->
+<header class="sticky top-0 z-40 flex justify-between items-center w-full px-margin h-16 bg-surface border-b border-outline-variant/30">
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div class="h-6 w-px bg-outline-variant/50"></div>
+<div class="flex items-baseline gap-3">
+<h2 class="text-headline-sm font-headline-sm text-on-surface">Riverside Flats</h2>
+<span class="px-2 py-0.5 rounded-full bg-blue-50 text-primary border border-blue-200 text-[10px] font-label-md uppercase tracking-wider">Multifamily</span>
+</div>
+</div>
+<div class="flex items-center gap-gutter">
+<div class="flex items-center gap-2 px-3 py-1.5 bg-green-50 border border-green-200 rounded-md">
+<span class="material-symbols-outlined text-[16px] text-green-700">check_circle</span>
+<span class="text-label-md font-label-md text-green-800">Confidence: 82%</span>
+</div>
+<div class="h-6 w-px bg-outline-variant/50"></div>
+<button class="text-primary hover:bg-surface-container-low px-3 py-1.5 rounded-md text-label-md font-label-md flex items-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[18px]">download</span> Export
+                </button>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden border border-outline-variant flex-shrink-0">
+<img alt="User Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADaGIrY9k6auPFcZB7QY5-1tDaDJSqWbOeliVyUr5CPp8wHbJOTx2MxNp6NEB84Alvxz4vxzoVYP925lUo7jpTBUpEbp6R0ilhpCZUyCvsjsVdNJIfzeX8DVc2ioNQmHHRYYAPVhdD6thccj7GMjdd0NeBAC_rCHtRpR5cSgmrkzlZaZG0NZwzGZRBN6Pi32Wy-pJaGytSYK4oGJPvpJ_5fkFStS6oaMYeI5HDsWOQLGCyhnx6EGUQ2SlT-pWWZWlU0RZZZZiB5II"/>
+</div>
+</div>
+</header>
+<!-- Canvas -->
+<div class="flex-1 overflow-auto p-margin flex gap-gutter">
+<!-- Left Column: Core Data -->
+<div class="flex-1 flex flex-col gap-gutter min-w-0">
+<!-- Subject Property & Controls -->
+<div class="flex gap-gutter items-stretch">
+<!-- Subject Property Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-slate-200 shadow-[0_4px_6px_-1px_rgba(15,23,42,0.04)] p-4 flex-1 flex gap-4">
+<div class="w-32 h-32 rounded-lg bg-surface-variant overflow-hidden flex-shrink-0">
+<img alt="Riverside Flats Exterior" class="w-full h-full object-cover" data-alt="A modern, upscale multifamily apartment building exterior with large glass windows, dark metal framing, and warm wood accents. The lighting is bright daytime, casting crisp shadows. The setting suggests an urban, high-end residential neighborhood with a clean, institutional investment grade aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBdJttSJrm7UURLyLvhKQ7szis56Ad9nQQyD6WrEE9ipHQeApI-hap-BK-tT11LrCdlJPkXOI7I8Atb2JdCLc_miq3sXiaiwohOf2g5TyQk0U3WY8BTxHMzW-1dcohuXPkM95LGKPh6Tmft-fS5Q24h8ft5gd_aaJR8QZ685SS5uox6kQeoymw0Wyv1qptJXYdc0H6gPbCNMVnEUjkAnrdW1ulQWLG1Jf09ghtyxbAfNfvC8pEcF1ofjXGSUAFUWHQwDG8JhoBGEs"/>
+</div>
+<div class="flex flex-col justify-between flex-1">
+<div>
+<div class="flex justify-between items-start mb-1">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Subject: Riverside Flats</h3>
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-[18px]">edit</span></button>
+</div>
+<p class="text-body-md font-body-md text-on-surface-variant">1240 Riverside Dr, Austin, TX 78704</p>
+</div>
+<div class="grid grid-cols-3 gap-4 pt-3 border-t border-slate-100">
+<div>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase mb-0.5">Year Built</p>
+<p class="text-body-md font-data-mono">2018</p>
+</div>
+<div>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase mb-0.5">Units</p>
+<p class="text-body-md font-data-mono">342</p>
+</div>
+<div>
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase mb-0.5">Target Cap</p>
+<p class="text-body-md font-data-mono text-primary font-semibold">6.5%</p>
+</div>
+</div>
+</div>
+</div>
+<!-- View Controls -->
+<div class="bg-surface-container-lowest rounded-xl border border-slate-200 shadow-[0_4px_6px_-1px_rgba(15,23,42,0.04)] p-4 w-64 flex flex-col justify-between">
+<div>
+<p class="text-label-md font-label-md text-on-surface-variant mb-2">View Mode</p>
+<div class="flex rounded-md border border-slate-200 p-0.5 bg-surface-container-low">
+<button class="flex-1 py-1.5 px-3 bg-white shadow-sm rounded text-label-md font-label-md text-on-surface flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[16px]">table_rows</span> Table
+                                </button>
+<button class="flex-1 py-1.5 px-3 text-label-md font-label-md text-on-surface-variant hover:text-on-surface flex items-center justify-center gap-2 transition-colors">
+<span class="material-symbols-outlined text-[16px]">map</span> Map
+                                </button>
+</div>
+</div>
+<div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+<span class="text-label-sm font-label-sm text-on-surface-variant">Active Comps</span>
+<span class="text-label-md font-label-md bg-slate-100 px-2 py-0.5 rounded text-on-surface">3 / 5</span>
+</div>
+</div>
+</div>
+<!-- Comps Table Area -->
+<div class="bg-surface-container-lowest rounded-xl border border-slate-200 shadow-[0_4px_6px_-1px_rgba(15,23,42,0.04)] flex flex-col flex-1 min-h-0">
+<div class="p-4 border-b border-slate-200 flex justify-between items-center bg-white rounded-t-xl">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Sales Comparables</h3>
+<div class="flex gap-2">
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-container-low rounded border border-outline-variant/50"><span class="material-symbols-outlined text-[18px]">filter_list</span></button>
+<button class="p-1.5 text-on-surface-variant hover:bg-surface-container-low rounded border border-outline-variant/50"><span class="material-symbols-outlined text-[18px]">tune</span></button>
+</div>
+</div>
+<div class="overflow-auto flex-1">
+<table class="w-full text-left border-collapse whitespace-nowrap">
+<thead class="sticky top-0 bg-slate-50 border-b border-slate-200 z-10 shadow-[0_1px_0_0_#e2e8f0]">
+<tr>
+<th class="p-compact-padding px-4 text-label-sm font-label-sm text-on-surface-variant uppercase w-10"></th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant uppercase">Property Name</th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant uppercase text-right">Sale Price</th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant uppercase text-right">Cap Rate</th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant uppercase text-right">Price/Unit</th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant uppercase text-right">Units</th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant uppercase text-center">Yr Built</th>
+<th class="p-compact-padding text-label-sm font-label-sm text-on-surface-variant uppercase">Sale Date</th>
+</tr>
+</thead>
+<tbody class="text-body-md font-body-md divide-y divide-slate-100">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 cursor-pointer transition-colors">
+<td class="p-compact-padding px-4 text-center">
+<div class="w-6 h-6 rounded-full bg-blue-100 text-primary flex items-center justify-center text-[10px] font-bold">1</div>
+</td>
+<td class="p-compact-padding font-medium text-on-surface">Barton Creek Residences</td>
+<td class="p-compact-padding text-right font-data-mono">$84,500,000</td>
+<td class="p-compact-padding text-right font-data-mono font-semibold text-green-700">6.2%</td>
+<td class="p-compact-padding text-right font-data-mono">$264,062</td>
+<td class="p-compact-padding text-right font-data-mono">320</td>
+<td class="p-compact-padding text-center font-data-mono">2019</td>
+<td class="p-compact-padding text-on-surface-variant">Oct 2023</td>
+</tr>
+<!-- Row 2 (Active/Selected) -->
+<tr class="bg-blue-50/50 border-l-2 border-l-primary hover:bg-blue-50/80 cursor-pointer transition-colors">
+<td class="p-compact-padding px-4 text-center">
+<div class="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-[10px] font-bold">2</div>
+</td>
+<td class="p-compact-padding font-medium text-primary">South Lamar Commons</td>
+<td class="p-compact-padding text-right font-data-mono">$72,100,000</td>
+<td class="p-compact-padding text-right font-data-mono font-semibold text-green-700">6.6%</td>
+<td class="p-compact-padding text-right font-data-mono">$259,352</td>
+<td class="p-compact-padding text-right font-data-mono">278</td>
+<td class="p-compact-padding text-center font-data-mono">2016</td>
+<td class="p-compact-padding text-on-surface-variant">Aug 2023</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 cursor-pointer transition-colors">
+<td class="p-compact-padding px-4 text-center">
+<div class="w-6 h-6 rounded-full bg-blue-100 text-primary flex items-center justify-center text-[10px] font-bold">3</div>
+</td>
+<td class="p-compact-padding font-medium text-on-surface">Eastside Flats</td>
+<td class="p-compact-padding text-right font-data-mono">$91,200,000</td>
+<td class="p-compact-padding text-right font-data-mono font-semibold text-amber-700">6.9%</td>
+<td class="p-compact-padding text-right font-data-mono">$242,553</td>
+<td class="p-compact-padding text-right font-data-mono">376</td>
+<td class="p-compact-padding text-center font-data-mono">2015</td>
+<td class="p-compact-padding text-on-surface-variant">Jan 2024</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Paywall Lock -->
+<div class="bg-surface-container py-3 px-4 rounded-b-xl border-t border-slate-200 flex items-center justify-between">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+<span class="text-label-md font-label-md">Upgrade to add more than 5 comps</span>
+</div>
+<button class="text-label-md font-label-md text-primary font-semibold hover:underline">View Plans</button>
+</div>
+</div>
+</div>
+<!-- Right Column: Detail Drawer (Open) -->
+<aside class="w-80 bg-surface-container-lowest rounded-xl border border-slate-200 shadow-[0_8px_16px_-4px_rgba(15,23,42,0.08)] flex flex-col flex-shrink-0 overflow-hidden relative">
+<!-- Drawer Header -->
+<div class="p-4 border-b border-slate-200 bg-white flex justify-between items-start sticky top-0 z-10">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<div class="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center text-[9px] font-bold">2</div>
+<span class="text-label-sm font-label-sm uppercase text-primary font-semibold tracking-wider">Comp Detail</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface leading-tight">South Lamar Commons</h3>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface"><span class="material-symbols-outlined">close</span></button>
+</div>
+<!-- Drawer Content -->
+<div class="overflow-y-auto flex-1 p-4 flex flex-col gap-6">
+<!-- Image -->
+<div class="h-40 rounded-lg bg-surface-variant overflow-hidden border border-slate-100">
+<img alt="South Lamar Commons" class="w-full h-full object-cover" data-alt="Exterior view of a contemporary mid-rise apartment complex located in a bustling urban area. The architecture features clean lines, pale stucco, and dark steel balconies. Soft, golden hour light bathes the building, creating a professional, high-end real estate portfolio aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAt5RnZcP73UUAPdiFgD62NqapTvJfk86EKpBRiCGZ4ODpuI91CltFN2bO_7zNSpPJjUHyfRzFa7h25RjTwtGW3wNNFG9wS38REl2eITQpUle-zvrlKScslP4bVllOBivSPYacpvKyKPWvvNkQ8frM7-oYPk1LMu4jgZl_c5zXPzKLvtGFYHgzw6WFIjTT8M0zlKvobpBPry8D-KtUiSoSJnGnd1lILSXbTbzzKtU2arKZnxAg_BmQJzGiEqf1iMuu3xFMoBLWHIQk"/>
+</div>
+<!-- Key Metrics -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-slate-50 p-3 rounded border border-slate-100">
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase mb-1">Cap Rate</p>
+<p class="text-headline-sm font-data-mono text-on-surface font-semibold">6.6%</p>
+</div>
+<div class="bg-slate-50 p-3 rounded border border-slate-100">
+<p class="text-label-sm font-label-sm text-on-surface-variant uppercase mb-1">Sale Price</p>
+<p class="text-headline-sm font-data-mono text-on-surface font-semibold">$72.1M</p>
+</div>
+</div>
+<!-- Detailed Data List -->
+<div class="flex flex-col border-t border-slate-100 pt-4">
+<h4 class="text-label-md font-label-md text-on-surface mb-3 uppercase tracking-wider text-slate-500">Property Details</h4>
+<div class="flex justify-between py-2 border-b border-slate-50">
+<span class="text-body-md text-on-surface-variant">Address</span>
+<span class="text-body-md text-on-surface text-right max-w-[150px] truncate" title="2100 S Lamar Blvd">2100 S Lamar Blvd</span>
+</div>
+<div class="flex justify-between py-2 border-b border-slate-50">
+<span class="text-body-md text-on-surface-variant">City, State</span>
+<span class="text-body-md text-on-surface text-right">Austin, TX</span>
+</div>
+<div class="flex justify-between py-2 border-b border-slate-50">
+<span class="text-body-md text-on-surface-variant">Units</span>
+<span class="text-body-md font-data-mono text-on-surface text-right">278</span>
+</div>
+<div class="flex justify-between py-2 border-b border-slate-50">
+<span class="text-body-md text-on-surface-variant">Year Built</span>
+<span class="text-body-md font-data-mono text-on-surface text-right">2016</span>
+</div>
+<div class="flex justify-between py-2 border-b border-slate-50">
+<span class="text-body-md text-on-surface-variant">Occupancy</span>
+<span class="text-body-md font-data-mono text-on-surface text-right">94.2%</span>
+</div>
+</div>
+<div class="flex flex-col border-t border-slate-100 pt-4">
+<h4 class="text-label-md font-label-md text-on-surface mb-3 uppercase tracking-wider text-slate-500">Transaction Details</h4>
+<div class="flex justify-between py-2 border-b border-slate-50">
+<span class="text-body-md text-on-surface-variant">Sale Date</span>
+<span class="text-body-md text-on-surface text-right">Aug 15, 2023</span>
+</div>
+<div class="flex justify-between py-2 border-b border-slate-50">
+<span class="text-body-md text-on-surface-variant">Price/Unit</span>
+<span class="text-body-md font-data-mono text-on-surface text-right">$259,352</span>
+</div>
+<div class="flex justify-between py-2 border-b border-slate-50">
+<span class="text-body-md text-on-surface-variant">Buyer</span>
+<span class="text-body-md text-on-surface text-right">Greystar</span>
+</div>
+</div>
+</div>
+<!-- Drawer Actions -->
+<div class="p-4 border-t border-slate-200 bg-slate-50 flex gap-2 mt-auto">
+<button class="flex-1 py-2 px-4 border border-outline-variant rounded-md text-label-md font-label-md hover:bg-surface-container-low transition-colors bg-white">Remove</button>
+<button class="flex-1 py-2 px-4 bg-primary text-white rounded-md text-label-md font-label-md hover:bg-primary/90 transition-colors">Full Report</button>
+</div>
+</aside>
+</div>
+</main>
+</body></html>

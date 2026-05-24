@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
+import { AnimatedList } from '@/components/studio/StudioPrimitives';
 import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
 import { getMotionProps, getMotionSpec } from '@/lib/motion';
 
@@ -30,6 +31,12 @@ describe('motion tokens', () => {
     expect(props.initial).toEqual({ opacity: 0, y: 10 });
     expect(props.animate).toEqual({ opacity: 1, y: 0 });
   });
+
+  it('flattens right-drawer motion under reduced motion', () => {
+    const props = getMotionProps(getMotionSpec('drawerRight'), true);
+    expect(props.initial).toEqual({ opacity: 1 });
+    expect(props.animate).toEqual({ opacity: 1 });
+  });
 });
 
 describe('SophexMotionSurface', () => {
@@ -43,5 +50,18 @@ describe('SophexMotionSurface', () => {
     const surface = screen.getByText('Child').parentElement;
     expect(surface).toHaveAttribute('data-sophex-motion', 'stageItem');
     expect(surface).toHaveAttribute('data-reduced-motion', 'false');
+  });
+});
+
+describe('AnimatedList', () => {
+  it('exposes list stagger motion metadata', () => {
+    render(
+      <AnimatedList>
+        <span>Activity</span>
+      </AnimatedList>
+    );
+
+    const list = screen.getByText('Activity').parentElement;
+    expect(list).toHaveAttribute('data-sophex-motion', 'listStagger');
   });
 });

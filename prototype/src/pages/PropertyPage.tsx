@@ -7,15 +7,34 @@ import { mockProperties } from '@/data/mock';
 
 export function PropertyPage(): ReactElement {
   const { id } = useParams();
-  const property = mockProperties.find((p) => p.id === id) ?? mockProperties[0];
+  const property = mockProperties.find((p) => p.id === id);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  if (!property) {
+    return (
+      <section className="page">
+        <header className="page-header">
+          <p className="eyebrow">Route guard</p>
+          <h1>Property not found</h1>
+          <p className="lede">
+            The requested sample property does not exist in the prototype dataset.
+          </p>
+        </header>
+        <Link to="/" className="btn btn-primary">
+          Return to search
+        </Link>
+      </section>
+    );
+  }
 
   return (
     <section className="page">
       <header className="page-header">
         <p className="eyebrow">Property intelligence</p>
         <h1>{property.address}</h1>
-        <p>{property.market} · {property.assetType}</p>
+        <p>
+          {property.market} · {property.assetType}
+        </p>
       </header>
 
       <div className="split-layout">
@@ -43,7 +62,7 @@ export function PropertyPage(): ReactElement {
       </div>
 
       <div className="action-row">
-        <Link to="/comps" className="btn btn-primary">
+        <Link to={`/property/${property.id}/comps`} className="btn btn-primary">
           Compare comps
         </Link>
         <Link to={`/report/${property.id}`} className="btn btn-secondary">
@@ -51,11 +70,7 @@ export function PropertyPage(): ReactElement {
         </Link>
       </div>
 
-      <SophexSheet
-        isOpen={drawerOpen}
-        label="Evidence drawer"
-        onClose={() => setDrawerOpen(false)}
-      >
+      <SophexSheet isOpen={drawerOpen} label="Evidence drawer" onClose={() => setDrawerOpen(false)}>
         <p>Public baseline fields only in this prototype.</p>
         <ul className="evidence-list">
           <li>County assessor record — 2024 tax year</li>
