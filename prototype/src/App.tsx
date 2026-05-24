@@ -44,6 +44,11 @@ const StudioPricingPage = lazy(() =>
 const StudioDashboardPage = lazy(() =>
   import('@/pages/studio/DealRoutes').then((module) => ({ default: module.StudioDashboardPage }))
 );
+const StudioDealIntakeRedirect = lazy(() =>
+  import('@/pages/studio/StudioDealIntakeRedirect').then((module) => ({
+    default: module.StudioDealIntakeRedirect,
+  }))
+);
 const StudioDealIntakePage = lazy(() =>
   import('@/pages/studio/DealRoutes').then((module) => ({ default: module.StudioDealIntakePage }))
 );
@@ -97,7 +102,7 @@ export default function App(): ReactElement {
           <Route index element={<LazyPage page={StudioLandingPage} />} />
           <Route path="dashboard" element={<LazyPage page={StudioDashboardPage} />} />
           <Route path="onboarding" element={<LazyPage page={StudioOnboardingPage} />} />
-          <Route path="deal-intake" element={<LazyPage page={StudioDealIntakePage} />} />
+          <Route path="deal-intake" element={<LazyPage page={StudioDealIntakeRedirect} />} />
           <Route path="deals/:dealId/intake" element={<LazyPage page={StudioDealIntakePage} />} />
           <Route path="deals/:dealId" element={<LazyPage page={StudioDealOverviewPage} />} />
           <Route path="deals/:dealId/comps" element={<LazyPage page={StudioCompsPage} />} />

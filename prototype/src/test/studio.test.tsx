@@ -10,7 +10,6 @@ describe('Finem CRE Studio routes', () => {
     ['/studio/onboarding', 'Set up Finem CRE Studio', 2],
     ['/studio/settings/billing', 'Billing & Plans', 1],
     ['/studio/dashboard', 'Main Deal Dashboard', 1],
-    ['/studio/deal-intake', 'Deal Intake', 1],
     ['/studio/deals/riverside-flats/intake', 'Deal Intake', 1],
     ['/studio/deals/riverside-flats', 'Riverside Flats', 1],
     ['/studio/deals/riverside-flats/comps', 'Riverside Flats', 1],
@@ -22,6 +21,17 @@ describe('Finem CRE Studio routes', () => {
   ])('renders %s', async (path, text, level) => {
     await renderRoute(path);
     expect(screen.getByRole('heading', { name: new RegExp(text), level })).toBeInTheDocument();
+  });
+
+  it('redirects legacy deal intake to the default deal-scoped intake route', async () => {
+    await renderRoute('/studio/deals/riverside-flats/intake');
+    expect(screen.getByRole('heading', { name: /Deal Intake/i })).toBeInTheDocument();
+    expect(screen.getByDisplayValue('Riverside Flats')).toBeInTheDocument();
+  });
+
+  it('requires a valid deal id on deal-scoped intake', async () => {
+    await renderRoute('/studio/deals/not-real/intake');
+    expect(screen.getByRole('heading', { name: /Deal not found/i })).toBeInTheDocument();
   });
 
   it('uses the active deal id in deal workflow pages', async () => {

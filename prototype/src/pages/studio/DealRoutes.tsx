@@ -51,12 +51,13 @@ import {
   formatMultiple,
   formatPercent,
 } from '@/lib/underwriting';
-import { mockSourceBlocks } from '@/lib/source-bundle';
+import { getSourceBlocksForDeal } from '@/lib/source-bundle';
 import { mockCandidateFields, mockUploadFiles } from '@/lib/staged-import';
 import {
   activity,
   comps,
   deals,
+  DEFAULT_DEAL_ID,
   getStudioDeal,
   studioDealPath,
   underwritingAssumptionsByDeal,
@@ -84,10 +85,10 @@ export function StudioDashboardPage(): ReactElement {
               <strong>1 of 2 deals</strong>
               <i style={{ width: '50%' }} />
             </div>
-            <Link to="/studio/deal-intake" className="btn btn-primary">
+            <Link to={studioDealPath(DEFAULT_DEAL_ID, 'intake')} className="btn btn-primary">
               Import OM
             </Link>
-            <Link to="/studio/deal-intake" className="btn btn-secondary">
+            <Link to={studioDealPath(DEFAULT_DEAL_ID, 'intake')} className="btn btn-secondary">
               New Deal
             </Link>
           </>
@@ -269,10 +270,11 @@ export function StudioDealOverviewPage(): ReactElement {
 
 export function StudioDealIntakePage(): ReactElement {
   const { dealId } = useParams();
-  const activeDeal = getStudioDeal(dealId) ?? getStudioDeal('riverside-flats');
-  const [propertyName, setPropertyName] = useState(activeDeal?.name ?? 'Riverside Flats');
+  const activeDeal = getStudioDeal(dealId);
+  const [propertyName, setPropertyName] = useState(activeDeal?.name ?? '');
   const { pushToast } = usePrototypeToast();
-  const continueDealId = activeDeal?.id ?? 'riverside-flats';
+  if (!activeDeal) return <StudioDealNotFound />;
+  const continueDealId = activeDeal.id;
   return (
     <div className="split-layout with-sticky">
       <div>
@@ -385,6 +387,7 @@ export function StudioCompsPage(): ReactElement {
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [trustOpen, setTrustOpen] = useState(false);
   if (!deal) return <StudioDealNotFound />;
+  const sourceBlocks = getSourceBlocksForDeal(deal.id);
 
   return (
     <div>
@@ -398,7 +401,7 @@ export function StudioCompsPage(): ReactElement {
       <NonProductionCallout>
         Comparable sales are sample rows with mixed authority states.
       </NonProductionCallout>
-      <ReviewPostureBanner blocks={mockSourceBlocks} />
+      <ReviewPostureBanner blocks={sourceBlocks} />
       <div className="comps-grid">
         <StudioCard title="Subject Property">
           <div className="property-image small" aria-label="Mock subject property image" />
@@ -443,7 +446,7 @@ export function StudioCompsPage(): ReactElement {
                 comp.units,
                 <ProvenanceCell
                   value={comp.salePrice}
-                  citation={mockSourceBlocks[2].citations[0]}
+                  citation={sourceBlocks[2]?.citations[0]}
                   state={comp.authority}
                 />,
                 <TrustBadge state={comp.authority} />,
@@ -502,7 +505,7 @@ export function StudioCompsPage(): ReactElement {
               detail="Reviewed comparison basis"
             />
             <TrustBadge state={selected.authority} />
-            {mockSourceBlocks.map((block) => (
+            {sourceBlocks.map((block) => (
               <SourceEvidenceBlockCard key={block.id} block={block} />
             ))}
             <button type="button" className="btn btn-secondary" onClick={() => setTrustOpen(true)}>

@@ -96,3 +96,26 @@ export const mockSourceBlocks: SourceEvidenceBlock[] = [
     missingCitations: ['Provider-restricted comp must be removed or summarized before export.'],
   },
 ];
+
+export const sourceBlocksByDeal: Record<string, SourceEvidenceBlock[]> = {
+  'riverside-flats': mockSourceBlocks,
+  '1200-tech': mockSourceBlocks.map((block) =>
+    block.id === 'comp-set'
+      ? {
+          ...block,
+          posture: 'degraded' as const,
+          missingCitations: ['Office comp set refresh pending.'],
+        }
+      : block
+  ),
+  'canyon-logistics': mockSourceBlocks.map((block) => ({
+    ...block,
+    posture: 'ready' as const,
+    missingCitations: undefined,
+  })),
+};
+
+export function getSourceBlocksForDeal(dealId?: string): SourceEvidenceBlock[] {
+  if (!dealId) return mockSourceBlocks;
+  return sourceBlocksByDeal[dealId] ?? mockSourceBlocks;
+}

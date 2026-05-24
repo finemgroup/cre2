@@ -3,7 +3,7 @@ import type { ReactElement } from 'react';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
-import { getStudioNavItems } from '@/data/studio';
+import { getDealIdFromPath, getStudioNavItems, studioDealPath } from '@/data/studio';
 
 type StudioMobileNavDrawerProps = {
   isOpen: boolean;
@@ -23,10 +23,11 @@ export function StudioMobileNavDrawer({
   onSignOut,
 }: StudioMobileNavDrawerProps): ReactElement {
   const location = useLocation();
+  const dealId = getDealIdFromPath(location.pathname);
 
   return (
     <SophexSheet isOpen={isOpen} onClose={onClose} label="Studio navigation">
-      <Link to="/studio/deal-intake" className="studio-new-deal" onClick={onClose}>
+      <Link to={studioDealPath(dealId, 'intake')} className="studio-new-deal" onClick={onClose}>
         <MaterialIcon name="add" />
         New Deal
       </Link>

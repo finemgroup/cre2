@@ -3,11 +3,14 @@ import { Link, useParams } from 'react-router-dom';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
+import { studioDealPath } from '@/data/studio';
 import { mockProperties } from '@/data/mock';
+import { getLinkedDealId } from '@/lib/workflow-identity';
 
 export function PropertyPage(): ReactElement {
   const { id } = useParams();
   const property = mockProperties.find((p) => p.id === id);
+  const linkedDealId = getLinkedDealId(id);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   if (!property) {
@@ -68,6 +71,11 @@ export function PropertyPage(): ReactElement {
         <Link to={`/report/${property.id}`} className="btn btn-secondary">
           Preview report
         </Link>
+        {linkedDealId ? (
+          <Link to={studioDealPath(linkedDealId)} className="btn btn-secondary">
+            Open linked Studio deal
+          </Link>
+        ) : null}
       </div>
 
       <SophexSheet isOpen={drawerOpen} label="Evidence drawer" onClose={() => setDrawerOpen(false)}>

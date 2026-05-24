@@ -3,13 +3,31 @@ import { Link, useParams } from 'react-router-dom';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
-import { mockComps, mockProperties } from '@/data/mock';
+import { mockComps } from '@/data/mock';
+import { getPropertyRecord } from '@/lib/workflow-identity';
 
 export function CompsPage(): ReactElement {
   const { id } = useParams();
-  const property = mockProperties.find((item) => item.id === id) ?? mockProperties[0];
+  const property = getPropertyRecord(id);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const selected = mockComps.find((c) => c.id === selectedId);
+  const selected = mockComps.find((comp) => comp.id === selectedId);
+
+  if (!property) {
+    return (
+      <section className="page">
+        <header className="page-header">
+          <p className="eyebrow">Route guard</p>
+          <h1>Comp comparison unavailable</h1>
+          <p className="lede">
+            Select a sample property first. Global comp views require an active subject property id.
+          </p>
+        </header>
+        <Link to="/" className="btn btn-primary">
+          Return to search
+        </Link>
+      </section>
+    );
+  }
 
   return (
     <section className="page">

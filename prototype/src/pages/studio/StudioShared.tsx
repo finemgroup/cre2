@@ -24,7 +24,7 @@ export function DealWorkflowTabs({ deal }: { deal: Deal }): ReactElement {
   const location = useLocation();
   const tabs = [
     ['Overview', studioDealPath(deal.id), /^\/studio\/deals\/[^/]+$/],
-    ['Inputs', `/studio/deals/${deal.id}/intake`, /\/intake$/],
+    ['Inputs', studioDealPath(deal.id, 'intake'), /\/intake$/],
     ['Comps', studioDealPath(deal.id, 'comps'), /\/comps$/],
     ['Underwriting', studioDealPath(deal.id, 'underwriting'), /\/underwriting$/],
     ['Scenarios', studioDealPath(deal.id, 'scenarios'), /\/scenarios$/],

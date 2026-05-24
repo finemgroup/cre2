@@ -5,19 +5,41 @@ import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceMod
 import { StageRail } from '@/components/ui/StageRail';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { evaluateExportReadiness } from '@/lib/report-governance';
-import { mockReportSections } from '@/data/mock';
+import {
+  getPropertyRecord,
+  getPublicReportSections,
+  getSourceBlocksForProperty,
+} from '@/lib/workflow-identity';
 
 const STAGES = ['Sections', 'Consent', 'Generate', 'Receipt'];
 
 export function ExportPage(): ReactElement {
   const { id } = useParams();
+  const property = getPropertyRecord(id);
   const [stage, setStage] = useState(0);
   const [consent, setConsent] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [receipt, setReceipt] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const readiness = evaluateExportReadiness(mockReportSections);
+  const sections = getPublicReportSections(id);
+  const readiness = evaluateExportReadiness(sections, getSourceBlocksForProperty(id));
   const exportBlocked = !readiness.ready;
+
+  if (!property) {
+    return (
+      <section className="page">
+        <header className="page-header">
+          <p className="eyebrow">Route guard</p>
+          <h1>Export gate not found</h1>
+          <p className="lede">
+            The requested sample property does not exist in the prototype dataset.
+          </p>
+        </header>
+      </section>
+    );
+  }
+
+  const propertyId = property.id;
 
   function handleGenerate() {
     if (!consent || exportBlocked) return;
@@ -26,7 +48,7 @@ export function ExportPage(): ReactElement {
     window.setTimeout(() => {
       setGenerating(false);
       setStage(3);
-      setReceipt(`audit://prototype/export/${id ?? 'demo'}`);
+      setReceipt(`audit://prototype/export/${propertyId}`);
     }, 900);
   }
 
@@ -34,7 +56,7 @@ export function ExportPage(): ReactElement {
     <section className="page">
       <header className="page-header">
         <p className="eyebrow">Report export gate</p>
-        <h1>Gated export for {id}</h1>
+        <h1>Gated export for {property.address}</h1>
         <p className="lede">
           Export is a permissioned, audited value exchange — not a simple download button.
         </p>

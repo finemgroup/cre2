@@ -13,7 +13,7 @@ import {
 } from '@/components/studio/StudioPrimitives';
 import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitives';
 import { useA11yAnnouncement } from '@/lib/a11y/useA11yAnnouncement';
-import { deals, studioDealPath } from '@/data/studio';
+import { DEFAULT_DEAL_ID, deals, studioDealPath } from '@/data/studio';
 import { SegmentedControl } from '@/pages/studio/StudioShared';
 
 export function StudioLandingPage(): ReactElement {
@@ -229,7 +229,7 @@ export function StudioOnboardingPage(): ReactElement {
           ) : null}
           {step === 3 ? (
             <div className="choice-grid">
-              <Link to="/studio/deal-intake" className="choice-card active">
+              <Link to={studioDealPath(DEFAULT_DEAL_ID, 'intake')} className="choice-card active">
                 <strong>Create first deal</strong>
                 <span>Start with an intake packet and source materials.</span>
               </Link>

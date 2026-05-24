@@ -2,8 +2,9 @@ import { useEffect, useRef, useState, type ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
-import { StageRail } from '@/components/ui/StageRail';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
+import { StageRail } from '@/components/ui/StageRail';
+import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
 
 const STAGES = ['Select files', 'Terms', 'Upload', 'Candidate'];
 
@@ -113,7 +114,7 @@ export function UploadPage(): ReactElement {
           actions={
             <>
               <AuthorityBadge label="candidate-evidence" />
-              <Link to="/studio/deal-intake" className="btn btn-primary">
+              <Link to={studioDealPath(DEFAULT_DEAL_ID, 'intake')} className="btn btn-primary">
                 Review in Studio
               </Link>
             </>

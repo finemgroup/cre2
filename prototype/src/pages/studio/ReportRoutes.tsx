@@ -19,16 +19,19 @@ import {
   ReportProvenanceCard,
   ReportSectionReviewCard,
 } from '@/components/report-governance/ReportGovernanceCards';
-import { mockSourceBlocks } from '@/lib/source-bundle';
+import { getSourceBlocksForDeal } from '@/lib/source-bundle';
 import { evaluateExportReadiness } from '@/lib/report-governance';
-import { brandConfig, getStudioDeal, reportSections, studioDealPath } from '@/data/studio';
+import { getStudioReportSections } from '@/lib/workflow-identity';
+import { brandConfig, getStudioDeal, studioDealPath } from '@/data/studio';
 import { SegmentedControl, StudioDealNotFound } from '@/pages/studio/StudioShared';
 
 export function StudioReportBuilderPage(): ReactElement {
   const { dealId } = useParams();
   const deal = getStudioDeal(dealId);
-  const approvedCount = reportSections.filter((section) => section.status === 'Approved').length;
-  const readiness = evaluateExportReadiness(reportSections);
+  const sections = getStudioReportSections(dealId);
+  const sourceBlocks = getSourceBlocksForDeal(dealId);
+  const approvedCount = sections.filter((section) => section.status === 'Approved').length;
+  const readiness = evaluateExportReadiness(sections, sourceBlocks);
   const [exportModalOpen, setExportModalOpen] = useState(false);
   if (!deal) return <StudioDealNotFound />;
 
@@ -45,7 +48,7 @@ export function StudioReportBuilderPage(): ReactElement {
         lede="Review sections, citations, branding, and export readiness before delivery."
         actions={
           <>
-            <StatusBadge status={`${approvedCount}/${reportSections.length} approved`} />
+            <StatusBadge status={`${approvedCount}/${sections.length} approved`} />
             {!readiness.ready ? (
               <button
                 type="button"
@@ -67,7 +70,7 @@ export function StudioReportBuilderPage(): ReactElement {
           </>
         }
       />
-      <ReviewPostureBanner blocks={mockSourceBlocks} />
+      <ReviewPostureBanner blocks={sourceBlocks} />
       <p className="sr-only" id="report-export-blocked">
         Export is disabled until section review and source-rights gates clear.
       </p>
@@ -81,7 +84,7 @@ export function StudioReportBuilderPage(): ReactElement {
               <option>IC Memo</option>
             </select>
           </label>
-          {reportSections.map((section) => (
+          {sections.map((section) => (
             <ReportSectionReviewCard key={section.id} section={section} />
           ))}
           <div className="studio-actions">
@@ -98,7 +101,7 @@ export function StudioReportBuilderPage(): ReactElement {
               Export PDF
             </button>
           </div>
-          <ReportProvenanceCard sections={reportSections} />
+          <ReportProvenanceCard sections={sections} />
         </StudioCard>
         <StudioCard title="Live PDF Preview" className="pdf-preview-card">
           <div className="pdf-preview">
@@ -141,7 +144,7 @@ export function StudioReportBuilderPage(): ReactElement {
           <NonProductionCallout>
             Export is disabled until section review and source-rights gates clear.
           </NonProductionCallout>
-          <ExportReadinessCard sections={reportSections} />
+          <ExportReadinessCard sections={sections} />
           <Link to="/studio/settings/white-label" className="btn btn-secondary">
             Edit branding
           </Link>

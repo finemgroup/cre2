@@ -79,12 +79,13 @@ export type JobStatusProjection = {
 
 export const DEFAULT_DEAL_ID = 'riverside-flats';
 
-export type StudioDealSection = 'overview' | 'comps' | 'underwriting' | 'scenarios';
+export type StudioDealSection = 'overview' | 'intake' | 'comps' | 'underwriting' | 'scenarios';
 
 export function studioDealPath(
   dealId = DEFAULT_DEAL_ID,
   section: StudioDealSection = 'overview'
 ): string {
+  if (section === 'intake') return `/studio/deals/${dealId}/intake`;
   const suffix = section === 'overview' ? '' : `/${section}`;
   return `/studio/deals/${dealId}${suffix}`;
 }

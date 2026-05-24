@@ -81,7 +81,7 @@ describe('public Sophex routes', () => {
     await renderRoute('/export/demo-001');
     const blockers = screen.getByRole('list', { name: /Export blockers/i });
 
-    expect(within(blockers).getByText(/Comp set is review required/i)).toBeInTheDocument();
+    expect(within(blockers).getByText(/Comparable Sales is review required/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Generate export/i })).toBeDisabled();
   });
 
@@ -99,6 +99,21 @@ describe('public Sophex routes', () => {
 
     await renderRoute('/not-a-route');
     expect(screen.getByRole('heading', { name: /Page not found/i })).toBeInTheDocument();
+  });
+
+  it('shows a route guard when comps are opened without a property id', async () => {
+    await renderRoute('/comps');
+    expect(
+      screen.getByRole('heading', { name: /Comp comparison unavailable/i })
+    ).toBeInTheDocument();
+  });
+
+  it('links public properties to linked Studio deals', async () => {
+    await renderRoute('/property/demo-002');
+    expect(screen.getByRole('link', { name: /Open linked Studio deal/i })).toHaveAttribute(
+      'href',
+      '/studio/deals/1200-tech'
+    );
   });
 
   it('shows public trust footer links', async () => {

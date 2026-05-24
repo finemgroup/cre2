@@ -11,6 +11,7 @@ import { PageTransition } from '@/components/motion/PageTransition';
 import { RouteProgress } from '@/components/layout/RouteProgress';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
 import {
+  DEFAULT_DEAL_ID,
   getDealIdFromPath,
   getStudioNavItems,
   studioDealPath,
@@ -79,7 +80,10 @@ export function StudioAppShell(): ReactElement {
             <span>Enterprise Plan</span>
           </div>
         </div>
-        <Link to="/studio/deal-intake" className="studio-new-deal">
+        <Link
+          to={studioDealPath(activeDealId ?? DEFAULT_DEAL_ID, 'intake')}
+          className="studio-new-deal"
+        >
           <MaterialIcon name="add" />
           New Deal
         </Link>
