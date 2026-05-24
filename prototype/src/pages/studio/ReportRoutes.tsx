@@ -199,12 +199,12 @@ export function StudioWhiteLabelPage(): ReactElement {
         </StudioCard>
         <StudioCard title="Logo & Assets">
           <div className="upload-grid">
-            <div className="upload-zone">
+            <PrototypeActionButton feature="Primary logo upload" className="upload-zone">
               <MaterialIcon name="upload_file" /> Primary logo mock upload
-            </div>
-            <div className="upload-zone">
+            </PrototypeActionButton>
+            <PrototypeActionButton feature="Favicon upload" className="upload-zone">
               <MaterialIcon name="image" /> Favicon mock upload
-            </div>
+            </PrototypeActionButton>
           </div>
         </StudioCard>
         <StudioCard title="Colors & Typography">

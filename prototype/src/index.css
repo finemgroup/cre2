@@ -185,7 +185,7 @@ a {
 
 .route-fallback {
   padding: 2rem 0;
-  color: var(--muted);
+  color: var(--text-muted);
 }
 
 .page-header h1 {
@@ -222,7 +222,7 @@ a {
   margin-top: 1rem;
 }
 
-.btn {
+:where(.shell, .studio-shell, .studio-standalone, .modal-panel) .btn {
   border: 1px solid var(--button-border);
   border-radius: var(--button-radius);
   padding: var(--button-padding);
@@ -238,23 +238,23 @@ a {
   text-decoration: none;
 }
 
-.btn-primary {
+:where(.shell, .studio-shell, .studio-standalone, .modal-panel) .btn-primary {
   background: var(--button-primary-bg);
   border-color: var(--button-primary-border);
   color: var(--button-primary-color);
 }
 
-.btn-secondary {
+:where(.shell, .studio-shell, .studio-standalone, .modal-panel) .btn-secondary {
   background: var(--button-secondary-bg);
   border-color: var(--button-secondary-border);
   color: var(--button-secondary-color);
 }
 
-.btn-ghost {
+:where(.shell, .studio-shell, .studio-standalone, .modal-panel) .btn-ghost {
   background: transparent;
 }
 
-.btn:disabled {
+:where(.shell, .studio-shell, .studio-standalone, .modal-panel) .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -510,7 +510,7 @@ td {
     flex-direction: column;
   }
 
-  .search-row .btn {
+  :where(.shell, .studio-shell, .studio-standalone, .modal-panel) .search-row .btn {
     align-self: flex-start;
   }
 
@@ -1078,11 +1078,8 @@ td {
   font-size: 0.72rem;
 }
 
-.usage-pill i {
-  display: block;
-  height: 5px;
-  border-radius: 999px;
-  background: var(--studio-primary);
+.usage-pill .progress-bar-compact {
+  margin-top: 0.1rem;
 }
 
 .studio-footer {
@@ -1548,9 +1545,12 @@ button.upload-zone {
   align-items: flex-end;
 }
 
-.vertical-bars i {
+.vertical-bars .chart-bar-fill {
   width: 100% !important;
-  height: var(--bar-height, 62%);
+  min-height: 4px;
+  display: block;
+  border-radius: 0.35rem 0.35rem 0 0;
+  background: var(--studio-primary);
 }
 
 .comps-grid {
@@ -1574,7 +1574,7 @@ button.upload-zone {
   overflow: hidden;
 }
 
-.bar-chart i {
+.bar-chart .chart-bar-fill {
   display: block;
   height: 100%;
   max-width: 100%;
@@ -1935,6 +1935,18 @@ button.upload-zone {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  --button-radius: 8px;
+  --button-padding: 0.5rem 0.875rem;
+  --button-font-weight: 600;
+  --button-bg: var(--surface);
+  --button-color: var(--text);
+  --button-border: var(--border);
+  --button-primary-bg: var(--accent);
+  --button-primary-color: #fff;
+  --button-primary-border: var(--accent);
+  --button-secondary-bg: var(--accent-soft);
+  --button-secondary-color: var(--accent);
+  --button-secondary-border: #b8d9c7;
 }
 
 .modal-panel-lg {

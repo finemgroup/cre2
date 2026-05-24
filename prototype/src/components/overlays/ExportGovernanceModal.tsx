@@ -2,6 +2,7 @@ import type { ReactElement } from 'react';
 
 import { SophexModal } from '@/components/overlays/SophexModal';
 import { StatusBadge } from '@/components/studio/StudioPrimitives';
+import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import type { ExportReadiness } from '@/lib/report-governance';
 
 type ExportGovernanceModalProps = {
@@ -38,8 +39,8 @@ export function ExportGovernanceModal({
             <button type="button" className="btn btn-secondary" onClick={onClose}>
               Cancel
             </button>
-            <button
-              type="button"
+            <PrototypeActionButton
+              feature="PDF export"
               className="btn btn-primary"
               onClick={() => {
                 onConfirm?.();
@@ -47,7 +48,7 @@ export function ExportGovernanceModal({
               }}
             >
               Proceed to export
-            </button>
+            </PrototypeActionButton>
           </div>
         </>
       ) : (

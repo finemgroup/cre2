@@ -36,6 +36,13 @@ describe('Finem CRE Studio routes', () => {
     expect(screen.getByText(/Export Excel is simulated/i)).toBeInTheDocument();
   });
 
+  it('shows prototype feedback for white-label asset uploads', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/studio/settings/white-label');
+    await user.click(screen.getByRole('button', { name: /Primary logo mock upload/i }));
+    expect(screen.getByText(/Primary logo upload is simulated/i)).toBeInTheDocument();
+  });
+
   it('requires a valid deal id on deal-scoped intake', async () => {
     await renderRoute('/studio/deals/not-real/intake');
     expect(screen.getByRole('heading', { name: /Deal not found/i })).toBeInTheDocument();

@@ -1,4 +1,4 @@
-import { useMemo, useState, type CSSProperties, type ReactElement } from 'react';
+import { useMemo, useState, type ReactElement } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import {
@@ -83,7 +83,17 @@ export function StudioDashboardPage(): ReactElement {
             <div className="usage-pill">
               <span>Plan usage</span>
               <strong>1 of 2 deals</strong>
-              <i style={{ width: '50%' }} />
+              <div
+                className="progress-bar progress-bar-compact"
+                role="progressbar"
+                aria-label="Plan usage"
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={50}
+                aria-valuetext="50% of deal quota used"
+              >
+                <div className="progress-fill" style={{ width: '50%' }} />
+              </div>
             </div>
             <Link to={studioDealPath(DEFAULT_DEAL_ID, 'intake')} className="btn btn-primary">
               Import OM
@@ -744,12 +754,11 @@ export function StudioScenarioComparisonPage(): ReactElement {
             <div key={scenario.name}>
               <span>{scenario.name}</span>
               <div>
-                <i
-                  style={
-                    {
-                      '--bar-height': `${Math.round((scenario.metrics.irr / maxIrr) * 100)}%`,
-                    } as CSSProperties
-                  }
+                <span
+                  className="chart-bar-fill"
+                  style={{
+                    height: `${Math.round((scenario.metrics.irr / maxIrr) * 100)}%`,
+                  }}
                 />
               </div>
               <strong>{formatPercent(scenario.metrics.irr)}</strong>
