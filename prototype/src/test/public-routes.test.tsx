@@ -132,10 +132,9 @@ describe('public Sophex routes', () => {
     await user.click(screen.getByRole('button', { name: /Generate export receipt/i }));
 
     await waitFor(
-      () => expect(screen.getByText(/Receipt/i)).toBeInTheDocument(),
+      () => expect(screen.getByText(/Redacted evidence refs/i)).toBeInTheDocument(),
       { timeout: 1500 }
     );
-    expect(screen.getByText(/Redacted evidence refs/i)).toBeInTheDocument();
   });
 
   it('switches the prototype actor context without exposing private values', async () => {

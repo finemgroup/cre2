@@ -11,6 +11,7 @@ import {
 import { fixtureActors } from '@/lib/contracts/fixtures';
 import type { ActorContext } from '@/lib/contracts/actor-context';
 import { decideVisibility } from '@/lib/contracts/visibility';
+import { getValuationVersionForActor } from '@/lib/contracts/valuation-version';
 import { getSourceBlocksForDeal } from '@/lib/source-bundle';
 import { getStudioReportSections } from '@/lib/workflow-identity';
 import { evaluateExportReadiness } from '@/lib/report-governance';
@@ -62,12 +63,21 @@ export function getStudioReportBuilderView(
   if (!deal) return undefined;
   const sections = getStudioReportSections(deal.id);
   const sourceBlocks = getSourceBlocksForDeal(deal.id);
+  const readiness = evaluateExportReadiness(sections, sourceBlocks);
   return {
     deal,
     actorId: actor.id,
     sections,
     sourceBlocks,
-    readiness: evaluateExportReadiness(sections, sourceBlocks),
+    readiness,
+    valuationVersion: getValuationVersionForActor({
+      actor,
+      propertyId: 'demo-001',
+      reportId: `studio-report-${deal.id}`,
+      exportConsent: false,
+      sourceRightsClear: readiness.ready,
+      spatialSourceClear: true,
+    }),
     brandConfig,
   };
 }

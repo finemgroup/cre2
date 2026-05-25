@@ -1,10 +1,17 @@
 import { mockComps, type CompRecord } from '@/data/mock';
 import { PUBLIC_ACTOR, type ActorContext } from '@/lib/contracts/actor-context';
+import { getMapLayerManifestsForActor, getTradeAreasForActor, type TradeArea } from '@/lib/contracts/spatial';
 import { decideVisibility } from '@/lib/contracts/visibility';
 
 export type PublicCompView = CompRecord & {
   canInspect: boolean;
   safeExplanation: string;
+};
+
+export type PublicCompContextView = {
+  comps: PublicCompView[];
+  mapLayers: ReturnType<typeof getMapLayerManifestsForActor>;
+  tradeAreas: TradeArea[];
 };
 
 export function getPublicCompViews(actor: ActorContext = PUBLIC_ACTOR): PublicCompView[] {
@@ -38,4 +45,15 @@ export function getPublicCompViews(actor: ActorContext = PUBLIC_ACTOR): PublicCo
       safeExplanation: 'Visible because it is public baseline or reviewed output.',
     };
   });
+}
+
+export function getPublicCompContextView(
+  actor: ActorContext = PUBLIC_ACTOR,
+  propertyId = 'demo-001'
+): PublicCompContextView {
+  return {
+    comps: getPublicCompViews(actor),
+    mapLayers: getMapLayerManifestsForActor(actor, 'comps'),
+    tradeAreas: getTradeAreasForActor(actor, propertyId),
+  };
 }

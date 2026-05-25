@@ -6,15 +6,26 @@ import {
   getPublicReportSections,
   getSourceBlocksForProperty,
 } from '@/lib/workflow-identity';
+import { getValuationVersionForActor } from '@/lib/contracts/valuation-version';
 import { evaluateExportPolicy, type ExportScope } from '@/lib/runtime/export-policy';
 
-export function getPublicReportView(propertyId: string | undefined) {
+export function getPublicReportView(
+  propertyId: string | undefined,
+  actor: ActorContext = fixtureActors.public
+) {
   const property = getPropertyRecord(propertyId);
   if (!property) return undefined;
   const sections = getPublicReportSections(propertyId);
   const sourceBlocks = getSourceBlocksForProperty(propertyId);
   const readiness = evaluateExportReadiness(sections, sourceBlocks);
-  return { property, sections, sourceBlocks, readiness };
+  const valuationVersion = getValuationVersionForActor({
+    actor,
+    propertyId: property.id,
+    reportId: `report-${property.id}`,
+    sourceRightsClear: readiness.ready,
+    spatialSourceClear: true,
+  });
+  return { property, sections, sourceBlocks, readiness, valuationVersion };
 }
 
 export function getPublicExportDecision(input: {
@@ -24,10 +35,11 @@ export function getPublicExportDecision(input: {
   consent: boolean;
   idempotencyKey: string;
 }) {
-  const report = getPublicReportView(input.propertyId);
+  const actor = input.actor ?? fixtureActors.public;
+  const report = getPublicReportView(input.propertyId, actor);
   if (!report) return undefined;
   return evaluateExportPolicy({
-    actor: input.actor ?? fixtureActors.public,
+    actor,
     reportId: `report-${input.propertyId}`,
     scope: input.scope ?? 'download',
     readiness: report.readiness,
