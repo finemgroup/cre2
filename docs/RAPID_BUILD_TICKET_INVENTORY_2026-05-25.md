@@ -54,6 +54,8 @@ Wave 5 polish is complete. The next lanes are **operator-gated**:
 
 Historical product workflow tickets remain in `COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_PRODUCT_WORKFLOWS.md`.
 
+**Mock resolution tracking:** use [MOCK_RESOLUTION_REGISTRY.md](MOCK_RESOLUTION_REGISTRY.md) as the canonical checklist of mock-only routes, fixtures, simulated CTAs, and disabled gates to resolve when gated lanes open.
+
 ## Product Workflow Tickets (Wave 2)
 
 | Ticket | Status | Notes |
