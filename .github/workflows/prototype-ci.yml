@@ -129,3 +129,6 @@ jobs:
 
       - name: Build Storybook
         run: npm run build-storybook
+
+      - name: Story composition tests
+        run: npm run test:stories

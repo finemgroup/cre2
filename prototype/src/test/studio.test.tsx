@@ -29,11 +29,24 @@ describe('Finem CRE Studio routes', () => {
     expect(screen.getByDisplayValue('Riverside Flats')).toBeInTheDocument();
   });
 
+  it('sets deal-aware document titles for studio routes', async () => {
+    await renderRoute('/studio/deals/riverside-flats/comps');
+    expect(document.title).toBe('Comps - Riverside Flats - Finem CRE Studio');
+  });
+
   it('shows prototype feedback for inert report builder actions', async () => {
     const user = userEvent.setup();
     await renderRoute('/studio/reports/riverside-flats/builder');
     await user.click(screen.getByRole('button', { name: /Export Excel/i }));
     expect(screen.getByText(/Export Excel is simulated/i)).toBeInTheDocument();
+  });
+
+  it('shows prototype feedback when saving white-label branding', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/studio/settings/white-label');
+    await user.click(screen.getByRole('button', { name: /Save Changes/i }));
+    expect(screen.getByText(/Save branding changes is simulated/i)).toBeInTheDocument();
+    expect(screen.getByText(/Prototype branding changes saved/i)).toBeInTheDocument();
   });
 
   it('shows prototype feedback for white-label asset uploads', async () => {

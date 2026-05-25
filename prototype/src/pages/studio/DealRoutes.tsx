@@ -745,26 +745,27 @@ export function StudioScenarioComparisonPage(): ReactElement {
         <SensitivityMatrix grid={grid} />
       </StudioCard>
       <StudioCard title="IRR Bar Chart">
-        <div
-          className="bar-chart vertical-bars"
-          role="img"
-          aria-label="IRR by scenario. Values are listed below each bar."
-        >
-          {scenarioMetrics.map((scenario) => (
-            <div key={scenario.name}>
-              <span>{scenario.name}</span>
-              <div>
-                <span
-                  className="chart-bar-fill"
-                  style={{
-                    height: `${Math.round((scenario.metrics.irr / maxIrr) * 100)}%`,
-                  }}
-                />
+        <figure aria-labelledby="irr-bar-caption">
+          <figcaption id="irr-bar-caption" className="sr-only">
+            IRR by scenario. Values are listed below each bar and in the data table.
+          </figcaption>
+          <div className="bar-chart vertical-bars">
+            {scenarioMetrics.map((scenario) => (
+              <div key={scenario.name}>
+                <span>{scenario.name}</span>
+                <div>
+                  <span
+                    className="chart-bar-fill"
+                    style={{
+                      height: `${Math.round((scenario.metrics.irr / maxIrr) * 100)}%`,
+                    }}
+                  />
+                </div>
+                <strong>{formatPercent(scenario.metrics.irr)}</strong>
               </div>
-              <strong>{formatPercent(scenario.metrics.irr)}</strong>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </figure>
         <DataTable
           caption="Scenario IRR values"
           headers={['Scenario', 'IRR']}

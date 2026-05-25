@@ -77,6 +77,11 @@ describe('public Sophex routes', () => {
     expect(screen.queryByRole('button', { name: /Start upload/i })).not.toBeInTheDocument();
   });
 
+  it('sets document titles for public routes', async () => {
+    await renderRoute('/upload');
+    expect(document.title).toBe('Upload Documents - Sophex');
+  });
+
   it('derives export blockers from report governance readiness', async () => {
     await renderRoute('/export/demo-001');
     const blockers = screen.getByRole('list', { name: /Export blockers/i });

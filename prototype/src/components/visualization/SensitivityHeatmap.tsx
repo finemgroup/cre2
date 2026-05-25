@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react';
 
+import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { formatMultiple, formatPercent, type SensitivityGrid } from '@/lib/underwriting';
 
 type SensitivityHeatmapProps = {
@@ -58,9 +59,9 @@ export function SensitivityHeatmap({
       {locked ? (
         <div className="heatmap-lock-overlay">
           <p>Premium sensitivity heatmap locked</p>
-          <button type="button" className="btn btn-primary" onClick={onUnlock}>
+          <PrototypeActionButton feature="Premium heatmap unlock" className="btn btn-primary" onClick={onUnlock}>
             Unlock preview
-          </button>
+          </PrototypeActionButton>
         </div>
       ) : null}
     </div>

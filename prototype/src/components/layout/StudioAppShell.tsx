@@ -18,6 +18,7 @@ import {
   studioReportPath,
 } from '@/data/studio';
 import { useRouteTitle } from '@/lib/a11y/useRouteTitle';
+import { getStudioRouteTitle } from '@/lib/a11y/routeTitles';
 
 function isActiveMatch(path: string, match: string): boolean {
   if (match === 'dashboard') return path === '/studio/dashboard' || path === '/studio';
@@ -39,8 +40,7 @@ export function StudioAppShell(): ReactElement {
   const isBrokerOs = location.pathname === '/studio/broker-os';
   const activeDealId = getDealIdFromPath(location.pathname);
   const navItems = getStudioNavItems(activeDealId);
-  const activeItem = navItems.find((item) => isActiveMatch(location.pathname, item.match));
-  useRouteTitle(`${activeItem?.label ?? 'Studio'} - Finem CRE Studio`);
+  useRouteTitle(getStudioRouteTitle(location.pathname));
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);

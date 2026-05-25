@@ -11,6 +11,7 @@
     "format:check": "prettier --check .",
     "preview": "vite preview",
     "test": "vitest run",
+    "test:stories": "vitest run src/test/stories.test.tsx",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install chromium",

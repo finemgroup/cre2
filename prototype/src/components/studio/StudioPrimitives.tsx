@@ -110,7 +110,7 @@ export function StatusBadge({ status }: { status: string }): ReactElement {
 
 export function NonProductionCallout({ children }: ChildrenProps): ReactElement {
   return (
-    <aside className="studio-callout" role="status">
+    <aside className="studio-callout">
       <MaterialIcon name="info" />
       <span>{children}</span>
     </aside>

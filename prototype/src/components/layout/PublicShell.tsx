@@ -4,17 +4,8 @@ import type { ReactElement } from 'react';
 import { NonProductionBanner } from '@/components/ui/NonProductionBanner';
 import { PageTransition } from '@/components/motion/PageTransition';
 import { RouteProgress } from '@/components/layout/RouteProgress';
+import { getPublicRouteTitle } from '@/lib/a11y/routeTitles';
 import { useRouteTitle } from '@/lib/a11y/useRouteTitle';
-
-function getPublicRouteTitle(pathname: string): string {
-  if (pathname === '/') return 'Search - Sophex';
-  if (pathname.startsWith('/property/')) return 'Property Intelligence - Sophex';
-  if (pathname === '/upload') return 'Upload Documents - Sophex';
-  if (pathname.endsWith('/comps') || pathname === '/comps') return 'Comparable Sales - Sophex';
-  if (pathname.startsWith('/report/')) return 'Report Preview - Sophex';
-  if (pathname.startsWith('/export/')) return 'Export Gate - Sophex';
-  return 'Page Not Found - Sophex';
-}
 
 export function PublicShell(): ReactElement {
   const location = useLocation();

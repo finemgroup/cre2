@@ -13,13 +13,13 @@ import {
   WorkflowContextHeader,
 } from '@/components/studio/StudioPrimitives';
 import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceModal';
+import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { ReviewPostureBanner } from '@/components/provenance/ProvenanceWidgets';
 import {
   ExportReadinessCard,
   ReportProvenanceCard,
   ReportSectionReviewCard,
 } from '@/components/report-governance/ReportGovernanceCards';
-import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { getSourceBlocksForDeal } from '@/lib/source-bundle';
 import { evaluateExportReadiness } from '@/lib/report-governance';
 import { getStudioReportSections } from '@/lib/workflow-identity';
@@ -175,9 +175,13 @@ export function StudioWhiteLabelPage(): ReactElement {
           title="White Label Settings"
           lede="Customize platform appearance for clients and reports without hiding source limits."
           actions={
-            <button className="btn btn-primary" type="button" onClick={() => setSaved(true)}>
+            <PrototypeActionButton
+              feature="Save branding changes"
+              className="btn btn-primary"
+              onClick={() => setSaved(true)}
+            >
               Save Changes
-            </button>
+            </PrototypeActionButton>
           }
         />
         {saved ? (

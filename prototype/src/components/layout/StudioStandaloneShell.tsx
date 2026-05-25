@@ -1,14 +1,16 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import type { ReactElement } from 'react';
 
 import { PageTransition } from '@/components/motion/PageTransition';
 import { RouteProgress } from '@/components/layout/RouteProgress';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
 import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
+import { getStudioRouteTitle } from '@/lib/a11y/routeTitles';
 import { useRouteTitle } from '@/lib/a11y/useRouteTitle';
 
 export function StudioStandaloneShell(): ReactElement {
-  useRouteTitle('Report Builder - Finem CRE Studio');
+  const location = useLocation();
+  useRouteTitle(getStudioRouteTitle(location.pathname));
 
   return (
     <div className="studio-standalone">
