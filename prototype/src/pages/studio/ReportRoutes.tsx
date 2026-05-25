@@ -16,6 +16,7 @@ import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceMod
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { ReviewPostureBanner } from '@/components/provenance/ProvenanceWidgets';
 import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
+import { ContextualSurfaceTriggers } from '@/components/workflow/ContextualSurfaceTriggers';
 import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
 import { StageRail } from '@/components/ui/StageRail';
 import { VALUATION_READINESS_STAGES } from '@/lib/readiness-stages';
@@ -28,6 +29,7 @@ import {
 import { brandConfig, studioDealPath } from '@/data/studio';
 import { fixtureActors } from '@/lib/contracts/fixtures';
 import type { GovernedReceipt } from '@/lib/contracts/receipts';
+import { getLinkedPropertyId } from '@/lib/workflow-identity';
 import { evaluateExportPolicy } from '@/lib/runtime/export-policy';
 import { getStudioReportBuilderView } from '@/lib/runtime/studio-workspace';
 import { SegmentedControl, StudioDealNotFound } from '@/pages/studio/StudioShared';
@@ -46,6 +48,7 @@ export function StudioReportBuilderPage(): ReactElement {
     valuationVersion,
     brandConfig: reportBrandConfig,
   } = reportView;
+  const propertyId = getLinkedPropertyId(deal.id) ?? 'demo-001';
   const approvedCount = sections.filter((section) => section.status === 'Approved').length;
   const studioExportDecision = evaluateExportPolicy({
     actor: fixtureActors.orgAdmin,
@@ -62,6 +65,10 @@ export function StudioReportBuilderPage(): ReactElement {
         <Link to={studioDealPath(deal.id)}>Studio</Link>
         <span aria-hidden="true">/</span>
         <Link to={studioDealPath(deal.id)}>{deal.name}</Link>
+        <span aria-hidden="true">/</span>
+        <Link to={studioDealPath(deal.id, 'versions')}>
+          Snapshot {valuationVersion.evidenceSnapshot.id}
+        </Link>
         <span aria-hidden="true">/</span>
         <span>Report builder</span>
       </nav>
@@ -204,6 +211,11 @@ export function StudioReportBuilderPage(): ReactElement {
           </Link>
         </StudioCard>
       </div>
+      <ContextualSurfaceTriggers
+        dealId={deal.id}
+        route="report-builder"
+        propertyId={propertyId}
+      />
       <ExportGovernanceModal
         isOpen={exportModalOpen}
         onClose={() => setExportModalOpen(false)}

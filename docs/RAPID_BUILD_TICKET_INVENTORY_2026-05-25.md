@@ -180,3 +180,23 @@ Canonical ticket pack: [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPI
 | `SOPHEX-FE-COCKPIT-RUNTIME-PORT-ENRICHMENT`        | Implemented | Sandbox cockpit projection with actor-filtered review summary   |
 | `SOPHEX-FE-HITL-CONFIDENCE-E2E-FLOWS`              | Implemented | Browser coverage for confidence-aware HITL drawer/detail paths  |
 | `SOPHEX-FE-WAVE-8-LIGHTHOUSE-VISUAL-REGRESSION`    | Implemented | Visual baselines updated; per-file CSS budget adjusted to 54 KB |
+
+## Wave 10 UX Workflow Legibility (2026-05-25)
+
+| Track | Status | Notes |
+| --- | --- | --- |
+| Advanced surface triggers | Implemented | `ContextualSurfaceTriggers` on data-review, scenarios, snapshots, report builder |
+| Snapshot language | Implemented | Scenario-to-snapshot governance card on versions route |
+| Mock boundary banners | Implemented | Evidence and scenario variants on high-risk evidence/scenario routes |
+| Report breadcrumb context | Implemented | Report builder breadcrumb links active valuation snapshot |
+| Lighthouse expansion | Implemented | Deal cockpit overview route added to Lighthouse CI |
+
+### Wave 10 Ticket Ledger
+
+| Ticket | Status | Notes |
+| --- | --- | --- |
+| `SOPHEX-FE-UW-ADVANCED-SURFACE-TRIGGERS` | Implemented | Contextual handoffs on evidence, scenario, governance, and delivery routes |
+| `SOPHEX-FE-UW-SNAPSHOT-LANGUAGE` | Implemented | Scenario vs snapshot copy and compare link on versions page |
+| `SOPHEX-FE-UW-REPORT-BREADCRUMB` | Implemented | Snapshot ID in report builder breadcrumb trail |
+| `SOPHEX-FE-UW-MOCK-BOUNDARY-BANNERS` | Implemented | Evidence/scenario mock boundary banners added |
+| `SOPHEX-FE-LIGHTHOUSE-EXPAND` | Implemented | `/studio/deals/riverside-flats` added to Lighthouse URLs |

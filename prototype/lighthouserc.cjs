@@ -22,6 +22,7 @@ module.exports = {
         'http://127.0.0.1:4173/report/demo-001',
         'http://127.0.0.1:4173/export/demo-001',
         'http://127.0.0.1:4173/studio/dashboard',
+        'http://127.0.0.1:4173/studio/deals/riverside-flats',
         'http://127.0.0.1:4173/studio/deals/riverside-flats/underwriting',
         'http://127.0.0.1:4173/studio/deals/riverside-flats/underwriting/sources',
         'http://127.0.0.1:4173/studio/deals/riverside-flats/underwriting/debt',

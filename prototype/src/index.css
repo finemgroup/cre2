@@ -2753,6 +2753,27 @@ button.heatmap-cell:focus-visible {
   color: #991b1b;
 }
 
+.contextual-surface-triggers {
+  margin: 1.25rem 0;
+  padding: 1rem;
+  border: 1px solid var(--studio-line);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--studio-muted) 48%, white);
+}
+
+.contextual-surface-triggers header h2 {
+  margin: 0.25rem 0;
+  font-size: 1.05rem;
+}
+
+.contextual-trigger-list {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0.85rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
 .deal-breadcrumb {
   display: flex;
   flex-wrap: wrap;

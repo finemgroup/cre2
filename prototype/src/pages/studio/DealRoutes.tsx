@@ -51,6 +51,7 @@ import {
 import { AiTaskPulse } from '@/components/workflow/AiTaskPulse';
 import { DataWorkbenchShell } from '@/components/workflow/DataWorkbenchShell';
 import { DealCockpitPanel } from '@/components/workflow/DealCockpitPanel';
+import { ContextualSurfaceTriggers } from '@/components/workflow/ContextualSurfaceTriggers';
 import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
 import { HitlReviewDrawer } from '@/components/workflow/HitlReviewDrawer';
 import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
@@ -1109,6 +1110,7 @@ export function StudioScenarioComparisonPage(): ReactElement {
         Scenario outputs are mock calculations and not investment recommendations. Lock remains
         disabled until source and lender gates clear.
       </NonProductionCallout>
+      <MockBoundaryBanner variant="scenario" />
       <GateResolutionCallout
         action="Promote scenario to valuation snapshot"
         prerequisite="Upside rent growth remains candidate evidence and lender quote is still missing."
@@ -1291,6 +1293,7 @@ export function StudioScenarioComparisonPage(): ReactElement {
         exitCap={selectedCell?.exitCapRate ?? assumptions.exitCapRate}
         metrics={selectedCell?.metrics ?? calculateUnderwritingMetrics(assumptions)}
       />
+      <ContextualSurfaceTriggers dealId={deal.id} route="scenarios" />
     </div>
   );
 }
@@ -1434,6 +1437,7 @@ export function StudioDataReviewPage(): ReactElement {
       <NonProductionCallout>
         Normalization rows are candidate-only mock evidence until analyst and reviewer gates clear.
       </NonProductionCallout>
+      <MockBoundaryBanner variant="evidence" />
       <GateResolutionCallout
         action="Promote normalized fields to assumptions"
         prerequisite="Unit count conflict between OM and rent roll remains unresolved."
@@ -1511,6 +1515,7 @@ export function StudioDataReviewPage(): ReactElement {
           pushToast(`Mock conflict resolution recorded: ${summary}`, 'warning');
         }}
       />
+      <ContextualSurfaceTriggers dealId={deal.id} route="data-review" />
     </div>
   );
 }
@@ -1568,10 +1573,10 @@ function NormalizationCandidateCard({
         </button>
         <PrototypeActionLink
           to={studioDealPath(dealId, 'underwriting-sources')}
-          className="btn btn-primary"
+          className="btn btn-secondary"
           feature="Review normalization evidence"
         >
-          Review Source Trace
+          Open assumption source trace
         </PrototypeActionLink>
         <button
           type="button"
@@ -1737,9 +1742,22 @@ export function StudioValuationVersionTimelinePage(): ReactElement {
       <PageTitle
         eyebrow="Snapshot governance"
         title="Valuation snapshots"
-        lede="A scenario is working assumptions. A valuation snapshot locks one scenario with evidence refs, comp set, as-of dates, and export posture."
+        lede="Working scenarios stay editable. A valuation snapshot locks one scenario with evidence refs, comp set, as-of dates, and export posture."
       />
       <MockBoundaryBanner variant="snapshot" />
+      <StudioCard title="Scenario to snapshot model" eyebrow="Governance language">
+        <p>
+          Use <strong>Scenarios</strong> to compare assumption presets and sensitivity output. When
+          gates clear, promote one scenario into a <strong>valuation snapshot</strong> that carries
+          evidence refs, comp set, and export eligibility — without implying immutable storage in
+          this prototype.
+        </p>
+        <div className="studio-actions">
+          <Link to={studioDealPath(deal.id, 'scenarios')} className="btn btn-secondary">
+            Compare scenarios
+          </Link>
+        </div>
+      </StudioCard>
       <NonProductionCallout>
         Snapshot history is a mock governance projection. Immutable storage and receipts remain
         runtime gated.
@@ -1842,6 +1860,7 @@ export function StudioValuationVersionTimelinePage(): ReactElement {
           </span>
         </StudioCard>
       </div>
+      <ContextualSurfaceTriggers dealId={deal.id} route="versions" />
     </div>
   );
 }

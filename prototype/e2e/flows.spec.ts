@@ -143,7 +143,7 @@ test.describe('Studio end-to-end flows', () => {
     await page.getByRole('button', { name: /Resolve Unit Count Conflict/i }).click();
     await expect(page.getByRole('dialog', { name: /Unit Count Discrepancy/i })).toBeVisible();
     await page.keyboard.press('Escape');
-    await page.getByRole('link', { name: /Review Source Trace/i }).click();
+    await page.getByRole('link', { name: /Review Source Trace/i }).first().click();
     await expect(page.getByRole('heading', { name: /Assumption Source Trace/i })).toBeVisible();
 
     await gotoRoute(page, '/studio/deals/riverside-flats/underwriting/debt');
