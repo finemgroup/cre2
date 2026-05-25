@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
+import { MapPlaceholderPreview } from '@/components/spatial/MapPlaceholderPreview';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { usePrototypeAction } from '@/lib/prototype/usePrototypeAction';
 import { studioDealPath } from '@/data/studio';
@@ -74,9 +75,8 @@ export function PropertyPage(): ReactElement {
           </button>
         </div>
 
-        <aside className="card map-placeholder" aria-label="Map preview">
-          <p className="eyebrow">Regional map</p>
-          <p>Sample map layer — no live geo precision.</p>
+        <div className="card">
+          <MapPlaceholderPreview caption="Sample map layer — no live geo precision. Not a legal boundary.">
           <p className="muted">Selected property context preserved when drawer opens.</p>
           <div className="provenance-labels" aria-label="Map truth labels">
             <AuthorityBadge label="sample-map-data" />
@@ -94,7 +94,8 @@ export function PropertyPage(): ReactElement {
               </li>
             ))}
           </ul>
-        </aside>
+        </MapPlaceholderPreview>
+        </div>
       </div>
 
       <MapLayerControlPanel

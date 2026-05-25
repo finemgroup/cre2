@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactElement } from 'react';
+import { useMemo, useState, type CSSProperties, type ReactElement } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import {
@@ -106,7 +106,10 @@ export function StudioDashboardPage(): ReactElement {
                 aria-valuenow={50}
                 aria-valuetext="50% of deal quota used"
               >
-                <div className="progress-fill" style={{ width: '50%' }} />
+                <div
+                  className="progress-fill"
+                  style={{ '--progress-fill': '50%' } as CSSProperties}
+                />
               </div>
             </div>
             <Link to={studioDealPath(DEFAULT_DEAL_ID, 'intake')} className="btn btn-primary">

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactElement } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
@@ -138,7 +138,10 @@ export function UploadPage(): ReactElement {
             aria-valuemax={100}
             aria-valuetext={`${progress}% complete`}
           >
-            <div className="progress-fill" style={{ width: `${progress}%` }} />
+            <div
+              className="progress-fill"
+              style={{ '--progress-fill': `${progress}%` } as CSSProperties}
+            />
           </div>
         </div>
       ) : null}

@@ -17,6 +17,8 @@ export type SophexMotionSpecName =
   | 'sheetPanel'
   | 'drawerRight';
 
+export type SophexMotionSpecAlias = 'listReveal';
+
 export const MOTION_DURATION_MS = {
   instantFeedback: 100,
   standardReveal: 180,
@@ -110,7 +112,8 @@ export const SOPHEX_MOTION_SPECS: Record<SophexMotionSpecName, MotionSpec> = {
   },
 };
 
-export function getMotionSpec(name: SophexMotionSpecName): MotionSpec {
+export function getMotionSpec(name: SophexMotionSpecName | SophexMotionSpecAlias): MotionSpec {
+  if (name === 'listReveal') return SOPHEX_MOTION_SPECS.listStagger;
   return SOPHEX_MOTION_SPECS[name];
 }
 

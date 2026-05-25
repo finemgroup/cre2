@@ -141,7 +141,7 @@ export function StudioReportBuilderPage(): ReactElement {
               Generate governed receipt
             </button>
           </div>
-          <ReportProvenanceCard sections={sections} />
+          <ReportProvenanceCard sections={sections} sourceBlocks={sourceBlocks} />
         </StudioCard>
         <StudioCard title="Live PDF Preview" className="pdf-preview-card">
           <div className="pdf-preview">
@@ -184,7 +184,7 @@ export function StudioReportBuilderPage(): ReactElement {
           <NonProductionCallout>
             Export is disabled until section review and source-rights gates clear.
           </NonProductionCallout>
-          <ExportReadinessCard sections={sections} />
+          <ExportReadinessCard sections={sections} sourceBlocks={sourceBlocks} />
           {receipt ? (
             <div className="receipt" role="status">
               <p>

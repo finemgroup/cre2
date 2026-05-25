@@ -37,6 +37,10 @@ describe('motion tokens', () => {
     expect(props.initial).toEqual({ opacity: 1 });
     expect(props.animate).toEqual({ opacity: 1 });
   });
+
+  it('resolves listReveal alias to listStagger timing', () => {
+    expect(getMotionSpec('listReveal')).toEqual(getMotionSpec('listStagger'));
+  });
 });
 
 describe('SophexMotionSurface', () => {

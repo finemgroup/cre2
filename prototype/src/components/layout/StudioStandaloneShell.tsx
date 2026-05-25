@@ -6,15 +6,17 @@ import { RouteProgress } from '@/components/layout/RouteProgress';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
 import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
+import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitives';
 import { getStudioRouteTitle } from '@/lib/a11y/routeTitles';
-import { useRouteTitle } from '@/lib/a11y/useRouteTitle';
+import { useRouteAnnouncement } from '@/lib/a11y/useRouteAnnouncement';
 
 export function StudioStandaloneShell(): ReactElement {
   const location = useLocation();
-  useRouteTitle(getStudioRouteTitle(location.pathname));
+  const routeAnnouncement = useRouteAnnouncement(getStudioRouteTitle(location.pathname));
 
   return (
     <div className="studio-standalone">
+      <ScreenReaderAnnouncement message={routeAnnouncement} />
       <a href="#page-content" className="skip-link">
         Skip to content
       </a>

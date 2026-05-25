@@ -294,6 +294,45 @@ a {
 
 .map-placeholder {
   min-height: 180px;
+  margin: 0;
+}
+
+.map-placeholder-canvas {
+  position: relative;
+  min-height: 160px;
+  border: 1px dashed var(--border);
+  border-radius: 0.75rem;
+  background: linear-gradient(180deg, var(--surface-muted), var(--surface));
+  overflow: hidden;
+}
+
+.map-placeholder-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(28, 26, 23, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(28, 26, 23, 0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.map-placeholder-pin {
+  position: absolute;
+  left: 50%;
+  top: 46%;
+  width: 14px;
+  height: 14px;
+  margin-left: -7px;
+  margin-top: -7px;
+  border-radius: 999px 999px 999px 0;
+  transform: rotate(-45deg);
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgba(31, 77, 58, 0.18);
+}
+
+.map-placeholder figcaption {
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
 }
 
 .action-row {
@@ -552,6 +591,7 @@ td {
 }
 
 .progress-fill {
+  width: var(--progress-fill, 0%);
   height: 100%;
   background: var(--accent);
   transition: width 180ms linear;
@@ -605,8 +645,18 @@ td {
 }
 
 @media (max-width: 768px) {
-  .split-layout {
+  .split-layout,
+  .dashboard-grid,
+  .broker-grid {
     grid-template-columns: 1fr;
+  }
+
+  .metric-grid.four,
+  .scenario-grid,
+  .pricing-grid,
+  .cockpit-grid,
+  .report-builder-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .search-row {

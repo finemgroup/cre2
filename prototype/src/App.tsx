@@ -120,6 +120,7 @@ export default function App(): ReactElement {
         </Route>
         <Route path="studio/reports" element={<StudioStandaloneShell />}>
           <Route path=":dealId/builder" element={<LazyPage page={StudioReportBuilderPage} />} />
+          <Route path="*" element={<LazyPage page={NotFoundPage} />} />
         </Route>
       </Routes>
     </PrototypeToastProvider>

@@ -3,6 +3,7 @@ import { useState, type ReactElement } from 'react';
 import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceModal';
 import { MaterialIcon, StatusBadge, StudioCard } from '@/components/studio/StudioPrimitives';
 import { evaluateExportReadiness } from '@/lib/report-governance';
+import type { SourceEvidenceBlock } from '@/lib/source-bundle';
 import type { ReportSection } from '@/data/studio';
 
 export function ReportSectionReviewCard({ section }: { section: ReportSection }): ReactElement {
@@ -18,8 +19,14 @@ export function ReportSectionReviewCard({ section }: { section: ReportSection })
   );
 }
 
-export function ReportProvenanceCard({ sections }: { sections: ReportSection[] }): ReactElement {
-  const readiness = evaluateExportReadiness(sections);
+export function ReportProvenanceCard({
+  sections,
+  sourceBlocks,
+}: {
+  sections: ReportSection[];
+  sourceBlocks?: SourceEvidenceBlock[];
+}): ReactElement {
+  const readiness = evaluateExportReadiness(sections, sourceBlocks);
   const coverage =
     readiness.totalCount === 0
       ? 'N/A'
@@ -47,8 +54,14 @@ export function ReportProvenanceCard({ sections }: { sections: ReportSection[] }
   );
 }
 
-export function ExportReadinessCard({ sections }: { sections: ReportSection[] }): ReactElement {
-  const readiness = evaluateExportReadiness(sections);
+export function ExportReadinessCard({
+  sections,
+  sourceBlocks,
+}: {
+  sections: ReportSection[];
+  sourceBlocks?: SourceEvidenceBlock[];
+}): ReactElement {
+  const readiness = evaluateExportReadiness(sections, sourceBlocks);
   const [modalOpen, setModalOpen] = useState(false);
 
   return (

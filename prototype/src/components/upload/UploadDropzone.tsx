@@ -1,4 +1,4 @@
-import type { ReactElement } from 'react';
+import type { CSSProperties, ReactElement } from 'react';
 
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { MaterialIcon, StatusBadge } from '@/components/studio/StudioPrimitives';
@@ -30,7 +30,10 @@ export function UploadDropzone({ files }: { files: MockUploadFile[] }): ReactEle
                 aria-valuemax={100}
                 aria-valuetext={`${file.progress}% complete`}
               >
-                <div className="progress-fill" style={{ width: `${file.progress}%` }} />
+                <div
+                  className="progress-fill"
+                  style={{ '--progress-fill': `${file.progress}%` } as CSSProperties}
+                />
               </div>
               {file.issue ? <small role="alert">{file.issue}</small> : null}
             </div>
