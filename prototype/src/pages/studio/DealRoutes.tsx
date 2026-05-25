@@ -30,6 +30,7 @@ import {
   ReviewPostureBanner,
   SourceEvidenceBlockCard,
 } from '@/components/provenance/ProvenanceWidgets';
+import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
 import { UploadDropzone } from '@/components/upload/UploadDropzone';
 import { StagedImportReviewPanel } from '@/components/review/StagedImportReviewPanel';
 import { GateOverrideModal } from '@/components/overlays/GateOverrideModal';
@@ -136,9 +137,13 @@ export function StudioDashboardPage(): ReactElement {
               Premium unlocks additional comp authority tiers, scenario sensitivity, and white-label
               exports.
             </p>
-            <Link to="/studio/settings/billing" className="btn btn-primary">
+            <PrototypeActionLink
+              to="/studio/settings/billing"
+              className="btn btn-primary"
+              feature="Plan upgrade"
+            >
               Upgrade plan
-            </Link>
+            </PrototypeActionLink>
           </StudioCard>
           <StudioCard title="Recent Activity">
             <AnimatedList className="activity-list">

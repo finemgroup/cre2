@@ -11,6 +11,7 @@ import {
   StageStepper,
   StudioCard,
 } from '@/components/studio/StudioPrimitives';
+import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
 import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitives';
 import { useA11yAnnouncement } from '@/lib/a11y/useA11yAnnouncement';
 import { DEFAULT_DEAL_ID, deals, studioDealPath } from '@/data/studio';
@@ -296,9 +297,15 @@ export function StudioPricingPage(): ReactElement {
           <StudioCard key={name} title={name} className={name === 'Premium' ? 'featured-card' : ''}>
             <p className="plan-price">{price}</p>
             <p>{copy}</p>
-            <Link to="/studio/dashboard" className="btn btn-primary">
+            <PrototypeActionLink
+              to="/studio/dashboard"
+              className="btn btn-primary"
+              feature={
+                name === 'Enterprise' ? 'Enterprise sales contact' : `${name} plan selection`
+              }
+            >
               {name === 'Enterprise' ? 'Contact sales' : 'Select plan'}
-            </Link>
+            </PrototypeActionLink>
           </StudioCard>
         ))}
       </div>

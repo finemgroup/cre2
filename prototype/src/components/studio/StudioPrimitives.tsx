@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import type { CSSProperties, ReactElement, ReactNode } from 'react';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
+import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { getMotionProps, getMotionSpec, useReducedMotionPreference } from '@/lib/motion';
 import type { AuthorityState, JobStatusProjection } from '@/data/studio';
 
@@ -283,7 +284,14 @@ export function JobStreamsTable({ jobs }: { jobs: JobStatusProjection[] }): Reac
       caption="Sanitized Broker OS job streams"
       headers={['Job ID', 'Type', 'Status', 'Duration']}
       rows={jobs.map((job) => [
-        <span className="linkish">{job.id}</span>,
+        <PrototypeActionButton
+          key={job.id}
+          feature={`Job stream ${job.id}`}
+          className="linkish"
+          aria-label={`View job stream ${job.id}`}
+        >
+          {job.id}
+        </PrototypeActionButton>,
         job.type,
         <StatusBadge status={job.status} />,
         job.duration,

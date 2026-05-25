@@ -1,7 +1,6 @@
-import { Link } from 'react-router-dom';
 import type { ReactElement } from 'react';
 
-import { SophexModal } from '@/components/overlays/SophexModal';
+import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';import { SophexModal } from '@/components/overlays/SophexModal';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
 
 type UpgradePlanModalProps = {
@@ -45,9 +44,14 @@ export function UpgradePlanModal({
         <button type="button" className="btn btn-secondary" onClick={onClose}>
           Not now
         </button>
-        <Link to="/studio/settings/billing" className="btn btn-primary" onClick={onClose}>
+        <PrototypeActionLink
+          to="/studio/settings/billing"
+          className="btn btn-primary"
+          feature="Premium plan upgrade"
+          onClick={onClose}
+        >
           View plans
-        </Link>
+        </PrototypeActionLink>
       </div>
     </SophexModal>
   );

@@ -4,11 +4,13 @@ import { Link } from 'react-router-dom';
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { StageRail } from '@/components/ui/StageRail';
+import { usePrototypeAction } from '@/lib/prototype/usePrototypeAction';
 import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
 
 const STAGES = ['Select files', 'Terms', 'Upload', 'Candidate'];
 
 export function UploadPage(): ReactElement {
+  const notifyPrototype = usePrototypeAction();
   const [stage, setStage] = useState(0);
   const [consent, setConsent] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -60,7 +62,15 @@ export function UploadPage(): ReactElement {
               <label className="upload-drop" htmlFor="file-input">
                 Drag lease, rent roll, or OM here (prototype — no files sent)
               </label>
-              <input id="file-input" type="file" className="sr-only" onChange={() => setStage(1)} />
+              <input
+                id="file-input"
+                type="file"
+                className="sr-only"
+                onChange={() => {
+                  notifyPrototype('Public document upload');
+                  setStage(1);
+                }}
+              />
               <p className="muted">Scanned documents may require review before extraction.</p>
             </>
           }

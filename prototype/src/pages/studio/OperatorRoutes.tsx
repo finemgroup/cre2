@@ -1,5 +1,6 @@
 import { useMemo, useState, type ReactElement } from 'react';
 
+import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import {
   JobStreamsTable,
   JsonContextViewer,
@@ -40,7 +41,11 @@ export function StudioBrokerOsPage(): ReactElement {
         <StudioCard
           title="Readiness Summary"
           className="wide-card"
-          actions={<span>Last ping: 2s ago</span>}
+          actions={
+            <PrototypeActionButton feature="Broker OS job refresh" className="btn btn-ghost">
+              Refresh streams
+            </PrototypeActionButton>
+          }
         >
           <div className="metric-grid four">
             <MetricCard label="API Gateway" value="42ms" detail="Healthy" />
@@ -54,7 +59,12 @@ export function StudioBrokerOsPage(): ReactElement {
         <StudioCard title="Agent Inventory" actions={<span className="status-badge">RO</span>}>
           <div className="agent-list">
             {agentCapabilities.map((agent) => (
-              <div className="agent-card" key={agent.id}>
+              <PrototypeActionButton
+                key={agent.id}
+                feature={`${agent.name} agent inventory`}
+                className="agent-card"
+                aria-label={`View ${agent.name} agent details`}
+              >
                 <div>
                   <strong>{agent.name}</strong>
                   <StatusBadge status={agent.status} />
@@ -65,7 +75,7 @@ export function StudioBrokerOsPage(): ReactElement {
                     <span key={tag}>{tag}</span>
                   ))}
                 </div>
-              </div>
+              </PrototypeActionButton>
             ))}
           </div>
         </StudioCard>

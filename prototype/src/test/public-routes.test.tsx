@@ -62,6 +62,16 @@ describe('public Sophex routes', () => {
     ).toHaveAttribute('href', '/report/demo-002');
   });
 
+  it('shows prototype feedback when selecting a public upload file', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/upload');
+    await user.upload(
+      screen.getByLabelText(/Drag lease/i),
+      new File(['sample'], 'rent-roll.pdf', { type: 'application/pdf' })
+    );
+    expect(screen.getByText(/Public document upload is simulated/i)).toBeInTheDocument();
+  });
+
   it('runs upload as an exclusive stage flow with progress semantics', async () => {
     const user = userEvent.setup();
     await renderRoute('/upload');

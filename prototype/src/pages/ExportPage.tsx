@@ -2,6 +2,7 @@ import { useState, type ReactElement } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceModal';
+import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
 import { StageRail } from '@/components/ui/StageRail';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { evaluateExportReadiness } from '@/lib/report-governance';
@@ -14,6 +15,7 @@ import {
 const STAGES = ['Sections', 'Consent', 'Generate', 'Receipt'];
 
 export function ExportPage(): ReactElement {
+  const { pushToast } = usePrototypeToast();
   const { id } = useParams();
   const property = getPropertyRecord(id);
   const [stage, setStage] = useState(0);
@@ -49,6 +51,7 @@ export function ExportPage(): ReactElement {
       setGenerating(false);
       setStage(3);
       setReceipt(`audit://prototype/export/${propertyId}`);
+      pushToast('Export receipt generated in prototype only. No file was sent.', 'success');
     }, 900);
   }
 

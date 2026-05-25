@@ -1039,6 +1039,17 @@ td {
   align-items: flex-start;
 }
 
+button.agent-card {
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
+button.agent-card:hover {
+  border-color: var(--studio-primary);
+}
+
 .studio-cta-band,
 .locked-panel,
 .paywall-zone {

@@ -41,6 +41,22 @@ describe('Finem CRE Studio routes', () => {
     expect(screen.getByText(/Export Excel is simulated/i)).toBeInTheDocument();
   });
 
+  it('shows prototype feedback for billing plan actions', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/studio/settings/billing');
+    await user.click(screen.getByRole('link', { name: /Contact sales/i }));
+    expect(screen.getByText(/Enterprise sales contact is simulated/i)).toBeInTheDocument();
+  });
+
+  it('shows prototype feedback for Broker OS inventory actions', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/studio/broker-os');
+    await user.click(screen.getByRole('button', { name: /Refresh streams/i }));
+    expect(screen.getByText(/Broker OS job refresh is simulated/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /View Comp_Matcher_AI agent details/i }));
+    expect(screen.getByText(/Comp_Matcher_AI agent inventory is simulated/i)).toBeInTheDocument();
+  });
+
   it('shows prototype feedback when saving white-label branding', async () => {
     const user = userEvent.setup();
     await renderRoute('/studio/settings/white-label');
