@@ -12,6 +12,13 @@ All runtime, schema, deploy, and production integration phases are future-gated.
 ## Phase 1: Concept Or Product Spec
 
 - **Started:** clickable MVP0 prototype in `prototype/` — see [PROTOTYPE_MVP0.md](PROTOTYPE_MVP0.md).
+- **World-class upgrade packet:** current prototype acceptance matrix, architecture, contracts, schema-borrowing gate, launch gates, and sandbox runtime plan live in:
+  - [WORLD_CLASS_PROTOTYPE_SPEC.md](WORLD_CLASS_PROTOTYPE_SPEC.md)
+  - [PRODUCTION_ARCHITECTURE_PACKET.md](PRODUCTION_ARCHITECTURE_PACKET.md)
+  - [EVIDENCE_PERMISSION_CONTRACTS.md](EVIDENCE_PERMISSION_CONTRACTS.md)
+  - [SISTER_SCHEMA_BORROWING_GATE.md](SISTER_SCHEMA_BORROWING_GATE.md)
+  - [SECURITY_PRIVACY_LAUNCH_GATES.md](SECURITY_PRIVACY_LAUNCH_GATES.md)
+  - [RUNTIME_FOUNDATION_SANDBOX_PLAN.md](RUNTIME_FOUNDATION_SANDBOX_PLAN.md)
 - Create clickable concept, design prototype, or product requirements per `docs/SOPHEX_MVP0_SCREEN_MAP.md`.
 - Validate user journeys for property search, upload, report output, and contribution.
 - Define authority labels, source panels, and query-level permission expectations.
