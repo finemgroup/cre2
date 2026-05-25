@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { expect, within } from '@storybook/test';
 
+import { ALL_AUTHORITY_POSTURES } from '@/lib/authority/authority-vocabulary';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 
 const meta = {
@@ -12,15 +13,7 @@ const meta = {
   argTypes: {
     label: {
       control: 'select',
-      options: [
-        'public-baseline',
-        'user-submission',
-        'candidate-evidence',
-        'reviewed',
-        'unreviewed',
-        'blocked',
-        'model-inferred',
-      ],
+      options: ALL_AUTHORITY_POSTURES,
     },
   },
 } satisfies Meta<typeof AuthorityBadge>;
@@ -52,19 +45,14 @@ export const AllLabels: Story = {
   args: { label: 'public-baseline' },
   render: () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-      {(
-        [
-          'public-baseline',
-          'user-submission',
-          'candidate-evidence',
-          'reviewed',
-          'unreviewed',
-          'blocked',
-          'model-inferred',
-        ] as const
-      ).map((label) => (
+      {ALL_AUTHORITY_POSTURES.map((label) => (
         <AuthorityBadge key={label} label={label} />
       ))}
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByLabelText(/Authority state: Sample map data/i)).toBeInTheDocument();
+    await expect(canvas.getByLabelText(/Authority state: Not legal boundary/i)).toBeInTheDocument();
+  },
 };

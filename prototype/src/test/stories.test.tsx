@@ -9,8 +9,14 @@ import '@/index.css';
 import * as AuthorityBadgeStories from '@/stories/AuthorityBadge.stories';
 import * as EmptyStateCardStories from '@/stories/EmptyStateCard.stories';
 import * as GovernanceFlowsStories from '@/stories/GovernanceFlows.stories';
+import * as MapLayerControlPanelStories from '@/stories/MapLayerControlPanel.stories';
+import * as MapPlaceholderPreviewStories from '@/stories/MapPlaceholderPreview.stories';
 import * as ReportGovernanceStories from '@/stories/ReportGovernance.stories';
+import * as StagedImportReviewPanelStories from '@/stories/StagedImportReviewPanel.stories';
 import * as StudioPrimitivesStories from '@/stories/StudioPrimitives.stories';
+import * as TrustBadgeStories from '@/stories/TrustBadge.stories';
+import * as TrustExplainerDrawerStories from '@/stories/TrustExplainerDrawer.stories';
+import * as UploadDropzoneStories from '@/stories/UploadDropzone.stories';
 
 type StorySurface = 'public' | 'studio';
 
@@ -35,8 +41,14 @@ const storyGroups = [
   { name: 'AuthorityBadge', module: AuthorityBadgeStories, surface: 'public' as const },
   { name: 'EmptyStateCard', module: EmptyStateCardStories, surface: 'studio' as const },
   { name: 'GovernanceFlows', module: GovernanceFlowsStories, surface: 'studio' as const },
+  { name: 'MapLayerControlPanel', module: MapLayerControlPanelStories, surface: 'public' as const },
+  { name: 'MapPlaceholderPreview', module: MapPlaceholderPreviewStories, surface: 'public' as const },
   { name: 'ReportGovernance', module: ReportGovernanceStories, surface: 'studio' as const },
+  { name: 'StagedImportReviewPanel', module: StagedImportReviewPanelStories, surface: 'studio' as const },
   { name: 'StudioPrimitives', module: StudioPrimitivesStories, surface: 'studio' as const },
+  { name: 'TrustBadge', module: TrustBadgeStories, surface: 'studio' as const },
+  { name: 'TrustExplainerDrawer', module: TrustExplainerDrawerStories, surface: 'studio' as const },
+  { name: 'UploadDropzone', module: UploadDropzoneStories, surface: 'studio' as const },
 ];
 
 describe('Storybook compositions', () => {

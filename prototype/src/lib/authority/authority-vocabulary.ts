@@ -15,14 +15,6 @@ export type AuthorityPosture =
   | 'sample-map-data'
   | 'not-legal-boundary';
 
-export type StudioTrustPosture =
-  | 'Public baseline'
-  | 'Candidate evidence'
-  | 'Reviewed'
-  | 'Needs review'
-  | 'Blocked'
-  | 'Model inferred';
-
 export const PUBLIC_AUTHORITY_LABELS: Record<AuthorityPosture, string> = {
   'public-baseline': 'Public baseline',
   'user-submission': 'User submission',
@@ -40,6 +32,25 @@ export const PUBLIC_AUTHORITY_LABELS: Record<AuthorityPosture, string> = {
   'sample-map-data': 'Sample map data',
   'not-legal-boundary': 'Not legal boundary',
 };
+
+export type StudioTrustPosture =
+  | 'Public baseline'
+  | 'Candidate evidence'
+  | 'Reviewed'
+  | 'Needs review'
+  | 'Blocked'
+  | 'Model inferred';
+
+export const ALL_AUTHORITY_POSTURES = Object.keys(PUBLIC_AUTHORITY_LABELS) as AuthorityPosture[];
+
+export const STUDIO_TRUST_POSTURES: StudioTrustPosture[] = [
+  'Public baseline',
+  'Candidate evidence',
+  'Reviewed',
+  'Needs review',
+  'Blocked',
+  'Model inferred',
+];
 
 const PUBLIC_TO_STUDIO: Record<
   Extract<
@@ -65,6 +76,12 @@ const PUBLIC_TO_STUDIO: Record<
   'reviewer-required': 'Needs review',
 };
 
+export function normalizeAuthorityPosture(state: string): AuthorityPosture | null {
+  const normalizedKey = state.toLowerCase().replace(/[^a-z]+/g, '-') as AuthorityPosture;
+  if (normalizedKey in PUBLIC_AUTHORITY_LABELS) return normalizedKey;
+  return null;
+}
+
 export function toStudioTrustPosture(label: AuthorityPosture): StudioTrustPosture {
   if (label in PUBLIC_TO_STUDIO) {
     return PUBLIC_TO_STUDIO[label as keyof typeof PUBLIC_TO_STUDIO];
@@ -82,10 +99,13 @@ export function getPublicAuthorityLabel(label: AuthorityPosture): string {
 }
 
 export function formatTrustBadgeState(state: string): { display: string; ariaLabel: string } {
-  const normalizedKey = state.toLowerCase().replace(/[^a-z]+/g, '-') as AuthorityPosture;
-  if (normalizedKey in PUBLIC_AUTHORITY_LABELS) {
-    const display = toStudioTrustPosture(normalizedKey);
+  const normalized = normalizeAuthorityPosture(state);
+  if (normalized) {
+    const display = toStudioTrustPosture(normalized);
     return { display, ariaLabel: `Authority state: ${display}` };
+  }
+  if (STUDIO_TRUST_POSTURES.includes(state as StudioTrustPosture)) {
+    return { display: state, ariaLabel: `Authority state: ${state}` };
   }
   return { display: state, ariaLabel: `Authority state: ${state}` };
 }
