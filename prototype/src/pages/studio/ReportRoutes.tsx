@@ -15,6 +15,7 @@ import {
 import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceModal';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { ReviewPostureBanner } from '@/components/provenance/ProvenanceWidgets';
+import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
 import { StageRail } from '@/components/ui/StageRail';
 import { VALUATION_READINESS_STAGES } from '@/lib/readiness-stages';
 import {
@@ -101,16 +102,7 @@ export function StudioReportBuilderPage(): ReactElement {
       <div className="report-builder-grid">
         <StudioCard title="Readiness Gates">
           <p>{valuationVersion.resultSummary}</p>
-          <div className="governance-list" aria-label="Studio readiness gates">
-            {valuationVersion.readiness.gates.map((gate) => (
-              <div key={gate.id}>
-                <strong>{gate.label}</strong>
-                <span>
-                  {gate.status} · {gate.safeMessage}
-                </span>
-              </div>
-            ))}
-          </div>
+          <ValuationReadinessRail evaluation={valuationVersion.readiness} orientation="vertical" />
           <StatusBadge status={valuationVersion.readiness.safeNextAction} />
         </StudioCard>
         <StudioCard title="Sections">

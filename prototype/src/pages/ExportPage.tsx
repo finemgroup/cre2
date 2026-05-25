@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceModal';
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
+import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
 import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
 import { StageRail } from '@/components/ui/StageRail';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
@@ -199,17 +200,7 @@ export function ExportPage(): ReactElement {
       <section className="card readiness-card" aria-labelledby="readiness-heading">
         <h2 id="readiness-heading">Valuation readiness gates</h2>
         <p>{valuationVersion.resultSummary}</p>
-        <ul className="readiness-gates">
-          {valuationVersion.readiness.gates.map((gate) => (
-            <li key={gate.id} data-status={gate.status}>
-              <strong>{gate.label}</strong>
-              <span>
-                {gate.status} · {gate.safeMessage}
-              </span>
-            </li>
-          ))}
-        </ul>
-        <p className="muted">{valuationVersion.readiness.safeNextAction}</p>
+        <ValuationReadinessRail evaluation={valuationVersion.readiness} />
       </section>
 
       <ExportGovernanceModal

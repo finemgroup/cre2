@@ -4,8 +4,12 @@ import { Link, useParams } from 'react-router-dom';
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
+import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
+import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { getPublicCompContextView } from '@/lib/runtime/public-comps';
-import { getPropertyRecord } from '@/lib/workflow-identity';
+import { fixtureActors } from '@/lib/contracts/fixtures';
+import { getValuationVersionForActor } from '@/lib/contracts/valuation-version';
+import { getLinkedDealId, getPropertyRecord } from '@/lib/workflow-identity';
 
 export function CompsPage(): ReactElement {
   const { id } = useParams();
@@ -32,6 +36,12 @@ export function CompsPage(): ReactElement {
     );
   }
 
+  const linkedDealId = getLinkedDealId(property.id);
+  const valuationVersion = getValuationVersionForActor({
+    actor: fixtureActors.public,
+    propertyId: property.id,
+  });
+
   return (
     <section className="page">
       <header className="page-header">
@@ -42,6 +52,15 @@ export function CompsPage(): ReactElement {
           omitted from export.
         </p>
       </header>
+
+      <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="property" />
+
+      <section className="card readiness-card">
+        <ValuationReadinessRail
+          evaluation={valuationVersion.readiness}
+          heading="Comp set readiness"
+        />
+      </section>
 
       <div className="table-wrap">
         <table>

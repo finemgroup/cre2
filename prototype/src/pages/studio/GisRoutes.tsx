@@ -22,7 +22,8 @@ import {
   listTradeAreasForReport,
   summarizeGisManifest,
 } from '@/lib/gis';
-import { getMapLayerManifestsForActor } from '@/lib/contracts/spatial';
+import { buildGisPerformanceBudgets, summarizeGisPerformance } from '@/lib/gis/performance';
+import { fixtureMapLayerManifests, getMapLayerManifestsForActor } from '@/lib/contracts/spatial';
 import { getLinkedPropertyId } from '@/lib/workflow-identity';
 import { getPublicPropertyView } from '@/lib/runtime/public-property';
 import { studioDealPath } from '@/data/studio';
@@ -50,6 +51,14 @@ export function StudioSpatialWorkbenchPage(): ReactElement {
     [actor, propertyId]
   );
   const layers = useMemo(() => getMapLayerManifestsForActor(actor, context), [actor]);
+  const performanceBudgets = useMemo(
+    () => buildGisPerformanceBudgets(fixtureMapLayerManifests),
+    []
+  );
+  const performanceSummary = useMemo(
+    () => summarizeGisPerformance(performanceBudgets),
+    [performanceBudgets]
+  );
   const spatialContext = getPublicPropertyView(propertyId)?.spatialContext;
 
   if (!deal) return <StudioDealNotFound />;
@@ -89,6 +98,11 @@ export function StudioSpatialWorkbenchPage(): ReactElement {
           label="Verification conflicts"
           value={String(verification.conflicts)}
           detail={`${verification.unverified} unverified`}
+        />
+        <MetricCard
+          label="Initial load budget"
+          value={`${performanceSummary.initialLoadKb} KB`}
+          detail={performanceSummary.withinBudget ? 'Within mock budget' : 'Review deferred layers'}
         />
       </div>
       <div className="split-workstation-grid">
@@ -168,6 +182,22 @@ export function StudioSpatialWorkbenchPage(): ReactElement {
               </ul>
             </>
           ) : null}
+        </StudioCard>
+        <StudioCard title="Layer Performance Budgets">
+          <DataTable
+            caption="GIS layer performance budgets"
+            headers={['Layer', 'Payload class', 'Lazy load', 'Budget (KB)', 'Note']}
+            rows={performanceBudgets.map((budget) => [
+              budget.label,
+              budget.payloadSizeClass,
+              budget.lazyLoadPolicy,
+              String(budget.maxInitialPayloadKb),
+              budget.safeNote,
+            ])}
+          />
+          <p className="muted">
+            {performanceSummary.deferredCount} layers deferred · mock MVP0 initial cap 128 KB
+          </p>
         </StudioCard>
       </div>
     </div>

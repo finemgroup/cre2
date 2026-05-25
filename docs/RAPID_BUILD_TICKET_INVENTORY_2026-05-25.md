@@ -78,3 +78,12 @@ See `STITCH_UNDERWRITING_WORKSTATION_TRIAGE.md` and `docs/design/stitch-underwri
 | Design reference promotion | Implemented | Capital stack, IC packet, HITL review routes with mock-only gates |
 | GIS contract spine | Implemented | `lib/gis`, spatial workbench route, manifest/source-rights/verification |
 | Phase 2 quality expansion | Implemented | Route titles, Lighthouse URLs, e2e + unit tests for Wave 3 |
+
+## Wave 4 Complete (2026-05-25)
+
+| Track | Status | Notes |
+| --- | --- | --- |
+| Unified valuation readiness rail | Implemented | `ValuationReadinessRail` on public report/export, comps, studio report builder, version timeline |
+| Version ↔ export linkage | Implemented | Version timeline export eligibility, IC/report handoffs, evidence snapshot copy |
+| GIS performance budgets | Implemented | `lib/gis/performance`, spatial workbench layer budget table |
+| Quality coverage | Implemented | Storybook, unit tests, e2e extensions for Wave 4 |

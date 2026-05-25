@@ -61,6 +61,7 @@ describe('public Sophex routes', () => {
   it('labels comps with the active subject property', async () => {
     await renderRoute('/property/demo-002/comps');
     expect(screen.getByText(/Sample comp set for 4400 Research Blvd/i)).toBeInTheDocument();
+    expect(screen.getByText(/Comp set readiness/i)).toBeInTheDocument();
     expect(
       screen.getByRole('link', { name: /Preview report for 4400 Research Blvd/i })
     ).toHaveAttribute('href', '/report/demo-002');

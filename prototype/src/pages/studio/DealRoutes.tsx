@@ -36,6 +36,7 @@ import { UploadDropzone } from '@/components/upload/UploadDropzone';
 import { StagedImportReviewPanel } from '@/components/review/StagedImportReviewPanel';
 import { GateOverrideModal } from '@/components/overlays/GateOverrideModal';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
+import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
 import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
 import { TrustExplainerDrawer } from '@/components/overlays/TrustExplainerDrawer';
 import { UpgradePlanModal } from '@/components/overlays/UpgradePlanModal';
@@ -80,6 +81,9 @@ import {
   type ScenarioName,
 } from '@/lib/underwriting/scenarios';
 import { mockCandidateFields, mockUploadFiles } from '@/lib/staged-import';
+import { fixtureActors } from '@/lib/contracts/fixtures';
+import { getValuationVersionForActor } from '@/lib/contracts/valuation-version';
+import { getLinkedPropertyId } from '@/lib/workflow-identity';
 import {
   activity,
   DEFAULT_DEAL_ID,
@@ -1536,6 +1540,11 @@ export function StudioDebtPanelPage(): ReactElement {
 export function StudioValuationVersionTimelinePage(): ReactElement {
   const deal = useStudioDeal();
   const [selectedVersion, setSelectedVersion] = useState(VERSION_SNAPSHOTS[0]);
+  const propertyId = getLinkedPropertyId(deal?.id) ?? 'demo-001';
+  const valuationVersion = getValuationVersionForActor({
+    actor: fixtureActors.orgAdmin,
+    propertyId,
+  });
   if (!deal) return <StudioDealNotFound />;
 
   return (
@@ -1556,6 +1565,33 @@ export function StudioValuationVersionTimelinePage(): ReactElement {
         Version history is a mock governance projection. Immutable storage and receipts remain
         runtime gated.
       </NonProductionCallout>
+      <StudioCard title="Export eligibility">
+        <ValuationReadinessRail
+          evaluation={valuationVersion.readiness}
+          orientation="vertical"
+          heading="Version export posture"
+        />
+        <p className="muted">
+          Evidence snapshot {valuationVersion.evidenceSnapshot.id} ·{' '}
+          {valuationVersion.evidenceSnapshot.manifestHash}
+        </p>
+        <div className="studio-actions">
+          <PrototypeActionLink
+            to={studioReportPath(deal.id)}
+            className="btn btn-secondary"
+            feature="Review report gates"
+          >
+            Review Report Gates
+          </PrototypeActionLink>
+          <PrototypeActionLink
+            to={studioDealPath(deal.id, 'ic-packet')}
+            className="btn btn-secondary"
+            feature="Open IC packet"
+          >
+            Open IC Packet
+          </PrototypeActionLink>
+        </div>
+      </StudioCard>
       <div className="split-workstation-grid">
         <StudioCard title="Timeline" className="wide-card">
           <div className="version-timeline">
@@ -1607,9 +1643,12 @@ export function StudioValuationVersionTimelinePage(): ReactElement {
           >
             Create Report Draft
           </PrototypeActionLink>
-          <button type="button" className="btn btn-secondary" disabled>
+          <button type="button" className="btn btn-secondary" disabled aria-describedby="version-lock-blocked">
             Lock Version
           </button>
+          <span className="sr-only" id="version-lock-blocked">
+            Version lock disabled until all underwriting gates pass in mock state.
+          </span>
         </StudioCard>
       </div>
     </div>

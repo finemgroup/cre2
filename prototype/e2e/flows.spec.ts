@@ -173,6 +173,9 @@ test.describe('Studio end-to-end flows', () => {
     await expect(
       page.getByRole('heading', { name: /Spatial Manifest & Trade Area Workbench/i })
     ).toBeVisible();
-    await expect(page.getByRole('heading', { name: /Map Layer Manifest/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Layer Performance Budgets/i })).toBeVisible();
+
+    await gotoRoute(page, '/studio/deals/riverside-flats/versions');
+    await expect(page.getByText(/Version export posture/i)).toBeVisible();
   });
 });

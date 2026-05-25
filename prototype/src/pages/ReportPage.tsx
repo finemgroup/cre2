@@ -11,6 +11,7 @@ import { getPublicPropertyView } from '@/lib/runtime/public-property';
 import { getLinkedDealId } from '@/lib/workflow-identity';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
+import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
 import { trackEvent } from '@/lib/analytics/collector';
 
 const STAGES = [...VALUATION_READINESS_STAGES];
@@ -63,16 +64,7 @@ export function ReportPage(): ReactElement {
             <AuthorityBadge label="reviewer-required" />
             <AuthorityBadge label="source-pending" />
           </div>
-          <ul className="readiness-gates">
-            {valuationVersion.readiness.gates.slice(0, 5).map((gate) => (
-              <li key={gate.id} data-status={gate.status}>
-                <strong>{gate.label}</strong>
-                <span>
-                  {gate.status} · {gate.safeMessage}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <ValuationReadinessRail evaluation={valuationVersion.readiness} />
         </section>
       ) : null}
 
