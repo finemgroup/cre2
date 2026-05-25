@@ -1,0 +1,96 @@
+import { expect, test } from '@playwright/test';
+
+import { gotoRoute } from './helpers';
+
+test.describe('public end-to-end flows', () => {
+  test('search to export receipt across property context', async ({ page }) => {
+    await gotoRoute(page, '/');
+    await page.getByLabel(/Property or market/i).fill('Austin');
+    await page.getByRole('button', { name: /^Search$/ }).click();
+    await page.getByRole('link', { name: /View property/i }).first().click();
+
+    await expect(page.getByRole('heading', { name: /1200 Commerce St/i })).toBeVisible();
+    await page.getByRole('link', { name: /Compare comps/i }).click();
+    await expect(page.getByRole('heading', { name: /Side-by-side comp dashboard/i })).toBeVisible();
+
+    await page.getByRole('link', { name: /Preview report/i }).click();
+    await expect(page.getByRole('heading', { name: /Report for 1200 Commerce St/i })).toBeVisible();
+    await page.getByRole('link', { name: /Continue to export gate/i }).click();
+
+    await expect(page.getByRole('button', { name: /Generate export/i })).toBeDisabled();
+    await page.getByRole('radio', { name: /preview/i }).check();
+    await page.getByRole('button', { name: /Generate export receipt/i }).click();
+    await expect(page.getByText(/Redacted evidence refs/i)).toBeVisible();
+  });
+
+  test('evidence drawer shows structured source metadata', async ({ page }) => {
+    await gotoRoute(page, '/property/demo-001');
+    await page.getByRole('button', { name: /View evidence drawer/i }).click();
+    const drawer = page.getByRole('dialog', { name: /Evidence drawer/i });
+    await expect(drawer.getByRole('heading', { name: /Field evidence/i })).toBeVisible();
+    await expect(drawer.getByText(/evidence-public-assessor/i)).toBeVisible();
+    await expect(drawer.locator('dd').filter({ hasText: '2026-05-01' }).first()).toBeVisible();
+  });
+
+  test('route guards block missing property and comps context', async ({ page }) => {
+    await gotoRoute(page, '/property/not-real');
+    await expect(page.getByRole('heading', { name: /Property not found/i })).toBeVisible();
+
+    await gotoRoute(page, '/comps');
+    await expect(page.getByRole('heading', { name: /Comp comparison unavailable/i })).toBeVisible();
+  });
+});
+
+test.describe('Studio end-to-end flows', () => {
+  test('deal workflow tabs preserve riverside-flats context', async ({ page }) => {
+    await gotoRoute(page, '/studio/deals/riverside-flats');
+    await expect(page.getByRole('heading', { name: /Riverside Flats/i })).toBeVisible();
+
+    await page.locator('a.tab-link', { hasText: 'Comps' }).click();
+    await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/comps$/);
+    await expect(page.getByText('Comparable sales review', { exact: true })).toBeVisible();
+
+    await page.locator('a.tab-link', { hasText: 'Underwriting' }).click();
+    await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/underwriting$/);
+    await expect(page.getByRole('button', { name: /Override/i }).first()).toBeVisible();
+
+    await page.locator('a.tab-link', { hasText: 'Scenarios' }).click();
+    await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/scenarios$/);
+    await expect(page.getByText('Scenario comparison', { exact: true })).toBeVisible();
+  });
+
+  test('document evidence drawer exposes source refs on deal overview', async ({ page }) => {
+    await gotoRoute(page, '/studio/deals/riverside-flats');
+    await page.getByRole('button', { name: /Open drawer/i }).scrollIntoViewIfNeeded();
+    await page.getByRole('button', { name: /Open drawer/i }).click({ force: true });
+    const drawer = page.getByRole('dialog', { name: /Document Evidence/i });
+    await expect(drawer).toBeVisible();
+    await expect(drawer.getByText(/doc-om-riverside-flats/i)).toBeVisible();
+  });
+
+  test('onboarding tier selection reaches dashboard continuity', async ({ page }) => {
+    await gotoRoute(page, '/studio/onboarding');
+    await page.getByRole('button', { name: /Boutique/i }).click();
+    await page.getByRole('button', { name: /^Continue$/i }).click();
+    await page.getByRole('button', { name: /^Continue$/i }).click();
+    await page.getByRole('button', { name: /^Continue$/i }).click();
+    await page.getByRole('button', { name: /^Finish$/i }).click();
+
+    await expect(page).toHaveURL(/\/studio\/dashboard$/);
+    await expect(page.getByText(/Workspace configured/i)).toBeVisible();
+  });
+
+  test('report builder standalone shell keeps export gated', async ({ page }) => {
+    await gotoRoute(page, '/studio/reports/riverside-flats/builder');
+    await expect(page.getByRole('heading', { name: /Report Builder/i })).toBeVisible();
+    await expect(page.locator('span').filter({ hasText: /Export is disabled until section review/i }).first()).toBeVisible();
+    await page.getByRole('button', { name: /^Export$/i }).click();
+    await expect(page.getByText(/Report export is simulated/i)).toBeVisible();
+  });
+
+  test('broker os inventory remains read-only with prototype feedback', async ({ page }) => {
+    await gotoRoute(page, '/studio/broker-os');
+    await page.getByRole('button', { name: /Refresh streams/i }).click();
+    await expect(page.getByText(/Broker OS job refresh is simulated/i)).toBeVisible();
+  });
+});

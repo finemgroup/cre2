@@ -82,7 +82,12 @@ export function ReportPage(): ReactElement {
 
       <div className="card-grid">
         {sections.map((section, index) => (
-          <SophexMotionSurface key={section.id} motionName="stageItem" className="card">
+          <SophexMotionSurface
+            key={section.id}
+            motionName="stageItem"
+            className="card"
+            staggerIndex={index}
+          >
             <h2>{section.title}</h2>
             <p>{section.citation}</p>
             {section.id === 'map' ? (
@@ -126,7 +131,6 @@ export function ReportPage(): ReactElement {
             >
               Mark section reviewed (prototype)
             </PrototypeActionButton>
-            <div style={{ transitionDelay: `${index * 0.03}s` }} />
           </SophexMotionSurface>
         ))}
       </div>

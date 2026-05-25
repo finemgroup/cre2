@@ -11,20 +11,27 @@ const MAP_LAYER_GEOMETRY_BUDGET_BYTES = 96 * 1024;
 
 const files = await readdir(DIST_ASSETS);
 const failures = [];
+const summary = [];
 let totalJsBytes = 0;
 let totalCssBytes = 0;
 
 for (const file of files) {
   const filePath = path.join(DIST_ASSETS, file);
   const info = await stat(filePath);
-  if (file.endsWith('.js') && info.size > JS_BUDGET_BYTES) {
-    failures.push(`${file} is ${info.size} bytes, over JS budget ${JS_BUDGET_BYTES}`);
+  if (file.endsWith('.js')) {
+    totalJsBytes += info.size;
+    summary.push({ file, kind: 'js', bytes: info.size });
+    if (info.size > JS_BUDGET_BYTES) {
+      failures.push(`${file} is ${info.size} bytes, over JS budget ${JS_BUDGET_BYTES}`);
+    }
   }
-  if (file.endsWith('.js')) totalJsBytes += info.size;
-  if (file.endsWith('.css') && info.size > CSS_BUDGET_BYTES) {
-    failures.push(`${file} is ${info.size} bytes, over CSS budget ${CSS_BUDGET_BYTES}`);
+  if (file.endsWith('.css')) {
+    totalCssBytes += info.size;
+    summary.push({ file, kind: 'css', bytes: info.size });
+    if (info.size > CSS_BUDGET_BYTES) {
+      failures.push(`${file} is ${info.size} bytes, over CSS budget ${CSS_BUDGET_BYTES}`);
+    }
   }
-  if (file.endsWith('.css')) totalCssBytes += info.size;
   if (/map-layer.*metadata.*\.json$/i.test(file) && info.size > MAP_LAYER_METADATA_BUDGET_BYTES) {
     failures.push(
       `${file} is ${info.size} bytes, over map layer metadata budget ${MAP_LAYER_METADATA_BUDGET_BYTES}`
@@ -44,6 +51,15 @@ if (totalJsBytes > TOTAL_JS_BUDGET_BYTES) {
 if (totalCssBytes > TOTAL_CSS_BUDGET_BYTES) {
   failures.push(`Total CSS is ${totalCssBytes} bytes, over budget ${TOTAL_CSS_BUDGET_BYTES}`);
 }
+
+summary
+  .sort((a, b) => b.bytes - a.bytes)
+  .slice(0, 8)
+  .forEach((entry) => {
+    console.log(`${entry.kind.toUpperCase()} ${entry.file}: ${entry.bytes} bytes`);
+  });
+console.log(`Total JS: ${totalJsBytes} bytes (budget ${TOTAL_JS_BUDGET_BYTES})`);
+console.log(`Total CSS: ${totalCssBytes} bytes (budget ${TOTAL_CSS_BUDGET_BYTES})`);
 
 if (failures.length > 0) {
   console.error(failures.join('\n'));

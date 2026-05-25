@@ -112,7 +112,7 @@ export function LandingPage(): ReactElement {
                 key={property.id}
                 motionName="stageItem"
                 className="card"
-                style={{ transitionDelay: `${index * 0.04}s` }}
+                staggerIndex={index}
               >
                 <h2>{property.address}</h2>
                 <p>

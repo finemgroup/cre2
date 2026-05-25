@@ -7,12 +7,14 @@ import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButt
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
 import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
 import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitives';
+import { useStudioSurfaceFonts } from '@/lib/fonts/useStudioSurfaceFonts';
 import { getStudioRouteTitle } from '@/lib/a11y/routeTitles';
 import { useRouteAnnouncement } from '@/lib/a11y/useRouteAnnouncement';
 
 export function StudioStandaloneShell(): ReactElement {
   const location = useLocation();
   const routeAnnouncement = useRouteAnnouncement(getStudioRouteTitle(location.pathname));
+  useStudioSurfaceFonts();
 
   return (
     <div className="studio-standalone">

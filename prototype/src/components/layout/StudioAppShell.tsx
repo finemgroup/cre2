@@ -19,6 +19,7 @@ import {
   studioDealPath,
   studioReportPath,
 } from '@/data/studio';
+import { useStudioSurfaceFonts } from '@/lib/fonts/useStudioSurfaceFonts';
 import { useRouteAnnouncement } from '@/lib/a11y/useRouteAnnouncement';
 import { getStudioRouteTitle } from '@/lib/a11y/routeTitles';
 import { getOnboardingProfile } from '@/lib/studio/onboarding-profile';
@@ -45,6 +46,7 @@ export function StudioAppShell(): ReactElement {
   const navItems = getStudioNavItems(activeDealId);
   const routeAnnouncement = useRouteAnnouncement(getStudioRouteTitle(location.pathname));
   const onboardingProfile = getOnboardingProfile();
+  useStudioSurfaceFonts();
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);

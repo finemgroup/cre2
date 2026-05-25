@@ -104,9 +104,16 @@ a {
   left: 0;
   height: 3px;
   width: 100%;
-  background: linear-gradient(90deg, var(--accent), #3d8b67);
   z-index: 999;
   animation: progress-fade 320ms ease-out forwards;
+}
+
+.route-progress-public {
+  background: linear-gradient(90deg, var(--accent), #3d8b67);
+}
+
+.route-progress-studio {
+  background: linear-gradient(90deg, var(--studio-primary), #4d87ff);
 }
 
 @keyframes progress-fade {
@@ -685,6 +692,10 @@ td {
   height: 100%;
   background: var(--accent);
   transition: width 180ms linear;
+}
+
+.progress-fill-half {
+  --progress-fill: 50%;
 }
 
 .progress-bar-compact {

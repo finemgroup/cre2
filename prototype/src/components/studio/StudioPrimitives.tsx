@@ -1,9 +1,10 @@
 import { motion, type Variants } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Children, isValidElement, type CSSProperties, type ReactElement, type ReactNode } from 'react';
+import { Children, isValidElement, useEffect, type CSSProperties, type ReactElement, type ReactNode } from 'react';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
+import { ensureMaterialSymbolsFont } from '@/lib/fonts/font-loader';
 import { getMotionProps, getMotionSpec, LIST_STAGGER_CHILD_DELAY_S, useReducedMotionPreference } from '@/lib/motion';
 import { formatTrustBadgeState } from '@/lib/authority/authority-vocabulary';
 import type { AuthorityState, JobStatusProjection } from '@/data/studio';
@@ -13,6 +14,10 @@ type ChildrenProps = {
 };
 
 export function MaterialIcon({ name }: { name: string }): ReactElement {
+  useEffect(() => {
+    ensureMaterialSymbolsFont();
+  }, []);
+
   return (
     <span className="material-symbols-outlined" aria-hidden="true">
       {name}

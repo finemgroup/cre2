@@ -29,4 +29,12 @@ describe('surface token scoping', () => {
     const studioColor = getComputedStyle(studioButton as Element).backgroundColor;
     expect(publicColor).not.toBe(studioColor);
   });
+
+  it('scopes route progress modifiers to the active product surface', async () => {
+    const publicRender = await renderRoute('/');
+    expect(publicRender.container.querySelector('.route-progress-public')).toBeTruthy();
+
+    await renderRoute('/studio/dashboard');
+    expect(document.querySelector('.route-progress-studio')).toBeTruthy();
+  });
 });
