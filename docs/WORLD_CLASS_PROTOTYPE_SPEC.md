@@ -48,3 +48,40 @@ Future implementation should preserve the behaviors documented here unless a lat
 - **Production-ready:** requires runtime implementation, security review, privacy/legal approval, observability, and CI/CD gates.
 
 Current state: routes are **prototype-ready**. None are production-ready.
+
+## Prototype Quality Gates
+
+These gates lock UX truth after Phase 2 waves without implying production readiness.
+
+### Lighthouse CI
+
+- **Config:** `prototype/lighthouserc.cjs`
+- **CI job:** `.github/workflows/prototype-ci.yml` → `npm run test:lighthouse` against the Vite preview server.
+- **Representative routes measured (10):**
+  - Public: `/`, `/upload`, `/property/demo-001`, `/property/demo-001/comps`, `/report/demo-001`, `/export/demo-001`
+  - Studio: `/studio/dashboard`, `/studio/deals/riverside-flats/underwriting`, `/studio/settings/billing`, `/studio/reports/riverside-flats/builder`
+
+| Category | CI posture | Minimum score | Notes |
+| --- | --- | --- | --- |
+| Accessibility | **Blocking (error)** | 0.85 | Regressions fail CI; fix before merge. |
+| Best practices | Warn only | 0.8 | Surfaces console/security drift without blocking mock work. |
+| Performance | Warn only | 0.7 | Mock bundles and preview server timing fluctuate; treat as informational. |
+| SEO | Off | — | Prototype is not indexed; SEO scores are not product requirements. |
+
+### Visual regression
+
+- **Spec:** `prototype/e2e/visual.spec.ts` (Chromium visual project).
+- **Baselines:** `prototype/e2e/visual.spec.ts-snapshots/` — landing, property map, report preview, upload, comps, export gate, dashboard, underwriting, pricing, report builder, tablet/mobile breakpoints.
+- **Rebaseline intentionally:** `npm run test:e2e:update-snapshots` when UI changes are expected; review PNG diffs in PRs.
+- **`maxDiffPixelRatio`:** 0.03 desktop shells; 0.1 for narrow mobile clips.
+
+### Public route RTL coverage
+
+- **File:** `prototype/src/test/public-routes.test.tsx`
+- Covers search, property intelligence, comps, upload stages, report sections, export blockers/receipts, route guards, actor demo, and axe on representative shells.
+- Runs in Vitest CI without Playwright.
+
+### Prototype CTA feedback
+
+- Inert actions use `PrototypeActionButton`, `PrototypeActionLink`, or `PrototypeActionAnchor` to show simulated-action toasts.
+- Disabled export/generate controls remain explicitly disabled with blocker copy; they are not silent no-ops.

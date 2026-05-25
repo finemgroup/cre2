@@ -10,6 +10,7 @@ import { getPublicReportView } from '@/lib/runtime/report-flow';
 import { getPublicPropertyView } from '@/lib/runtime/public-property';
 import { getLinkedDealId } from '@/lib/workflow-identity';
 import { studioDealPath } from '@/data/studio';
+import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { trackEvent } from '@/lib/analytics/collector';
 
 const STAGES = [...VALUATION_READINESS_STAGES];
@@ -110,8 +111,8 @@ export function ReportPage(): ReactElement {
             {section.status === 'review-required' ? (
               <p className="warning">Review required before export.</p>
             ) : null}
-            <button
-              type="button"
+            <PrototypeActionButton
+              feature="Mark section reviewed"
               className="btn btn-ghost"
               onClick={() =>
                 trackEvent({
@@ -124,7 +125,7 @@ export function ReportPage(): ReactElement {
               }
             >
               Mark section reviewed (prototype)
-            </button>
+            </PrototypeActionButton>
             <div style={{ transitionDelay: `${index * 0.03}s` }} />
           </SophexMotionSurface>
         ))}

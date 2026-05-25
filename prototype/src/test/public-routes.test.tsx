@@ -135,6 +135,46 @@ describe('public Sophex routes', () => {
   it('sets document titles for public routes', async () => {
     await renderRoute('/upload');
     expect(document.title).toBe('Upload Documents - Sophex');
+
+    await renderRoute('/property/demo-001');
+    expect(document.title).toBe('Property Intelligence - 1200 Commerce St - Sophex');
+
+    await renderRoute('/property/demo-001/comps');
+    expect(document.title).toBe('Comparable Sales - 1200 Commerce St - Sophex');
+
+    await renderRoute('/report/demo-001');
+    expect(document.title).toBe('Report Preview - 1200 Commerce St - Sophex');
+  });
+
+  it('renders report preview sections with authority posture', async () => {
+    await renderRoute('/report/demo-001');
+
+    expect(screen.getByRole('heading', { name: /Report for 1200 Commerce St/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Readiness rail/i })).toBeInTheDocument();
+    expect(screen.getAllByText(/Review required before export/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('button', { name: /Mark section reviewed/i }).length).toBeGreaterThan(
+      0
+    );
+  });
+
+  it('opens comp detail when inspecting a permitted comp row', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/property/demo-001/comps');
+
+    const inspectButtons = screen.getAllByRole('button', { name: /^Inspect$/i });
+    const enabledInspect = inspectButtons.find((button) => !button.hasAttribute('disabled'));
+    expect(enabledInspect).toBeDefined();
+    await user.click(enabledInspect!);
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+  });
+
+  it('renders report and export routes without basic accessibility violations', async () => {
+    const report = await renderRoute('/report/demo-001');
+    expect(await axe(report.container)).toHaveNoViolations();
+
+    const exportPage = await renderRoute('/export/demo-001');
+    expect(await axe(exportPage.container)).toHaveNoViolations();
   });
 
   it('derives distinct export blockers for linked property contexts', async () => {
@@ -211,5 +251,24 @@ describe('public Sophex routes', () => {
     await renderRoute('/');
     expect(screen.getByRole('navigation', { name: /Trust and legal/i })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Source trust tiers/i })).toBeInTheDocument();
+  });
+
+  it('shows prototype feedback for public trust footer anchors', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/');
+
+    await user.click(screen.getByRole('link', { name: /Source trust tiers/i }));
+    expect(screen.getByText(/Source trust tiers is simulated/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('link', { name: /Privacy \(prototype\)/i }));
+    expect(screen.getByText(/Privacy policy is simulated/i)).toBeInTheDocument();
+  });
+
+  it('shows prototype feedback when marking a report section reviewed', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/report/demo-001');
+
+    await user.click(screen.getAllByRole('button', { name: /Mark section reviewed/i })[0]);
+    expect(screen.getByText(/Mark section reviewed is simulated/i)).toBeInTheDocument();
   });
 });

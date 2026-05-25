@@ -114,4 +114,34 @@ test.describe('route shell visuals', () => {
       maxDiffPixelRatio: 0.03,
     });
   });
+
+  test('public report preview', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/report/demo-001');
+    await expect(page.getByRole('heading', { name: /Report for 1200 Commerce St/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('public-report-preview-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
+  test('public upload flow', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/upload');
+    await expect(page.getByRole('heading', { name: /Upload documents/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('public-upload-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
+  test('public comps dashboard', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/property/demo-001/comps');
+    await expect(page.getByRole('heading', { name: /Side-by-side comp dashboard/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('public-comps-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
 });

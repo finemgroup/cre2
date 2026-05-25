@@ -7,6 +7,7 @@ import { RouteProgress } from '@/components/layout/RouteProgress';
 import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitives';
 import { getPublicRouteTitle } from '@/lib/a11y/routeTitles';
 import { useRouteAnnouncement } from '@/lib/a11y/useRouteAnnouncement';
+import { PrototypeActionAnchor } from '@/components/overlays/PrototypeActionAnchor';
 import { ActorDemoSelector } from '@/components/runtime/ActorDemoSelector';
 
 export function PublicShell(): ReactElement {
@@ -47,8 +48,12 @@ export function PublicShell(): ReactElement {
         <nav aria-label="Trust and legal">
           <Link to="/upload">Contribute evidence</Link>
           <Link to="/studio/settings/billing">Plans</Link>
-          <a href="#source-trust">Source trust tiers</a>
-          <a href="#privacy">Privacy (prototype)</a>
+          <PrototypeActionAnchor href="#source-trust" feature="Source trust tiers">
+            Source trust tiers
+          </PrototypeActionAnchor>
+          <PrototypeActionAnchor href="#privacy" feature="Privacy policy">
+            Privacy (prototype)
+          </PrototypeActionAnchor>
         </nav>
         <p>Mock marketplace prototype — no live valuations, exports, or syndication.</p>
       </footer>

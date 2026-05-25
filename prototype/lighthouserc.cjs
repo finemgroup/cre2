@@ -1,4 +1,14 @@
-/** @type {import('@lhci/cli').Config} */
+/**
+ * Lighthouse CI for the mock prototype preview server.
+ *
+ * Score floors (see docs/WORLD_CLASS_PROTOTYPE_SPEC.md):
+ * - accessibility: error at 0.85 (blocking)
+ * - best-practices: warn at 0.8 (informational in CI)
+ * - performance: warn at 0.7 (informational; mock bundles fluctuate)
+ * - seo: off (marketing copy not indexed in prototype)
+ *
+ * @type {import('@lhci/cli').Config}
+ */
 module.exports = {
   ci: {
     collect: {
