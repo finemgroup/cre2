@@ -7,6 +7,8 @@ import {
   resolveDealStageFromPath,
   type DealStageStatus,
 } from '@/lib/workflow/deal-stage-model';
+import { runtimeServices } from '@/lib/runtime/runtime-services';
+import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 
 const STATUS_LABEL: Record<DealStageStatus, string> = {
   'not-started': 'Not started',
@@ -19,7 +21,12 @@ const STATUS_LABEL: Record<DealStageStatus, string> = {
 export function DealStageStepper({ dealId }: { dealId: string }): ReactElement {
   const location = useLocation();
   const activeStage = resolveDealStageFromPath(location.pathname);
-  const progress = getDealStageProgress(dealId);
+  const progressState = useRuntimeResource(
+    () => runtimeServices.studio.getWorkflowProgress(dealId),
+    `deal-stage-progress-${dealId}`,
+    getDealStageProgress(dealId)
+  );
+  const progress = progressState.value;
 
   return (
     <nav className="deal-stage-stepper" aria-label="Deal workflow stages">

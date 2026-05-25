@@ -7,6 +7,8 @@ import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { getPublicCompContextView } from '@/lib/runtime/public-comps';
+import { runtimeServices } from '@/lib/runtime/runtime-services';
+import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import { fixtureActors } from '@/lib/contracts/fixtures';
 import { getValuationVersionForActor } from '@/lib/contracts/valuation-version';
 import { getLinkedDealId, getPropertyRecord } from '@/lib/workflow-identity';
@@ -15,7 +17,12 @@ export function CompsPage(): ReactElement {
   const { id } = useParams();
   const property = getPropertyRecord(id);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const compContext = getPublicCompContextView(undefined, property?.id);
+  const compState = useRuntimeResource(
+    () => runtimeServices.public.getCompContext(undefined, property?.id),
+    `comps-${property?.id ?? 'missing'}`,
+    getPublicCompContextView(undefined, property?.id)
+  );
+  const compContext = compState.value;
   const compViews = compContext.comps;
   const selected = compViews.find((comp) => comp.id === selectedId);
 
@@ -54,6 +61,12 @@ export function CompsPage(): ReactElement {
       </header>
 
       <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="property" />
+      {compState.loading ? (
+        <p className="muted" role="status">
+          Refreshing comp data from {runtimeServices.mode} runtime.
+        </p>
+      ) : null}
+      {compState.error ? <p className="warning">{compState.error}</p> : null}
 
       <section className="card readiness-card">
         <ValuationReadinessRail
@@ -91,9 +104,7 @@ export function CompsPage(): ReactElement {
                     className="btn btn-ghost"
                     onClick={() => setSelectedId(comp.id)}
                     disabled={!comp.canInspect}
-                    aria-describedby={
-                      !comp.canInspect ? `${comp.id}-blocked-reason` : undefined
-                    }
+                    aria-describedby={!comp.canInspect ? `${comp.id}-blocked-reason` : undefined}
                   >
                     Inspect
                   </button>

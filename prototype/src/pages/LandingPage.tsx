@@ -5,6 +5,8 @@ import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
 import { getPublicSearchProperties } from '@/lib/runtime/public-search';
+import { runtimeServices } from '@/lib/runtime/runtime-services';
+import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 
 const SAMPLE_QUERIES = ['Austin', 'Commerce', 'Research Blvd', 'Retail'];
 
@@ -12,8 +14,18 @@ export function LandingPage(): ReactElement {
   const [query, setQuery] = useState('');
   const [searched, setSearched] = useState(false);
 
-  const featuredProperties = getPublicSearchProperties().slice(0, 2);
-  const results = searched ? getPublicSearchProperties(query) : [];
+  const featuredState = useRuntimeResource(
+    () => runtimeServices.public.searchProperties().then((properties) => properties.slice(0, 2)),
+    'landing-featured',
+    getPublicSearchProperties().slice(0, 2)
+  );
+  const searchState = useRuntimeResource(
+    () => (searched ? runtimeServices.public.searchProperties(query) : Promise.resolve([])),
+    `landing-search-${searched}-${query}`,
+    searched ? getPublicSearchProperties(query) : []
+  );
+  const featuredProperties = featuredState.value;
+  const results = searchState.value;
 
   function runSearch(nextQuery = query) {
     setQuery(nextQuery);
@@ -32,6 +44,12 @@ export function LandingPage(): ReactElement {
       </header>
 
       <PublicStudioContinuityBanner surface="landing" />
+      {searchState.loading || featuredState.loading ? (
+        <p className="muted" role="status">
+          Refreshing property data from {runtimeServices.mode} runtime.
+        </p>
+      ) : null}
+      {searchState.error ? <p className="warning">{searchState.error}</p> : null}
 
       <form
         className="search-form"

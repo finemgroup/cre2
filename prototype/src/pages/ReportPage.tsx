@@ -8,6 +8,8 @@ import { StageRail } from '@/components/ui/StageRail';
 import { VALUATION_READINESS_STAGES } from '@/lib/readiness-stages';
 import { getPublicReportView } from '@/lib/runtime/report-flow';
 import { getPublicPropertyView } from '@/lib/runtime/public-property';
+import { runtimeServices } from '@/lib/runtime/runtime-services';
+import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import { getLinkedDealId } from '@/lib/workflow-identity';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
@@ -18,11 +20,24 @@ const STAGES = [...VALUATION_READINESS_STAGES];
 
 export function ReportPage(): ReactElement {
   const { id } = useParams();
-  const reportView = getPublicReportView(id);
+  const reportState = useRuntimeResource(
+    () => runtimeServices.public.getReportView(id),
+    `report-${id ?? 'missing'}`,
+    getPublicReportView(id)
+  );
+  const reportView = reportState.value;
   const property = reportView?.property;
   const sections = reportView?.sections ?? [];
   const valuationVersion = reportView?.valuationVersion;
-  const spatialContext = getPublicPropertyView(property?.id)?.spatialContext;
+  const spatialState = useRuntimeResource(
+    () =>
+      property?.id
+        ? runtimeServices.public.getPropertyView(property.id).then((view) => view?.spatialContext)
+        : Promise.resolve(undefined),
+    `report-spatial-${property?.id ?? 'missing'}`,
+    getPublicPropertyView(property?.id)?.spatialContext
+  );
+  const spatialContext = spatialState.value;
 
   if (!property) {
     return (
@@ -52,6 +67,14 @@ export function ReportPage(): ReactElement {
       </header>
 
       <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="report" />
+      {reportState.loading || spatialState.loading ? (
+        <p className="muted" role="status">
+          Refreshing report data from {runtimeServices.mode} runtime.
+        </p>
+      ) : null}
+      {reportState.error || spatialState.error ? (
+        <p className="warning">{reportState.error ?? spatialState.error}</p>
+      ) : null}
 
       <StageRail stages={STAGES} activeIndex={3} />
 

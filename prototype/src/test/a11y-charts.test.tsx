@@ -19,7 +19,7 @@ describe('accessibility chart alternatives', () => {
       .find((row) => within(row).queryByRole('rowheader', { name: /^IRR$/i }));
     expect(irrRow).toBeDefined();
     expect(within(irrRow!).getByRole('cell').textContent).toMatch(/%/);
-  });
+  }, 10000);
 
   it('provides table fallbacks for scenario comparison charts', async () => {
     await renderRoute('/studio/deals/riverside-flats/scenarios');

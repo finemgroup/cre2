@@ -15,6 +15,7 @@
     "test:stories": "vitest run src/test/stories.test.tsx",
     "test:stories:interactions": "vitest run src/test/stories.test.tsx -t \"play interactions\"",
     "test:coverage": "vitest run --coverage",
+    "test:api": "vitest run src/test/sandbox-api.test.ts",
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install chromium",
     "test:e2e:visual": "playwright test e2e/visual.spec.ts --project=visual",

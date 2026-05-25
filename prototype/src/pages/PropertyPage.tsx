@@ -10,12 +10,19 @@ import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { usePrototypeAction } from '@/lib/prototype/usePrototypeAction';
 import { studioDealPath } from '@/data/studio';
 import { getPublicPropertyView } from '@/lib/runtime/public-property';
+import { runtimeServices } from '@/lib/runtime/runtime-services';
+import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import { getLinkedDealId } from '@/lib/workflow-identity';
 import { trackEvent } from '@/lib/analytics/collector';
 
 export function PropertyPage(): ReactElement {
   const { id } = useParams();
-  const propertyView = getPublicPropertyView(id);
+  const propertyState = useRuntimeResource(
+    () => runtimeServices.public.getPropertyView(id),
+    `property-${id ?? 'missing'}`,
+    getPublicPropertyView(id)
+  );
+  const propertyView = propertyState.value;
   const property = propertyView?.property;
   const linkedDealId = getLinkedDealId(id);
   const notifyPrototype = usePrototypeAction();
@@ -61,6 +68,12 @@ export function PropertyPage(): ReactElement {
       </header>
 
       <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="property" />
+      {propertyState.loading ? (
+        <p className="muted" role="status">
+          Refreshing property evidence from {runtimeServices.mode} runtime.
+        </p>
+      ) : null}
+      {propertyState.error ? <p className="warning">{propertyState.error}</p> : null}
 
       <div className="split-layout">
         <div className="card">
@@ -81,24 +94,24 @@ export function PropertyPage(): ReactElement {
 
         <div className="card">
           <MapPlaceholderPreview caption="Sample map layer — no live geo precision. Not a legal boundary.">
-          <p className="muted">Selected property context preserved when drawer opens.</p>
-          <div className="provenance-labels" aria-label="Map truth labels">
-            <AuthorityBadge label="sample-map-data" />
-            <AuthorityBadge label="approximate-centroid" />
-            <AuthorityBadge label="not-legal-boundary" />
-          </div>
-          <ul className="map-layer-list" aria-label="Visible map layer summary">
-            {propertyView?.spatialContext.layers.map((layer) => (
-              <li key={layer.id}>
-                <strong>{layer.label}</strong>
-                <span>
-                  {layer.precisionLabel} · {layer.refreshedLabel}
-                </span>
-                <small>{layer.safeCaveat}</small>
-              </li>
-            ))}
-          </ul>
-        </MapPlaceholderPreview>
+            <p className="muted">Selected property context preserved when drawer opens.</p>
+            <div className="provenance-labels" aria-label="Map truth labels">
+              <AuthorityBadge label="sample-map-data" />
+              <AuthorityBadge label="approximate-centroid" />
+              <AuthorityBadge label="not-legal-boundary" />
+            </div>
+            <ul className="map-layer-list" aria-label="Visible map layer summary">
+              {propertyView?.spatialContext.layers.map((layer) => (
+                <li key={layer.id}>
+                  <strong>{layer.label}</strong>
+                  <span>
+                    {layer.precisionLabel} · {layer.refreshedLabel}
+                  </span>
+                  <small>{layer.safeCaveat}</small>
+                </li>
+              ))}
+            </ul>
+          </MapPlaceholderPreview>
         </div>
       </div>
 
@@ -148,7 +161,10 @@ export function PropertyPage(): ReactElement {
         <p>Public baseline fields only in this prototype.</p>
         <EvidenceMetadataList
           heading="Field evidence"
-          items={[...(propertyView?.evidenceDrawer ?? []), ...(propertyView?.spatialContext.evidence ?? [])]}
+          items={[
+            ...(propertyView?.evidenceDrawer ?? []),
+            ...(propertyView?.spatialContext.evidence ?? []),
+          ]}
         />
         <p className="muted">Private contributor observations are not shown on public routes.</p>
       </SophexSheet>

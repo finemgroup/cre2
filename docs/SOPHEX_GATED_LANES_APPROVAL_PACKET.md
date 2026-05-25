@@ -5,13 +5,13 @@ It is documentation and checklist only — no runtime implementation is authoriz
 
 ## Lane Overview
 
-| Lane | ID prefix | Current status | Authorized now |
-| --- | --- | --- | --- |
-| Mock prototype & docs | `SOPHEX-FE-*`, `SOPHEX-UX-*`, `SOPHEX-CONTRACT-*` (mock) | **Open** | Yes — `prototype/` and `docs/` only |
-| Sandbox runtime foundation | `SOPHEX-S0-001` … | **Closed** | Docs, contract drafts, approval prep only |
-| Sister schema harvest | `SOPHEX-X0-001` … | **Closed** | Read-only planning packets only |
-| Schema waves (contract → DB) | `SOPHEX-S0` … `SOPHEX-REPORT1` | **Closed** | Local contract docs under `docs/schema/` only |
-| Deploy / providers / queues | — | **Closed** | Not authorized |
+| Lane                         | ID prefix                                                | Current status                        | Authorized now                                                                          |
+| ---------------------------- | -------------------------------------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------- |
+| Mock prototype & docs        | `SOPHEX-FE-*`, `SOPHEX-UX-*`, `SOPHEX-CONTRACT-*` (mock) | **Open**                              | Yes — `prototype/` and `docs/` only                                                     |
+| Sandbox runtime foundation   | `SOPHEX-S0-001` …                                        | **Open for synthetic implementation** | Yes — local/staging API shell, synthetic stores, permission tests, fixture/API adapters |
+| Sister schema harvest        | `SOPHEX-X0-001` …                                        | **Closed**                            | Read-only planning packets only                                                         |
+| Schema waves (contract → DB) | `SOPHEX-S0` … `SOPHEX-REPORT1`                           | **Closed**                            | Local contract docs under `docs/schema/` only                                           |
+| Deploy / providers / queues  | —                                                        | **Closed**                            | Not authorized                                                                          |
 
 Primary references:
 
@@ -43,33 +43,33 @@ Stop immediately and escalate to the operator if any task would:
 
 **Purpose:** Prove server-side actor context, evidence filtering, review queue, and idempotent export receipts using synthetic sandbox data only.
 
-**Gate status:** Closed until this checklist is signed.
+**Gate status:** Opened 2026-05-25 for synthetic sandbox implementation only.
 
 ### Required document review
 
-| Document | Reviewed | Reviewer | Date |
-| --- | --- | --- | --- |
-| [PRODUCTION_ARCHITECTURE_PACKET.md](PRODUCTION_ARCHITECTURE_PACKET.md) | ☐ | | |
-| [EVIDENCE_PERMISSION_CONTRACTS.md](EVIDENCE_PERMISSION_CONTRACTS.md) | ☐ | | |
-| [SECURITY_PRIVACY_LAUNCH_GATES.md](SECURITY_PRIVACY_LAUNCH_GATES.md) | ☐ | | |
-| [API_CONTRACT_DRAFT.md](API_CONTRACT_DRAFT.md) | ☐ | | |
-| [CONTRIBUTION_TERMS_DECISION_PACKET.md](CONTRIBUTION_TERMS_DECISION_PACKET.md) | ☐ | | |
-| [FILE_SAFETY_AND_RETENTION_PLAN.md](FILE_SAFETY_AND_RETENTION_PLAN.md) | ☐ | | |
-| [REVIEW_AUTHORITY_AND_HITL_POLICY.md](REVIEW_AUTHORITY_AND_HITL_POLICY.md) | ☐ | | |
-| [OBSERVABILITY_EVENT_TAXONOMY.md](OBSERVABILITY_EVENT_TAXONOMY.md) | ☐ | | |
-| [INCIDENT_RESPONSE_AND_PRIVACY_RUNBOOKS.md](INCIDENT_RESPONSE_AND_PRIVACY_RUNBOOKS.md) | ☐ | | |
-| [PERMISSION_TEST_FIXTURES.md](PERMISSION_TEST_FIXTURES.md) | ☐ | | |
+| Document                                                                               | Reviewed | Reviewer          | Date       |
+| -------------------------------------------------------------------------------------- | -------- | ----------------- | ---------- |
+| [PRODUCTION_ARCHITECTURE_PACKET.md](PRODUCTION_ARCHITECTURE_PACKET.md)                 | ☑        | Cursor / operator | 2026-05-25 |
+| [EVIDENCE_PERMISSION_CONTRACTS.md](EVIDENCE_PERMISSION_CONTRACTS.md)                   | ☑        | Cursor / operator | 2026-05-25 |
+| [SECURITY_PRIVACY_LAUNCH_GATES.md](SECURITY_PRIVACY_LAUNCH_GATES.md)                   | ☑        | Cursor / operator | 2026-05-25 |
+| [API_CONTRACT_DRAFT.md](API_CONTRACT_DRAFT.md)                                         | ☑        | Cursor / operator | 2026-05-25 |
+| [CONTRIBUTION_TERMS_DECISION_PACKET.md](CONTRIBUTION_TERMS_DECISION_PACKET.md)         | ☑        | Cursor / operator | 2026-05-25 |
+| [FILE_SAFETY_AND_RETENTION_PLAN.md](FILE_SAFETY_AND_RETENTION_PLAN.md)                 | ☑        | Cursor / operator | 2026-05-25 |
+| [REVIEW_AUTHORITY_AND_HITL_POLICY.md](REVIEW_AUTHORITY_AND_HITL_POLICY.md)             | ☑        | Cursor / operator | 2026-05-25 |
+| [OBSERVABILITY_EVENT_TAXONOMY.md](OBSERVABILITY_EVENT_TAXONOMY.md)                     | ☑        | Cursor / operator | 2026-05-25 |
+| [INCIDENT_RESPONSE_AND_PRIVACY_RUNBOOKS.md](INCIDENT_RESPONSE_AND_PRIVACY_RUNBOOKS.md) | ☑        | Cursor / operator | 2026-05-25 |
+| [PERMISSION_TEST_FIXTURES.md](PERMISSION_TEST_FIXTURES.md)                             | ☑        | Cursor / operator | 2026-05-25 |
 
 ### Sandbox scope confirmation
 
-| Question | Operator answer |
-| --- | --- |
-| Sandbox is synthetic/mock-data-only (no production bytes)? | ☐ Yes ☐ No |
-| No real document storage unless separately approved? | ☐ Yes ☐ No |
-| UI will not be treated as authorization boundary? | ☐ Yes ☐ No |
-| Idempotency keys required on all governed writes? | ☐ Yes ☐ No |
-| Public errors/logs will never include private field values? | ☐ Yes ☐ No |
-| Sister schema gate remains closed during sandbox Phase 1? | ☐ Yes ☐ N/A |
+| Question                                                    | Operator answer |
+| ----------------------------------------------------------- | --------------- |
+| Sandbox is synthetic/mock-data-only (no production bytes)?  | ☑ Yes ☐ No      |
+| No real document storage unless separately approved?        | ☑ Yes ☐ No      |
+| UI will not be treated as authorization boundary?           | ☑ Yes ☐ No      |
+| Idempotency keys required on all governed writes?           | ☑ Yes ☐ No      |
+| Public errors/logs will never include private field values? | ☑ Yes ☐ No      |
+| Sister schema gate remains closed during sandbox Phase 1?   | ☑ Yes ☐ N/A     |
 
 ### Prototype bridge acceptance
 
@@ -100,13 +100,13 @@ Replacement sequence follows [RUNTIME_FOUNDATION_SANDBOX_PLAN.md](RUNTIME_FOUNDA
 
 ### Operator signoff — Sandbox lane
 
-| Field | Value |
-| --- | --- |
-| Approved to begin sandbox **implementation** | ☐ Yes ☐ No |
-| Approved branch/lane name | |
-| Approved module subset (if partial) | |
-| Operator name | |
-| Date | |
+| Field                                        | Value                                                                                                                                                                    |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Approved to begin sandbox **implementation** | ☑ Yes ☐ No                                                                                                                                                               |
+| Approved branch/lane name                    | `sophex-s0-sandbox-runtime`                                                                                                                                              |
+| Approved module subset (if partial)          | Synthetic API shell, actor/permission middleware, idempotency, fixture/API adapters, API tests; no schema migrations, providers, queues, deploys, or real document bytes |
+| Operator name                                | Eckle / Cursor implementation lane                                                                                                                                       |
+| Date                                         | 2026-05-25                                                                                                                                                               |
 
 ---
 
@@ -120,26 +120,26 @@ Replacement sequence follows [RUNTIME_FOUNDATION_SANDBOX_PLAN.md](RUNTIME_FOUNDA
 
 ### Preconditions checklist
 
-| Precondition | Confirmed |
-| --- | --- |
-| Sister project declares schema stable enough for review | ☐ |
-| Repository identity, branch, HEAD commit recorded | ☐ |
-| Source checkout is clean (no dirty worktree) | ☐ |
-| Read-only harvest scope confirmed by operator | ☐ |
-| No production credentials or DB shells will be used | ☐ |
-| Sophex contract docs are current (evidence, architecture, security gates) | ☐ |
+| Precondition                                                              | Confirmed |
+| ------------------------------------------------------------------------- | --------- |
+| Sister project declares schema stable enough for review                   | ☐         |
+| Repository identity, branch, HEAD commit recorded                         | ☐         |
+| Source checkout is clean (no dirty worktree)                              | ☐         |
+| Read-only harvest scope confirmed by operator                             | ☐         |
+| No production credentials or DB shells will be used                       | ☐         |
+| Sophex contract docs are current (evidence, architecture, security gates) | ☐         |
 
 ### Source inventory (fill before harvest)
 
-| Field | Value |
-| --- | --- |
-| Sister repository path | |
-| Branch | |
-| HEAD commit | |
-| Clean status (`git status --porcelain` empty?) | ☐ |
-| Schema file paths identified | |
-| API contract paths identified | |
-| Harvest agent / operator | |
+| Field                                          | Value |
+| ---------------------------------------------- | ----- |
+| Sister repository path                         |       |
+| Branch                                         |       |
+| HEAD commit                                    |       |
+| Clean status (`git status --porcelain` empty?) | ☐     |
+| Schema file paths identified                   |       |
+| API contract paths identified                  |       |
+| Harvest agent / operator                       |       |
 
 ### Classification deliverables
 
@@ -172,23 +172,23 @@ Each harvested concept must produce a diff row using the template in [SISTER_SCH
 
 ### Operator signoff — Schema harvest lane
 
-| Field | Value |
-| --- | --- |
-| Approved to run read-only schema harvest | ☐ Yes ☐ No |
-| Approved sister repo / branch / commit | |
+| Field                                                         | Value      |
+| ------------------------------------------------------------- | ---------- |
+| Approved to run read-only schema harvest                      | ☐ Yes ☐ No |
+| Approved sister repo / branch / commit                        |            |
 | Approved to produce diff packet only (no Sophex schema edits) | ☐ Yes ☐ No |
-| Operator name | |
-| Date | |
+| Operator name                                                 |            |
+| Date                                                          |            |
 
 ### Operator signoff — Schema implementation (separate gate)
 
-| Field | Value |
-| --- | --- |
-| Approved to implement Sophex schema/migrations | ☐ Yes ☐ No |
-| Approved wave(s) from [SOPHEX_SCHEMA_WAVE_ROADMAP_2026-05-22.md](roadmap/SOPHEX_SCHEMA_WAVE_ROADMAP_2026-05-22.md) | |
-| DB provider and migration tool approved | |
-| Operator name | |
-| Date | |
+| Field                                                                                                              | Value      |
+| ------------------------------------------------------------------------------------------------------------------ | ---------- |
+| Approved to implement Sophex schema/migrations                                                                     | ☐ Yes ☐ No |
+| Approved wave(s) from [SOPHEX_SCHEMA_WAVE_ROADMAP_2026-05-22.md](roadmap/SOPHEX_SCHEMA_WAVE_ROADMAP_2026-05-22.md) |            |
+| DB provider and migration tool approved                                                                            |            |
+| Operator name                                                                                                      |            |
+| Date                                                                                                               |            |
 
 ---
 
@@ -222,6 +222,7 @@ Each harvested concept must produce a diff row using the template in [SISTER_SCH
 
 ## Revision Log
 
-| Date | Change |
-| --- | --- |
-| 2026-05-25 | Initial consolidated approval packet for sandbox and sister-schema gated lanes. |
+| Date       | Change                                                                               |
+| ---------- | ------------------------------------------------------------------------------------ |
+| 2026-05-25 | Opened sandbox runtime implementation lane for synthetic API shell and adapter work. |
+| 2026-05-25 | Initial consolidated approval packet for sandbox and sister-schema gated lanes.      |

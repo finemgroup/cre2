@@ -10,6 +10,8 @@ import { StageRail } from '@/components/ui/StageRail';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { EXPORT_FLOW_STAGES } from '@/lib/readiness-stages';
 import { getPublicExportDecision, getPublicReportView } from '@/lib/runtime/report-flow';
+import { runtimeServices } from '@/lib/runtime/runtime-services';
+import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import type { ExportScope } from '@/lib/runtime/export-policy';
 import type { GovernedReceipt } from '@/lib/contracts/receipts';
 import { trackEvent } from '@/lib/analytics/collector';
@@ -26,7 +28,35 @@ export function ExportPage(): ReactElement {
   const [scope, setScope] = useState<ExportScope>('download');
   const [receipt, setReceipt] = useState<GovernedReceipt | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const reportView = getPublicReportView(id);
+  const reportState = useRuntimeResource(
+    () => runtimeServices.public.getReportView(id),
+    `export-report-${id ?? 'missing'}`,
+    getPublicReportView(id)
+  );
+  const reportView = reportState.value;
+  const propertyId = reportView?.property.id ?? id ?? '';
+  const policyState = useRuntimeResource(
+    () =>
+      propertyId
+        ? runtimeServices.public.evaluateExport({
+            propertyId,
+            scope,
+            consent,
+            idempotencyKey: `public-export-${propertyId}-${scope}`,
+          })
+        : Promise.resolve(undefined),
+    `export-policy-${propertyId}-${scope}-${consent}`,
+    propertyId
+      ? getPublicExportDecision({
+          propertyId,
+          scope,
+          consent,
+          idempotencyKey: `public-export-${propertyId}-${scope}`,
+        })
+      : undefined
+  );
+  const policyDecision = policyState.value;
+  const exportBlocked = !policyDecision?.allowed;
 
   if (!reportView) {
     return (
@@ -43,41 +73,36 @@ export function ExportPage(): ReactElement {
   }
 
   const { property, readiness, valuationVersion } = reportView;
-  const propertyId = property.id;
   const linkedDealId = getLinkedDealId(propertyId);
-  const policyDecision = getPublicExportDecision({
-    propertyId,
-    scope,
-    consent,
-    idempotencyKey: `public-export-${propertyId}-${scope}`,
-  });
-  const exportBlocked = !policyDecision?.allowed;
 
   function handleGenerate() {
     if (exportBlocked) return;
     setGenerating(true);
     setStage(2);
     window.setTimeout(() => {
-      const decision = getPublicExportDecision({
-        propertyId,
-        scope,
-        consent,
-        idempotencyKey: `public-export-${propertyId}-${scope}`,
-      });
-      setGenerating(false);
-      setStage(3);
-      setReceipt(decision?.receipt ?? null);
-      if (decision?.receipt) {
-        trackEvent({
-          name: 'export_receipt_generated',
-          actorClass: decision.receipt.actorId,
-          route: `/export/${propertyId}`,
+      void runtimeServices.public
+        .evaluateExport({
           propertyId,
-          phase: scope,
-          receiptId: decision.receipt.id,
+          scope,
+          consent,
+          idempotencyKey: `public-export-${propertyId}-${scope}`,
+        })
+        .then((decision) => {
+          setGenerating(false);
+          setStage(3);
+          setReceipt(decision?.receipt ?? null);
+          if (decision?.receipt) {
+            trackEvent({
+              name: 'export_receipt_generated',
+              actorClass: decision.receipt.actorId,
+              route: `/export/${propertyId}`,
+              propertyId,
+              phase: scope,
+              receiptId: decision.receipt.id,
+            });
+          }
+          pushToast('Export receipt generated in prototype only. No file was sent.', 'success');
         });
-      }
-      pushToast('Export receipt generated in prototype only. No file was sent.', 'success');
     }, 20);
   }
 
@@ -93,6 +118,14 @@ export function ExportPage(): ReactElement {
 
       <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="export" />
       <MockBoundaryBanner variant="export" />
+      {reportState.loading || policyState.loading ? (
+        <p className="muted" role="status">
+          Refreshing export policy from {runtimeServices.mode} runtime.
+        </p>
+      ) : null}
+      {reportState.error || policyState.error ? (
+        <p className="warning">{reportState.error ?? policyState.error}</p>
+      ) : null}
 
       <StageRail stages={STAGES} activeIndex={stage} />
 
