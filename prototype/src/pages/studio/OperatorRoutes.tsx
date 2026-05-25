@@ -9,6 +9,8 @@ import {
   StatusBadge,
   StudioCard,
 } from '@/components/studio/StudioPrimitives';
+import { HitlTrustTierBadge, reviewStateToHitlTier } from '@/components/workflow/HitlTrustTierBadge';
+import { getReviewQueue } from '@/lib/runtime/review-queue';
 import { getBrokerOsProjection } from '@/lib/runtime/studio-workspace';
 
 const PLANNING_CONTEXT = {
@@ -23,6 +25,7 @@ const PLANNING_CONTEXT = {
 export function StudioBrokerOsPage(): ReactElement {
   const [copied, setCopied] = useState(false);
   const brokerProjection = getBrokerOsProjection();
+  const hitlQueue = getReviewQueue().slice(0, 5);
 
   return (
     <div>
@@ -78,6 +81,19 @@ export function StudioBrokerOsPage(): ReactElement {
               </PrototypeActionButton>
             ))}
           </div>
+        </StudioCard>
+        <StudioCard title="HITL Queue Projection" eyebrow="Internal-only">
+          <p className="muted">
+            Trust-tier labels are advisory. Queue completion does not promote evidence or unlock export.
+          </p>
+          <ul className="governance-list">
+            {hitlQueue.map((item) => (
+              <li key={item.observation.id}>
+                {item.observation.fieldKey} · {item.safeStatus}{' '}
+                <HitlTrustTierBadge tier={reviewStateToHitlTier(item.observation.reviewState)} />
+              </li>
+            ))}
+          </ul>
         </StudioCard>
       </div>
       <StudioCard

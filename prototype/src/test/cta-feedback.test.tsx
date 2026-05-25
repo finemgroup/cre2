@@ -37,4 +37,39 @@ describe('prototype CTA feedback', () => {
     await user.click(screen.getByRole('button', { name: /Export Excel/i }));
     expect(screen.getByText(/Export Excel is simulated/i)).toBeInTheDocument();
   });
+
+  it('documents disabled wave 3 export CTAs with aria-describedby', async () => {
+    await renderRoute('/studio/deals/riverside-flats/capital-stack');
+
+    const exportWaterfall = screen.getByRole('button', { name: /Export Waterfall/i });
+    expect(exportWaterfall).toBeDisabled();
+    expect(exportWaterfall).toHaveAttribute('aria-describedby', 'export-waterfall-blocked');
+    expect(document.getElementById('export-waterfall-blocked')).toHaveTextContent(
+      /Export waterfall is disabled in prototype/i
+    );
+  });
+
+  it('documents disabled IC send CTA with aria-describedby', async () => {
+    await renderRoute('/studio/deals/riverside-flats/ic-packet');
+
+    const sendIc = screen.getByRole('button', { name: /Send to IC/i });
+    expect(sendIc).toBeDisabled();
+    expect(sendIc).toHaveAttribute('aria-describedby', 'ic-send-blocked');
+    expect(document.getElementById('ic-send-blocked')).toHaveTextContent(
+      /IC delivery is simulated and disabled/i
+    );
+  });
+
+  it('documents disabled HITL approve CTA with aria-describedby', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/studio/deals/riverside-flats/hitl-review');
+
+    await user.click(screen.getAllByRole('button', { name: /Open assignment/i })[0]);
+    const approve = screen.getByRole('button', { name: /Approve for export/i });
+    expect(approve).toBeDisabled();
+    expect(approve).toHaveAttribute('aria-describedby', 'hitl-no-promote');
+    expect(document.getElementById('hitl-no-promote')).toHaveTextContent(
+      /Approval is disabled in prototype/i
+    );
+  });
 });

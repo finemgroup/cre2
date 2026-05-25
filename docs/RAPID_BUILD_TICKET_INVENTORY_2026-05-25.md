@@ -46,9 +46,13 @@ This keeps the tracker focused on the next build wave rather than duplicating co
 
 ## Next Active Ticket Pack
 
-The next active UI/product tickets live in `COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_PRODUCT_WORKFLOWS.md`.
+Wave 5 polish is complete. The next lanes are **operator-gated**:
 
-The future schema-readiness ticket structure lives in `SISTER_SCHEMA_HARVEST_PACKET.md`.
+- **Schema harvest:** `SISTER_SCHEMA_HARVEST_PACKET.md` (requires `SISTER_SCHEMA_BORROWING_GATE.md` approval)
+- **Runtime/provider integration:** outside mock-only prototype boundary
+- **Optional UI follow-up:** convert completed tickets to tracker epics per recommendation below
+
+Historical product workflow tickets remain in `COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_PRODUCT_WORKFLOWS.md`.
 
 ## Product Workflow Tickets (Wave 2)
 
@@ -87,3 +91,14 @@ See `STITCH_UNDERWRITING_WORKSTATION_TRIAGE.md` and `docs/design/stitch-underwri
 | Version ↔ export linkage | Implemented | Version timeline export eligibility, IC/report handoffs, evidence snapshot copy |
 | GIS performance budgets | Implemented | `lib/gis/performance`, spatial workbench layer budget table |
 | Quality coverage | Implemented | Storybook, unit tests, e2e extensions for Wave 4 |
+
+## Wave 5 Complete (2026-05-25)
+
+| Track | Status | Notes |
+| --- | --- | --- |
+| Visual regression | Implemented | Playwright snapshots for capital stack, IC packet, HITL review, spatial, version readiness |
+| Storybook polish | Implemented | `Wave3Polish.stories.tsx` for AdvancedWorkflowNav, ReviewerAssignmentDrawer, trust tiers |
+| HITL / trust-tier copy | Implemented | `HitlTrustTierBadge`, HITL queue + Broker OS projection, assignment drawer tiers |
+| Cross-entity e2e | Implemented | `demo-001`↔`riverside-flats`, `demo-002`↔`1200-tech` public→Studio continuity |
+| CTA accessibility audit | Implemented | Disabled Export Waterfall, Send to IC, Approve for export use `aria-describedby` |
+| Quality coverage | Implemented | `hitl-trust-tier.test.ts`, extended `cta-feedback.test.tsx`, Storybook a11y |

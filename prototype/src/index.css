@@ -1177,7 +1177,8 @@ td {
 }
 
 .trust-badge,
-.status-badge {
+.status-badge,
+.hitl-tier-badge {
   display: inline-flex;
   align-items: center;
   width: max-content;
@@ -1235,6 +1236,26 @@ td {
 
 .trust-blocked,
 .status-blocked {
+  background: #fee2e2;
+  color: var(--studio-danger);
+}
+
+.hitl-tier-auto {
+  background: #dcfce7;
+  color: var(--studio-success);
+}
+
+.hitl-tier-notify {
+  background: #fef3c7;
+  color: var(--studio-warning);
+}
+
+.hitl-tier-hitl {
+  background: #dbeafe;
+  color: #1e3a8a;
+}
+
+.hitl-tier-block {
   background: #fee2e2;
   color: var(--studio-danger);
 }

@@ -138,7 +138,7 @@ test.describe('route shell visuals', () => {
   test('studio version timeline workstation', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await gotoRoute(page, '/studio/deals/riverside-flats/versions');
-    await expect(page.getByRole('heading', { name: /Timeline/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Valuation version timeline/i })).toBeVisible();
     await expect(page).toHaveScreenshot('studio-version-timeline-desktop.png', {
       fullPage: true,
       maxDiffPixelRatio: 0.03,
@@ -170,6 +170,58 @@ test.describe('route shell visuals', () => {
     await gotoRoute(page, '/property/demo-001/comps');
     await expect(page.getByRole('heading', { name: /Side-by-side comp dashboard/i })).toBeVisible();
     await expect(page).toHaveScreenshot('public-comps-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
+  test('studio capital stack design reference', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/studio/deals/riverside-flats/capital-stack');
+    await expect(page.getByRole('heading', { name: /Capital Stack & Waterfall/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('studio-capital-stack-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
+  test('studio ic packet design reference', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/studio/deals/riverside-flats/ic-packet');
+    await expect(page.getByRole('heading', { name: /Investment Committee Packet/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('studio-ic-packet-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
+  test('studio hitl review queue', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/studio/deals/riverside-flats/hitl-review');
+    await expect(page.getByRole('heading', { name: /Reviewer Assignment Queue/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('studio-hitl-review-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
+  test('studio spatial workbench with layer budgets', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/studio/deals/riverside-flats/spatial');
+    await expect(
+      page.getByRole('heading', { name: /Spatial Manifest & Trade Area Workbench/i })
+    ).toBeVisible();
+    await expect(page).toHaveScreenshot('studio-spatial-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
+  test('studio version timeline with readiness rail', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/studio/deals/riverside-flats/versions');
+    await expect(page.getByText(/Version export posture/i)).toBeVisible();
+    await expect(page).toHaveScreenshot('studio-version-readiness-desktop.png', {
       fullPage: true,
       maxDiffPixelRatio: 0.03,
     });

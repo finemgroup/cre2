@@ -3,6 +3,10 @@ import { useState, type ReactElement } from 'react';
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { DataTable, StatusBadge, TrustBadge } from '@/components/studio/StudioPrimitives';
+import {
+  HitlTrustTierBadge,
+  type HitlTrustTier,
+} from '@/components/workflow/HitlTrustTierBadge';
 
 export type ReviewAssignment = {
   id: string;
@@ -11,6 +15,7 @@ export type ReviewAssignment = {
   assignee: string;
   queueState: string;
   posture: string;
+  trustTier: HitlTrustTier;
 };
 
 export function ReviewerAssignmentDrawer({
@@ -30,7 +35,10 @@ export function ReviewerAssignmentDrawer({
         <>
           <p className="studio-eyebrow">Internal-only HITL projection</p>
           <h2>{assignment.field}</h2>
-          <TrustBadge state={assignment.posture} />
+          <div className="tag-row">
+            <TrustBadge state={assignment.posture} />
+            <HitlTrustTierBadge tier={assignment.trustTier} />
+          </div>
           <p>{assignment.reason}</p>
           <DataTable
             caption="Assignment detail"
@@ -38,6 +46,7 @@ export function ReviewerAssignmentDrawer({
             rows={[
               ['Assignee', assignment.assignee],
               ['Queue state', assignment.queueState],
+              ['Trust tier', assignment.trustTier],
               ['Authority', 'Reviewer decision required — queue completion is not promotion'],
             ]}
           />

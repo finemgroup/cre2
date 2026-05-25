@@ -19,6 +19,7 @@ import {
   TrustBadge,
   WorkflowContextHeader,
 } from '@/components/studio/StudioPrimitives';
+import { HitlTrustTierBadge, reviewStateToHitlTier } from '@/components/workflow/HitlTrustTierBadge';
 import { fixtureActors } from '@/lib/contracts/fixtures';
 import { getReviewQueue } from '@/lib/runtime/review-queue';
 import { studioDealPath, studioReportPath } from '@/data/studio';
@@ -71,6 +72,7 @@ const MOCK_ASSIGNMENTS: ReviewAssignment[] = [
     assignee: 'Sarah Jenkins (VP)',
     queueState: 'Assigned',
     posture: 'Blocked',
+    trustTier: 'BLOCK',
   },
   {
     id: 'assign-lender-quote',
@@ -79,6 +81,7 @@ const MOCK_ASSIGNMENTS: ReviewAssignment[] = [
     assignee: 'Mike Chen (Analyst)',
     queueState: 'Queued',
     posture: 'Source pending',
+    trustTier: 'HITL',
   },
   {
     id: 'assign-rent-growth',
@@ -87,6 +90,7 @@ const MOCK_ASSIGNMENTS: ReviewAssignment[] = [
     assignee: 'Internal operator queue',
     queueState: 'Needs review',
     posture: 'Reviewer required',
+    trustTier: 'NOTIFY',
   },
 ];
 
@@ -149,9 +153,17 @@ export function StudioCapitalStackPage(): ReactElement {
             <MetricCard label="LP IRR (mock)" value="14.2%" detail="Advisory" />
             <MetricCard label="GP promote" value="30%" detail="Reviewer required" />
           </div>
-          <PrototypeActionButton feature="Export waterfall" className="btn btn-primary" disabled>
+          <PrototypeActionButton
+            feature="Export waterfall"
+            className="btn btn-primary"
+            disabled
+            aria-describedby="export-waterfall-blocked"
+          >
             Export Waterfall
           </PrototypeActionButton>
+          <p className="sr-only" id="export-waterfall-blocked">
+            Export waterfall is disabled in prototype. LP reporting and legal review remain gated.
+          </p>
         </StudioCard>
       </div>
     </div>
@@ -250,12 +262,13 @@ export function StudioHitlReviewPage(): ReactElement {
         <StudioCard title="Assigned Reviews" className="wide-card">
           <DataTable
             caption="HITL reviewer assignments"
-            headers={['Field', 'Assignee', 'Queue state', 'Posture', 'Action']}
+            headers={['Field', 'Assignee', 'Queue state', 'Posture', 'Trust tier', 'Action']}
             rows={MOCK_ASSIGNMENTS.map((assignment) => [
               assignment.field,
               assignment.assignee,
               assignment.queueState,
-              <TrustBadge key={assignment.id} state={assignment.posture} />,
+              <TrustBadge key={`${assignment.id}-posture`} state={assignment.posture} />,
+              <HitlTrustTierBadge key={`${assignment.id}-tier`} tier={assignment.trustTier} />,
               <button
                 key={`${assignment.id}-action`}
                 type="button"
@@ -277,7 +290,8 @@ export function StudioHitlReviewPage(): ReactElement {
           <ul className="governance-list">
             {queue.slice(0, 4).map((item) => (
               <li key={item.observation.id}>
-                {item.observation.fieldKey} · {item.safeStatus}
+                {item.observation.fieldKey} · {item.safeStatus}{' '}
+                <HitlTrustTierBadge tier={reviewStateToHitlTier(item.observation.reviewState)} />
               </li>
             ))}
           </ul>
@@ -317,9 +331,17 @@ function StickyActionBarMock({ dealId }: { dealId: string }): ReactElement {
       >
         Open Report Builder
       </PrototypeActionLink>
-      <PrototypeActionButton feature="Send IC packet" className="btn btn-primary" disabled>
+      <PrototypeActionButton
+        feature="Send IC packet"
+        className="btn btn-primary"
+        disabled
+        aria-describedby="ic-send-blocked"
+      >
         Send to IC
       </PrototypeActionButton>
+      <span className="sr-only" id="ic-send-blocked">
+        IC delivery is simulated and disabled until section and evidence gates clear.
+      </span>
     </StickyActionBar>
   );
 }

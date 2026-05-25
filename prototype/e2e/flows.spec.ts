@@ -178,4 +178,30 @@ test.describe('Studio end-to-end flows', () => {
     await gotoRoute(page, '/studio/deals/riverside-flats/versions');
     await expect(page.getByText(/Version export posture/i)).toBeVisible();
   });
+
+  test('cross-entity demo paths link public properties to studio deals', async ({ page }) => {
+    await gotoRoute(page, '/property/demo-001');
+    await expect(page.getByRole('heading', { name: /1200 Commerce St/i })).toBeVisible();
+    await page.getByRole('link', { name: /Open linked Studio deal/i }).click();
+    await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats$/);
+    await page.locator('a.tab-link', { hasText: 'Underwriting' }).click();
+    await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/underwriting$/);
+    await page.getByRole('link', { name: /Open spatial workbench/i }).click();
+    await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/spatial$/);
+    await page.getByRole('link', { name: /Return to cockpit/i }).click();
+    await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/underwriting$/);
+
+    await gotoRoute(page, '/property/demo-002');
+    await expect(page.getByRole('heading', { name: /4400 Research Blvd/i })).toBeVisible();
+    await page.getByRole('link', { name: /Compare comps/i }).click();
+    await expect(page).toHaveURL(/\/property\/demo-002\/comps$/);
+    await page.getByRole('link', { name: /Preview report/i }).click();
+    await expect(page).toHaveURL(/\/report\/demo-002$/);
+    await page.getByRole('link', { name: /Continue to export gate/i }).click();
+    await expect(page).toHaveURL(/\/export\/demo-002$/);
+    await page.getByRole('link', { name: /1200-tech/i }).click();
+    await expect(page).toHaveURL(/\/studio\/deals\/1200-tech\/underwriting$/);
+    await page.getByRole('link', { name: /Review capital stack/i }).click();
+    await expect(page).toHaveURL(/\/studio\/deals\/1200-tech\/capital-stack$/);
+  });
 });

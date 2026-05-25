@@ -18,6 +18,7 @@ import * as StudioPrimitivesStories from '@/stories/StudioPrimitives.stories';
 import * as TrustBadgeStories from '@/stories/TrustBadge.stories';
 import * as TrustExplainerDrawerStories from '@/stories/TrustExplainerDrawer.stories';
 import * as UploadDropzoneStories from '@/stories/UploadDropzone.stories';
+import * as Wave3PolishStories from '@/stories/Wave3Polish.stories';
 import * as WorkstationPrimitivesStories from '@/stories/WorkstationPrimitives.stories';
 
 type StorySurface = 'public' | 'studio';
@@ -61,6 +62,11 @@ const storyGroups = [
   { name: 'TrustBadge', module: TrustBadgeStories, surface: 'studio' as const },
   { name: 'TrustExplainerDrawer', module: TrustExplainerDrawerStories, surface: 'studio' as const },
   { name: 'UploadDropzone', module: UploadDropzoneStories, surface: 'studio' as const },
+  {
+    name: 'Wave3Polish',
+    module: Wave3PolishStories,
+    surface: 'studio' as const,
+  },
   {
     name: 'WorkstationPrimitives',
     module: WorkstationPrimitivesStories,
