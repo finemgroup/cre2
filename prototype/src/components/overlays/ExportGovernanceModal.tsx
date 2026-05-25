@@ -4,11 +4,13 @@ import { SophexModal } from '@/components/overlays/SophexModal';
 import { StatusBadge } from '@/components/studio/StudioPrimitives';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import type { ExportReadiness } from '@/lib/report-governance';
+import type { ExportPolicyDecision } from '@/lib/runtime/export-policy';
 
 type ExportGovernanceModalProps = {
   isOpen: boolean;
   onClose: () => void;
   readiness: ExportReadiness;
+  policyDecision?: ExportPolicyDecision;
   onConfirm?: () => void;
 };
 
@@ -16,6 +18,7 @@ export function ExportGovernanceModal({
   isOpen,
   onClose,
   readiness,
+  policyDecision,
   onConfirm,
 }: ExportGovernanceModalProps): ReactElement {
   return (
@@ -34,6 +37,7 @@ export function ExportGovernanceModal({
             <li>
               Approved sections: {readiness.approvedCount}/{readiness.totalCount}
             </li>
+            {policyDecision ? <li>Selected scope: {policyDecision.scope}</li> : null}
           </ul>
           <div className="modal-actions">
             <button type="button" className="btn btn-secondary" onClick={onClose}>
@@ -56,10 +60,16 @@ export function ExportGovernanceModal({
           <StatusBadge status="Blocked" />
           <p>Export remains disabled until these governance issues are resolved:</p>
           <ul className="governance-list" aria-label="Export blockers">
-            {readiness.blockedReasons.map((reason) => (
+            {(policyDecision?.blockerCategories.length
+              ? policyDecision.blockerCategories
+              : readiness.blockedReasons
+            ).map((reason) => (
               <li key={reason}>{reason}</li>
             ))}
           </ul>
+          {policyDecision ? (
+            <p className="muted">Policy decision: {policyDecision.safeMessage}</p>
+          ) : null}
           {readiness.warnings.length > 0 ? (
             <>
               <p className="muted">Additional warnings:</p>

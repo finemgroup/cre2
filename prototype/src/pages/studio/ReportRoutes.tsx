@@ -20,21 +20,29 @@ import {
   ReportProvenanceCard,
   ReportSectionReviewCard,
 } from '@/components/report-governance/ReportGovernanceCards';
-import { getSourceBlocksForDeal } from '@/lib/source-bundle';
-import { evaluateExportReadiness } from '@/lib/report-governance';
-import { getStudioReportSections } from '@/lib/workflow-identity';
-import { brandConfig, getStudioDeal, studioDealPath } from '@/data/studio';
+import { brandConfig, studioDealPath } from '@/data/studio';
+import { fixtureActors } from '@/lib/contracts/fixtures';
+import type { GovernedReceipt } from '@/lib/contracts/receipts';
+import { evaluateExportPolicy } from '@/lib/runtime/export-policy';
+import { getStudioReportBuilderView } from '@/lib/runtime/studio-workspace';
 import { SegmentedControl, StudioDealNotFound } from '@/pages/studio/StudioShared';
 
 export function StudioReportBuilderPage(): ReactElement {
   const { dealId } = useParams();
-  const deal = getStudioDeal(dealId);
-  const sections = getStudioReportSections(dealId);
-  const sourceBlocks = getSourceBlocksForDeal(dealId);
-  const approvedCount = sections.filter((section) => section.status === 'Approved').length;
-  const readiness = evaluateExportReadiness(sections, sourceBlocks);
+  const reportView = getStudioReportBuilderView(dealId);
+  const [receipt, setReceipt] = useState<GovernedReceipt | null>(null);
   const [exportModalOpen, setExportModalOpen] = useState(false);
-  if (!deal) return <StudioDealNotFound />;
+  if (!reportView) return <StudioDealNotFound />;
+  const { deal, sections, sourceBlocks, readiness, brandConfig: reportBrandConfig } = reportView;
+  const approvedCount = sections.filter((section) => section.status === 'Approved').length;
+  const studioExportDecision = evaluateExportPolicy({
+    actor: fixtureActors.orgAdmin,
+    reportId: `studio-report-${deal.id}`,
+    scope: 'download',
+    readiness,
+    consent: true,
+    idempotencyKey: `studio-export-${deal.id}`,
+  });
 
   return (
     <div className="report-builder-workspace">
@@ -50,6 +58,7 @@ export function StudioReportBuilderPage(): ReactElement {
         actions={
           <>
             <StatusBadge status={`${approvedCount}/${sections.length} approved`} />
+            <StatusBadge status={studioExportDecision.allowed ? 'Policy clear' : 'Policy blocked'} />
             {!readiness.ready ? (
               <button
                 type="button"
@@ -62,11 +71,14 @@ export function StudioReportBuilderPage(): ReactElement {
             <button
               className="btn btn-primary"
               type="button"
-              disabled={!readiness.ready}
+              disabled={!studioExportDecision.allowed}
               aria-describedby="report-export-blocked"
-              onClick={() => setExportModalOpen(true)}
+              onClick={() => {
+                setReceipt(studioExportDecision.receipt);
+                setExportModalOpen(true);
+              }}
             >
-              Export PDF
+              Generate governed receipt
             </button>
           </>
         }
@@ -95,20 +107,23 @@ export function StudioReportBuilderPage(): ReactElement {
             <button
               type="button"
               className="btn btn-primary"
-              disabled={!readiness.ready}
+              disabled={!studioExportDecision.allowed}
               aria-describedby="report-export-blocked"
-              onClick={() => setExportModalOpen(true)}
+              onClick={() => {
+                setReceipt(studioExportDecision.receipt);
+                setExportModalOpen(true);
+              }}
             >
-              Export PDF
+              Generate governed receipt
             </button>
           </div>
           <ReportProvenanceCard sections={sections} />
         </StudioCard>
         <StudioCard title="Live PDF Preview" className="pdf-preview-card">
           <div className="pdf-preview">
-            <h2>{brandConfig.company}</h2>
+            <h2>{reportBrandConfig.company}</h2>
             <p>{deal.name} Investment Preview</p>
-            <div className="property-image report-hero" aria-label="Mock report hero image" />
+            <div className="property-image report-hero" role="img" aria-label="Mock report hero image" />
             <div className="metric-grid">
               <MetricCard label="Target IRR" value="14.8%" detail="Draft" />
               <MetricCard label="Equity Multiple" value="1.82x" detail="Draft" />
@@ -117,7 +132,7 @@ export function StudioReportBuilderPage(): ReactElement {
             <div className="pdf-line" />
             <div className="pdf-block" />
             <div className="pdf-block short" />
-            <small>{brandConfig.disclaimer}</small>
+            <small>{reportBrandConfig.disclaimer}</small>
           </div>
         </StudioCard>
         <StudioCard title="Branding & Export">
@@ -128,7 +143,7 @@ export function StudioReportBuilderPage(): ReactElement {
             </PrototypeActionButton>
           </div>
           <p>
-            <Swatch color={brandConfig.accentColor} /> Accent color
+            <Swatch color={reportBrandConfig.accentColor} /> Accent color
           </p>
           <label>
             Font
@@ -139,13 +154,21 @@ export function StudioReportBuilderPage(): ReactElement {
           </label>
           <label>
             Disclaimer
-            <textarea defaultValue={brandConfig.disclaimer} />
+            <textarea defaultValue={reportBrandConfig.disclaimer} />
           </label>
           <TrustBadge state="Candidate evidence" />
           <NonProductionCallout>
             Export is disabled until section review and source-rights gates clear.
           </NonProductionCallout>
           <ExportReadinessCard sections={sections} />
+          {receipt ? (
+            <div className="receipt" role="status">
+              <p>
+                Studio receipt <code>{receipt.id}</code> · {receipt.policyDecision}
+              </p>
+              <p>{receipt.safeMessage}</p>
+            </div>
+          ) : null}
           <Link to="/studio/settings/white-label" className="btn btn-secondary">
             Edit branding
           </Link>
@@ -155,6 +178,7 @@ export function StudioReportBuilderPage(): ReactElement {
         isOpen={exportModalOpen}
         onClose={() => setExportModalOpen(false)}
         readiness={readiness}
+        policyDecision={studioExportDecision}
       />
     </div>
   );

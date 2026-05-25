@@ -58,6 +58,62 @@ User-facing valuation or market report output.
 
 **Invariants:** every material claim traceable to permitted evidence; export gated by review and consent.
 
+## Contract: ValuationVersion
+
+Governed valuation snapshot for assumptions, evidence, calculations, scenarios, and report/export readiness.
+
+**Fields (conceptual):** valuation version id, property/report link, actor context, assumption set, scenario set refs, model/disclosure version, source bundle refs, evidence snapshot ref, results summary, review state, readiness state, export policy, receipt refs, created/updated/as-of timestamps.
+
+**Invariants:** versions append; approved/exported versions do not silently mutate when source observations change; public copy remains advisory unless review and source-rights gates clear.
+
+## Contract: UnderwritingReadiness
+
+Ordered readiness ladder for valuation/report work.
+
+**Fields (conceptual):** readiness id, valuation/report ref, gate list, current step, blockers, warnings, next safe action, reviewed-by refs, updated timestamp.
+
+**Invariants:** readiness labels are orientation, not permission; export/public projection authority remains a separate gate.
+
+## Contract: WorkflowGate
+
+Machine-readable gate for assumptions, evidence, review, export, indexing, and publication.
+
+**Fields (conceptual):** gate id, gate family, severity, target artifact, status, safe blocker reason, required evidence/review/action, policy version, correlation id.
+
+**Invariants:** missing/unknown gate status fails closed for export, publication, and partner API access.
+
+## Contract: EvidenceSnapshot
+
+Permission-filtered source/evidence state captured at approval, report generation, export, share, or publication time.
+
+**Fields (conceptual):** snapshot id, actor context, source bundle refs, included evidence refs, excluded/redacted refs, source-use policy versions, as-of timestamp, checksum/manifest hash, receipt ref.
+
+**Invariants:** a snapshot is a manifest of permitted evidence state; it is not raw file storage and must not reveal hidden evidence through exclusion details.
+
+## Contract: MapLayerManifest
+
+Metadata and policy for a spatial layer used in public maps, comp discovery, reports, or valuation context.
+
+**Fields (conceptual):** layer id, source family, provider/source label, visibility class, precision class, as-of/refreshed timestamp, review state, payload size class, lazy-load policy, allowed contexts, source-rights policy, fallback copy.
+
+**Invariants:** layer metadata may load before geometry; geometry/payload access remains permissioned and source-rights checked.
+
+## Contract: SpatialEvidence
+
+Evidence identity for geocode, parcel, trade-area, radius, drive-time, zoning, traffic, demographic, or map-derived claims.
+
+**Fields (conceptual):** spatial evidence id, property/region/link target, geometry or coordinate ref, coordinate system/projection label, source evidence ref, geocode confidence, precision class, review state, visibility policy, observed/refreshed timestamp.
+
+**Invariants:** spatial claims carry precision and source labels; public maps must not imply legal boundary, title, survey, zoning entitlement, or live traffic certainty without approved source rights.
+
+## Contract: TradeArea
+
+Market-region abstraction for radius, drive-time, pedestrian area, custom polygon, or provider-defined region.
+
+**Fields (conceptual):** trade area id, method, origin property/ref, geometry ref, source/provider label, parameters, precision class, as-of timestamp, permitted derived metrics, report eligibility.
+
+**Invariants:** derived metrics preserve dependency refs and cannot be exported if their source layer or provider terms block the requested use.
+
 ## Contract: OperationalReceipt
 
 Audit and idempotency reference for a governed action.
@@ -113,6 +169,8 @@ SEO/GEO-facing public property or market page view.
 ## Cross-Project Alignment Notes
 
 - **CRE Platform** clean-master harvest confirms governed source observations, document references, document evidence registry, chunks as sidecars, receipts, and internal review workflows as conceptual references.
+- **CRE underwriting annex** provisionally informs readiness ladders, workflow gates, valuation versions, evidence snapshots, scenario posture, and export manifests; no runtime/schema adoption is authorized.
+- **ICSC Map Recovery** provisionally informs map layer manifests, spatial evidence, coordinate verification, trade-area abstractions, accessibility fallbacks, and layer performance budgets; no map asset/runtime adoption is authorized.
 - **Finem Fabricator** clean harvest confirms evidence envelopes, AnalysisResponse-style reports, review recommendation/hold semantics, and status projection patterns; these remain candidates/control-plane signals until HITL, permissions, source-use, and audit gates apply.
 - **Content Engine** informs public marketing surfaces and interactive UX; it does not authorize syndication of private observations.
 

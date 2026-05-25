@@ -8,6 +8,8 @@ CRE Platform `apps/core` in the clean clone `C:\Projects\cre-platform-master-cle
 
 P51 CRE adds a provisional high-end animation supplement for workflow continuity and OS motion primitives. See [P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md).
 
+The CRE underwriting annex adds provisional readiness/gates/version-governance UX doctrine. See [CRE_UNDERWRITING_HARVEST_ANNEX_PROVISIONAL.md](CRE_UNDERWRITING_HARVEST_ANNEX_PROVISIONAL.md). ICSC Map Recovery adds provisional map/GIS UX doctrine. See [ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md).
+
 ## Public Marketing Surfaces Vs Authenticated Workstations
 
 | Surface | Purpose | Content Engine patterns allowed |
@@ -52,6 +54,8 @@ P51 animation doctrine adds that Sophex workstations should feel like one contin
 - Prefer inline disclosure or an inspector drawer before sending users to a full workstation route.
 - Pair route transitions with focus placement and skeleton geometry so users do not lose context.
 - Treat stage rails and proof badges as orientation aids, not as proof that workflow gates are complete.
+
+CRE underwriting adds a specific valuation workbench rule: preview surfaces may summarize readiness, but assumption editing, evidence snapshots, scenario comparisons, approvals, and export manifests belong in an authenticated report/valuation workstation.
 
 Authenticated workstations:
 
@@ -148,6 +152,15 @@ Clean-master map references are stronger around `MapClient`, `SelectedObjectDraw
 
 P51 adds a map-motion caveat: map pulses, ring draws, and marker flourishes are context-specific. Public Sophex maps should use selection, short opacity fades, and evidence drawers; time-limited pulse cues are operator-only and future-gated.
 
+ICSC Map Recovery adds map-specific doctrine:
+
+- Layer controls need source, as-of, precision, and visibility labels.
+- Heavy geometry should lazy-load by layer toggle, zoom, or selection; keep polygon payloads out of initial public bundles.
+- Map selection should open an evidence drawer with source, precision, confidence, review state, and allowed actions.
+- Coordinate/geocode values are candidate spatial observations until reviewed or provider-verified.
+- Every map needs a list/drawer fallback so core property and comp facts are not map-only.
+- Public maps must label sample/mock data, approximate centroids, private layers, aggregate-only layers, and non-legal-boundary status.
+
 ## Report And Marketing UX (Content Engine)
 
 Borrow for public surfaces only:
@@ -183,6 +196,7 @@ Borrow CRE BOV patterns:
 - Provenance via click/tap, not hover-only.
 - Stub/non-production banners use `role="status"`.
 - Table sort and export controls need text labels.
+- Map layers and selected features need keyboard-reachable controls, text labels, and non-map fallback lists.
 
 ## Non-Production Surfaces
 

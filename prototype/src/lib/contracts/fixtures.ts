@@ -1,0 +1,158 @@
+import type { ActorContext } from '@/lib/contracts/actor-context';
+import type { EvidenceIdentity, Observation } from '@/lib/contracts/evidence';
+
+export const fixtureActors = {
+  public: {
+    id: 'actor-public',
+    actorClass: 'anonymous',
+    entitlements: [],
+    purpose: 'search',
+  },
+  freeContributor: {
+    id: 'actor-free',
+    actorClass: 'free-contributor',
+    sourceOwnerId: 'source-alex',
+    entitlements: [],
+    purpose: 'evidence-panel',
+  },
+  paidUser: {
+    id: 'actor-paid',
+    actorClass: 'paid-user',
+    entitlements: ['premium-comps'],
+    purpose: 'comp-comparison',
+  },
+  sourceOwner: {
+    id: 'actor-source-owner',
+    actorClass: 'source-owner',
+    sourceOwnerId: 'source-alex',
+    entitlements: [],
+    purpose: 'evidence-panel',
+  },
+  orgMember: {
+    id: 'actor-org-member',
+    actorClass: 'org-member',
+    organizationId: 'org-finem',
+    entitlements: [],
+    purpose: 'report',
+  },
+  orgAdmin: {
+    id: 'actor-org-admin',
+    actorClass: 'org-admin',
+    organizationId: 'org-finem',
+    entitlements: ['premium-comps'],
+    purpose: 'report',
+  },
+  internalOperator: {
+    id: 'actor-operator',
+    actorClass: 'internal-operator',
+    entitlements: ['premium-comps', 'internal-review'],
+    purpose: 'admin-review',
+  },
+  partnerApi: {
+    id: 'actor-partner',
+    actorClass: 'partner-api',
+    entitlements: [],
+    partnerScopes: ['public-report-read'],
+    purpose: 'partner-api',
+  },
+} satisfies Record<string, ActorContext>;
+
+export const fixtureEvidence: EvidenceIdentity[] = [
+  {
+    id: 'evidence-public-assessor',
+    sourceFamily: 'public-record',
+    propertyId: 'demo-001',
+    visibility: 'public-baseline',
+    sourceUsePolicy: 'public-use',
+    digest: 'sha256-public-assessor',
+    reviewState: 'approved-public-projection',
+    receiptRefs: ['rcpt-public-baseline'],
+  },
+  {
+    id: 'evidence-private-rent-roll',
+    sourceFamily: 'user-upload',
+    propertyId: 'demo-001',
+    sourceOwnerId: 'source-alex',
+    visibility: 'user-private',
+    sourceUsePolicy: 'private-use',
+    digest: 'sha256-private-rent-roll',
+    reviewState: 'needs-review',
+    receiptRefs: ['rcpt-private-upload'],
+  },
+  {
+    id: 'evidence-org-survey',
+    sourceFamily: 'user-upload',
+    propertyId: 'demo-001',
+    organizationId: 'org-finem',
+    visibility: 'organization-private',
+    sourceUsePolicy: 'private-use',
+    digest: 'sha256-org-survey',
+    reviewState: 'approved-private-use',
+    receiptRefs: ['rcpt-org-survey'],
+  },
+  {
+    id: 'evidence-provider-comp',
+    sourceFamily: 'provider',
+    propertyId: 'demo-001',
+    visibility: 'provider-restricted',
+    sourceUsePolicy: 'provider-restricted',
+    digest: 'sha256-provider-comp',
+    reviewState: 'approved-private-use',
+    receiptRefs: ['rcpt-provider-comp'],
+  },
+];
+
+export const fixtureObservations: Observation[] = [
+  {
+    id: 'obs-public-cap-rate',
+    propertyId: 'demo-001',
+    fieldKey: 'capRate',
+    value: '6.1%',
+    evidenceId: 'evidence-public-assessor',
+    confidence: 0.72,
+    visibility: 'public-baseline',
+    reviewState: 'approved-public-projection',
+  },
+  {
+    id: 'obs-private-cap-rate',
+    propertyId: 'demo-001',
+    fieldKey: 'capRate',
+    value: '5.7% private rent roll',
+    evidenceId: 'evidence-private-rent-roll',
+    confidence: 0.94,
+    visibility: 'user-private',
+    sourceOwnerId: 'source-alex',
+    reviewState: 'needs-review',
+  },
+  {
+    id: 'obs-org-acreage',
+    propertyId: 'demo-001',
+    fieldKey: 'acreage',
+    value: '3.01 acres org survey',
+    evidenceId: 'evidence-org-survey',
+    confidence: 0.91,
+    visibility: 'organization-private',
+    organizationId: 'org-finem',
+    reviewState: 'approved-private-use',
+  },
+  {
+    id: 'obs-provider-comp',
+    propertyId: 'demo-001',
+    fieldKey: 'providerCompCapRate',
+    value: '5.8% provider comp',
+    evidenceId: 'evidence-provider-comp',
+    confidence: 0.88,
+    visibility: 'provider-restricted',
+    requiredEntitlement: 'premium-comps',
+    requiredPartnerScope: 'provider-comp-read',
+    reviewState: 'approved-private-use',
+  },
+];
+
+export const PRIVATE_SENTINELS = [
+  'private rent roll',
+  'org survey',
+  'provider comp',
+  'source-alex',
+  'sha256-private-rent-roll',
+];

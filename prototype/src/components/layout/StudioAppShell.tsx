@@ -10,6 +10,7 @@ import { StudioMobileNavDrawer } from '@/components/overlays/StudioMobileNavDraw
 import { PageTransition } from '@/components/motion/PageTransition';
 import { RouteProgress } from '@/components/layout/RouteProgress';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
+import { ActorDemoSelector } from '@/components/runtime/ActorDemoSelector';
 import {
   DEFAULT_DEAL_ID,
   getDealIdFromPath,
@@ -136,6 +137,7 @@ export function StudioAppShell(): ReactElement {
               <Link to="/">Sophex</Link>
             </nav>
             <div className="studio-topbar-actions">
+              <ActorDemoSelector />
               <button
                 type="button"
                 aria-label="Notifications"
@@ -158,7 +160,7 @@ export function StudioAppShell(): ReactElement {
               >
                 <MaterialIcon name="help" />
               </button>
-              <span className="avatar" aria-label="User avatar" />
+              <span className="avatar" role="img" aria-label="User avatar" />
               <HelpPanel isOpen={helpOpen} onClose={() => setHelpOpen(false)} />
               <NotificationsPanel
                 isOpen={notificationsOpen}

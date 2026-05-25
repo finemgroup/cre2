@@ -11,6 +11,8 @@
 | Content Engine | [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_REFERENCE.md) | `Content Engine/` (untracked) | ⚠️ Reference folder |
 | UX/Motion | [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) | `C:\Projects\cre-platform-master-clean\apps\core` @ `5300e7e5510e27d5ba505bfba8bec39990f68f7c` | ✅ Clean CRE `master`, `HEAD == origin/master` |
 | P51 CRE Animation | [P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) | `C:\Projects\p51 Site Selection Tool\cre-platform` @ `af4a453b66bb62e79a147cae143dc61ed042906e` | ⚠️ Tracked `master` matched upstream, but untracked `.tmp` artifacts present |
+| CRE Underwriting Annex | [CRE_UNDERWRITING_HARVEST_ANNEX_PROVISIONAL.md](CRE_UNDERWRITING_HARVEST_ANNEX_PROVISIONAL.md) | `C:\Projects\p51 Site Selection Tool\cre-platform` | ⚠️ Provisional underwriting concept harvest; not a clean authoritative source |
+| ICSC Map Recovery | [ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md) | `C:\Projects\ICSC Map Recovery` | ⚠️ Provisional mapping/GIS concept harvest; no asset/runtime reuse |
 
 ## Superseded Drafts (Archive Only)
 
@@ -27,7 +29,10 @@
 
 - [CROSS_PROJECT_HARVEST.md](CROSS_PROJECT_HARVEST.md)
 - [HARVEST_DOC_HIERARCHY.md](HARVEST_DOC_HIERARCHY.md)
+- [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_UNDERWRITING_GIS.md](COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_UNDERWRITING_GIS.md)
 - Topic docs listed in hierarchy (alignment, trust, UX, agents, etc.)
+- Provisional CRE underwriting concepts belong in conceptual contracts, valuation/reporting, export, and open decision docs.
+- Provisional ICSC mapping concepts belong in frontend UX, motion/map interaction, evidence-permission contracts, and open decision docs.
 
 ## Rules
 

@@ -9,10 +9,11 @@ import {
   StatusBadge,
   StudioCard,
 } from '@/components/studio/StudioPrimitives';
-import { agentCapabilities, jobStreams } from '@/data/studio';
+import { getBrokerOsProjection } from '@/lib/runtime/studio-workspace';
 
 export function StudioBrokerOsPage(): ReactElement {
   const [copied, setCopied] = useState(false);
+  const brokerProjection = getBrokerOsProjection();
   const planningContext = useMemo(
     () => ({
       mission_id: 'mb_2024_08_x9A',
@@ -54,11 +55,12 @@ export function StudioBrokerOsPage(): ReactElement {
             <MetricCard label="Error Rate" value="0.01%" detail="Sanitized" icon="trending_down" />
           </div>
           <h3>Active Job Streams (GET /api/v1/jobs)</h3>
-          <JobStreamsTable jobs={jobStreams} />
+          <p className="muted">{brokerProjection.safeProjectionLabel}</p>
+          <JobStreamsTable jobs={brokerProjection.jobStreams} />
         </StudioCard>
         <StudioCard title="Agent Inventory" actions={<span className="status-badge">RO</span>}>
           <div className="agent-list">
-            {agentCapabilities.map((agent) => (
+            {brokerProjection.agentCapabilities.map((agent) => (
               <PrototypeActionButton
                 key={agent.id}
                 feature={`${agent.name} agent inventory`}

@@ -9,6 +9,8 @@ import {
   TrustBadge,
 } from '@/components/studio/StudioPrimitives';
 import type { CandidateField, MockUploadFile } from '@/lib/staged-import';
+import { fixtureActors } from '@/lib/contracts/fixtures';
+import { applyReviewAction, getReviewQueue } from '@/lib/runtime/review-queue';
 
 export function StagedImportReviewPanel({
   files,
@@ -18,6 +20,8 @@ export function StagedImportReviewPanel({
   candidates: CandidateField[];
 }): ReactElement {
   const [reviewOpen, setReviewOpen] = useState(false);
+  const [reviewedState, setReviewedState] = useState<string | null>(null);
+  const reviewQueue = getReviewQueue(fixtureActors.internalOperator);
   const issueCount =
     candidates.filter((candidate) => candidate.issue).length +
     files.filter((file) => file.issue).length;
@@ -37,6 +41,19 @@ export function StagedImportReviewPanel({
         </div>
         <TrustBadge state="Candidate evidence" />
       </div>
+      <div className="review-summary" aria-label="Internal operator review queue projection">
+        <div>
+          <MaterialIcon name="manage_search" />
+          <strong>{reviewQueue.length} operator review queue items</strong>
+          <span>Queue completion does not promote evidence without explicit review.</span>
+        </div>
+        <StatusBadge status="Internal-only projection" />
+      </div>
+      {reviewedState ? (
+        <p className="status-badge" role="status">
+          Explicit review action recorded: {reviewedState}
+        </p>
+      ) : null}
       <div className="upload-queue" aria-label="Reviewed upload files">
         {files.map((file) => (
           <div className="upload-file-row" key={file.id}>
@@ -98,7 +115,34 @@ export function StagedImportReviewPanel({
             ))
           )}
         </ul>
+        <DataTable
+          caption="Internal operator review queue"
+          headers={['Observation', 'State', 'Action required']}
+          rows={reviewQueue.map((item) => [
+            item.observation.fieldKey,
+            item.observation.reviewState,
+            item.safeStatus,
+          ])}
+          getRowKey={(_row, index) => reviewQueue[index].observation.id}
+        />
         <div className="modal-actions">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => {
+              const firstReviewItem = reviewQueue[0];
+              if (firstReviewItem) {
+                const reviewed = applyReviewAction({
+                  observation: firstReviewItem.observation,
+                  actor: fixtureActors.internalOperator,
+                  action: 'approve-private-use',
+                });
+                setReviewedState(reviewed.reviewState);
+              }
+            }}
+          >
+            Apply explicit review action
+          </button>
           <button type="button" className="btn btn-primary" onClick={() => setReviewOpen(false)}>
             Mark reviewed (prototype)
           </button>

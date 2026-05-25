@@ -7,8 +7,9 @@ They intentionally avoid SQL, Prisma, migrations, generated clients, and impleme
 
 - Contract family: `sophex.evidence-permission`
 - Initial version: `v0-draft`
-- Stability: design draft, not runtime-ready
+- Stability: prototype-simulated and sandbox-contract-draft, not production-runtime-ready
 - Runtime gate: requires architecture, security/privacy, and schema-borrowing approval
+- Companion policies: `REVIEW_AUTHORITY_AND_HITL_POLICY.md`, `PERMISSION_TEST_FIXTURES.md`, and `API_CONTRACT_DRAFT.md`
 
 ## Actor Context Contract
 
@@ -122,6 +123,55 @@ Invariants:
 - Public users may see public GIS while a source owner sees deed-backed private variance.
 - Explanations must not reveal hidden private values.
 
+## Spatial Evidence And Map Layer Contract
+
+Map-derived facts are evidence-bearing observations, not decorative UI state.
+
+Conceptual fields:
+
+- Spatial evidence id.
+- Property, region, comp, or trade-area link.
+- Source family/provider label.
+- Geometry or coordinate reference.
+- Precision class: parcel, approximate centroid, inferred region, custom polygon, sample/mock.
+- Coordinate/projection label where applicable.
+- Geocode confidence.
+- Visibility policy.
+- Source-rights policy.
+- Refreshed/as-of timestamp.
+- Review state.
+
+Invariants:
+
+- Public maps must label source, precision, freshness, and mock/sample status.
+- Private or provider-restricted spatial layers fail closed for unauthorized actors.
+- Spatial claims used in reports/exports must cite the permitted layer/source ref.
+- Map UI must not imply title, legal boundary, survey precision, zoning entitlement, or live traffic certainty without approved provider/legal posture.
+
+## Valuation Readiness And Evidence Snapshot Contract
+
+Valuation/report readiness is a product state assembled from assumptions, evidence, scenarios, review, and export policy.
+
+Conceptual fields:
+
+- Valuation or report ref.
+- Readiness gates.
+- Assumption completeness.
+- Source bundle refs.
+- Evidence snapshot refs.
+- Scenario/version refs.
+- Blockers/warnings.
+- Review status.
+- Export/share eligibility.
+- Receipt refs.
+
+Invariants:
+
+- Readiness labels do not grant permission.
+- Approved/exported report artifacts reference an evidence snapshot captured at decision time.
+- Source revocation or supersession must be auditable and must not silently mutate prior exported artifacts.
+- Advisory scenario output remains labeled until review/source-rights gates clear.
+
 ## Report And Export Contract
 
 A report/export action is governed by review, consent, source rights, and idempotency.
@@ -188,3 +238,5 @@ Invariants:
 4. Approve sandbox runtime implementation.
 5. Implement server-side enforcement.
 6. Add audit and observability.
+
+Promotion is blocked until contribution terms, review authority, file safety, export receipts, analytics redaction, and incident/privacy runbooks are accepted for the intended lane.

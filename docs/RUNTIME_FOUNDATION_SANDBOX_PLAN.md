@@ -18,6 +18,18 @@ Implementation must not begin until:
 - `SISTER_SCHEMA_BORROWING_GATE.md` is either still closed or has produced an approved diff packet.
 - Operator explicitly approves runtime implementation in the correct lane.
 
+## Sandbox Runtime Approval Checklist
+
+Before any sandbox server code is started, the operator should confirm:
+
+- API contracts in `API_CONTRACT_DRAFT.md` are accepted for sandbox transport, error envelopes, actor context, and idempotency.
+- Contribution terms posture in `CONTRIBUTION_TERMS_DECISION_PACKET.md` is acceptable for metadata-only upload simulation.
+- File safety posture in `FILE_SAFETY_AND_RETENTION_PLAN.md` is acceptable, including the no-real-bytes sandbox default.
+- HITL authority in `REVIEW_AUTHORITY_AND_HITL_POLICY.md` is acceptable.
+- Observability taxonomy in `OBSERVABILITY_EVENT_TAXONOMY.md` is accepted.
+- Incident and privacy runbooks in `INCIDENT_RESPONSE_AND_PRIVACY_RUNBOOKS.md` are sufficient for sandbox rehearsal.
+- Sister schema gate remains closed unless a separate approved diff packet exists.
+
 ## Foundation Modules
 
 | Module | Minimum capability | First tests |
@@ -31,6 +43,20 @@ Implementation must not begin until:
 | Report API | Permission-filtered report sections and source bundle. | Private/provider-restricted sources excluded from public report. |
 | Export receipt API | Idempotent export request returning receipt. | Replay returns same receipt or fails closed. |
 | Audit log | Governed action records with redacted public projections. | Public receipt never exposes raw internal details. |
+
+## Contract Simulator Bridge
+
+The prototype now has a mock-only contract simulator target that can inform sandbox endpoints without becoming schema:
+
+- `prototype/src/lib/contracts/actor-context.ts`
+- `prototype/src/lib/contracts/visibility.ts`
+- `prototype/src/lib/contracts/evidence.ts`
+- `prototype/src/lib/contracts/review-state.ts`
+- `prototype/src/lib/contracts/receipts.ts`
+- `prototype/src/lib/contracts/fixtures.ts`
+- `prototype/src/lib/runtime/*`
+
+Future sandbox APIs should preserve these invariants and replace only the data source, not the permission semantics.
 
 ## Replacement Sequence From Prototype
 

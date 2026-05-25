@@ -2,7 +2,7 @@
 
 Sophex motion should feel restrained, legible, and confidence-building. This is a CRE evidence and valuation product, not an AI toy.
 
-Primary reference: CRE clean-master `apps/core/lib/motion-tokens.ts`, `apps/core/lib/motion/workflow-motion.ts`, `apps/core/components/os/OSMotion.tsx`, and [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) (doctrine only — do not copy runtime dependency graph into Sophex setup). P51 high-end animation supplement: [P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md).
+Primary reference: CRE clean-master `apps/core/lib/motion-tokens.ts`, `apps/core/lib/motion/workflow-motion.ts`, `apps/core/components/os/OSMotion.tsx`, and [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) (doctrine only — do not copy runtime dependency graph into Sophex setup). P51 high-end animation supplement: [P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md). Map/GIS supplement: [ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md).
 
 ## Motion Tiers
 
@@ -58,6 +58,7 @@ Route progress is a navigation cue only. It must never imply extraction, review,
 - Upload and report progress timelines with user-safe phase labels.
 - Map layer toggle with short opacity crossfade only.
 - Route progress bar on internal navigation (CRE `RouteProgressBar` pattern).
+- Underwriting readiness transitions should move gates from pending to warn/block/ready without implying approval or export authority.
 
 ## Loading And Progress States
 
@@ -95,6 +96,9 @@ Authoritative CRE references include route-level property skeletons, HITL queue 
 - **Metric drill-down transitions** — expand row or callout to reveal evidence panel with citation list stagger.
 - **Comparison expand/collapse** — accordion or drawer for comp detail without full page navigation.
 - **Map click-to-region** — select region updates comparison context; must not imply precision on mock data.
+- **Layer-control HUD updates** — toggles update labels and visible features without full-page motion.
+- **Spatial evidence drawer** — selected features reveal source, precision, freshness, review state, and allowed actions in a stable drawer.
+- **Heavy layer loading** — use honest loading/empty/error states; never animate hidden provider latency as proof.
 - **Save-report interaction** — short scale/fade confirm; stops at account/consent gate in MVP0.
 - **Gated export progress** — multi-step wizard (sections → consent → generating → receipt placeholder).
 - **Contribution unlock progress** — upload phase labels tied to real or honest indeterminate states.
@@ -135,6 +139,8 @@ See `docs/SOPHEX_TRUST_UI_GUIDELINES.md`.
 - Gamification celebration overlays (CRE has these; Sophex must not inherit).
 - `statusPulse`, `pinPulse`, typing-dot, and spin loops on public financial data.
 - P51/ICSC `war-room-*` naming or legacy 500ms/ease-heavy bulk motion fixes.
+- Map ring pulses or animated precision halos on public financial data.
+- Gate animations that make advisory underwriting output look approved.
 - Count-up metrics that imply live recalculation when data is mocked or stale.
 - Hover-only provenance that fails on mobile or assistive technology.
 - Treating AI confidence animation as authority.

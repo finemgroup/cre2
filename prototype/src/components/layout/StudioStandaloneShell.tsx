@@ -42,7 +42,7 @@ export function StudioStandaloneShell(): ReactElement {
           <PrototypeActionButton feature="Report help" className="btn btn-ghost" aria-label="Report help">
             <MaterialIcon name="help" />
           </PrototypeActionButton>
-          <span className="avatar" aria-label="User avatar" />
+          <span className="avatar" role="img" aria-label="User avatar" />
         </div>
       </header>
       <main className="studio-standalone-content">

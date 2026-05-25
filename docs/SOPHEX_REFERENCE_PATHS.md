@@ -20,6 +20,8 @@ All paths in this document are **reference-only**. They do not authorize copying
 | CRE Platform UX/Motion (authoritative read-only source) | `C:\Projects\cre-platform-master-clean\apps\core` | Clean-master UX, motion, shell, trust UI, accessibility, report/export, upload, and map reference |
 | CRE Platform (forbidden stale/dirty checkout) | `C:\Projects\cre-platform-erofs-master-landing` | Do not use for authoritative harvest; stale branch/dirty working tree retained only as prior provisional source |
 | P51 CRE Animation Supplement | `C:\Projects\p51 Site Selection Tool\cre-platform` | Provisional high-end animation/workflow-continuity supplement; tracked `master` @ `af4a453b66bb62e79a147cae143dc61ed042906e`, but untracked `.tmp` artifacts were present |
+| P51 CRE Underwriting Annex | `C:\Projects\p51 Site Selection Tool\cre-platform` | Provisional underwriting/readiness/gates/version-governance supplement; use docs/contracts only until re-harvested from a clean authoritative checkout |
+| ICSC Map Recovery | `C:\Projects\ICSC Map Recovery` | Provisional map/GIS UX and spatial provenance supplement; do not copy map assets, local links, schema, provider calls, or runtime code |
 | Finem Fabricator (authoritative read-only clone) | `C:\Projects\finem_factory_mvp_clean` | Clean `main` @ `89b2a651a928a2d8cc1c80fba65f0861fc509e09`; workflow, agent, HITL, evidence-envelope, report-contract, and control-plane patterns |
 | Finem Fabricator (dirty original checkout) | `C:\Projects\finem_factory_mvp` | Do not use for authoritative harvest; retained only as prior provisional source |
 | Content Engine | `C:\Projects\Sophex Marketplace and Content Engine\Content Engine` | Market research, interactive content, lead-funnel reference |
@@ -42,6 +44,9 @@ Standalone markdown files under `docs/`:
 5. [CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)
 6. [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md)
 7. [P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)
+8. [CRE_UNDERWRITING_HARVEST_ANNEX_PROVISIONAL.md](CRE_UNDERWRITING_HARVEST_ANNEX_PROVISIONAL.md)
+9. [ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md)
+10. [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_UNDERWRITING_GIS.md](COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_UNDERWRITING_GIS.md)
 
 Superseded drafts (archive only): `CRE_TO_SOPHEX_HARVEST_PACKET.md`, `CRE_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md`, `FABRICATOR_TO_SOPHEX_HARVEST_PACKET.md`, `FABRICATOR_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md`, `CONTENT_ENGINE_TO_SOPHEX_HARVEST_PACKET.md`, `UX_MOTION_TO_SOPHEX_HARVEST_PACKET.md`, `UX_MOTION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md`.
 

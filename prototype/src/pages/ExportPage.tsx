@@ -5,29 +5,25 @@ import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceMod
 import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
 import { StageRail } from '@/components/ui/StageRail';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
-import { evaluateExportReadiness } from '@/lib/report-governance';
-import {
-  getPropertyRecord,
-  getPublicReportSections,
-  getSourceBlocksForProperty,
-} from '@/lib/workflow-identity';
+import { getPublicExportDecision, getPublicReportView } from '@/lib/runtime/report-flow';
+import type { ExportScope } from '@/lib/runtime/export-policy';
+import type { GovernedReceipt } from '@/lib/contracts/receipts';
+import { trackEvent } from '@/lib/analytics/collector';
 
 const STAGES = ['Sections', 'Consent', 'Generate', 'Receipt'];
 
 export function ExportPage(): ReactElement {
   const { pushToast } = usePrototypeToast();
   const { id } = useParams();
-  const property = getPropertyRecord(id);
   const [stage, setStage] = useState(0);
   const [consent, setConsent] = useState(false);
   const [generating, setGenerating] = useState(false);
-  const [receipt, setReceipt] = useState<string | null>(null);
+  const [scope, setScope] = useState<ExportScope>('download');
+  const [receipt, setReceipt] = useState<GovernedReceipt | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const sections = getPublicReportSections(id);
-  const readiness = evaluateExportReadiness(sections, getSourceBlocksForProperty(id));
-  const exportBlocked = !readiness.ready;
+  const reportView = getPublicReportView(id);
 
-  if (!property) {
+  if (!reportView) {
     return (
       <section className="page">
         <header className="page-header">
@@ -41,18 +37,42 @@ export function ExportPage(): ReactElement {
     );
   }
 
+  const { property, readiness } = reportView;
   const propertyId = property.id;
+  const policyDecision = getPublicExportDecision({
+    propertyId,
+    scope,
+    consent,
+    idempotencyKey: `public-export-${propertyId}-${scope}`,
+  });
+  const exportBlocked = !policyDecision?.allowed;
 
   function handleGenerate() {
-    if (!consent || exportBlocked) return;
+    if (exportBlocked) return;
     setGenerating(true);
     setStage(2);
     window.setTimeout(() => {
+      const decision = getPublicExportDecision({
+        propertyId,
+        scope,
+        consent,
+        idempotencyKey: `public-export-${propertyId}-${scope}`,
+      });
       setGenerating(false);
       setStage(3);
-      setReceipt(`audit://prototype/export/${propertyId}`);
+      setReceipt(decision?.receipt ?? null);
+      if (decision?.receipt) {
+        trackEvent({
+          name: 'export_receipt_generated',
+          actorClass: decision.receipt.actorId,
+          route: `/export/${propertyId}`,
+          propertyId,
+          phase: scope,
+          receiptId: decision.receipt.id,
+        });
+      }
       pushToast('Export receipt generated in prototype only. No file was sent.', 'success');
-    }, 900);
+    }, 20);
   }
 
   return (
@@ -72,15 +92,36 @@ export function ExportPage(): ReactElement {
         <p className={exportBlocked ? 'warning' : undefined} id="export-blockers">
           {exportBlocked
             ? 'Export disabled until consent, section review, and source-use terms are clear.'
-            : 'All prototype governance gates are clear. Confirm consent before generating.'}
+            : 'Prototype policy is clear for this selected scope.'}
         </p>
         {exportBlocked ? (
           <ul className="evidence-list" aria-label="Export blockers">
-            {readiness.blockedReasons.map((reason) => (
+            {(policyDecision?.blockerCategories.length
+              ? policyDecision.blockerCategories
+              : readiness.blockedReasons
+            ).map((reason) => (
               <li key={reason}>{reason}</li>
             ))}
           </ul>
         ) : null}
+
+        <fieldset className="export-options">
+          <legend>Export scope</legend>
+          {(['preview', 'download', 'share', 'partner-delivery'] satisfies ExportScope[]).map(
+            (option) => (
+              <label key={option}>
+                <input
+                  type="radio"
+                  name="export-scope"
+                  value={option}
+                  checked={scope === option}
+                  onChange={() => setScope(option)}
+                />{' '}
+                {option}
+              </label>
+            )
+          )}
+        </fieldset>
 
         <fieldset className="export-options">
           <legend>Export sections</legend>
@@ -114,18 +155,27 @@ export function ExportPage(): ReactElement {
           <button
             type="button"
             className="btn btn-primary"
-            disabled={!consent || exportBlocked || generating}
+            disabled={exportBlocked || generating}
             aria-describedby={exportBlocked ? 'export-blockers' : undefined}
             onClick={handleGenerate}
           >
-            {generating ? 'Generating…' : 'Generate export'}
+            {generating ? 'Generating…' : 'Generate export receipt'}
           </button>
         </div>
 
         {receipt ? (
-          <p className="receipt" role="status">
-            Receipt placeholder: <code>{receipt}</code>
-          </p>
+          <div className="receipt" role="status">
+            <p>
+              Receipt <code>{receipt.id}</code> · {receipt.kind} · {receipt.policyDecision}
+            </p>
+            <p>{receipt.safeMessage}</p>
+            <p>
+              Redacted evidence refs:{' '}
+              {receipt.redactedEvidenceRefs.length > 0
+                ? receipt.redactedEvidenceRefs.join(', ')
+                : 'none'}
+            </p>
+          </div>
         ) : null}
       </div>
 
@@ -133,6 +183,7 @@ export function ExportPage(): ReactElement {
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         readiness={readiness}
+        policyDecision={policyDecision}
         onConfirm={handleGenerate}
       />
     </section>

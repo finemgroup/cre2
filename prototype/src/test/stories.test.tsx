@@ -8,6 +8,7 @@ import { describe, expect, it } from 'vitest';
 import '@/index.css';
 import * as AuthorityBadgeStories from '@/stories/AuthorityBadge.stories';
 import * as EmptyStateCardStories from '@/stories/EmptyStateCard.stories';
+import * as GovernanceFlowsStories from '@/stories/GovernanceFlows.stories';
 import * as ReportGovernanceStories from '@/stories/ReportGovernance.stories';
 import * as StudioPrimitivesStories from '@/stories/StudioPrimitives.stories';
 
@@ -33,6 +34,7 @@ function renderStory(Story: ComponentType, surface: StorySurface = 'public') {
 const storyGroups = [
   { name: 'AuthorityBadge', module: AuthorityBadgeStories, surface: 'public' as const },
   { name: 'EmptyStateCard', module: EmptyStateCardStories, surface: 'studio' as const },
+  { name: 'GovernanceFlows', module: GovernanceFlowsStories, surface: 'studio' as const },
   { name: 'ReportGovernance', module: ReportGovernanceStories, surface: 'studio' as const },
   { name: 'StudioPrimitives', module: StudioPrimitivesStories, surface: 'studio' as const },
 ];

@@ -1,4 +1,4 @@
-import { screen, within } from '@testing-library/react';
+import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { describe, expect, it } from 'vitest';
@@ -88,11 +88,26 @@ describe('public Sophex routes', () => {
     await user.click(screen.getByRole('checkbox', { name: /source-use/i }));
     await user.click(screen.getByRole('button', { name: /Start upload/i }));
 
-    expect(screen.getByRole('progressbar', { name: /Uploading sample document/i })).toHaveAttribute(
-      'aria-valuetext',
-      '0% complete'
-    );
+    expect(
+      screen
+        .getByRole('progressbar', { name: /Uploading sample document/i })
+        .getAttribute('aria-valuetext')
+    ).toMatch(/\d+% complete/);
     expect(screen.queryByRole('button', { name: /Start upload/i })).not.toBeInTheDocument();
+  });
+
+  it('renders candidate evidence metadata and upload receipt after completion', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/upload');
+
+    await user.upload(screen.getByLabelText(/Drag lease/i), new File(['sample'], 'rent-roll.pdf'));
+    await user.click(screen.getByRole('checkbox', { name: /source-use/i }));
+    await user.click(screen.getByRole('button', { name: /Start upload/i }));
+
+    await waitFor(() => expect(screen.getByText(/Upload receipt:/i)).toBeInTheDocument(), {
+      timeout: 1500,
+    });
+    expect(screen.getByText(/Candidate evidence created for review/i)).toBeInTheDocument();
   });
 
   it('sets document titles for public routes', async () => {
@@ -104,8 +119,32 @@ describe('public Sophex routes', () => {
     await renderRoute('/export/demo-001');
     const blockers = screen.getByRole('list', { name: /Export blockers/i });
 
-    expect(within(blockers).getByText(/Comparable Sales is review required/i)).toBeInTheDocument();
+    expect(within(blockers).getByText(/consent/i)).toBeInTheDocument();
+    expect(within(blockers).getByText(/source-rights/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Generate export/i })).toBeDisabled();
+  });
+
+  it('generates a redacted preview receipt from the export policy', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/export/demo-001');
+
+    await user.click(screen.getByRole('radio', { name: /preview/i }));
+    await user.click(screen.getByRole('button', { name: /Generate export receipt/i }));
+
+    await waitFor(
+      () => expect(screen.getByText(/Receipt/i)).toBeInTheDocument(),
+      { timeout: 1500 }
+    );
+    expect(screen.getByText(/Redacted evidence refs/i)).toBeInTheDocument();
+  });
+
+  it('switches the prototype actor context without exposing private values', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/property/demo-001');
+
+    await user.selectOptions(screen.getByLabelText(/Prototype actor context/i), 'sourceOwner');
+    expect(screen.getByText(/Public records aggregate/i)).toBeInTheDocument();
+    expect(screen.queryByText(/private rent roll/i)).not.toBeInTheDocument();
   });
 
   it('opens the export governance modal from the export page', async () => {

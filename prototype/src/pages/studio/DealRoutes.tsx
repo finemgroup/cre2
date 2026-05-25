@@ -52,19 +52,19 @@ import {
   formatMultiple,
   formatPercent,
 } from '@/lib/underwriting';
-import { getSourceBlocksForDeal } from '@/lib/source-bundle';
 import { mockCandidateFields, mockUploadFiles } from '@/lib/staged-import';
 import {
   activity,
-  comps,
-  deals,
   DEFAULT_DEAL_ID,
-  getStudioDeal,
   studioDealPath,
   underwritingAssumptionsByDeal,
   underwritingProvenanceByDeal,
-  type Comp,
 } from '@/data/studio';
+import {
+  getStudioCompViews,
+  getStudioDashboardView,
+  getStudioDealView,
+} from '@/lib/runtime/studio-workspace';
 import {
   DealWorkflowTabs,
   SegmentedControl,
@@ -73,6 +73,8 @@ import {
 } from '@/pages/studio/StudioShared';
 
 export function StudioDashboardPage(): ReactElement {
+  const dashboardView = getStudioDashboardView();
+
   return (
     <div>
       <PageTitle
@@ -119,8 +121,8 @@ export function StudioDashboardPage(): ReactElement {
           <DataTable
             caption="Deal pipeline"
             headers={['Deal', 'Market', 'Stage', 'Value', 'Authority']}
-            getRowKey={(_row, index) => deals[index].id}
-            rows={deals.map((deal) => [
+            getRowKey={(_row, index) => dashboardView.deals[index].id}
+            rows={dashboardView.deals.map((deal) => [
               <Link key={deal.id} to={studioDealPath(deal.id)}>
                 {deal.name}
               </Link>,
@@ -285,7 +287,7 @@ export function StudioDealOverviewPage(): ReactElement {
 
 export function StudioDealIntakePage(): ReactElement {
   const { dealId } = useParams();
-  const activeDeal = getStudioDeal(dealId);
+  const activeDeal = getStudioDealView(dealId)?.deal;
   const [propertyName, setPropertyName] = useState(activeDeal?.name ?? '');
   const { pushToast } = usePrototypeToast();
   if (!activeDeal) return <StudioDealNotFound />;
@@ -396,13 +398,15 @@ export function StudioDealIntakePage(): ReactElement {
 
 export function StudioCompsPage(): ReactElement {
   const deal = useStudioDeal();
-  const [selected, setSelected] = useState<Comp | null>(comps[0]);
+  const compViews = getStudioCompViews();
+  const [selectedId, setSelectedId] = useState(compViews[0]?.id ?? '');
+  const selected = compViews.find((comp) => comp.id === selectedId) ?? null;
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [view, setView] = useState<'table' | 'map'>('table');
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [trustOpen, setTrustOpen] = useState(false);
   if (!deal) return <StudioDealNotFound />;
-  const sourceBlocks = getSourceBlocksForDeal(deal.id);
+  const sourceBlocks = getStudioDealView(deal.id)?.sourceBlocks ?? [];
 
   return (
     <div>
@@ -445,17 +449,23 @@ export function StudioCompsPage(): ReactElement {
             <DataTable
               caption="Sales comparables"
               headers={['Comp', 'Distance', 'Units', 'Sale Price', 'Authority']}
-              getRowKey={(_row, index) => comps[index].id}
-              rows={comps.map((comp) => [
+              getRowKey={(_row, index) => compViews[index].id}
+              rows={compViews.map((comp) => [
                 <button
                   type="button"
                   className="table-link"
                   onClick={() => {
-                    setSelected(comp);
+                    setSelectedId(comp.id);
                     setDrawerOpen(true);
                   }}
+                  aria-describedby={!comp.visible ? `${comp.id}-visibility` : undefined}
                 >
                   {comp.name}
+                  {!comp.visible ? (
+                    <span id={`${comp.id}-visibility`} className="sr-only">
+                      {comp.safeExplanation}
+                    </span>
+                  ) : null}
                 </button>,
                 comp.distance,
                 comp.units,
@@ -576,16 +586,19 @@ export function StudioUnderwritingPage(): ReactElement {
   const { pushToast } = usePrototypeToast();
   const [assumptions, setAssumptions] = useState(() => baseAssumptions);
   const metrics = useMemo(() => calculateUnderwritingMetrics(assumptions), [assumptions]);
+  const reviewedCompCount = getStudioCompViews().filter(
+    (comp) => comp.authority === 'Reviewed' && comp.visible
+  ).length;
   const gates = useMemo(
     () =>
       evaluateUnderwritingGates(
         assumptions,
         metrics,
-        comps.filter((comp) => comp.authority === 'Reviewed').length
+        reviewedCompCount
       ).map((gate) =>
         overriddenGates.includes(gate.id) ? { ...gate, status: 'OVERRIDDEN' as const } : gate
       ),
-    [assumptions, metrics, overriddenGates]
+    [assumptions, metrics, overriddenGates, reviewedCompCount]
   );
   const proFormaRows = useMemo(() => buildProFormaRows(assumptions), [assumptions]);
   if (!deal) return <StudioDealNotFound />;

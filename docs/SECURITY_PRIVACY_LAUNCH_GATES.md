@@ -43,6 +43,8 @@ Before real uploads or user-contributed facts:
 - Users see terms before upload, not after extraction.
 - Terms version is stored with each governed upload/action.
 
+Decision packet: see `CONTRIBUTION_TERMS_DECISION_PACKET.md`.
+
 ## Permission Enforcement Gate
 
 Before private data exists:
@@ -67,6 +69,8 @@ Before real document upload:
 - Revocation/supersession behavior.
 - No public URL or unauthenticated byte access for private files.
 
+Detailed plan: see `FILE_SAFETY_AND_RETENTION_PLAN.md`.
+
 ## Evidence Review Gate
 
 Before extraction affects product output:
@@ -77,6 +81,8 @@ Before extraction affects product output:
 - Rejection and supersession remain auditable.
 - Public projection promotion is separate from private report use.
 - Queue/job completion cannot promote evidence by itself.
+
+Review policy: see `REVIEW_AUTHORITY_AND_HITL_POLICY.md`.
 
 ## Export, Download, And Share Gate
 
@@ -100,6 +106,8 @@ Before indexing public pages:
 - Private source names and values are never present in HTML, metadata, JSON-LD, sitemap payloads, or crawled API responses.
 - Robots/sitemap policy is reviewed.
 - Removal/revocation process exists.
+
+Indexing plan: see `SEO_INDEXING_GATE_PLAN.md`.
 
 ## Analytics Gate
 
@@ -151,6 +159,8 @@ Before launch:
 - Public correction/dispute process.
 - Export/share takedown process.
 - Audit log preservation policy.
+
+Runbooks: see `INCIDENT_RESPONSE_AND_PRIVACY_RUNBOOKS.md`.
 
 ## Launch Rule
 

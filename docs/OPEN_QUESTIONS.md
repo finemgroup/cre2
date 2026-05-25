@@ -60,3 +60,24 @@
 - **What audit receipt fields can be safely exposed to public contributors versus operator-only review screens?**
 - **When should P51 animation doctrine be reconciled against a clean authoritative CRE checkout before implementation?**
 - **Should Sophex define one canonical reduced-motion hook/source before any clickable prototype work?**
+- **When should the provisional CRE underwriting annex be re-harvested from a clean authoritative checkout before any valuation/runtime/schema work?**
+- **Which underwriting readiness gates are MVP0-visible versus authenticated-workstation-only: assumptions, evidence, scenarios, review, export, or publication?**
+- **What is the first approved `ValuationVersion`/`EvidenceSnapshot` contract shape for public reports and private workbench exports?**
+- **Which scenario/sensitivity outputs can be shown publicly as advisory without legal/appraisal overclaim risk?**
+- **Which GIS/spatial providers, licenses, and source-rights policies can support public property maps, comp maps, and trade-area reports?**
+- **What precision labels are required for public map claims: parcel, approximate centroid, inferred region, provider polygon, sample/mock, or legal boundary unavailable?**
+- **What map accessibility fallback is mandatory before a public map can become a core interaction rather than decorative context?**
+- **What map layer and geometry payload budgets apply before real KML/polygon layers can ship?**
+- **Which spatial observations require HITL review before they can influence comps, reports, exports, or indexable public pages?**
+
+## Converted To Decision Packets
+
+The following open questions now have recommended MVP stances documented for future approval:
+
+- Free contributor data, public/private defaults, attribution, revocation, and model training: `CONTRIBUTION_TERMS_DECISION_PACKET.md`.
+- Upload file allowlist, byte access, hash identity, retention, scanning, and OCR sidecar boundaries: `FILE_SAFETY_AND_RETENTION_PLAN.md`.
+- HITL timeout, promotion authority, queue/job boundaries, and review receipt requirements: `REVIEW_AUTHORITY_AND_HITL_POLICY.md`.
+- Public indexing eligibility, JSON-LD boundaries, sitemap/robots exclusions, and revocation removal: `SEO_INDEXING_GATE_PLAN.md`.
+- Privacy requests, evidence revocation, export takedown, security incident triage, and launch stop conditions: `INCIDENT_RESPONSE_AND_PRIVACY_RUNBOOKS.md`.
+
+These packets are recommendations, not final approvals. Runtime, schema, deploy, provider, queue, and outbound work still require explicit operator approval in the correct lane.

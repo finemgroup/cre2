@@ -21,6 +21,8 @@ Sophex should use valuation and reporting as the immediate user-facing value of 
 - Include assumptions, comp basis, source freshness, confidence language, and review state.
 - Gate export/share actions according to actor, source-use policy, and report visibility.
 - Avoid claims such as "better than an appraisal" unless validated and legally approved.
+- Capture valuation/report readiness through gates: assumptions, evidence, scenarios, review, and export/share policy.
+- Preserve approved/exported report state through an evidence snapshot or manifest, not live mutable source lookup.
 
 ## Interactive Evidence-First Report (Content Engine Reference)
 
@@ -67,6 +69,13 @@ From Content Engine and CRE export doctrine:
 - Export/download/share actions require audit trail (receipt or content hash reference).
 - Share links must respect viewer permissions and must not leak private observations.
 - White-label PDF may carry partner branding but must retain warnings, citations, evidence appendix, and permission boundaries.
+
+The provisional CRE underwriting annex adds export-manifest discipline:
+
+- Export bundles should include only approved sections and permitted evidence refs.
+- Export receipts should reference a source/evidence snapshot and manifest checksum.
+- Scenario/sensitivity output must remain advisory unless review and source-rights gates clear.
+- Readiness rails are orientation; they do not replace export policy decisions.
 
 ## Contribution Exchange
 
@@ -132,6 +141,15 @@ Public market and property pages may include:
 - Save-report intent that stops at account/consent gate in MVP0.
 
 All preview surfaces require non-production/stub labeling until live data and legal terms exist.
+
+## Map And Spatial Context In Reports
+
+From the provisional ICSC Map Recovery harvest:
+
+- Map sections need source, precision, freshness, and visibility labels.
+- Trade-area, radius, drive-time, traffic, demographic, and zoning claims must cite permitted spatial evidence.
+- Public report maps must label sample/mock data and approximate centroids.
+- Spatial layers must not imply legal boundaries, title, survey precision, zoning entitlement, or live traffic certainty without approved source rights.
 
 ## Evidence-First Report UX
 

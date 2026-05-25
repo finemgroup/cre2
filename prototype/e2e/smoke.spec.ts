@@ -13,11 +13,41 @@ test.describe('public Sophex smoke', () => {
     await expect(page.getByRole('link', { name: /View property/i }).first()).toBeVisible();
   });
 
+  test('public property workflow reaches report and export policy', async ({ page }) => {
+    await gotoRoute(page, '/property/demo-001');
+    await page.getByRole('button', { name: /View evidence drawer/i }).click();
+    await expect(page.getByRole('dialog', { name: /Evidence drawer/i })).toBeVisible();
+    await page.keyboard.press('Escape');
+    await page.getByRole('link', { name: /Compare comps/i }).click();
+    await expect(page.getByRole('heading', { name: /Side-by-side comp dashboard/i })).toBeVisible();
+    await page.getByRole('link', { name: /Preview report/i }).click();
+    await expect(page.getByRole('heading', { name: /Report for 1200 Commerce St/i })).toBeVisible();
+  });
+
+  test('upload produces candidate evidence receipt copy', async ({ page }) => {
+    await gotoRoute(page, '/upload');
+    await page.locator('#file-input').setInputFiles({
+      name: 'rent-roll.pdf',
+      mimeType: 'application/pdf',
+      buffer: Buffer.from('sample'),
+    });
+    await page.getByRole('checkbox', { name: /source-use/i }).check();
+    await page.getByRole('button', { name: /Start upload/i }).click();
+    await expect(page.getByText(/Upload receipt:/i)).toBeVisible();
+  });
+
   test('export gate surfaces governance blockers', async ({ page }) => {
     await gotoRoute(page, '/export/demo-001');
     await expect(page.getByRole('button', { name: /Generate export/i })).toBeDisabled();
     await page.getByRole('button', { name: /Review blockers/i }).click();
     await expect(page.getByRole('dialog', { name: /Export blocked/i })).toBeVisible();
+  });
+
+  test('export preview generates governed receipt without sending files', async ({ page }) => {
+    await gotoRoute(page, '/export/demo-001');
+    await page.getByRole('radio', { name: /preview/i }).check();
+    await page.getByRole('button', { name: /Generate export receipt/i }).click();
+    await expect(page.getByText(/Redacted evidence refs/i)).toBeVisible();
   });
 
   test('public footer exposes trust links', async ({ page }) => {
@@ -33,6 +63,15 @@ test.describe('Finem CRE Studio smoke', () => {
     await expect(page.getByRole('heading', { name: /Main Deal Dashboard/i })).toBeVisible();
     await gotoRoute(page, '/studio/deals/riverside-flats/underwriting');
     await expect(page.getByRole('button', { name: /Override/i }).first()).toBeVisible();
+  });
+
+  test('studio intake and report expose governance projections', async ({ page }) => {
+    await gotoRoute(page, '/studio/deals/riverside-flats/intake');
+    await expect(page.getByText(/operator review queue items/i)).toBeVisible();
+    await page.getByRole('button', { name: /Review flagged fields/i }).click();
+    await expect(page.getByRole('dialog', { name: /Candidate field review/i })).toBeVisible();
+    await gotoRoute(page, '/studio/reports/riverside-flats/builder');
+    await expect(page.getByText(/Policy blocked/i)).toBeVisible();
   });
 
   test('mobile navigation drawer opens', async ({ page }) => {

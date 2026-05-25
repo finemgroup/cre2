@@ -2,11 +2,12 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import type { ReactElement } from 'react';
 
 import { StudioCard } from '@/components/studio/StudioPrimitives';
-import { getStudioDeal, studioDealPath, studioReportPath, type Deal } from '@/data/studio';
+import { studioDealPath, studioReportPath, type Deal } from '@/data/studio';
+import { getStudioDealView } from '@/lib/runtime/studio-workspace';
 
 export function useStudioDeal(): Deal | undefined {
   const { dealId } = useParams();
-  return getStudioDeal(dealId);
+  return getStudioDealView(dealId)?.deal;
 }
 
 export function StudioDealNotFound(): ReactElement {

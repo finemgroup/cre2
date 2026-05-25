@@ -5,8 +5,10 @@ import {
   ReportProvenanceCard,
   ReportSectionReviewCard,
 } from '@/components/report-governance/ReportGovernanceCards';
-import { reportSections } from '@/data/studio';
 import type { ReportSection } from '@/data/studio';
+import { getStudioReportBuilderView } from '@/lib/runtime/studio-workspace';
+
+const reportSections = getStudioReportBuilderView('riverside-flats')?.sections ?? [];
 
 const readySections: ReportSection[] = reportSections.map((section) => ({
   ...section,

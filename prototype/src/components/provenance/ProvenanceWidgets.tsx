@@ -63,7 +63,7 @@ export function SourceEvidenceBlockCard({ block }: { block: SourceEvidenceBlock 
 export function ReviewPostureBanner({ blocks }: { blocks: SourceEvidenceBlock[] }): ReactElement {
   const summary = summarizeSourceBundle(blocks);
   return (
-    <aside className={`review-posture review-${summary.posture}`} role="status">
+    <div className={`review-posture review-${summary.posture}`} role="status">
       <MaterialIcon name={summary.posture === 'ready' ? 'verified' : 'gpp_maybe'} />
       <div>
         <strong>Source bundle posture: {summary.posture}</strong>
@@ -74,6 +74,6 @@ export function ReviewPostureBanner({ blocks }: { blocks: SourceEvidenceBlock[] 
           <small>Blocked: {summary.blockedActions.join(', ')}</small>
         ) : null}
       </div>
-    </aside>
+    </div>
   );
 }

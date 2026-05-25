@@ -15,10 +15,13 @@ import { PrototypeActionAnchor } from '@/components/overlays/PrototypeActionAnch
 import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
 import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitives';
 import { useA11yAnnouncement } from '@/lib/a11y/useA11yAnnouncement';
-import { DEFAULT_DEAL_ID, deals, studioDealPath } from '@/data/studio';
+import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
+import { getStudioDashboardView } from '@/lib/runtime/studio-workspace';
 import { SegmentedControl } from '@/pages/studio/StudioShared';
 
 export function StudioLandingPage(): ReactElement {
+  const dashboardView = getStudioDashboardView();
+
   return (
     <div className="studio-marketing">
       <header className="studio-public-nav">
@@ -74,7 +77,7 @@ export function StudioLandingPage(): ReactElement {
             icon="monitoring"
           />
           <div className="mini-grid">
-            {deals.map((deal) => (
+            {dashboardView.deals.map((deal) => (
               <div key={deal.id}>
                 <strong>{deal.name}</strong>
                 <span>{deal.stage}</span>

@@ -9,6 +9,8 @@ It does not authorize schema copying, migrations, generated-client edits, produc
 - Reason: sister-project schema is still in process.
 - Allowed now: doctrine, contract mapping, read-only planning.
 - Forbidden now: direct schema implementation, migration, generated clients, DB commands, production data coupling.
+- Rapid implementation posture: Sophex may build prototype contract simulators and sandbox API drafts, but the sister schema harvest remains deferred until explicit operator approval after source schema stabilization.
+- Composer ticket posture: prototype adapter work, docs decision packets, and sandbox approval checklists may proceed; read-only sister schema diff work remains closed until the source repo, branch, commit, clean status, and operator approval are confirmed.
 
 ## Borrowing Principles
 

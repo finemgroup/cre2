@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
-import { mockProperties } from '@/data/mock';
+import { getPublicSearchProperties } from '@/lib/runtime/public-search';
 
 const SAMPLE_QUERIES = ['Austin', 'Commerce', 'Research Blvd', 'Retail'];
 
@@ -11,11 +11,8 @@ export function LandingPage(): ReactElement {
   const [query, setQuery] = useState('');
   const [searched, setSearched] = useState(false);
 
-  const results = searched
-    ? mockProperties.filter((p) =>
-        `${p.address} ${p.market}`.toLowerCase().includes(query.toLowerCase())
-      )
-    : [];
+  const featuredProperties = getPublicSearchProperties().slice(0, 2);
+  const results = searched ? getPublicSearchProperties(query) : [];
 
   function runSearch(nextQuery = query) {
     setQuery(nextQuery);
@@ -74,7 +71,7 @@ export function LandingPage(): ReactElement {
                 ))}
               </div>
               <div className="card-grid featured-grid">
-                {mockProperties.slice(0, 2).map((property) => (
+                {featuredProperties.map((property) => (
                   <article key={property.id} className="card">
                     <h2>{property.address}</h2>
                     <p>

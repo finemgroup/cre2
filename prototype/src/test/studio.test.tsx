@@ -1,5 +1,6 @@
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { axe } from 'jest-axe';
 import { describe, expect, it } from 'vitest';
 
 import { renderRoute } from '@/test/renderRoute';
@@ -39,6 +40,14 @@ describe('Finem CRE Studio routes', () => {
     await renderRoute('/studio/reports/riverside-flats/builder');
     await user.click(screen.getByRole('button', { name: /Export Excel/i }));
     expect(screen.getByText(/Export Excel is simulated/i)).toBeInTheDocument();
+  });
+
+  it('renders representative studio routes without basic accessibility violations', async () => {
+    const dashboard = await renderRoute('/studio/dashboard');
+    expect(await axe(dashboard.container)).toHaveNoViolations();
+
+    const report = await renderRoute('/studio/reports/riverside-flats/builder');
+    expect(await axe(report.container)).toHaveNoViolations();
   });
 
   it('shows prototype feedback for billing plan actions', async () => {
@@ -244,5 +253,22 @@ describe('Finem CRE Studio routes', () => {
 
     await user.click(screen.getByRole('button', { name: /Save draft/i }));
     expect(screen.getByText(/Draft saved locally/i)).toBeInTheDocument();
+  });
+
+  it('surfaces internal review queue projection and explicit review action', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/studio/deals/riverside-flats/intake');
+
+    expect(screen.getByText(/operator review queue items/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /Review flagged fields/i }));
+    await user.click(screen.getByRole('button', { name: /Apply explicit review action/i }));
+    expect(screen.getByText(/Explicit review action recorded/i)).toBeInTheDocument();
+  });
+
+  it('uses governed export policy copy in Studio report builder', async () => {
+    await renderRoute('/studio/reports/riverside-flats/builder');
+
+    expect(screen.getByText(/Policy blocked/i)).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: /Generate governed receipt/i })[0]).toBeDisabled();
   });
 });

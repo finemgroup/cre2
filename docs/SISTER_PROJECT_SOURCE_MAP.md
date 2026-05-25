@@ -49,6 +49,29 @@ This map records **reference-only** sister-project paths that informed Sophex do
 
 **Caveat:** P51 tracked `master` matched `origin/master` at harvest, but untracked `.tmp` schema/proof artifacts were present. Use as a provisional animation supplement until reconciled against a clean authoritative CRE checkout.
 
+## P51 CRE Underwriting Annex
+
+| Area | Reference path | Why Sophex should inspect it |
+| --- | --- | --- |
+| Underwriting workspace posture | `C:\Projects\p51 Site Selection Tool\cre-platform` | Provisional reference for two-surface underwriting UX: deal preview plus deep valuation/report workbench |
+| Readiness and workflow gates | `C:\Projects\p51 Site Selection Tool\cre-platform` | Provisional reference for assumptions, evidence, scenario, approval, and export-readiness gates |
+| Version governance | `C:\Projects\p51 Site Selection Tool\cre-platform` | Provisional reference for valuation versions, source snapshots, scenario outputs, and receipt-backed export discipline |
+| Export manifest posture | `C:\Projects\p51 Site Selection Tool\cre-platform` | Provisional reference for approved-only export manifests, source bundles, checksums, and redacted receipts |
+
+**Caveat:** Treat this as docs/contracts-only until re-run against a clean authoritative checkout. Do not copy Prisma/schema, Excel/Python runtime, internal IC approval semantics, or AI approve/reject flows.
+
+## ICSC Map Recovery
+
+| Area | Reference path | Why Sophex should inspect it |
+| --- | --- | --- |
+| Layer-control HUD | `C:\Projects\ICSC Map Recovery` | Provisional reference for exposing properties, comps, trade areas, traffic, demographics, zoning, and uploaded regions through labeled toggles |
+| Lazy map layer loading | `C:\Projects\ICSC Map Recovery` | Provisional reference for deferring KML/polygon payloads and keeping heavy geometry out of initial public bundles |
+| Spatial provenance | `C:\Projects\ICSC Map Recovery` | Provisional reference for source, as-of date, precision, geocode confidence, and review labels on map-derived claims |
+| Selection-to-evidence drawer | `C:\Projects\ICSC Map Recovery` | Provisional reference for keeping map context visible while selected features expose source details and safe actions |
+| Asset audit posture | `C:\Projects\ICSC Map Recovery` | Provisional reference for future map asset manifests, source-rights checks, and oversized/stale layer detection |
+
+**Caveat:** Do not copy KML/GeoJSON assets, SharePoint/local links, provider credentials, SQL/Prisma models, or legacy map shell code into Sophex.
+
 ## Finem Fabricator
 
 | Area | Reference path | Why Sophex should inspect it |

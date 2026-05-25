@@ -3,14 +3,15 @@ import { Link, useParams } from 'react-router-dom';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
-import { mockComps } from '@/data/mock';
+import { getPublicCompViews } from '@/lib/runtime/public-comps';
 import { getPropertyRecord } from '@/lib/workflow-identity';
 
 export function CompsPage(): ReactElement {
   const { id } = useParams();
   const property = getPropertyRecord(id);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const selected = mockComps.find((comp) => comp.id === selectedId);
+  const compViews = getPublicCompViews();
+  const selected = compViews.find((comp) => comp.id === selectedId);
 
   if (!property) {
     return (
@@ -53,7 +54,7 @@ export function CompsPage(): ReactElement {
             </tr>
           </thead>
           <tbody>
-            {mockComps.map((comp) => (
+            {compViews.map((comp) => (
               <tr key={comp.id} className={selectedId === comp.id ? 'row-selected' : undefined}>
                 <td>{comp.name}</td>
                 <td>{comp.distanceMi} mi</td>
@@ -68,16 +69,16 @@ export function CompsPage(): ReactElement {
                     type="button"
                     className="btn btn-ghost"
                     onClick={() => setSelectedId(comp.id)}
-                    disabled={comp.authority === 'blocked'}
+                    disabled={!comp.canInspect}
                     aria-describedby={
-                      comp.authority === 'blocked' ? `${comp.id}-blocked-reason` : undefined
+                      !comp.canInspect ? `${comp.id}-blocked-reason` : undefined
                     }
                   >
                     Inspect
                   </button>
-                  {comp.authority === 'blocked' ? (
+                  {!comp.canInspect ? (
                     <span id={`${comp.id}-blocked-reason`} className="sr-only">
-                      Omitted from public comparison because source rights block inspection.
+                      {comp.safeExplanation}
                     </span>
                   ) : null}
                 </td>

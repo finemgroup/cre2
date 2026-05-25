@@ -6,6 +6,7 @@ import { PageTransition } from '@/components/motion/PageTransition';
 import { RouteProgress } from '@/components/layout/RouteProgress';
 import { getPublicRouteTitle } from '@/lib/a11y/routeTitles';
 import { useRouteTitle } from '@/lib/a11y/useRouteTitle';
+import { ActorDemoSelector } from '@/components/runtime/ActorDemoSelector';
 
 export function PublicShell(): ReactElement {
   const location = useLocation();
@@ -29,6 +30,7 @@ export function PublicShell(): ReactElement {
           <NavLink to="/upload">Upload</NavLink>
           <NavLink to="/studio">Studio</NavLink>
         </nav>
+        <ActorDemoSelector />
       </header>
       <main className="shell-main">
         <PageTransition>

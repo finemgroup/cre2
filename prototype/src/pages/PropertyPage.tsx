@@ -5,18 +5,27 @@ import { SophexSheet } from '@/components/motion/SophexSheet';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { usePrototypeAction } from '@/lib/prototype/usePrototypeAction';
 import { studioDealPath } from '@/data/studio';
-import { mockProperties } from '@/data/mock';
+import { getPublicPropertyView } from '@/lib/runtime/public-property';
 import { getLinkedDealId } from '@/lib/workflow-identity';
+import { trackEvent } from '@/lib/analytics/collector';
 
 export function PropertyPage(): ReactElement {
   const { id } = useParams();
-  const property = mockProperties.find((p) => p.id === id);
+  const propertyView = getPublicPropertyView(id);
+  const property = propertyView?.property;
   const linkedDealId = getLinkedDealId(id);
   const notifyPrototype = usePrototypeAction();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   function openEvidenceDrawer() {
     notifyPrototype('Public evidence drawer');
+    trackEvent({
+      name: 'evidence_drawer_opened',
+      actorClass: 'anonymous',
+      route: `/property/${property?.id ?? 'unknown'}`,
+      propertyId: property?.id,
+      authorityLabel: propertyView?.evidenceDrawer[0]?.authorityLabel,
+    });
     setDrawerOpen(true);
   }
 
@@ -51,7 +60,7 @@ export function PropertyPage(): ReactElement {
         <div className="card">
           <div className="field-row">
             <span>Cap rate</span>
-            <strong>{property.capRate}</strong>
+            <strong>{propertyView?.evidenceDrawer[0]?.value ?? property.capRate}</strong>
             <AuthorityBadge label={property.authority} />
           </div>
           <div className="field-row">
@@ -88,8 +97,11 @@ export function PropertyPage(): ReactElement {
       <SophexSheet isOpen={drawerOpen} label="Evidence drawer" onClose={() => setDrawerOpen(false)}>
         <p>Public baseline fields only in this prototype.</p>
         <ul className="evidence-list">
-          <li>County assessor record — 2024 tax year</li>
-          <li>Sample market aggregate — anonymized</li>
+          {propertyView?.evidenceDrawer.map((item) => (
+            <li key={item.label}>
+              <strong>{item.label}:</strong> {item.value} — {item.safeExplanation}
+            </li>
+          ))}
         </ul>
         <p className="muted">Private contributor observations are not shown on public routes.</p>
       </SophexSheet>

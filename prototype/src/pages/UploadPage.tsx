@@ -6,6 +6,10 @@ import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { StageRail } from '@/components/ui/StageRail';
 import { usePrototypeAction } from '@/lib/prototype/usePrototypeAction';
 import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
+import { fixtureActors } from '@/lib/contracts/fixtures';
+import type { CandidateUploadResult } from '@/lib/runtime/upload-flow';
+import { createCandidateUpload } from '@/lib/runtime/upload-flow';
+import { trackEvent } from '@/lib/analytics/collector';
 
 const STAGES = ['Select files', 'Terms', 'Upload', 'Candidate'];
 
@@ -14,6 +18,8 @@ export function UploadPage(): ReactElement {
   const [stage, setStage] = useState(0);
   const [consent, setConsent] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [fileName, setFileName] = useState('rent-roll.pdf');
+  const [candidate, setCandidate] = useState<CandidateUploadResult | null>(null);
   const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -32,12 +38,26 @@ export function UploadPage(): ReactElement {
         if (p >= 100) {
           if (intervalRef.current) window.clearInterval(intervalRef.current);
           intervalRef.current = null;
+          const result = createCandidateUpload({
+            actor: fixtureActors.sourceOwner,
+            propertyId: 'demo-001',
+            fileName,
+            idempotencyKey: `upload-${fileName}`,
+          });
+          setCandidate(result);
+          trackEvent({
+            name: 'candidate_evidence_created',
+            actorClass: fixtureActors.sourceOwner.actorClass,
+            propertyId: result.evidence.propertyId,
+            phase: result.evidence.reviewState,
+            receiptId: result.receipt.id,
+          });
           setStage(3);
           return 100;
         }
         return p + 20;
       });
-    }, 180);
+    }, 20);
   }
 
   return (
@@ -66,8 +86,16 @@ export function UploadPage(): ReactElement {
                 id="file-input"
                 type="file"
                 className="sr-only"
-                onChange={() => {
+                onChange={(event) => {
+                  const nextFileName = event.target.files?.[0]?.name ?? 'rent-roll.pdf';
+                  setFileName(nextFileName);
                   notifyPrototype('Public document upload');
+                  trackEvent({
+                    name: 'upload_stage_changed',
+                    actorClass: fixtureActors.sourceOwner.actorClass,
+                    route: '/upload',
+                    phase: 'terms',
+                  });
                   setStage(1);
                 }}
               />
@@ -124,6 +152,18 @@ export function UploadPage(): ReactElement {
           actions={
             <>
               <AuthorityBadge label="candidate-evidence" />
+              {candidate ? (
+                <div className="receipt" role="status">
+                  <p>
+                    Candidate evidence <code>{candidate.evidence.id}</code> remains{' '}
+                    {candidate.evidence.reviewState}.
+                  </p>
+                  <p>
+                    Upload receipt: <code>{candidate.receipt.id}</code> ·{' '}
+                    {candidate.receipt.safeMessage}
+                  </p>
+                </div>
+              ) : null}
               <Link to={studioDealPath(DEFAULT_DEAL_ID, 'intake')} className="btn btn-primary">
                 Review in Studio
               </Link>

@@ -4,14 +4,16 @@ import type { ReactElement } from 'react';
 import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { StageRail } from '@/components/ui/StageRail';
-import { getPropertyRecord, getPublicReportSections } from '@/lib/workflow-identity';
+import { getPublicReportView } from '@/lib/runtime/report-flow';
+import { trackEvent } from '@/lib/analytics/collector';
 
 const STAGES = ['Overview', 'Sections', 'Review', 'Export intent'];
 
 export function ReportPage(): ReactElement {
   const { id } = useParams();
-  const property = getPropertyRecord(id);
-  const sections = getPublicReportSections(id);
+  const reportView = getPublicReportView(id);
+  const property = reportView?.property;
+  const sections = reportView?.sections ?? [];
 
   if (!property) {
     return (
@@ -57,6 +59,21 @@ export function ReportPage(): ReactElement {
             {section.status === 'review-required' ? (
               <p className="warning">Review required before export.</p>
             ) : null}
+            <button
+              type="button"
+              className="btn btn-ghost"
+              onClick={() =>
+                trackEvent({
+                  name: 'report_section_reviewed',
+                  actorClass: 'anonymous',
+                  route: `/report/${property.id}`,
+                  propertyId: property.id,
+                  phase: section.status,
+                })
+              }
+            >
+              Mark section reviewed (prototype)
+            </button>
             <div style={{ transitionDelay: `${index * 0.03}s` }} />
           </SophexMotionSurface>
         ))}

@@ -6,6 +6,8 @@ Sophex can become a data marketplace only if contribution terms, privacy boundar
 
 Users must understand what they are contributing and what they receive in return. Free valuation or reporting access in exchange for source documents, comps, or corrections must clearly state whether contributed data may be public, private, shared, anonymized, aggregated, or used internally.
 
+The current recommended MVP stance is documented in `CONTRIBUTION_TERMS_DECISION_PACKET.md`: uploads remain private/candidate by default, public reuse requires explicit review and source-use approval, and model training is disabled unless separately consented.
+
 ## Private Uploads
 
 Private uploads must not leak to public comps, public reports, partner feeds, or other users. A private lease, rent roll, appraisal, contract, or mortgage can inform that user's report without becoming global marketplace truth.
