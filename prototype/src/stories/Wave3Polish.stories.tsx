@@ -2,11 +2,10 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { expect, userEvent, within } from '@storybook/test';
 
 import { AdvancedWorkflowNav } from '@/components/workstation/AdvancedWorkflowNav';
-import {
-  ReviewerAssignmentDrawer,
-  type ReviewAssignment,
-} from '@/components/workstation/ReviewerAssignmentDrawer';
+import { ReviewerAssignmentDrawer } from '@/components/workstation/ReviewerAssignmentDrawer';
 import { HitlTrustTierBadge } from '@/components/workflow/HitlTrustTierBadge';
+import type { ReviewAssignment } from '@/lib/workflow/review-assignments';
+import { assessConfidence } from '@/lib/workflow/confidence';
 
 const SAMPLE_ASSIGNMENT: ReviewAssignment = {
   id: 'assign-unit-count',
@@ -16,6 +15,9 @@ const SAMPLE_ASSIGNMENT: ReviewAssignment = {
   queueState: 'Assigned',
   posture: 'Blocked',
   trustTier: 'BLOCK',
+  confidence: 36,
+  resolutionSurface: 'Evidence workbench',
+  confidenceAssessment: assessConfidence(36, true),
 };
 
 const meta = {

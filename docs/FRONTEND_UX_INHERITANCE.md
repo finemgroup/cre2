@@ -10,13 +10,15 @@ P51 CRE adds a provisional high-end animation supplement for workflow continuity
 
 The CRE underwriting annex adds provisional readiness/gates/version-governance UX doctrine. See [CRE_UNDERWRITING_HARVEST_ANNEX_PROVISIONAL.md](CRE_UNDERWRITING_HARVEST_ANNEX_PROVISIONAL.md). ICSC Map Recovery adds provisional map/GIS UX doctrine. See [ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md).
 
+Wave 8 adds a focused cockpit harvest from CRE Platform shared UI. See [CRE_PLATFORM_COCKPIT_HARVEST_2026-05-25.md](CRE_PLATFORM_COCKPIT_HARVEST_2026-05-25.md). Adopted patterns are Sophex-native bento states, confidence/HITL escalation, data workbench view switching, and AI task pulse projections. CRE runtime, CRM, operator shell, and package imports remain excluded.
+
 ## Public Marketing Surfaces Vs Authenticated Workstations
 
-| Surface | Purpose | Content Engine patterns allowed |
-| --- | --- | --- |
-| **Public marketing shell** | Landing, SEO/GEO market pages, sample interactive reports, comparison/heatmap demos | Outcome-first hero, segment selector, scannable callouts, soft CTAs, mock comparison/heatmap |
-| **Authenticated contribution workstation** | Upload, save report, contribution exchange, privacy settings | Progressive form, upload → unlock depth, gated export intent |
-| **Authenticated report workstation** | Full report builder, section review, export gate | Personalized report builder, citations/warnings, BOV-style section approve |
+| Surface                                    | Purpose                                                                             | Content Engine patterns allowed                                                              |
+| ------------------------------------------ | ----------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| **Public marketing shell**                 | Landing, SEO/GEO market pages, sample interactive reports, comparison/heatmap demos | Outcome-first hero, segment selector, scannable callouts, soft CTAs, mock comparison/heatmap |
+| **Authenticated contribution workstation** | Upload, save report, contribution exchange, privacy settings                        | Progressive form, upload → unlock depth, gated export intent                                 |
+| **Authenticated report workstation**       | Full report builder, section review, export gate                                    | Personalized report builder, citations/warnings, BOV-style section approve                   |
 
 Public surfaces must use public baseline or sample/mock data with stub banners. Authenticated workstations handle private uploads and permissioned report depth.
 
@@ -204,12 +206,12 @@ MVP0 mock pages must use a visible stub banner (CRE `NonProductionReportingBanne
 
 ## Fabricator Vs Sophex Shell (Provisional)
 
-| Surface | Role | Sophex posture |
-| --- | --- | --- |
-| **Public Sophex shell** | Landing, search, upload, report preview, contribution | Lightweight; no operator cockpit |
-| **Authenticated workspace** | Reports, uploads, account, privacy | Minimal header; no mission control |
+| Surface                        | Role                                                        | Sophex posture                                      |
+| ------------------------------ | ----------------------------------------------------------- | --------------------------------------------------- |
+| **Public Sophex shell**        | Landing, search, upload, report preview, contribution       | Lightweight; no operator cockpit                    |
+| **Authenticated workspace**    | Reports, uploads, account, privacy                          | Minimal header; no mission control                  |
 | **Fabricator mission control** | Operator workflow visibility, run logs, agent orchestration | **Reference only** — do not copy into public Sophex |
-| **Fabricator ops hub** | Internal monitoring stubs | Not Sophex MVP0 default |
+| **Fabricator ops hub**         | Internal monitoring stubs                                   | Not Sophex MVP0 default                             |
 
 ### Progress / Status / Review Patterns To Borrow Conceptually
 

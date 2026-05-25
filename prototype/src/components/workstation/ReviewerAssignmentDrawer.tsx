@@ -3,20 +3,8 @@ import { useState, type ReactElement } from 'react';
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { DataTable, StatusBadge, TrustBadge } from '@/components/studio/StudioPrimitives';
-import {
-  HitlTrustTierBadge,
-  type HitlTrustTier,
-} from '@/components/workflow/HitlTrustTierBadge';
-
-export type ReviewAssignment = {
-  id: string;
-  field: string;
-  reason: string;
-  assignee: string;
-  queueState: string;
-  posture: string;
-  trustTier: HitlTrustTier;
-};
+import { HitlTrustTierBadge } from '@/components/workflow/HitlTrustTierBadge';
+import type { ReviewAssignment } from '@/lib/workflow/review-assignments';
 
 export function ReviewerAssignmentDrawer({
   isOpen,
@@ -47,9 +35,15 @@ export function ReviewerAssignmentDrawer({
               ['Assignee', assignment.assignee],
               ['Queue state', assignment.queueState],
               ['Trust tier', assignment.trustTier],
+              [
+                'Confidence',
+                `${assignment.confidence}% · ${assignment.confidenceAssessment.label}`,
+              ],
+              ['Resolution surface', assignment.resolutionSurface],
               ['Authority', 'Reviewer decision required — queue completion is not promotion'],
             ]}
           />
+          <p className="muted">{assignment.confidenceAssessment.safeMessage}</p>
           <label>
             Reviewer note (mock)
             <textarea
@@ -65,7 +59,12 @@ export function ReviewerAssignmentDrawer({
             <PrototypeActionButton feature="Hold review item" className="btn btn-secondary">
               Hold
             </PrototypeActionButton>
-            <button type="button" className="btn btn-primary" disabled aria-describedby="hitl-no-promote">
+            <button
+              type="button"
+              className="btn btn-primary"
+              disabled
+              aria-describedby="hitl-no-promote"
+            >
               Approve for export
             </button>
             <span className="sr-only" id="hitl-no-promote">

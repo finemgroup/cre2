@@ -48,7 +48,9 @@ import {
   WorkflowContinuityContainer,
   WorkflowHandoffLink,
 } from '@/components/workflow/WorkflowPrimitives';
-import { DealCockpitSummary } from '@/components/workflow/DealCockpitSummary';
+import { AiTaskPulse } from '@/components/workflow/AiTaskPulse';
+import { DataWorkbenchShell } from '@/components/workflow/DataWorkbenchShell';
+import { DealCockpitPanel } from '@/components/workflow/DealCockpitPanel';
 import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
 import { HitlReviewDrawer } from '@/components/workflow/HitlReviewDrawer';
 import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
@@ -374,14 +376,22 @@ export function StudioDealOverviewPage(): ReactElement {
       <NonProductionCallout>
         Deal metrics are mock projections with candidate/review state labels.
       </NonProductionCallout>
-      <DealCockpitSummary dealId={deal.id} />
-      <div className="metric-grid four">
-        <MetricCard label="Asking Price" value={deal.value} detail={deal.authority} />
-        <MetricCard label="Indicated Value" value="$46.8M" detail="Model-inferred" />
-        <MetricCard label="Target IRR" value="14.8%" detail="Scenario draft" />
-        <MetricCard label="Equity Multiple" value="1.82x" detail="Analyst review active" />
-      </div>
       <DealWorkflowTabs deal={deal} />
+      <DealCockpitPanel
+        dealId={deal.id}
+        kpis={[
+          {
+            label: 'Asking Price',
+            value: deal.value,
+            detail: deal.authority,
+            posture: deal.authority,
+          },
+          { label: 'Indicated Value', value: '$46.8M', detail: 'Model-inferred' },
+          { label: 'Target IRR', value: '14.8%', detail: 'Scenario draft' },
+          { label: 'Equity Multiple', value: '1.82x', detail: 'Analyst review active' },
+        ]}
+        rail={<AiTaskPulse />}
+      />
       <div className="dashboard-grid">
         <StudioCard title="Property Snapshot" className="wide-card">
           <div className="property-snapshot">
@@ -509,8 +519,8 @@ export function StudioDealIntakePage(): ReactElement {
         />
         <IntakeWorkflowNav dealId={activeDeal.id} activeStep="intake" />
         <NonProductionCallout>
-          Uploaded files and extracted fields remain candidate evidence until data review and
-          source trace gates clear.
+          Uploaded files and extracted fields remain candidate evidence until data review and source
+          trace gates clear.
         </NonProductionCallout>
         <StudioCard title="Property Basics">
           <div className="form-grid">
@@ -838,6 +848,26 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
           resolveLabel="Resolve evidence blockers"
         />
       ) : null}
+      <DealCockpitPanel
+        dealId={deal.id}
+        title="Executive Underwriting Cockpit"
+        eyebrow="CRE cockpit pattern adapted"
+        kpis={[
+          {
+            label: 'Advisory Value',
+            value: formatCurrency(metrics.indicatedValue),
+            detail: `${activeScenario} formula-backed range`,
+          },
+          { label: 'IRR', value: formatPercent(metrics.irr), detail: 'Model-inferred' },
+          { label: 'DSCR', value: formatMultiple(metrics.dscr), detail: 'Lender quote pending' },
+          {
+            label: 'Open Gates',
+            value: String(gates.filter((gate) => gate.status !== 'PASS').length),
+            detail: 'Mock underwriting gates',
+          },
+        ]}
+        rail={<AiTaskPulse />}
+      />
       <StudioCard title="Workflow Spine" eyebrow="Assumptions → export">
         <WorkflowSpineNav steps={buildUnderwritingSpineSteps(deal.id, 'assumptions')} />
       </StudioCard>
@@ -1127,9 +1157,25 @@ export function StudioScenarioComparisonPage(): ReactElement {
       >
         <DataTable
           caption="Scenario driver comparison with source posture"
-          headers={['Driver', 'Base', 'Upside', 'Downside', 'Max delta', 'Source posture', 'Gate implication']}
+          headers={[
+            'Driver',
+            'Base',
+            'Upside',
+            'Downside',
+            'Max delta',
+            'Source posture',
+            'Gate implication',
+          ]}
           rows={[
-            ['Vacancy', '4.5%', '3.5%', '4.5%', '1.0%', <TrustBadge state="Reviewed" />, 'Clear for scenario lock'],
+            [
+              'Vacancy',
+              '4.5%',
+              '3.5%',
+              '4.5%',
+              '1.0%',
+              <TrustBadge state="Reviewed" />,
+              'Clear for scenario lock',
+            ],
             [
               'Rent growth',
               '3.0%',
@@ -1275,59 +1321,81 @@ export function StudioAssumptionSourceTracePage(): ReactElement {
         Assumption lineage is deterministic mock data. Reviewer actions are simulated and do not
         persist truth.
       </NonProductionCallout>
-      <div className="split-workstation-grid">
-        <StudioCard title="Assumption Sources" className="wide-card">
-          <DataTable
-            caption="Assumption source trace"
-            headers={[
-              'Assumption',
-              'Current value',
-              'Source ref',
-              'As of',
-              'Confidence',
-              'Posture',
-              'Action',
-            ]}
-            rows={ASSUMPTION_TRACE_ITEMS.map((item) => [
-              item.label,
-              item.value,
-              item.sourceRef,
-              item.asOf,
-              item.confidence,
-              <TrustBadge state={item.posture} />,
-              item.id === 'unit-count' ? (
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setConflictOpen(true)}
-                >
-                  Resolve conflict
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setSelectedEvidence(item)}
-                >
-                  Inspect
-                </button>
-              ),
-            ])}
-            getRowKey={(_row, index) => ASSUMPTION_TRACE_ITEMS[index].id}
-          />
-        </StudioCard>
-        <StudioCard title="Selected Evidence Detail">
-          {selectedEvidence ? (
-            <EvidenceValueCard item={selectedEvidence} />
-          ) : (
-            <p className="muted">Select an assumption row to inspect source posture.</p>
-          )}
-          <EvidenceTraceList
-            items={ASSUMPTION_TRACE_ITEMS.filter((item) => item.id !== selectedEvidence?.id)}
-            onInspect={setSelectedEvidence}
-          />
-        </StudioCard>
-      </div>
+      <DataWorkbenchShell
+        title="Assumption Source Trace"
+        subtitle="Switch between trace table, blocker list, and evidence grid without changing authority."
+        storageKey={`source-trace-${deal.id}`}
+        aiSlot={<AiTaskPulse tasks={[]} />}
+        views={{
+          table: (
+            <div className="split-workstation-grid">
+              <StudioCard title="Assumption Sources" className="wide-card">
+                <DataTable
+                  caption="Assumption source trace"
+                  headers={[
+                    'Assumption',
+                    'Current value',
+                    'Source ref',
+                    'As of',
+                    'Confidence',
+                    'Posture',
+                    'Action',
+                  ]}
+                  rows={ASSUMPTION_TRACE_ITEMS.map((item) => [
+                    item.label,
+                    item.value,
+                    item.sourceRef,
+                    item.asOf,
+                    item.confidence,
+                    <TrustBadge state={item.posture} />,
+                    item.id === 'unit-count' ? (
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => setConflictOpen(true)}
+                      >
+                        Resolve conflict
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="btn btn-secondary"
+                        onClick={() => setSelectedEvidence(item)}
+                      >
+                        Inspect
+                      </button>
+                    ),
+                  ])}
+                  getRowKey={(_row, index) => ASSUMPTION_TRACE_ITEMS[index].id}
+                />
+              </StudioCard>
+              <StudioCard title="Selected Evidence Detail">
+                {selectedEvidence ? (
+                  <EvidenceValueCard item={selectedEvidence} />
+                ) : (
+                  <p className="muted">Select an assumption row to inspect source posture.</p>
+                )}
+                <EvidenceTraceList
+                  items={ASSUMPTION_TRACE_ITEMS.filter((item) => item.id !== selectedEvidence?.id)}
+                  onInspect={setSelectedEvidence}
+                />
+              </StudioCard>
+            </div>
+          ),
+          list: (
+            <StudioCard title="Blocker-focused list">
+              <EvidenceTraceList items={ASSUMPTION_TRACE_ITEMS} onInspect={setSelectedEvidence} />
+            </StudioCard>
+          ),
+          grid: (
+            <div className="dashboard-grid">
+              {ASSUMPTION_TRACE_ITEMS.slice(0, 4).map((item) => (
+                <EvidenceValueCard key={item.id} item={item} />
+              ))}
+            </div>
+          ),
+        }}
+      />
       <EvidenceConflictResolverModal
         isOpen={conflictOpen}
         onClose={() => setConflictOpen(false)}
@@ -1371,82 +1439,68 @@ export function StudioDataReviewPage(): ReactElement {
         resolveTo={studioDealPath(deal.id, 'underwriting-sources')}
         resolveLabel="Open source trace"
       />
-      <div className="dashboard-grid">
-        <StudioCard title="Source Files">
-          <DataTable
-            caption="Normalization source files"
-            headers={['File', 'Type', 'State', 'Issue']}
-            rows={mockUploadFiles.map((file) => [
-              file.name,
-              file.type,
-              <StatusBadge status={file.status} />,
-              file.issue ?? 'No blocking issue',
-            ])}
-          />
-        </StudioCard>
-        <StudioCard title="Candidate Normalization" className="wide-card">
-          <DataTable
-            caption="Rent roll and T12 normalized candidate fields"
-            headers={['Field', 'Extracted', 'Normalized', 'Source', 'Confidence', 'Posture']}
-            rows={[
-              [
-                'Unit count',
-                '194 / 196 conflict',
-                '195 held',
-                'OM + Rent roll',
-                'Medium',
-                <TrustBadge state="Blocked" />,
-              ],
-              [
-                'T12 revenue',
-                '$7.52M',
-                '$7.52M',
-                'T12 page 1',
-                'High',
-                <TrustBadge state="Reviewed" />,
-              ],
-              [
-                'Property taxes',
-                '$315k',
-                '$315k',
-                'County tax record',
-                'High',
-                <TrustBadge state="Reviewed" />,
-              ],
-              [
-                'Insurance premium',
-                '$185k estimate',
-                '$185k',
-                'Broker estimate',
-                'Low',
-                <TrustBadge state="Source pending" />,
-              ],
-            ]}
-          />
-          <StickyActionBar>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => setConflictOpen(true)}
-            >
-              Resolve Unit Count Conflict
-            </button>
-            <PrototypeActionLink
-              to={studioDealPath(deal.id, 'underwriting-sources')}
-              className="btn btn-primary"
-              feature="Review normalization evidence"
-            >
-              Review Source Trace
-            </PrototypeActionLink>
-            <button type="button" className="btn btn-secondary" disabled aria-describedby="promote-blocked">
-              Promote to Assumptions
-            </button>
-            <span className="sr-only" id="promote-blocked">
-              Promotion is disabled until conflicts clear and reviewer gates pass.
-            </span>
-          </StickyActionBar>
-        </StudioCard>
-      </div>
+      <DataWorkbenchShell
+        title="Normalization Workbench"
+        subtitle="Review source files, candidate fields, and promotion blockers in one Evidence-stage shell."
+        storageKey={`normalization-workbench-${deal.id}`}
+        actions={
+          <PrototypeActionLink
+            to={studioDealPath(deal.id, 'underwriting-sources')}
+            className="btn btn-primary"
+            feature="Review normalization evidence"
+          >
+            Review Source Trace
+          </PrototypeActionLink>
+        }
+        secondaryControls={<StatusBadge status="1 blocked candidate" />}
+        views={{
+          table: (
+            <div className="dashboard-grid">
+              <StudioCard title="Source Files">
+                <DataTable
+                  caption="Normalization source files"
+                  headers={['File', 'Type', 'State', 'Issue']}
+                  rows={mockUploadFiles.map((file) => [
+                    file.name,
+                    file.type,
+                    <StatusBadge status={file.status} />,
+                    file.issue ?? 'No blocking issue',
+                  ])}
+                />
+              </StudioCard>
+              <NormalizationCandidateCard
+                onResolveConflict={() => setConflictOpen(true)}
+                dealId={deal.id}
+              />
+            </div>
+          ),
+          list: (
+            <StudioCard title="Candidate blocker list">
+              <ul className="governance-list">
+                <li>Unit count conflict · OM + rent roll · reviewer resolution required</li>
+                <li>T12 revenue · reviewed · clear for assumptions</li>
+                <li>Insurance premium · broker estimate · source pending</li>
+              </ul>
+            </StudioCard>
+          ),
+          grid: (
+            <div className="metric-grid">
+              <MetricCard
+                label="Files staged"
+                value={String(mockUploadFiles.length)}
+                detail="Candidate set"
+              />
+              <MetricCard
+                label="Blocked fields"
+                value="1"
+                detail="Unit count conflict"
+                icon="block"
+              />
+              <MetricCard label="Reviewed fields" value="2" detail="Ready for assumption use" />
+            </div>
+          ),
+        }}
+      />
       <EvidenceConflictResolverModal
         isOpen={conflictOpen}
         onClose={() => setConflictOpen(false)}
@@ -1456,6 +1510,80 @@ export function StudioDataReviewPage(): ReactElement {
         }}
       />
     </div>
+  );
+}
+
+function NormalizationCandidateCard({
+  onResolveConflict,
+  dealId,
+}: {
+  onResolveConflict: () => void;
+  dealId: string;
+}): ReactElement {
+  return (
+    <StudioCard title="Candidate Normalization" className="wide-card">
+      <DataTable
+        caption="Rent roll and T12 normalized candidate fields"
+        headers={['Field', 'Extracted', 'Normalized', 'Source', 'Confidence', 'Posture']}
+        rows={[
+          [
+            'Unit count',
+            '194 / 196 conflict',
+            '195 held',
+            'OM + Rent roll',
+            'Medium',
+            <TrustBadge state="Blocked" />,
+          ],
+          [
+            'T12 revenue',
+            '$7.52M',
+            '$7.52M',
+            'T12 page 1',
+            'High',
+            <TrustBadge state="Reviewed" />,
+          ],
+          [
+            'Property taxes',
+            '$315k',
+            '$315k',
+            'County tax record',
+            'High',
+            <TrustBadge state="Reviewed" />,
+          ],
+          [
+            'Insurance premium',
+            '$185k estimate',
+            '$185k',
+            'Broker estimate',
+            'Low',
+            <TrustBadge state="Source pending" />,
+          ],
+        ]}
+      />
+      <StickyActionBar>
+        <button type="button" className="btn btn-secondary" onClick={onResolveConflict}>
+          Resolve Unit Count Conflict
+        </button>
+        <PrototypeActionLink
+          to={studioDealPath(dealId, 'underwriting-sources')}
+          className="btn btn-primary"
+          feature="Review normalization evidence"
+        >
+          Review Source Trace
+        </PrototypeActionLink>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          disabled
+          aria-describedby="promote-blocked"
+        >
+          Promote to Assumptions
+        </button>
+        <span className="sr-only" id="promote-blocked">
+          Promotion is disabled until conflicts clear and reviewer gates pass.
+        </span>
+      </StickyActionBar>
+    </StudioCard>
   );
 }
 
@@ -1699,7 +1827,12 @@ export function StudioValuationVersionTimelinePage(): ReactElement {
           >
             Create Report Draft
           </PrototypeActionLink>
-          <button type="button" className="btn btn-secondary" disabled aria-describedby="version-lock-blocked">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            disabled
+            aria-describedby="version-lock-blocked"
+          >
             Lock Version
           </button>
           <span className="sr-only" id="version-lock-blocked">

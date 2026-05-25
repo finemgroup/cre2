@@ -58,14 +58,14 @@ Historical product workflow tickets remain in `COMPOSER_2_5_RAPID_IMPLEMENTATION
 
 ## Product Workflow Tickets (Wave 2)
 
-| Ticket | Status | Notes |
-| --- | --- | --- |
-| `SOPHEX-FE-WORKFLOW-UNDERWRITING-SPINE-POLISH` | Implemented in prototype | Workflow spine nav, expanded handoffs, assumptions source trace link |
-| `SOPHEX-FE-WORKFLOW-INTAKE-TO-ASSUMPTIONS` | Implemented in prototype | Intake workflow nav, data-review conflict resolver, staged import copy |
-| `SOPHEX-FE-WORKFLOW-SCENARIO-GOVERNANCE` | Implemented in prototype | Scenario page title fix, gate implications column, lock blocker copy |
-| `SOPHEX-FE-WORKFLOW-REPORT-EXPORT-SPINE` | Implemented in prototype | Export manifest card, evidence appendix, redaction copy |
-| `SOPHEX-FE-WORKFLOW-PUBLIC-TO-STUDIO-CONTINUITY` | Implemented in prototype | PublicStudioContinuityBanner on landing/property/report/export |
-| `SOPHEX-FE-DESIGN-REFERENCE-BACKLOG` | Documented | Capital Stack/Waterfall, IC Packet, HITL drawer remain design reference |
+| Ticket                                           | Status                   | Notes                                                                   |
+| ------------------------------------------------ | ------------------------ | ----------------------------------------------------------------------- |
+| `SOPHEX-FE-WORKFLOW-UNDERWRITING-SPINE-POLISH`   | Implemented in prototype | Workflow spine nav, expanded handoffs, assumptions source trace link    |
+| `SOPHEX-FE-WORKFLOW-INTAKE-TO-ASSUMPTIONS`       | Implemented in prototype | Intake workflow nav, data-review conflict resolver, staged import copy  |
+| `SOPHEX-FE-WORKFLOW-SCENARIO-GOVERNANCE`         | Implemented in prototype | Scenario page title fix, gate implications column, lock blocker copy    |
+| `SOPHEX-FE-WORKFLOW-REPORT-EXPORT-SPINE`         | Implemented in prototype | Export manifest card, evidence appendix, redaction copy                 |
+| `SOPHEX-FE-WORKFLOW-PUBLIC-TO-STUDIO-CONTINUITY` | Implemented in prototype | PublicStudioContinuityBanner on landing/property/report/export          |
+| `SOPHEX-FE-DESIGN-REFERENCE-BACKLOG`             | Documented               | Capital Stack/Waterfall, IC Packet, HITL drawer remain design reference |
 
 ## Design Reference Backlog (Do Not Promote Without New Ticket)
 
@@ -79,56 +79,94 @@ See `STITCH_UNDERWRITING_WORKSTATION_TRIAGE.md` and `docs/design/stitch-underwri
 
 ## Wave 3 Complete (2026-05-25)
 
-| Track | Status | Notes |
-| --- | --- | --- |
-| Design reference promotion | Implemented | Capital stack, IC packet, HITL review routes with mock-only gates |
-| GIS contract spine | Implemented | `lib/gis`, spatial workbench route, manifest/source-rights/verification |
-| Phase 2 quality expansion | Implemented | Route titles, Lighthouse URLs, e2e + unit tests for Wave 3 |
+| Track                      | Status      | Notes                                                                   |
+| -------------------------- | ----------- | ----------------------------------------------------------------------- |
+| Design reference promotion | Implemented | Capital stack, IC packet, HITL review routes with mock-only gates       |
+| GIS contract spine         | Implemented | `lib/gis`, spatial workbench route, manifest/source-rights/verification |
+| Phase 2 quality expansion  | Implemented | Route titles, Lighthouse URLs, e2e + unit tests for Wave 3              |
 
 ## Wave 4 Complete (2026-05-25)
 
-| Track | Status | Notes |
-| --- | --- | --- |
+| Track                            | Status      | Notes                                                                                            |
+| -------------------------------- | ----------- | ------------------------------------------------------------------------------------------------ |
 | Unified valuation readiness rail | Implemented | `ValuationReadinessRail` on public report/export, comps, studio report builder, version timeline |
-| Version ↔ export linkage | Implemented | Version timeline export eligibility, IC/report handoffs, evidence snapshot copy |
-| GIS performance budgets | Implemented | `lib/gis/performance`, spatial workbench layer budget table |
-| Quality coverage | Implemented | Storybook, unit tests, e2e extensions for Wave 4 |
+| Version ↔ export linkage         | Implemented | Version timeline export eligibility, IC/report handoffs, evidence snapshot copy                  |
+| GIS performance budgets          | Implemented | `lib/gis/performance`, spatial workbench layer budget table                                      |
+| Quality coverage                 | Implemented | Storybook, unit tests, e2e extensions for Wave 4                                                 |
 
 ## Wave 5 Complete (2026-05-25)
 
-| Track | Status | Notes |
-| --- | --- | --- |
-| Visual regression | Implemented | Playwright snapshots for capital stack, IC packet, HITL review, spatial, version readiness |
-| Storybook polish | Implemented | `Wave3Polish.stories.tsx` for AdvancedWorkflowNav, ReviewerAssignmentDrawer, trust tiers |
-| HITL / trust-tier copy | Implemented | `HitlTrustTierBadge`, HITL queue + Broker OS projection, assignment drawer tiers |
-| Cross-entity e2e | Implemented | `demo-001`↔`riverside-flats`, `demo-002`↔`1200-tech` public→Studio continuity |
-| CTA accessibility audit | Implemented | Disabled Export Waterfall, Send to IC, Approve for export use `aria-describedby` |
-| Quality coverage | Implemented | `hitl-trust-tier.test.ts`, extended `cta-feedback.test.tsx`, Storybook a11y |
+| Track                   | Status      | Notes                                                                                      |
+| ----------------------- | ----------- | ------------------------------------------------------------------------------------------ |
+| Visual regression       | Implemented | Playwright snapshots for capital stack, IC packet, HITL review, spatial, version readiness |
+| Storybook polish        | Implemented | `Wave3Polish.stories.tsx` for AdvancedWorkflowNav, ReviewerAssignmentDrawer, trust tiers   |
+| HITL / trust-tier copy  | Implemented | `HitlTrustTierBadge`, HITL queue + Broker OS projection, assignment drawer tiers           |
+| Cross-entity e2e        | Implemented | `demo-001`↔`riverside-flats`, `demo-002`↔`1200-tech` public→Studio continuity              |
+| CTA accessibility audit | Implemented | Disabled Export Waterfall, Send to IC, Approve for export use `aria-describedby`           |
+| Quality coverage        | Implemented | `hitl-trust-tier.test.ts`, extended `cta-feedback.test.tsx`, Storybook a11y                |
 
 ## Wave 6 UX Polish (2026-05-25)
 
-| Track | Status | Notes |
-| --- | --- | --- |
-| Underwriting UX review doc | Implemented | `UNDERWRITING_WORKFLOW_UX_REVIEW_2026-05-25.md` |
-| Deal stage stepper | Implemented | Six-stage model on all deal workflow tabs |
-| Deal cockpit next action | Implemented | Overview cockpit card with blocker count and resolution link |
-| Gate resolution copy | Implemented | `GateResolutionCallout` pattern on debt and related surfaces |
-| Navigation/copy refresh | Implemented | Evidence/Snapshots labels, advanced nav gate hints, valuation snapshot language |
-| Delivery continuity | Implemented | Report breadcrumb, mock-boundary banners, Underwrite in Studio CTA |
-| Mock resolution registry sync | Implemented | `MOCK_RESOLUTION_REGISTRY.md` updated for Wave 6 workflow UX layer |
+| Track                         | Status      | Notes                                                                           |
+| ----------------------------- | ----------- | ------------------------------------------------------------------------------- |
+| Underwriting UX review doc    | Implemented | `UNDERWRITING_WORKFLOW_UX_REVIEW_2026-05-25.md`                                 |
+| Deal stage stepper            | Implemented | Six-stage model on all deal workflow tabs                                       |
+| Deal cockpit next action      | Implemented | Overview cockpit card with blocker count and resolution link                    |
+| Gate resolution copy          | Implemented | `GateResolutionCallout` pattern on debt and related surfaces                    |
+| Navigation/copy refresh       | Implemented | Evidence/Snapshots labels, advanced nav gate hints, valuation snapshot language |
+| Delivery continuity           | Implemented | Report breadcrumb, mock-boundary banners, Underwrite in Studio CTA              |
+| Mock resolution registry sync | Implemented | `MOCK_RESOLUTION_REGISTRY.md` updated for Wave 6 workflow UX layer              |
 
 ## Wave 7 Runtime Bridge And Staging (2026-05-25)
 
-| Track | Status | Notes |
-| --- | --- | --- |
-| Studio sandbox API | Implemented | `/studio/dashboard`, deals, comps, report-builder, scenarios, workflow progress/next-action |
-| API client studio wiring | Implemented | `sandbox-api-client.ts` studio ports no longer fall back to fixtures |
-| Vite sandbox middleware | Implemented | `plugins/sandbox-api-plugin.mjs` serves `/sandbox/v0/*` with staging security headers |
-| Standalone sandbox server | Implemented | `npm run sandbox:server` on port 8787 |
-| Underwriting sub-tabs | Implemented | Cockpit / source trace / debt nested under Underwriting tab |
-| HITL drawer layer | Implemented | `HitlReviewDrawer` on underwriting cockpit; route preserved for deep links |
-| Gate resolution expansion | Implemented | Callouts on underwriting, data-review, scenarios, snapshots |
-| CI API tests | Implemented | `test:api` in prototype CI quality job |
-| API-mode e2e smoke | Implemented | `e2e/api-mode.spec.ts`; CI builds with `VITE_SOPHEX_RUNTIME_MODE=api` |
-| Staging deploy config | Implemented | `netlify.toml`, `public/_headers`, staging checklist status refresh |
-| Mock resolution registry sync | Implemented | Sandbox runtime adapter layer logged post-`674d023` bridge |
+| Track                         | Status      | Notes                                                                                       |
+| ----------------------------- | ----------- | ------------------------------------------------------------------------------------------- |
+| Studio sandbox API            | Implemented | `/studio/dashboard`, deals, comps, report-builder, scenarios, workflow progress/next-action |
+| API client studio wiring      | Implemented | `sandbox-api-client.ts` studio ports no longer fall back to fixtures                        |
+| Vite sandbox middleware       | Implemented | `plugins/sandbox-api-plugin.mjs` serves `/sandbox/v0/*` with staging security headers       |
+| Standalone sandbox server     | Implemented | `npm run sandbox:server` on port 8787                                                       |
+| Underwriting sub-tabs         | Implemented | Cockpit / source trace / debt nested under Underwriting tab                                 |
+| HITL drawer layer             | Implemented | `HitlReviewDrawer` on underwriting cockpit; route preserved for deep links                  |
+| Gate resolution expansion     | Implemented | Callouts on underwriting, data-review, scenarios, snapshots                                 |
+| CI API tests                  | Implemented | `test:api` in prototype CI quality job                                                      |
+| API-mode e2e smoke            | Implemented | `e2e/api-mode.spec.ts`; CI builds with `VITE_SOPHEX_RUNTIME_MODE=api`                       |
+| Staging deploy config         | Implemented | `netlify.toml`, `public/_headers`, staging checklist status refresh                         |
+| Mock resolution registry sync | Implemented | Sandbox runtime adapter layer logged post-`674d023` bridge                                  |
+
+## Wave 8 CRE Cockpit Utilization (2026-05-25)
+
+| Track                                | Status      | Notes                                                                                          |
+| ------------------------------------ | ----------- | ---------------------------------------------------------------------------------------------- |
+| CRE cockpit harvest matrix           | Implemented | `CRE_PLATFORM_COCKPIT_HARVEST_2026-05-25.md` records copy/adapt/reference decisions            |
+| Confidence and next-action utilities | Implemented | `lib/workflow/confidence.ts` and `lib/workflow/next-action.ts` unify advisory escalation copy  |
+| Bento state contract                 | Implemented | `BentoTile`, `BentoGrid`, `BentoSection`, and skeleton/empty/error states                      |
+| Deal cockpit composition             | Implemented | `DealCockpitPanel` on overview and underwriting cockpit                                        |
+| Contextual HITL                      | Implemented | Shared review assignments source feeds HITL drawer and analyst review route                    |
+| Evidence workbench shell             | Implemented | `DataWorkbenchShell` adds table/list/grid switching on source trace and data review            |
+| AI task pulse                        | Implemented | Mock-only AI/reviewer task projection appears in cockpit surfaces                              |
+| Quality coverage                     | Implemented | `wave8-cockpit.test.tsx` covers confidence, next-action precedence, and bento empty-state copy |
+
+### Wave 8 Closeout Ticket Ledger
+
+Canonical ticket pack: [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPIT.md](COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPIT.md)
+
+| Ticket                                        | Status                | Notes                                       |
+| --------------------------------------------- | --------------------- | ------------------------------------------- |
+| `SOPHEX-FE-WAVE-8-CRE-COCKPIT-HARVEST-MATRIX` | Implemented on branch | CRE source copy/adapt/reference matrix      |
+| `SOPHEX-FE-COCKPIT-BENTO-STATE-CONTRACT`      | Implemented on branch | Sophex-native bento state primitives        |
+| `SOPHEX-FE-COCKPIT-DEAL-PANEL-COMPOSITION`    | Implemented on branch | Shared overview/underwriting cockpit panel  |
+| `SOPHEX-FE-UW-CONFIDENCE-HITL-ACTIONS`        | Implemented on branch | Confidence-aware shared HITL assignments    |
+| `SOPHEX-FE-EVIDENCE-DATA-WORKBENCH-SHELL`     | Implemented on branch | Table/list/grid shell for evidence surfaces |
+| `SOPHEX-FE-COCKPIT-AI-TASK-PULSE`             | Implemented on branch | Mock-only AI/reviewer task pulse            |
+| `SOPHEX-FE-COCKPIT-STORYBOOK-AND-TESTS`       | Implemented on branch | Storybook and Vitest coverage               |
+| `SOPHEX-DOCS-CRE-COCKPIT-HARVEST-SYNC`        | Implemented on branch | Registry, UX, MVP0, and spec sync           |
+
+## Wave 9 Install / Polish Backlog
+
+| Ticket                                             | Status  | Notes                                                           |
+| -------------------------------------------------- | ------- | --------------------------------------------------------------- |
+| `SOPHEX-FE-COCKPIT-VISUAL-POLISH`                  | Backlog | Responsive spacing, visual hierarchy, and visual baselines      |
+| `SOPHEX-FE-EVIDENCE-WORKBENCH-SPATIAL-INTEGRATION` | Backlog | Bring spatial into the Evidence Workbench mental model          |
+| `SOPHEX-FE-COCKPIT-RUNTIME-PORT-ENRICHMENT`        | Backlog | Enrich sandbox cockpit projection without schema/provider lanes |
+| `SOPHEX-FE-HITL-CONFIDENCE-E2E-FLOWS`              | Backlog | Browser coverage for confidence-aware HITL drawer/detail paths  |
+| `SOPHEX-FE-WAVE-8-LIGHTHOUSE-VISUAL-REGRESSION`    | Backlog | Lighthouse and visual regression pass after Wave 8 landing      |

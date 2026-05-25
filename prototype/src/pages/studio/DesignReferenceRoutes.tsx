@@ -1,10 +1,7 @@
 import { useMemo, useState, type ReactElement } from 'react';
 
 import { AdvancedWorkflowNav } from '@/components/workstation/AdvancedWorkflowNav';
-import {
-  ReviewerAssignmentDrawer,
-  type ReviewAssignment,
-} from '@/components/workstation/ReviewerAssignmentDrawer';
+import { ReviewerAssignmentDrawer } from '@/components/workstation/ReviewerAssignmentDrawer';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
 import {
@@ -19,10 +16,17 @@ import {
   TrustBadge,
   WorkflowContextHeader,
 } from '@/components/studio/StudioPrimitives';
-import { HitlTrustTierBadge, reviewStateToHitlTier } from '@/components/workflow/HitlTrustTierBadge';
+import {
+  HitlTrustTierBadge,
+  reviewStateToHitlTier,
+} from '@/components/workflow/HitlTrustTierBadge';
 import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
 import { fixtureActors } from '@/lib/contracts/fixtures';
 import { getReviewQueue } from '@/lib/runtime/review-queue';
+import {
+  getContextualReviewAssignments,
+  type ReviewAssignment,
+} from '@/lib/workflow/review-assignments';
 import { studioDealPath, studioReportPath } from '@/data/studio';
 import { DealWorkflowTabs, StudioDealNotFound, useStudioDeal } from '@/pages/studio/StudioShared';
 
@@ -63,36 +67,6 @@ const IC_SECTIONS = [
   { name: 'Underwriting summary', status: 'Approved', citations: 8 },
   { name: 'Risk & mitigants', status: 'Draft', citations: 3 },
   { name: 'Capital stack appendix', status: 'Blocked', citations: 0 },
-];
-
-const MOCK_ASSIGNMENTS: ReviewAssignment[] = [
-  {
-    id: 'assign-unit-count',
-    field: 'Unit count conflict',
-    reason: 'OM and rent roll disagree; export blocked until resolved.',
-    assignee: 'Sarah Jenkins (VP)',
-    queueState: 'Assigned',
-    posture: 'Blocked',
-    trustTier: 'BLOCK',
-  },
-  {
-    id: 'assign-lender-quote',
-    field: 'Lender quote missing',
-    reason: 'DSCR gate requires term sheet citation.',
-    assignee: 'Mike Chen (Analyst)',
-    queueState: 'Queued',
-    posture: 'Source pending',
-    trustTier: 'HITL',
-  },
-  {
-    id: 'assign-rent-growth',
-    field: 'Upside rent growth',
-    reason: 'Scenario upside driver remains candidate evidence.',
-    assignee: 'Internal operator queue',
-    queueState: 'Needs review',
-    posture: 'Reviewer required',
-    trustTier: 'NOTIFY',
-  },
 ];
 
 export function StudioCapitalStackPage(): ReactElement {
@@ -199,7 +173,9 @@ export function StudioIcPacketPage(): ReactElement {
         <StudioCard title="Packet Readiness">
           <ReadinessRailMock />
           <StatusBadge status="Export gated" />
-          <p className="muted">Two sections blocked; capital stack appendix withheld pending review.</p>
+          <p className="muted">
+            Two sections blocked; capital stack appendix withheld pending review.
+          </p>
         </StudioCard>
         <StudioCard title="Section Review">
           {IC_SECTIONS.map((section) => (
@@ -239,6 +215,7 @@ export function StudioHitlReviewPage(): ReactElement {
   const [selected, setSelected] = useState<ReviewAssignment | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const queue = useMemo(() => getReviewQueue(fixtureActors.internalOperator), []);
+  const assignments = useMemo(() => getContextualReviewAssignments(), []);
   if (!deal) return <StudioDealNotFound />;
 
   return (
@@ -266,7 +243,7 @@ export function StudioHitlReviewPage(): ReactElement {
           <DataTable
             caption="HITL reviewer assignments"
             headers={['Field', 'Assignee', 'Queue state', 'Posture', 'Trust tier', 'Action']}
-            rows={MOCK_ASSIGNMENTS.map((assignment) => [
+            rows={assignments.map((assignment) => [
               assignment.field,
               assignment.assignee,
               assignment.queueState,
@@ -298,7 +275,11 @@ export function StudioHitlReviewPage(): ReactElement {
               </li>
             ))}
           </ul>
-          <PrototypeActionLink to="/studio/broker-os" className="btn btn-secondary" feature="Broker OS queue">
+          <PrototypeActionLink
+            to="/studio/broker-os"
+            className="btn btn-secondary"
+            feature="Broker OS queue"
+          >
             Open Broker OS
           </PrototypeActionLink>
         </StudioCard>

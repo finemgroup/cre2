@@ -3052,3 +3052,245 @@ button.heatmap-cell:focus-visible {
     grid-template-columns: 1fr;
   }
 }
+
+.sophex-bento-section {
+  margin: 1rem 0;
+}
+
+.sophex-bento-section-header,
+.sophex-bento-tile-header,
+.data-workbench-header,
+.ai-task-pulse header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.sophex-bento-section-header {
+  margin-bottom: 0.85rem;
+}
+
+.sophex-bento-section-header h2,
+.data-workbench-header h2,
+.sophex-bento-tile h3,
+.ai-task-pulse h3 {
+  margin: 0;
+}
+
+.sophex-bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.sophex-bento-tile {
+  display: grid;
+  gap: 0.85rem;
+  min-height: 100%;
+  padding: 1rem;
+  border: 1px solid var(--studio-line);
+  border-radius: 1rem;
+  background: var(--studio-card);
+  box-shadow: var(--studio-shadow);
+  color: inherit;
+  text-decoration: none;
+}
+
+.sophex-bento-link:hover {
+  border-color: var(--studio-primary);
+}
+
+.sophex-bento-span-2 {
+  grid-column: span 2;
+}
+
+.sophex-bento-span-3 {
+  grid-column: span 3;
+}
+
+.sophex-bento-span-4,
+.sophex-bento-span-full {
+  grid-column: 1 / -1;
+}
+
+.sophex-bento-tile-header-actions,
+.sophex-bento-actions,
+.data-workbench-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sophex-bento-primary,
+.sophex-bento-body,
+.sophex-bento-state-panel,
+.sophex-next-action-primary {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.sophex-bento-metric-value {
+  font-size: clamp(1.55rem, 3vw, 2.4rem);
+  line-height: 1;
+}
+
+.sophex-bento-state-loading,
+.sophex-bento-state-empty {
+  background: color-mix(in srgb, var(--studio-muted) 64%, white);
+}
+
+.sophex-bento-error {
+  color: var(--studio-danger);
+}
+
+.sophex-bento-skeleton {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.sophex-bento-skeleton span {
+  display: block;
+  height: 0.6rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--studio-muted), #ffffff, var(--studio-muted));
+}
+
+.sophex-stage-chip-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.stage-chip {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.65rem;
+  border: 1px solid var(--studio-line);
+  border-radius: 0.7rem;
+  background: #fff;
+}
+
+.stage-chip small {
+  color: var(--studio-subtle);
+  font-weight: 700;
+}
+
+.stage-chip-blocked {
+  border-color: color-mix(in srgb, var(--studio-danger) 42%, var(--studio-line));
+}
+
+.stage-chip-complete,
+.stage-chip-ready {
+  border-color: color-mix(in srgb, var(--studio-success) 42%, var(--studio-line));
+}
+
+.data-workbench-shell {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid var(--studio-line);
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--studio-card) 92%, var(--studio-primary-soft));
+}
+
+.data-workbench-ai-slot {
+  margin-top: 0.75rem;
+}
+
+.data-workbench-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--studio-subtle);
+  font-size: 0.9rem;
+}
+
+.view-mode-toggle {
+  display: inline-flex;
+  padding: 0.2rem;
+  border: 1px solid var(--studio-line);
+  border-radius: 999px;
+  background: #fff;
+}
+
+.view-mode-toggle button {
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  padding: 0.4rem 0.7rem;
+  color: var(--studio-subtle);
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.view-mode-toggle button.active {
+  background: var(--studio-primary);
+  color: #fff;
+}
+
+.ai-task-pulse {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.ai-task-list {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.ai-task-card {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.75rem;
+  border: 1px solid var(--studio-line);
+  border-radius: 0.75rem;
+  background: #fff;
+}
+
+.ai-task-card > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.ai-task-card span {
+  color: var(--studio-subtle);
+  font-size: 0.85rem;
+}
+
+.ai-task-progress {
+  height: 0.5rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--studio-muted);
+}
+
+.ai-task-progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--studio-primary);
+}
+
+@media (max-width: 900px) {
+  .sophex-bento-grid,
+  .sophex-stage-chip-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sophex-bento-span-2,
+  .sophex-bento-span-3 {
+    grid-column: auto;
+  }
+
+  .sophex-bento-section-header,
+  .sophex-bento-tile-header,
+  .data-workbench-header,
+  .ai-task-pulse header {
+    flex-direction: column;
+  }
+}
