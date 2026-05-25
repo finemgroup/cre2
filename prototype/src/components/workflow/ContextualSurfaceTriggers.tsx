@@ -134,6 +134,6 @@ function resolveTriggerPath(
   propertyId?: string
 ): string {
   if (section === 'report-builder') return studioReportPath(dealId);
-  if (section === 'export' && propertyId) return `/export/${propertyId}`;
+  if (section === 'export') return `/export/${propertyId ?? 'demo-001'}`;
   return studioDealPath(dealId, section);
 }
