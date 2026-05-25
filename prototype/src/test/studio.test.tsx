@@ -107,7 +107,7 @@ describe('Finem CRE Studio routes', () => {
 
   it('uses the active deal id in deal workflow pages', async () => {
     await renderRoute('/studio/deals/1200-tech/comps');
-    expect(screen.getByText('1200 Tech Boulevard')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: '1200 Tech Boulevard' })).toBeInTheDocument();
   });
 
   it('advances onboarding steps and toggles asset chips', async () => {

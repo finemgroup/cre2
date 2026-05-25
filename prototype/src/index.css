@@ -2715,6 +2715,48 @@ button.heatmap-cell:focus-visible {
   color: var(--studio-danger);
 }
 
+.deal-context-strip {
+  margin: 0.75rem 0 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--studio-line);
+  border-radius: 0.75rem;
+  background: var(--studio-surface);
+  display: grid;
+  gap: 0.5rem;
+}
+
+.deal-context-strip-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.deal-context-strip-note {
+  margin: 0;
+  font-size: 0.78rem;
+}
+
+.deal-workflow-nav-groups {
+  display: grid;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+@media (min-width: 960px) {
+  .deal-workflow-nav-groups {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.deal-workflow-nav-group {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.deal-workflow-nav-group .studio-eyebrow {
+  margin: 0;
+}
+
 .deal-cockpit-grid {
   display: grid;
   gap: 1rem;

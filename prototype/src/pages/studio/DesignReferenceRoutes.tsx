@@ -1,6 +1,5 @@
 import { useMemo, useState, type ReactElement } from 'react';
 
-import { AdvancedWorkflowNav } from '@/components/workstation/AdvancedWorkflowNav';
 import { ReviewerAssignmentDrawer } from '@/components/workstation/ReviewerAssignmentDrawer';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
@@ -82,7 +81,6 @@ export function StudioCapitalStackPage(): ReactElement {
         returnLabel="Return to cockpit"
       />
       <DealWorkflowTabs deal={deal} />
-      <AdvancedWorkflowNav dealId={deal.id} />
       <PageTitle
         eyebrow="Design reference promoted"
         title="Capital Stack & Waterfall"
@@ -158,7 +156,6 @@ export function StudioIcPacketPage(): ReactElement {
         returnLabel="Return to cockpit"
       />
       <DealWorkflowTabs deal={deal} />
-      <AdvancedWorkflowNav dealId={deal.id} />
       <PageTitle
         eyebrow="Design reference promoted"
         title="Investment Committee Packet"
@@ -227,7 +224,6 @@ export function StudioHitlReviewPage(): ReactElement {
         returnLabel="Return to cockpit"
       />
       <DealWorkflowTabs deal={deal} />
-      <AdvancedWorkflowNav dealId={deal.id} />
       <PageTitle
         eyebrow="Internal-only projection"
         title="Reviewer Assignment Queue"

@@ -18,6 +18,7 @@ import * as StudioPrimitivesStories from '@/stories/StudioPrimitives.stories';
 import * as TrustBadgeStories from '@/stories/TrustBadge.stories';
 import * as TrustExplainerDrawerStories from '@/stories/TrustExplainerDrawer.stories';
 import * as UploadDropzoneStories from '@/stories/UploadDropzone.stories';
+import * as Wave10WorkflowStories from '@/stories/Wave10Workflow.stories';
 import * as Wave3PolishStories from '@/stories/Wave3Polish.stories';
 import * as Wave8CockpitStories from '@/stories/Wave8Cockpit.stories';
 import * as WorkstationPrimitivesStories from '@/stories/WorkstationPrimitives.stories';
@@ -26,12 +27,16 @@ type StorySurface = 'public' | 'studio';
 
 type ComposedStory = ComponentType;
 
-function renderStory(Story: ComponentType, surface: StorySurface = 'public') {
+function renderStory(
+  Story: ComponentType,
+  surface: StorySurface = 'public',
+  initialEntries: string[] = ['/']
+) {
   const shellClass = surface === 'studio' ? 'studio-shell' : 'shell';
   const mainClass = surface === 'studio' ? 'studio-main' : 'shell-main';
 
   return render(
-    <MemoryRouter>
+    <MemoryRouter initialEntries={initialEntries}>
       <PrototypeToastProvider>
         <div className={shellClass}>
           <main className={mainClass}>
@@ -64,6 +69,12 @@ const storyGroups = [
   { name: 'TrustExplainerDrawer', module: TrustExplainerDrawerStories, surface: 'studio' as const },
   { name: 'UploadDropzone', module: UploadDropzoneStories, surface: 'studio' as const },
   {
+    name: 'Wave10Workflow',
+    module: Wave10WorkflowStories,
+    surface: 'studio' as const,
+    initialEntries: ['/studio/deals/riverside-flats/underwriting'],
+  },
+  {
     name: 'Wave3Polish',
     module: Wave3PolishStories,
     surface: 'studio' as const,
@@ -92,13 +103,21 @@ describe('Storybook compositions', () => {
       const hasPlay = typeof storyMeta?.play === 'function';
 
       it(`${group.name}/${storyName} renders without basic accessibility violations`, async () => {
-        const { container } = renderStory(ComposedStory, group.surface);
+        const { container } = renderStory(
+          ComposedStory,
+          group.surface,
+          'initialEntries' in group ? group.initialEntries : ['/']
+        );
         expect(await axe(container)).toHaveNoViolations();
       });
 
       if (hasPlay) {
         it(`${group.name}/${storyName} passes Storybook play interactions`, async () => {
-          const { container } = renderStory(ComposedStory, group.surface);
+          const { container } = renderStory(
+            ComposedStory,
+            group.surface,
+            'initialEntries' in group ? group.initialEntries : ['/']
+          );
           await storyMeta.play!({ canvasElement: container });
         });
       }

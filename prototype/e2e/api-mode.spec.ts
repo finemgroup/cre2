@@ -20,7 +20,9 @@ test.describe('sandbox api mode smoke', () => {
 
   test('studio workflow progress renders in api mode', async ({ page }) => {
     await gotoRoute(page, '/studio/deals/riverside-flats/underwriting');
-    await expect(page.getByRole('navigation', { name: /Deal workflow sections/i })).toBeVisible();
+    await expect(page.getByLabel('Deal workflow sections')).toBeVisible();
+    await expect(page.getByLabel('Deal cockpit context')).toBeVisible();
+    await expect(page.getByText('Core')).toBeVisible();
     await expect(page.getByRole('navigation', { name: /Underwriting panels/i })).toBeVisible();
     await expect(page.getByRole('heading', { name: /Executive Underwriting Cockpit/i })).toBeVisible();
     await expect(page.getByText(/AI staff pulse/i)).toBeVisible();

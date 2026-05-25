@@ -2,6 +2,8 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import type { ReactElement } from 'react';
 
 import { StudioCard } from '@/components/studio/StudioPrimitives';
+import { AdvancedWorkflowNav } from '@/components/workstation/AdvancedWorkflowNav';
+import { DealContextStrip } from '@/components/workflow/DealContextStrip';
 import { DealStageStepper } from '@/components/workflow/DealStageStepper';
 import { studioDealPath, studioReportPath, type Deal } from '@/data/studio';
 import { getStudioDealView } from '@/lib/runtime/studio-workspace';
@@ -24,39 +26,68 @@ export function StudioDealNotFound(): ReactElement {
 
 export function DealWorkflowTabs({ deal }: { deal: Deal }): ReactElement {
   const location = useLocation();
-  const tabs = [
-    ['Overview', studioDealPath(deal.id), /^\/studio\/deals\/[^/]+$/],
-    ['Inputs', studioDealPath(deal.id, 'intake'), /\/intake$/],
-    ['Evidence', studioDealPath(deal.id, 'data-review'), /\/data-review$/],
-    ['Comps', studioDealPath(deal.id, 'comps'), /\/comps$/],
-    [
-      'Underwriting',
-      studioDealPath(deal.id, 'underwriting'),
-      /\/underwriting(?:\/(?:sources|debt))?$/,
-    ],
-    ['Scenarios', studioDealPath(deal.id, 'scenarios'), /\/scenarios$/],
-    ['Snapshots', studioDealPath(deal.id, 'versions'), /\/versions$/],
-    ['Reports', studioReportPath(deal.id), /^\/studio\/reports\//],
+  const tabGroups = [
+    {
+      label: 'Core',
+      tabs: [
+        ['Overview', studioDealPath(deal.id), /^\/studio\/deals\/[^/]+$/],
+        ['Inputs', studioDealPath(deal.id, 'intake'), /\/intake$/],
+      ],
+    },
+    {
+      label: 'Evidence',
+      tabs: [
+        ['Evidence', studioDealPath(deal.id, 'data-review'), /\/data-review$/],
+        ['Comps', studioDealPath(deal.id, 'comps'), /\/comps$/],
+      ],
+    },
+    {
+      label: 'Model',
+      tabs: [
+        [
+          'Underwriting',
+          studioDealPath(deal.id, 'underwriting'),
+          /\/underwriting(?:\/(?:sources|debt))?$/,
+        ],
+        ['Scenarios', studioDealPath(deal.id, 'scenarios'), /\/scenarios$/],
+      ],
+    },
+    {
+      label: 'Delivery',
+      tabs: [
+        ['Snapshots', studioDealPath(deal.id, 'versions'), /\/versions$/],
+        ['Reports', studioReportPath(deal.id), /^\/studio\/reports\//],
+      ],
+    },
   ] as const;
 
   return (
     <>
+      <DealContextStrip dealId={deal.id} dealName={deal.name} />
       <DealStageStepper dealId={deal.id} />
-      <nav className="tabs-row" aria-label="Deal workflow sections">
-      {tabs.map(([tab, href, matcher]) => {
-        const active = matcher.test(location.pathname);
-        return (
-          <Link
-            key={tab}
-            className={active ? 'active tab-link' : 'tab-link'}
-            to={href}
-            aria-current={active ? 'page' : undefined}
-          >
-            {tab}
-          </Link>
-        );
-      })}
-      </nav>
+      <div className="deal-workflow-nav-groups" aria-label="Deal workflow sections">
+        {tabGroups.map((group) => (
+          <section key={group.label} className="deal-workflow-nav-group">
+            <p className="studio-eyebrow">{group.label}</p>
+            <nav className="tabs-row" aria-label={`${group.label} workflow links`}>
+              {group.tabs.map(([tab, href, matcher]) => {
+                const active = matcher.test(location.pathname);
+                return (
+                  <Link
+                    key={tab}
+                    className={active ? 'active tab-link' : 'tab-link'}
+                    to={href}
+                    aria-current={active ? 'page' : undefined}
+                  >
+                    {tab}
+                  </Link>
+                );
+              })}
+            </nav>
+          </section>
+        ))}
+      </div>
+      <AdvancedWorkflowNav dealId={deal.id} />
       {/\/underwriting(?:\/(?:sources|debt))?$/.test(location.pathname) ? (
         <UnderwritingSubTabs deal={deal} />
       ) : null}

@@ -2,7 +2,7 @@
 
 **Purpose:** Single checklist of every mock-only prototype location so operators can resolve them deliberately when gated lanes open. This is a **tracking doc**, not runtime authorization.
 
-**Last synced:** 2026-05-25 (after Wave 9 cockpit install/polish)
+**Last synced:** 2026-05-25 (after Wave 11 UX closeout)
 
 **Related docs:**
 
@@ -79,7 +79,9 @@
 
 **Studio mock data sources:** `prototype/src/data/studio.ts`, `lib/runtime/studio-workspace.ts`, `lib/source-bundle/index.ts`, `lib/staged-import/index.ts`, `lib/underwriting/*`, `lib/gis/*`, `lib/workflow/deal-stage-model.ts`
 
-**Studio workflow chrome (all deal routes via `StudioShared.tsx`):** `DealStageStepper` (six-stage model), `DealWorkflowTabs` (Evidence / Snapshots labels), `AdvancedWorkflowNav` (delivery surfaces + gate hints)
+**Studio workflow chrome (all deal routes via `StudioShared.tsx`):** `DealContextStrip` (war-room-lite advisory context), `DealStageStepper` (six-stage model), grouped `DealWorkflowTabs` (Core / Evidence / Model / Delivery), and integrated `AdvancedWorkflowNav` (delivery surfaces + gate hints)
+
+**Wave 11 UX closeout:** Grouped nav, `DealContextStrip`, and extended `ContextualSurfaceTriggers` on intake/comps/debt/source-trace remain `workflow-advisory`. They improve legibility without authorizing export or evidence promotion.
 
 **Wave 8 cockpit primitives:** `BentoTile` state contract, `DealCockpitPanel`, `DataWorkbenchShell`, `AiTaskPulse`, `confidence.ts`, `next-action.ts`, and shared `review-assignments.ts` are `workflow-advisory` / `mock-ui`. They do not authorize evidence promotion, reviewer decisions, IC delivery, or export.
 

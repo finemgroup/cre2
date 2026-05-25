@@ -200,3 +200,23 @@ Canonical ticket pack: [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPI
 | `SOPHEX-FE-UW-REPORT-BREADCRUMB` | Implemented | Snapshot ID in report builder breadcrumb trail |
 | `SOPHEX-FE-UW-MOCK-BOUNDARY-BANNERS` | Implemented | Evidence/scenario mock boundary banners added |
 | `SOPHEX-FE-LIGHTHOUSE-EXPAND` | Implemented | `/studio/deals/riverside-flats` added to Lighthouse URLs |
+
+## Wave 11 UX Closeout (2026-05-25)
+
+| Track | Status | Notes |
+| --- | --- | --- |
+| Grouped deal nav | Implemented | Core / Evidence / Model / Delivery groups in `DealWorkflowTabs` |
+| War-room context strip | Implemented | `DealContextStrip` surfaces stage, blockers, trust tier, pending reviews |
+| Advanced nav integration | Implemented | `AdvancedWorkflowNav` centralized in `DealWorkflowTabs`; duplicates removed |
+| Extended surface triggers | Implemented | Intake, comps, debt, and source-trace contextual handoffs |
+| Storybook coverage | Implemented | `Wave10Workflow.stories.tsx` for banners, triggers, strip, grouped nav |
+| Wave 11 tests | Implemented | `wave11-ux.test.tsx` + story composition coverage |
+
+### Wave 11 Ticket Ledger
+
+| Ticket | Status | Notes |
+| --- | --- | --- |
+| `SOPHEX-FE-UW-NAV-GROUPING` | Implemented | Grouped workflow tabs with integrated advanced nav |
+| `SOPHEX-FE-UW-WAR-ROOM-CONTEXT-STRIP` | Implemented | Advisory cockpit context strip on all deal tab routes |
+| `SOPHEX-FE-UW-EXTENDED-SURFACE-TRIGGERS` | Implemented | Contextual handoffs on intake, comps, debt, source-trace |
+| `SOPHEX-FE-WAVE-11-STORYBOOK-AND-TESTS` | Implemented | Storybook + Vitest + API-mode e2e selector updates |

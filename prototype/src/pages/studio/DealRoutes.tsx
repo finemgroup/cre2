@@ -524,6 +524,14 @@ export function StudioDealIntakePage(): ReactElement {
           Uploaded files and extracted fields remain candidate evidence until data review and source
           trace gates clear.
         </NonProductionCallout>
+        <MockBoundaryBanner variant="evidence" />
+        <GateResolutionCallout
+          action="Continue to normalization workbench"
+          prerequisite="Cap-rate basis and source materials still need cited evidence."
+          owner="An analyst"
+          resolveTo={studioDealPath(activeDeal.id, 'data-review')}
+          resolveLabel="Open data review"
+        />
         <StudioCard title="Property Basics">
           <div className="form-grid">
             <label>
@@ -620,6 +628,7 @@ export function StudioDealIntakePage(): ReactElement {
           />
         </div>
       </StudioCard>
+      <ContextualSurfaceTriggers dealId={activeDeal.id} route="intake" />
     </div>
   );
 }
@@ -653,6 +662,14 @@ export function StudioCompsPage(): ReactElement {
       <NonProductionCallout>
         Comparable sales are sample rows with mixed authority states.
       </NonProductionCallout>
+      <MockBoundaryBanner variant="evidence" />
+      <GateResolutionCallout
+        action="Apply comp set to underwriting"
+        prerequisite="Premium-private comp visibility and exit cap citation remain blocked."
+        owner="An analyst"
+        resolveTo={studioDealPath(deal.id, 'underwriting-sources')}
+        resolveLabel="Review comp source trace"
+      />
       <ReviewPostureBanner blocks={sourceBlocks} />
       <div className="comps-grid">
         <StudioCard title="Subject Property">
@@ -783,6 +800,7 @@ export function StudioCompsPage(): ReactElement {
         onClose={() => setTrustOpen(false)}
         context={`Authority for ${selected?.name ?? 'this comp'} is ${selected?.authority ?? 'unknown'}.`}
       />
+      <ContextualSurfaceTriggers dealId={deal.id} route="comps" />
     </div>
   );
 }
@@ -1326,6 +1344,14 @@ export function StudioAssumptionSourceTracePage(): ReactElement {
         Assumption lineage is deterministic mock data. Reviewer actions are simulated and do not
         persist truth.
       </NonProductionCallout>
+      <MockBoundaryBanner variant="evidence" />
+      <GateResolutionCallout
+        action="Promote cleared assumptions"
+        prerequisite="Unit count conflict remains blocked until reviewer resolution."
+        owner="An analyst"
+        resolveTo={studioDealPath(deal.id, 'data-review')}
+        resolveLabel="Open normalization workbench"
+      />
       <DataWorkbenchShell
         title="Assumption Source Trace"
         subtitle="Switch between trace table, blocker list, and evidence grid without changing authority."
@@ -1401,6 +1427,7 @@ export function StudioAssumptionSourceTracePage(): ReactElement {
           ),
         }}
       />
+      <ContextualSurfaceTriggers dealId={deal.id} route="source-trace" />
       <EvidenceConflictResolverModal
         isOpen={conflictOpen}
         onClose={() => setConflictOpen(false)}
@@ -1620,6 +1647,7 @@ export function StudioDebtPanelPage(): ReactElement {
       <NonProductionCallout>
         Lender quote capture is mock-only. No files, providers, storage, or borrower data are used.
       </NonProductionCallout>
+      <MockBoundaryBanner variant="evidence" />
       <GateResolutionCallout
         action="Lock assumptions"
         prerequisite="A lender quote is missing and DSCR remains source pending."
@@ -1716,6 +1744,7 @@ export function StudioDebtPanelPage(): ReactElement {
           Saving creates candidate evidence only and does not upload, store, or send files.
         </p>
       </WorkstationDrawer>
+      <ContextualSurfaceTriggers dealId={deal.id} route="debt" />
     </div>
   );
 }

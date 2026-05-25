@@ -8,7 +8,11 @@ export type ContextualSurfaceRoute =
   | 'data-review'
   | 'scenarios'
   | 'versions'
-  | 'report-builder';
+  | 'report-builder'
+  | 'intake'
+  | 'comps'
+  | 'debt'
+  | 'source-trace';
 
 type SurfaceTrigger = {
   section: StudioDealSection | 'report-builder' | 'export';
@@ -83,6 +87,74 @@ const TRIGGERS: Record<ContextualSurfaceRoute, SurfaceTrigger[]> = {
       section: 'export',
       label: 'Public export gate',
       reason: 'Preview the redacted export posture for this property.',
+    },
+  ],
+  intake: [
+    {
+      section: 'data-review',
+      label: 'Normalization workbench',
+      reason: 'Review candidate fields before assumption promotion.',
+    },
+    {
+      section: 'underwriting-sources',
+      label: 'Assumption source trace',
+      reason: 'Line up intake uploads with cited source refs.',
+    },
+    {
+      section: 'spatial',
+      label: 'Spatial evidence workbench',
+      reason: 'Confirm location intelligence posture early.',
+    },
+  ],
+  comps: [
+    {
+      section: 'underwriting',
+      label: 'Underwriting cockpit',
+      reason: 'Apply comp authority to model assumptions.',
+    },
+    {
+      section: 'underwriting-sources',
+      label: 'Assumption source trace',
+      reason: 'Verify comp citations before scenario lock.',
+    },
+    {
+      section: 'scenarios',
+      label: 'Scenario comparison',
+      reason: 'Compare exit cap and rent growth sensitivity.',
+    },
+  ],
+  debt: [
+    {
+      section: 'underwriting',
+      label: 'Underwriting cockpit',
+      reason: 'Return to headline metrics and gate posture.',
+    },
+    {
+      section: 'scenarios',
+      label: 'Scenario comparison',
+      reason: 'Stress DSCR under downside lender assumptions.',
+    },
+    {
+      section: 'versions',
+      label: 'Valuation snapshots',
+      reason: 'Debt quote gates affect snapshot export eligibility.',
+    },
+  ],
+  'source-trace': [
+    {
+      section: 'data-review',
+      label: 'Normalization workbench',
+      reason: 'Resolve candidate conflicts before source promotion.',
+    },
+    {
+      section: 'hitl-review',
+      label: 'Analyst review queue',
+      reason: 'Escalate blocked assumptions to reviewer queue.',
+    },
+    {
+      section: 'underwriting',
+      label: 'Underwriting cockpit',
+      reason: 'Apply cleared sources back to model assumptions.',
     },
   ],
 };

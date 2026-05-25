@@ -2,7 +2,6 @@ import { useMemo, type ReactElement } from 'react';
 
 import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
 import { MapPlaceholderPreview } from '@/components/spatial/MapPlaceholderPreview';
-import { AdvancedWorkflowNav } from '@/components/workstation/AdvancedWorkflowNav';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import {
   DataTable,
@@ -178,7 +177,6 @@ export function StudioSpatialWorkbenchPage(): ReactElement {
         returnLabel="Return to cockpit"
       />
       <DealWorkflowTabs deal={deal} />
-      <AdvancedWorkflowNav dealId={deal.id} />
       <PageTitle
         eyebrow="GIS contract spine"
         title="Spatial Manifest & Trade Area Workbench"
