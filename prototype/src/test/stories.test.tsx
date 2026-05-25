@@ -13,6 +13,8 @@ import * as StudioPrimitivesStories from '@/stories/StudioPrimitives.stories';
 
 type StorySurface = 'public' | 'studio';
 
+type ComposedStory = ComponentType;
+
 function renderStory(Story: ComponentType, surface: StorySurface = 'public') {
   const shellClass = surface === 'studio' ? 'studio-shell' : 'shell';
   const mainClass = surface === 'studio' ? 'studio-main' : 'shell-main';
@@ -40,10 +42,23 @@ describe('Storybook compositions', () => {
     const stories = composeStories(group.module);
 
     for (const [storyName, Story] of Object.entries(stories)) {
+      const ComposedStory = Story as ComposedStory;
+      const storyMeta = group.module[storyName as keyof typeof group.module] as {
+        play?: (context: { canvasElement: HTMLElement }) => Promise<void>;
+      };
+      const hasPlay = typeof storyMeta?.play === 'function';
+
       it(`${group.name}/${storyName} renders without basic accessibility violations`, async () => {
-        const { container } = renderStory(Story as ComponentType, group.surface);
+        const { container } = renderStory(ComposedStory, group.surface);
         expect(await axe(container)).toHaveNoViolations();
       });
+
+      if (hasPlay) {
+        it(`${group.name}/${storyName} passes Storybook play interactions`, async () => {
+          const { container } = renderStory(ComposedStory, group.surface);
+          await storyMeta.play!({ canvasElement: container });
+        });
+      }
     }
   }
 

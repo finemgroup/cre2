@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:stories": "vitest run src/test/stories.test.tsx",
+    "test:stories:interactions": "vitest run src/test/stories.test.tsx -t \"play interactions\"",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:install": "playwright install chromium",

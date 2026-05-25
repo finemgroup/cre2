@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
+import { usePrototypeAction } from '@/lib/prototype/usePrototypeAction';
 import { studioDealPath } from '@/data/studio';
 import { mockProperties } from '@/data/mock';
 import { getLinkedDealId } from '@/lib/workflow-identity';
@@ -11,7 +12,13 @@ export function PropertyPage(): ReactElement {
   const { id } = useParams();
   const property = mockProperties.find((p) => p.id === id);
   const linkedDealId = getLinkedDealId(id);
+  const notifyPrototype = usePrototypeAction();
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  function openEvidenceDrawer() {
+    notifyPrototype('Public evidence drawer');
+    setDrawerOpen(true);
+  }
 
   if (!property) {
     return (
@@ -52,7 +59,7 @@ export function PropertyPage(): ReactElement {
             <strong>Public records aggregate</strong>
             <AuthorityBadge label="public-baseline" />
           </div>
-          <button type="button" className="btn btn-secondary" onClick={() => setDrawerOpen(true)}>
+          <button type="button" className="btn btn-secondary" onClick={openEvidenceDrawer}>
             View evidence drawer
           </button>
         </div>

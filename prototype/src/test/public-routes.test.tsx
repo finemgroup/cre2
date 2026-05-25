@@ -62,6 +62,14 @@ describe('public Sophex routes', () => {
     ).toHaveAttribute('href', '/report/demo-002');
   });
 
+  it('opens the public evidence drawer with prototype feedback', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/property/demo-001');
+    await user.click(screen.getByRole('button', { name: /View evidence drawer/i }));
+    expect(screen.getByText(/Public evidence drawer is simulated/i)).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: /Evidence drawer/i })).toBeInTheDocument();
+  });
+
   it('shows prototype feedback when selecting a public upload file', async () => {
     const user = userEvent.setup();
     await renderRoute('/upload');

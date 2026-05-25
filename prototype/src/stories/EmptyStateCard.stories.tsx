@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, within } from '@storybook/test';
 
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 
@@ -22,6 +23,11 @@ export const Neutral: Story = {
         Reset filters
       </button>
     ),
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole('heading', { name: /No comps matched your filters/i })).toBeVisible();
+    await expect(canvas.getByRole('button', { name: /Reset filters/i })).toBeEnabled();
   },
 };
 

@@ -168,6 +168,16 @@ describe('Finem CRE Studio routes', () => {
     expect(screen.getByRole('heading', { name: /Deal not found/i })).toBeInTheDocument();
   });
 
+  it('shows prototype feedback from standalone report shell actions', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/studio/reports/riverside-flats/builder');
+    const exportButtons = screen.getAllByRole('button', { name: /^Export$/i });
+    await user.click(exportButtons[0]);
+    expect(screen.getByText(/Report export is simulated/i)).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /Report help/i }));
+    expect(screen.getByText(/Report help is simulated/i)).toBeInTheDocument();
+  });
+
   it('shows prototype feedback for marketing landing CTAs', async () => {
     const user = userEvent.setup();
     await renderRoute('/studio');

@@ -3,6 +3,7 @@ import type { ReactElement } from 'react';
 
 import { PageTransition } from '@/components/motion/PageTransition';
 import { RouteProgress } from '@/components/layout/RouteProgress';
+import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
 import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
 import { getStudioRouteTitle } from '@/lib/a11y/routeTitles';
@@ -28,25 +29,19 @@ export function StudioStandaloneShell(): ReactElement {
           <Link to="/studio/settings/white-label">White Label</Link>
         </nav>
         <div className="studio-topbar-actions">
-          <button
-            type="button"
+          <PrototypeActionButton
+            feature="Report export"
             className="btn btn-primary"
-            disabled
             aria-describedby="report-export-disabled-note"
           >
             Export
-          </button>
+          </PrototypeActionButton>
           <p id="report-export-disabled-note" className="sr-only">
-            Export stays disabled until report sections and source-rights gates clear.
+            Export stays gated until report sections and source-rights gates clear in the builder.
           </p>
-          <button
-            type="button"
-            aria-label="Report help"
-            disabled
-            title="Prototype report help is not wired"
-          >
+          <PrototypeActionButton feature="Report help" className="btn btn-ghost" aria-label="Report help">
             <MaterialIcon name="help" />
-          </button>
+          </PrototypeActionButton>
           <span className="avatar" aria-label="User avatar" />
         </div>
       </header>

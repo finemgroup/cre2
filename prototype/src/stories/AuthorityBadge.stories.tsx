@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, within } from '@storybook/test';
 
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 
@@ -29,6 +30,10 @@ type Story = StoryObj<typeof meta>;
 
 export const PublicBaseline: Story = {
   args: { label: 'public-baseline' },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByLabelText(/Authority state: Public baseline/i)).toBeInTheDocument();
+  },
 };
 
 export const CandidateEvidence: Story = {
