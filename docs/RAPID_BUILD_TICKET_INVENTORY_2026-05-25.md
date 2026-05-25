@@ -115,3 +115,4 @@ See `STITCH_UNDERWRITING_WORKSTATION_TRIAGE.md` and `docs/design/stitch-underwri
 | Gate resolution copy | Implemented | `GateResolutionCallout` pattern on debt and related surfaces |
 | Navigation/copy refresh | Implemented | Evidence/Snapshots labels, advanced nav gate hints, valuation snapshot language |
 | Delivery continuity | Implemented | Report breadcrumb, mock-boundary banners, Underwrite in Studio CTA |
+| Mock resolution registry sync | Implemented | `MOCK_RESOLUTION_REGISTRY.md` updated for Wave 6 workflow UX layer |

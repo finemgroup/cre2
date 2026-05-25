@@ -2,13 +2,14 @@
 
 **Purpose:** Single checklist of every mock-only prototype location so operators can resolve them deliberately when gated lanes open. This is a **tracking doc**, not runtime authorization.
 
-**Last synced:** 2026-05-25 (after Wave 5 polish, commit `1fb9052`)
+**Last synced:** 2026-05-25 (after Wave 6 UX polish, commit `0d56472`)
 
 **Related docs:**
 
 | Doc | What it tracks | Gap vs this registry |
 | --- | --- | --- |
 | [RAPID_BUILD_TICKET_INVENTORY_2026-05-25.md](RAPID_BUILD_TICKET_INVENTORY_2026-05-25.md) | Wave completion by ticket | No per-route resolution lane |
+| [UNDERWRITING_WORKFLOW_UX_REVIEW_2026-05-25.md](UNDERWRITING_WORKFLOW_UX_REVIEW_2026-05-25.md) | UX strategy + Wave 6 ticket pack | Product intent, not mock inventory |
 | [WORLD_CLASS_PROTOTYPE_SPEC.md](WORLD_CLASS_PROTOTYPE_SPEC.md) | Route acceptance matrix | **Stale** — missing Wave 3–5 routes |
 | [PROTOTYPE_MVP0.md](PROTOTYPE_MVP0.md) | Early MVP0 route list | **Stale** — 12-screen snapshot only |
 | [STITCH_UNDERWRITING_WORKSTATION_TRIAGE.md](STITCH_UNDERWRITING_WORKSTATION_TRIAGE.md) | Stitch classification | Triage intent, not resolution status |
@@ -25,7 +26,7 @@
 | `billing-auth` | Accounts, org scope, plan entitlements, sign-in | [SECURITY_PRIVACY_LAUNCH_GATES.md](SECURITY_PRIVACY_LAUNCH_GATES.md) |
 | `keep-mock` | Guard patterns, marketing shells, explicit non-production banners | No runtime replacement planned |
 
-**Status key:** `mock-ui` = clickable prototype only · `mock-data` = deterministic fixtures · `simulated-cta` = toast feedback · `disabled-gate` = hard-disabled with blocker copy · `design-ref` = promoted Stitch reference, still mock-only
+**Status key:** `mock-ui` = clickable prototype only · `mock-data` = deterministic fixtures · `simulated-cta` = toast feedback · `disabled-gate` = hard-disabled with blocker copy · `design-ref` = promoted Stitch reference, still mock-only · `workflow-advisory` = stage/next-action UX that does not authorize runtime gates
 
 ---
 
@@ -34,12 +35,12 @@
 | Route | Page file | Mock posture | Resolution lane | Logged in |
 | --- | --- | --- | --- | --- |
 | `/` | `prototype/src/pages/LandingPage.tsx` | `mock-ui` search + sample properties | `sandbox-api`, `provider` | Wave 2 continuity banner |
-| `/property/:id` | `prototype/src/pages/PropertyPage.tsx` | `mock-data` from `lib/runtime/public-property.ts` | `sandbox-api`, `provider` | WORLD_CLASS spec (partial) |
+| `/property/:id` | `prototype/src/pages/PropertyPage.tsx` | `mock-data` from `lib/runtime/public-property.ts`; primary **Underwrite in Studio** CTA → deal intake via `lib/workflow-identity` | `sandbox-api`, `provider`, `billing-auth` | Wave 6 cross-entity entry |
 | `/property/:id/comps` | `prototype/src/pages/CompsPage.tsx` | `mock-data` comps + blocked labels | `provider`, `sandbox-api` | Wave 4 readiness rail |
 | `/comps` | `prototype/src/pages/CompsPage.tsx` | Route guard only | `keep-mock` | WORLD_CLASS spec |
 | `/upload` | `prototype/src/pages/UploadPage.tsx` | `simulated-cta` upload stages; no bytes sent | `provider`, `hitl-legal` | WORLD_CLASS spec |
 | `/report/:id` | `prototype/src/pages/ReportPage.tsx` | `mock-data` sections; `simulated-cta` section review | `sandbox-api`, `hitl-legal` | Wave 2/4 |
-| `/export/:id` | `prototype/src/pages/ExportPage.tsx` | `disabled-gate` generate; simulated receipt | `hitl-legal`, `schema-db` | Wave 2/4 |
+| `/export/:id` | `prototype/src/pages/ExportPage.tsx` | `disabled-gate` generate; simulated receipt; `MockBoundaryBanner` (`export` variant) | `hitl-legal`, `schema-db` | Wave 2/4/6 |
 | `*` (404) | `prototype/src/pages/NotFoundPage.tsx` | Static guard | `keep-mock` | — |
 
 **Public mock data sources:** `prototype/src/data/mock.ts`, `lib/runtime/public-search.ts`, `lib/runtime/public-comps.ts`, `lib/runtime/report-flow.ts`, `lib/runtime/upload-flow.ts`
@@ -57,24 +58,26 @@
 | `/studio/dashboard` | `DealRoutes.tsx` | Mock pipeline metrics | `sandbox-api`, `schema-db` | Wave 1 |
 | `/studio/deal-intake` | redirect → deal intake | Route alias | `keep-mock` | — |
 | `/studio/deals/:dealId/intake` | `DealRoutes.tsx` | Staged import mock | `provider`, `hitl-legal` | Wave 2 |
-| `/studio/deals/:dealId/data-review` | `DealRoutes.tsx` | Rent roll/T12 normalization mock | `provider`, `hitl-legal` | Phase 2 / Stitch W1 |
-| `/studio/deals/:dealId` | `DealRoutes.tsx` | Deal overview + evidence drawer | `sandbox-api`, `schema-db` | Wave 1 |
+| `/studio/deals/:dealId/data-review` | `DealRoutes.tsx` | **Evidence review** — rent roll/T12 normalization mock | `provider`, `hitl-legal` | Phase 2 / Stitch W1 / Wave 6 nav label |
+| `/studio/deals/:dealId` | `DealRoutes.tsx` | Deal overview + evidence drawer; `DealCockpitSummary` next-action card | `sandbox-api`, `schema-db` | Wave 1/6 |
 | `/studio/deals/:dealId/comps` | `DealRoutes.tsx` | Studio comps + premium lock labels | `provider` | Wave 4 readiness |
 | `/studio/deals/:dealId/underwriting` | `DealRoutes.tsx` | Executive cockpit; gates; handoffs | `sandbox-api`, `hitl-legal` | Stitch W1, Wave 2 |
 | `/studio/deals/:dealId/underwriting/sources` | `DealRoutes.tsx` | Assumption source trace | `schema-db`, `hitl-legal` | Stitch W1 |
-| `/studio/deals/:dealId/underwriting/debt` | `DealRoutes.tsx` | Lender quote panel mock | `provider`, `hitl-legal` | Stitch W1 |
+| `/studio/deals/:dealId/underwriting/debt` | `DealRoutes.tsx` | Lender quote panel mock; `GateResolutionCallout` on debt blockers | `provider`, `hitl-legal` | Stitch W1 / Wave 6 |
 | `/studio/deals/:dealId/scenarios` | `DealRoutes.tsx` | Scenario diff + sensitivity | `sandbox-api` | Stitch W2, Wave 2 |
-| `/studio/deals/:dealId/versions` | `DealRoutes.tsx` | Version timeline + export linkage | `schema-db`, `hitl-legal` | Stitch W2, Wave 4 |
-| `/studio/deals/:dealId/capital-stack` | `DesignReferenceRoutes.tsx` | `design-ref`; `disabled-gate` Export Waterfall | `hitl-legal`, `provider` | Wave 3, Stitch design-ref |
-| `/studio/deals/:dealId/ic-packet` | `DesignReferenceRoutes.tsx` | `design-ref`; `disabled-gate` Send to IC | `hitl-legal` | Wave 3, Stitch design-ref |
-| `/studio/deals/:dealId/hitl-review` | `DesignReferenceRoutes.tsx` | `design-ref`; mock assignments + tiers | `hitl-legal`, `schema-db` | Wave 3/5 |
-| `/studio/deals/:dealId/spatial` | `GisRoutes.tsx` | GIS manifest + layer budgets mock | `provider`, `sandbox-api` | Wave 3/4, GIS pack |
-| `/studio/reports/:dealId/builder` | `ReportRoutes.tsx` | Report builder + export gates | `hitl-legal`, `schema-db` | Wave 2/4 |
+| `/studio/deals/:dealId/versions` | `DealRoutes.tsx` | **Valuation snapshots** timeline + export linkage; `MockBoundaryBanner` (`snapshot`) | `schema-db`, `hitl-legal` | Stitch W2, Wave 4/6 |
+| `/studio/deals/:dealId/capital-stack` | `DesignReferenceRoutes.tsx` | `design-ref`; `disabled-gate` Export Waterfall; advanced nav gate hint | `hitl-legal`, `provider` | Wave 3/6, Stitch design-ref |
+| `/studio/deals/:dealId/ic-packet` | `DesignReferenceRoutes.tsx` | `design-ref`; `disabled-gate` Send to IC; `MockBoundaryBanner` (`ic`) | `hitl-legal` | Wave 3/6, Stitch design-ref |
+| `/studio/deals/:dealId/hitl-review` | `DesignReferenceRoutes.tsx` | **Analyst review** — `design-ref`; mock assignments + tiers; `MockBoundaryBanner` (`review`) | `hitl-legal`, `schema-db` | Wave 3/5/6 |
+| `/studio/deals/:dealId/spatial` | `GisRoutes.tsx` | **Location intelligence** — GIS manifest + layer budgets mock | `provider`, `sandbox-api` | Wave 3/4/6 nav label, GIS pack |
+| `/studio/reports/:dealId/builder` | `ReportRoutes.tsx` | Report builder + export gates; deal breadcrumb; `MockBoundaryBanner` (`export`) | `hitl-legal`, `schema-db` | Wave 2/4/6 |
 | `/studio/settings/billing` | `MarketingRoutes.tsx` | Mock plan tiers | `billing-auth` | Phase 2 |
 | `/studio/settings/white-label` | `ReportRoutes.tsx` | Mock branding uploads | `schema-db`, `billing-auth` | Phase 2 |
 | `/studio/broker-os` | `OperatorRoutes.tsx` | Sanitized job/agent projection + HITL queue | `sandbox-api`, `keep-mock` (projection) | Wave 5 HITL card |
 
-**Studio mock data sources:** `prototype/src/data/studio.ts`, `lib/runtime/studio-workspace.ts`, `lib/source-bundle/index.ts`, `lib/staged-import/index.ts`, `lib/underwriting/*`, `lib/gis/*`
+**Studio mock data sources:** `prototype/src/data/studio.ts`, `lib/runtime/studio-workspace.ts`, `lib/source-bundle/index.ts`, `lib/staged-import/index.ts`, `lib/underwriting/*`, `lib/gis/*`, `lib/workflow/deal-stage-model.ts`
+
+**Studio workflow chrome (all deal routes via `StudioShared.tsx`):** `DealStageStepper` (six-stage model), `DealWorkflowTabs` (Evidence / Snapshots labels), `AdvancedWorkflowNav` (delivery surfaces + gate hints)
 
 ---
 
@@ -92,6 +95,40 @@
 | Document evidence drawer | `StudioPrimitives.tsx` / deal overview | Mock source blocks | `schema-db` | Wave 1 |
 | Upgrade / paywall modal | `UpgradePlanModal.tsx` | `simulated-cta` | `billing-auth` | Phase 2 |
 | Studio topbar panels | `StudioTopbarPanels.tsx` | Notifications, support mock | `billing-auth`, `keep-mock` | Phase 2 |
+
+---
+
+## Wave 6 workflow UX layer (mock-only)
+
+Persistent workflow chrome added in Wave 6. **Does not authorize export, IC delivery, or evidence promotion** — copy states this explicitly where needed.
+
+| Surface | Component file | Mock posture | Resolution lane | Logged in |
+| --- | --- | --- | --- | --- |
+| Six-stage deal stepper | `components/workflow/DealStageStepper.tsx` | `workflow-advisory`; reads `getDealStageProgress()` | `sandbox-api`, `schema-db` | Wave 6 |
+| Deal cockpit next action | `components/workflow/DealCockpitSummary.tsx` | `workflow-advisory`; reads `getDealNextAction()` | `sandbox-api`, `schema-db` | Wave 6 |
+| Stage progress + routing model | `lib/workflow/deal-stage-model.ts` | `mock-data` per `dealId` (`riverside-flats`, `1200-tech`) | `sandbox-api`, `schema-db` | Wave 6 |
+| Gate resolution hints | `components/workflow/GateResolutionCallout.tsx` | `keep-mock`; navigation copy only | `keep-mock` (replace with server gate messages) | Wave 6 |
+| Mock boundary banners | `components/workflow/MockBoundaryBanner.tsx` | `keep-mock` | `keep-mock` | Wave 6 |
+| Advanced / delivery nav | `components/workstation/AdvancedWorkflowNav.tsx` | `keep-mock`; gate hints in `title` + subtitle | `keep-mock` | Wave 6 |
+| Report deal breadcrumb | `ReportRoutes.tsx` | `keep-mock` | `keep-mock` | Wave 6 |
+| Back to deal link | `StudioStandaloneShell.tsx` | `keep-mock`; deal-aware exit from report shell | `keep-mock` | Wave 6 |
+
+### `MockBoundaryBanner` placements
+
+| Variant | Copy theme | Route(s) | Page file |
+| --- | --- | --- | --- |
+| `export` | Demo export — not for distribution | `/export/:id`, `/studio/reports/:dealId/builder` | `ExportPage.tsx`, `ReportRoutes.tsx` |
+| `ic` | Prototype IC assembly — no transmission | `/studio/deals/:dealId/ic-packet` | `DesignReferenceRoutes.tsx` |
+| `review` | Advisory analyst review — no authority promotion | `/studio/deals/:dealId/hitl-review` | `DesignReferenceRoutes.tsx` |
+| `snapshot` | Simulated snapshot lock — no production records | `/studio/deals/:dealId/versions` | `DealRoutes.tsx` |
+
+### `GateResolutionCallout` placements
+
+| Blocked action | Prerequisite (mock) | Resolve route | Page file |
+| --- | --- | --- | --- |
+| Lock assumptions | Missing lender quote; DSCR source pending | `/studio/deals/:dealId/underwriting` | `DealRoutes.tsx` (debt panel) |
+
+**When resolving:** replace `deal-stage-model.ts` hardcoded progress with server workflow state; keep stepper/cockpit UI but wire reads to sandbox API. Retain or tighten mock-boundary banners until real consent/receipt flows exist.
 
 ---
 
@@ -150,6 +187,7 @@ Replace as a set when opening sandbox — see [SOPHEX_GATED_LANES_APPROVAL_PACKE
 | `lib/runtime/actor-demo-context.ts` | Demo actor switcher (localStorage) | `billing-auth` |
 | `lib/report-governance/index.ts` | Readiness / export evaluation | `hitl-legal` |
 | `lib/workflow-identity/index.ts` | Public↔Studio entity links | `schema-db` |
+| `lib/workflow/deal-stage-model.ts` | Six-stage progress, route→stage map, next-action fixtures | `sandbox-api`, `schema-db` |
 | `lib/gis/index.ts`, `lib/gis/performance.ts` | Spatial manifest + layer budgets | `provider`, `sandbox-api` |
 | `lib/source-bundle/index.ts` | Source blocks per deal | `schema-db` |
 | `lib/staged-import/index.ts` | Intake/normalization fixtures | `provider` |
@@ -167,7 +205,7 @@ Replace as a set when opening sandbox — see [SOPHEX_GATED_LANES_APPROVAL_PACKE
 | Rent Roll / T12 Normalization | Prototype now | `/data-review` | Yes |
 | Debt / Lender Quote Panel | Prototype now | `/underwriting/debt` | Yes |
 | Scenario Diff View | Prototype now | `/scenarios` | Yes |
-| Valuation Version Timeline | Prototype now | `/versions` | Yes |
+| Valuation Snapshots (was Version Timeline) | Prototype now | `/versions` | Yes |
 | Calculation Breakdown Drawer | Prototype now | Underwriting modals | Yes |
 | Evidence Conflict Resolver | Prototype now | Conflict modal | Yes |
 | Export Manifest Preview | Prototype now | `ExportGovernanceModal` | Yes |
@@ -175,7 +213,7 @@ Replace as a set when opening sandbox — see [SOPHEX_GATED_LANES_APPROVAL_PACKE
 | Sensitivity Cell Drilldown | Prototype now | Scenario drilldown | Yes |
 | Capital Stack / Waterfall | Design reference → promoted W3 | `/capital-stack` | Yes |
 | Investment Committee Packet | Design reference → promoted W3 | `/ic-packet` | Yes |
-| Reviewer Assignment / HITL | Design reference → promoted W3 | `/hitl-review` + drawer | Yes |
+| Reviewer Assignment / HITL | Design reference → promoted W3 | `/hitl-review` (Analyst review) + drawer | Yes |
 | Spatial manifest workbench | GIS pack W3 | `/spatial` | Yes |
 
 Artifacts: `docs/design/stitch-underwriting-workstation/`
@@ -186,10 +224,10 @@ Artifacts: `docs/design/stitch-underwriting-workstation/`
 
 | Coverage | Location | Notes |
 | --- | --- | --- |
-| Unit tests | `prototype/src/test/` | 245 tests post–Wave 5 |
+| Unit tests | `prototype/src/test/` | 249 tests post–Wave 6 (`deal-stage-model.test.ts` added) |
 | Storybook | `prototype/src/stories/` | Includes `Wave3Polish.stories.tsx` |
-| E2E flows | `prototype/e2e/flows.spec.ts` | Cross-entity demo paths |
-| Visual baselines | `prototype/e2e/visual.spec.ts-snapshots/` | 21 routes including Wave 3/4 |
+| E2E flows | `prototype/e2e/flows.spec.ts` | Cross-entity demo paths; **Underwrite in Studio** entry CTA |
+| Visual baselines | `prototype/e2e/visual.spec.ts-snapshots/` | Updated for Valuation snapshots + Wave 6 chrome |
 | Lighthouse | `prototype/lighthouserc.cjs` | 10 representative URLs |
 
 ---
@@ -205,12 +243,13 @@ Use this when opening a gated lane — check off per row in the tables above.
 5. ☐ Replace `simulated-cta` with real receipts or governed writes
 6. ☐ Replace `disabled-gate` controls only when server-side gates agree (UI never authorizes alone)
 7. ☐ Update this registry row status from `mock-*` → `resolved-{lane}` with date and PR link
-8. ☐ Refresh [WORLD_CLASS_PROTOTYPE_SPEC.md](WORLD_CLASS_PROTOTYPE_SPEC.md) route matrix (currently behind Waves 3–5)
+8. ☐ Refresh [WORLD_CLASS_PROTOTYPE_SPEC.md](WORLD_CLASS_PROTOTYPE_SPEC.md) route matrix (currently behind Waves 3–6 and Evidence/Snapshot renames)
 
 ---
 
 ## Maintenance
 
 - **After each prototype wave:** add rows or update “Logged in” column here; do not rely on ticket inventory alone.
+- **Wave 6 note:** workflow stepper/cockpit are **advisory UX** — track separately from `disabled-gate` controls; resolving runtime gates does not automatically remove mock-boundary banners.
 - **When a mock is resolved:** mark the row, link the implementing PR, and note which lane cleared it.
-- **Doc drift alert:** `WORLD_CLASS_PROTOTYPE_SPEC.md` and `PROTOTYPE_MVP0.md` need a sync pass to include Wave 3–5 routes — tracked as doc debt, not product debt.
+- **Doc drift alert:** `WORLD_CLASS_PROTOTYPE_SPEC.md` and `PROTOTYPE_MVP0.md` need a sync pass to include Wave 3–6 routes and Evidence/Snapshot label renames — tracked as doc debt, not product debt.
