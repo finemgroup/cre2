@@ -10,6 +10,7 @@ import { StudioMobileNavDrawer } from '@/components/overlays/StudioMobileNavDraw
 import { PageTransition } from '@/components/motion/PageTransition';
 import { RouteProgress } from '@/components/layout/RouteProgress';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
+import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitives';
 import { ActorDemoSelector } from '@/components/runtime/ActorDemoSelector';
 import {
   DEFAULT_DEAL_ID,
@@ -18,8 +19,9 @@ import {
   studioDealPath,
   studioReportPath,
 } from '@/data/studio';
-import { useRouteTitle } from '@/lib/a11y/useRouteTitle';
+import { useRouteAnnouncement } from '@/lib/a11y/useRouteAnnouncement';
 import { getStudioRouteTitle } from '@/lib/a11y/routeTitles';
+import { getOnboardingProfile } from '@/lib/studio/onboarding-profile';
 
 function isActiveMatch(path: string, match: string): boolean {
   if (match === 'dashboard') return path === '/studio/dashboard' || path === '/studio';
@@ -41,7 +43,8 @@ export function StudioAppShell(): ReactElement {
   const isBrokerOs = location.pathname === '/studio/broker-os';
   const activeDealId = getDealIdFromPath(location.pathname);
   const navItems = getStudioNavItems(activeDealId);
-  useRouteTitle(getStudioRouteTitle(location.pathname));
+  const routeAnnouncement = useRouteAnnouncement(getStudioRouteTitle(location.pathname));
+  const onboardingProfile = getOnboardingProfile();
 
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
@@ -52,6 +55,7 @@ export function StudioAppShell(): ReactElement {
   if (isStandaloneMarketing) {
     return (
       <div className="studio-standalone studio-marketing-shell">
+        <ScreenReaderAnnouncement message={routeAnnouncement} />
         <a href="#page-content" className="skip-link">
           Skip to content
         </a>
@@ -67,6 +71,7 @@ export function StudioAppShell(): ReactElement {
 
   return (
     <div className={isBrokerOs ? 'studio-shell broker-os-shell' : 'studio-shell'}>
+      <ScreenReaderAnnouncement message={routeAnnouncement} />
       <a href="#page-content" className="skip-link">
         Skip to content
       </a>
@@ -78,7 +83,7 @@ export function StudioAppShell(): ReactElement {
           </Link>
           <div>
             <strong>Finem Studio</strong>
-            <span>Enterprise Plan</span>
+            <span>{onboardingProfile ? `${onboardingProfile.tier} Plan` : 'Enterprise Plan'}</span>
           </div>
         </div>
         <Link

@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { describe, expect, it } from 'vitest';
 
+import { saveOnboardingProfile } from '@/lib/studio/onboarding-profile';
 import { renderRoute } from '@/test/renderRoute';
 
 describe('Finem CRE Studio routes', () => {
@@ -108,6 +109,17 @@ describe('Finem CRE Studio routes', () => {
     const office = screen.getByRole('button', { name: /Office/i });
     await user.click(office);
     expect(office).toHaveAttribute('aria-pressed', 'true');
+  });
+
+  it('reflects saved onboarding profile on the dashboard', async () => {
+    saveOnboardingProfile({
+      tier: 'Boutique',
+      assetClasses: ['Multifamily', 'Office'],
+      companyName: 'Acme Real Estate Partners',
+    });
+    await renderRoute('/studio/dashboard');
+    expect(screen.getByText(/Boutique workspace/i)).toBeInTheDocument();
+    expect(screen.getByText(/1 of 3 deals/i)).toBeInTheDocument();
   });
 
   it('opens and closes a comp detail drawer with keyboard focus restored', async () => {

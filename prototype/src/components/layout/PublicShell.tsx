@@ -4,16 +4,18 @@ import type { ReactElement } from 'react';
 import { NonProductionBanner } from '@/components/ui/NonProductionBanner';
 import { PageTransition } from '@/components/motion/PageTransition';
 import { RouteProgress } from '@/components/layout/RouteProgress';
+import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitives';
 import { getPublicRouteTitle } from '@/lib/a11y/routeTitles';
-import { useRouteTitle } from '@/lib/a11y/useRouteTitle';
+import { useRouteAnnouncement } from '@/lib/a11y/useRouteAnnouncement';
 import { ActorDemoSelector } from '@/components/runtime/ActorDemoSelector';
 
 export function PublicShell(): ReactElement {
   const location = useLocation();
-  useRouteTitle(getPublicRouteTitle(location.pathname));
+  const routeAnnouncement = useRouteAnnouncement(getPublicRouteTitle(location.pathname));
 
   return (
     <div className="shell">
+      <ScreenReaderAnnouncement message={routeAnnouncement} />
       <a href="#page-content" className="skip-link">
         Skip to content
       </a>

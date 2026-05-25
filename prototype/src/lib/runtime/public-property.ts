@@ -15,6 +15,8 @@ export type PublicEvidenceDrawerItem = {
   value: string;
   authorityLabel: string;
   safeExplanation: string;
+  sourceId?: string;
+  asOf?: string;
 };
 
 export type PublicPropertyView = {
@@ -45,12 +47,16 @@ export function getPublicPropertyView(
         value: capRate?.value ?? property.capRate,
         authorityLabel: capRate?.authorityLabel ?? 'Public baseline',
         safeExplanation: capRate?.safeExplanation ?? 'Visible because it is public baseline.',
+        sourceId: capRate?.evidenceId ?? 'evidence-public-assessor',
+        asOf: '2026-05-01',
       },
       {
         label: 'Source',
         value: 'Public records aggregate',
         authorityLabel: 'Public baseline',
         safeExplanation: 'Private contributor observations are hidden from public routes.',
+        sourceId: 'source-public-records-aggregate',
+        asOf: '2026-05-01',
       },
     ],
     spatialContext: {
@@ -62,6 +68,8 @@ export function getPublicPropertyView(
         )}`,
         authorityLabel: evidence.sourceLabel,
         safeExplanation: evidence.safeCaveat,
+        sourceId: evidence.id,
+        asOf: '2026-05-01',
       })),
       evidenceByLayer: spatialEvidence.reduce<Record<string, PublicEvidenceDrawerItem[]>>(
         (groups, evidence) => {
@@ -72,6 +80,8 @@ export function getPublicPropertyView(
             )}`,
             authorityLabel: evidence.sourceLabel,
             safeExplanation: evidence.safeCaveat,
+            sourceId: evidence.id,
+            asOf: '2026-05-01',
           };
           groups[evidence.layerId] = [...(groups[evidence.layerId] ?? []), item];
           return groups;

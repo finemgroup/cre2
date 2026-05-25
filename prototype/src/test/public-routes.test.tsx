@@ -69,6 +69,7 @@ describe('public Sophex routes', () => {
     await user.click(screen.getByRole('button', { name: /View evidence drawer/i }));
     expect(screen.getByText(/Public evidence drawer is simulated/i)).toBeInTheDocument();
     expect(screen.getByRole('dialog', { name: /Evidence drawer/i })).toBeInTheDocument();
+    expect(screen.getAllByText(/Source ref:/i).length).toBeGreaterThan(0);
   });
 
   it('shows spatial provenance labels and a non-map fallback on property pages', async () => {

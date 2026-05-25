@@ -33,3 +33,14 @@ Minimum copy must state:
 - Upload receipt references redacted evidence ids only.
 - Public routes never reveal source-owner names, raw document text, private values, or upload filenames unless approved for public display.
 - Free-tier UX does not imply automatic public contribution.
+
+## Prototype Alignment
+
+The mock `/upload` route already enforces:
+
+- Stage-gated consent before simulated upload progress begins.
+- Candidate evidence and upload receipt copy after completion.
+- No file bytes sent or stored.
+- Review-in-Studio handoff without public promotion.
+
+See also: [FILE_SAFETY_AND_RETENTION_PLAN.md](FILE_SAFETY_AND_RETENTION_PLAN.md), [REVIEW_AUTHORITY_AND_HITL_POLICY.md](REVIEW_AUTHORITY_AND_HITL_POLICY.md), and [SECURITY_PRIVACY_LAUNCH_GATES.md](SECURITY_PRIVACY_LAUNCH_GATES.md).

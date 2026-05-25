@@ -66,6 +66,10 @@ import {
   getStudioDealView,
 } from '@/lib/runtime/studio-workspace';
 import {
+  formatOnboardingSummary,
+  getOnboardingProfile,
+} from '@/lib/studio/onboarding-profile';
+import {
   DealWorkflowTabs,
   SegmentedControl,
   StudioDealNotFound,
@@ -74,18 +78,25 @@ import {
 
 export function StudioDashboardPage(): ReactElement {
   const dashboardView = getStudioDashboardView();
+  const onboardingProfile = getOnboardingProfile();
 
   return (
     <div>
       <PageTitle
-        eyebrow="Welcome back, Alex"
+        eyebrow={onboardingProfile ? 'Workspace configured' : 'Welcome back, Alex'}
         title="Main Deal Dashboard"
-        lede="Track active mandates, plan usage, and source-aware broker workflow activity."
+        lede={
+          onboardingProfile
+            ? `${formatOnboardingSummary(onboardingProfile)} — mock broker workspace ready for review.`
+            : 'Track active mandates, plan usage, and source-aware broker workflow activity.'
+        }
         actions={
           <>
             <div className="usage-pill">
               <span>Plan usage</span>
-              <strong>1 of 2 deals</strong>
+              <strong>
+                {onboardingProfile?.tier === 'Boutique' ? '1 of 3 deals' : '1 of 2 deals'}
+              </strong>
               <div
                 className="progress-bar progress-bar-compact"
                 role="progressbar"

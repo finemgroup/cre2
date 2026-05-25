@@ -35,6 +35,10 @@ export default defineConfig({
             return 'vendor-router';
           }
           if (id.includes('node_modules/react-dom')) return 'vendor-react-dom';
+          if (id.includes('/src/pages/studio/')) return 'studio-pages';
+          if (id.includes('/src/pages/') && !id.includes('/pages/studio/')) {
+            return 'public-pages';
+          }
         },
       },
     },

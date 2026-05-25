@@ -135,8 +135,14 @@ export function PropertyPage(): ReactElement {
         <p>Public baseline fields only in this prototype.</p>
         <ul className="evidence-list">
           {[...(propertyView?.evidenceDrawer ?? []), ...(propertyView?.spatialContext.evidence ?? [])].map((item) => (
-            <li key={item.label}>
+            <li key={`${item.label}-${item.sourceId ?? item.value}`}>
               <strong>{item.label}:</strong> {item.value} — {item.safeExplanation}
+              {item.sourceId ? (
+                <p className="muted">
+                  Source ref: <code>{item.sourceId}</code>
+                  {item.asOf ? ` · As of ${item.asOf}` : null}
+                </p>
+              ) : null}
             </li>
           ))}
         </ul>

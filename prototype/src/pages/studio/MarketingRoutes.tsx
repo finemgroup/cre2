@@ -1,5 +1,5 @@
 import { useState, type ReactElement } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import {
   AnimatedList,
@@ -17,6 +17,7 @@ import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitiv
 import { useA11yAnnouncement } from '@/lib/a11y/useA11yAnnouncement';
 import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
 import { getStudioDashboardView } from '@/lib/runtime/studio-workspace';
+import { saveOnboardingProfile } from '@/lib/studio/onboarding-profile';
 import { SegmentedControl } from '@/pages/studio/StudioShared';
 
 export function StudioLandingPage(): ReactElement {
@@ -152,15 +153,22 @@ export function StudioLandingPage(): ReactElement {
 }
 
 export function StudioOnboardingPage(): ReactElement {
+  const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [tier, setTier] = useState<'Boutique' | 'Institutional'>('Institutional');
   const [assetClasses, setAssetClasses] = useState(['Multifamily']);
+  const [companyName, setCompanyName] = useState('Acme Real Estate Partners');
   const { message, announce } = useA11yAnnouncement();
   const steps = ['Tier', 'Account', 'Workspace', 'First deal'];
   const goToStep = (nextStep: number) => {
     setStep(nextStep);
     announce(`Onboarding step ${nextStep + 1}: ${steps[nextStep]}`);
   };
+
+  function finishOnboarding() {
+    saveOnboardingProfile({ tier, assetClasses, companyName });
+    navigate('/studio/dashboard');
+  }
 
   return (
     <div className="onboarding-wrap">
@@ -214,7 +222,10 @@ export function StudioOnboardingPage(): ReactElement {
             <div className="form-grid">
               <label>
                 Company name
-                <input defaultValue="Acme Real Estate Partners" />
+                <input
+                  value={companyName}
+                  onChange={(event) => setCompanyName(event.target.value)}
+                />
               </label>
               <label>
                 Role
@@ -291,9 +302,9 @@ export function StudioOnboardingPage(): ReactElement {
               Continue
             </button>
           ) : (
-            <PrototypeActionLink className="btn btn-primary" to="/studio/dashboard" feature="Finish onboarding">
+            <button className="btn btn-primary" type="button" onClick={finishOnboarding}>
               Finish
-            </PrototypeActionLink>
+            </button>
           )}
         </div>
       </StudioCard>

@@ -186,3 +186,65 @@ These contracts intentionally omit:
 - Migration sequences.
 - Production database targets.
 - Generated client instructions.
+
+## Pagination Example
+
+Request:
+
+`GET /sandbox/v0/properties?q=Austin&limit=2&cursor=prop_cursor_demo-001`
+
+Response:
+
+```json
+{
+  "items": [
+    { "id": "demo-001", "address": "1200 Commerce St", "authority": "public-baseline" }
+  ],
+  "page": {
+    "limit": 2,
+    "nextCursor": "prop_cursor_demo-002",
+    "hasMore": true
+  }
+}
+```
+
+Denied or hidden properties never appear as empty placeholders with private hints.
+
+## Idempotency Conflict Example
+
+Replay with the same `Idempotency-Key` and compatible actor/target/scope returns the prior receipt:
+
+```json
+{
+  "replayed": true,
+  "receipt": {
+    "id": "receipt-export-demo-001",
+    "kind": "export",
+    "policyDecision": "allowed"
+  }
+}
+```
+
+Conflicting replay (different scope or actor for the same key) fails closed:
+
+```json
+{
+  "error": {
+    "code": "idempotency_conflict",
+    "safeMessage": "This request key was already used for a different governed action.",
+    "correlationId": "corr_..."
+  }
+}
+```
+
+## Prototype Alignment Notes
+
+The mock prototype implements the following contract shapes locally without HTTP:
+
+- Upload candidate evidence via `createCandidateUpload`.
+- Export policy via `evaluateExportPolicy` and governed receipts.
+- Review queue projection via `getReviewQueue`.
+- Valuation readiness via `evaluateWorkflowGates` and `getValuationVersionForActor`.
+- Spatial layer manifests via `getMapLayerManifestsForActor`.
+
+Future sandbox runtime tickets must mirror these shapes before production services are approved.
