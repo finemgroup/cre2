@@ -51,7 +51,7 @@ export function PropertyPage(): ReactElement {
   return (
     <section className="page">
       <header className="page-header">
-        <p className="eyebrow">Property intelligence</p>
+        <p className="eyebrow">Property intelligence · {property.id}</p>
         <h1>{property.address}</h1>
         <p>
           {property.market} · {property.assetType}

@@ -44,7 +44,7 @@ describe('CRE harvest provenance and report governance adapters', () => {
   });
 
   it('explains why report export is blocked', () => {
-    render(<ExportReadinessCard sections={reportSections} />);
+    render(<ExportReadinessCard sections={reportSections} sourceBlocks={mockSourceBlocks} />);
     expect(screen.getByText(/Export remains disabled/i)).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Export PDF/i })).toBeDisabled();
   });
@@ -55,7 +55,7 @@ describe('CRE harvest provenance and report governance adapters', () => {
       []
     );
 
-    expect(readiness.ready).toBe(true);
-    expect(readiness.receiptHash).toMatch(/sha256/);
+    expect(readiness.ready).toBe(false);
+    expect(readiness.blockedReasons[0]).toMatch(/no evidence blocks/i);
   });
 });

@@ -8,6 +8,8 @@ import { StageRail } from '@/components/ui/StageRail';
 import { VALUATION_READINESS_STAGES } from '@/lib/readiness-stages';
 import { getPublicReportView } from '@/lib/runtime/report-flow';
 import { getPublicPropertyView } from '@/lib/runtime/public-property';
+import { getLinkedDealId } from '@/lib/workflow-identity';
+import { studioDealPath } from '@/data/studio';
 import { trackEvent } from '@/lib/analytics/collector';
 
 const STAGES = [...VALUATION_READINESS_STAGES];
@@ -37,12 +39,20 @@ export function ReportPage(): ReactElement {
     );
   }
 
+  const linkedDealId = getLinkedDealId(property.id);
+
   return (
     <section className="page">
       <header className="page-header">
-        <p className="eyebrow">Valuation report preview</p>
+        <p className="eyebrow">Valuation report preview · {property.id}</p>
         <h1>Report for {property.address}</h1>
         <p className="lede">Interactive evidence-first preview — export remains gated.</p>
+        {linkedDealId ? (
+          <p className="muted">
+            Linked Studio deal:{' '}
+            <Link to={studioDealPath(linkedDealId, 'underwriting')}>{linkedDealId}</Link>
+          </p>
+        ) : null}
       </header>
 
       <StageRail stages={STAGES} activeIndex={3} />

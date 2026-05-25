@@ -123,9 +123,24 @@ describe('public Sophex routes', () => {
     expect(screen.getByText(/Candidate evidence created for review/i)).toBeInTheDocument();
   });
 
+  it('shows linked studio deal context on report preview', async () => {
+    await renderRoute('/report/demo-002');
+    expect(screen.getByText(/Linked Studio deal:/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /1200-tech/i })).toHaveAttribute(
+      'href',
+      '/studio/deals/1200-tech/underwriting'
+    );
+  });
+
   it('sets document titles for public routes', async () => {
     await renderRoute('/upload');
     expect(document.title).toBe('Upload Documents - Sophex');
+  });
+
+  it('derives distinct export blockers for linked property contexts', async () => {
+    await renderRoute('/export/demo-002');
+    expect(screen.getByRole('heading', { name: /4400 Research Blvd/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Generate export/i })).toBeDisabled();
   });
 
   it('derives export blockers from report governance readiness', async () => {

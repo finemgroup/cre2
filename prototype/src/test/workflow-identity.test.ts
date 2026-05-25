@@ -9,6 +9,7 @@ import {
   getSourceBlocksForProperty,
   getStudioReportSections,
 } from '@/lib/workflow-identity';
+import { getStudioReportBuilderView } from '@/lib/runtime/studio-workspace';
 
 describe('workflow identity', () => {
   it('links public properties to Studio deals', () => {
@@ -25,6 +26,15 @@ describe('workflow identity', () => {
     expect(techSections.filter((section) => section.status === 'ready').length).toBeGreaterThan(1);
   });
 
+  it('returns no source blocks when a property has no linked deal', () => {
+    expect(getSourceBlocksForProperty('unknown-property')).toEqual([]);
+  });
+
+  it('resolves linked property ids for studio deals', () => {
+    expect(getLinkedPropertyId('1200-tech')).toBe('demo-002');
+    expect(getLinkedPropertyId('riverside-flats')).toBe('demo-001');
+  });
+
   it('parameterizes export readiness by property context', () => {
     const blocked = evaluateExportReadiness(
       getPublicReportSections('demo-001'),
@@ -38,5 +48,14 @@ describe('workflow identity', () => {
       getSourceBlocksForDeal('canyon-logistics')
     );
     expect(canyonReady.ready).toBe(true);
+  });
+
+  it('binds studio report builder readiness and property context to the active deal', () => {
+    const riverside = getStudioReportBuilderView('riverside-flats');
+    const tech = getStudioReportBuilderView('1200-tech');
+    expect(riverside?.readiness.ready).toBe(false);
+    expect(tech?.readiness.ready).toBe(false);
+    expect(riverside?.valuationVersion.propertyId).toBe('demo-001');
+    expect(tech?.valuationVersion.propertyId).toBe('demo-002');
   });
 });

@@ -83,7 +83,12 @@ const mockReportSectionsByProperty: Record<string, ReportSection[]> = {
 
 export function getSourceBlocksForProperty(propertyId?: string): SourceEvidenceBlock[] {
   const linkedDealId = getLinkedDealId(propertyId);
-  return getSourceBlocksForDeal(linkedDealId ?? DEFAULT_DEAL_ID);
+  if (!linkedDealId) return [];
+  return getSourceBlocksForDeal(linkedDealId);
+}
+
+export function resolvePropertyIdForDeal(dealId?: string): string | undefined {
+  return getLinkedPropertyId(dealId);
 }
 
 export function getWorkflowSummary(propertyId?: string) {

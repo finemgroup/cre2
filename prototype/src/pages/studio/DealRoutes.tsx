@@ -52,6 +52,7 @@ import {
   formatMultiple,
   formatPercent,
 } from '@/lib/underwriting';
+import { buildScenarioPresets, listScenarioPresets, type ScenarioName } from '@/lib/underwriting/scenarios';
 import { mockCandidateFields, mockUploadFiles } from '@/lib/staged-import';
 import {
   activity,
@@ -59,6 +60,7 @@ import {
   studioDealPath,
   underwritingAssumptionsByDeal,
   underwritingProvenanceByDeal,
+  type Deal,
 } from '@/data/studio';
 import {
   getStudioCompViews,
@@ -309,9 +311,15 @@ export function StudioDealIntakePage(): ReactElement {
   return (
     <div className="split-layout with-sticky">
       <div>
+        <WorkflowContextHeader
+          dealName={activeDeal.name}
+          stage="Deal intake"
+          returnTo={studioDealPath(activeDeal.id)}
+          returnLabel="Return to deal"
+        />
         <PageTitle
           title="Deal Intake"
-          lede="Capture deal basics, assumptions, and source materials before promotion."
+          lede={`Capture deal basics for ${activeDeal.id} before comps and underwriting.`}
         />
         <StudioCard title="Property Basics">
           <div className="form-grid">
@@ -570,26 +578,18 @@ export function StudioCompsPage(): ReactElement {
 
 export function StudioUnderwritingPage(): ReactElement {
   const deal = useStudioDeal();
+  if (!deal) return <StudioDealNotFound />;
+  return <StudioUnderwritingWorkspace key={deal.id} deal={deal} />;
+}
+
+function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
   const baseAssumptions =
-    underwritingAssumptionsByDeal[deal?.id ?? ''] ??
-    underwritingAssumptionsByDeal['riverside-flats'];
+    underwritingAssumptionsByDeal[deal.id] ?? underwritingAssumptionsByDeal['riverside-flats'];
   const scenarioAssumptions = useMemo(
-    () => ({
-      'Base Case': baseAssumptions,
-      Upside: {
-        ...baseAssumptions,
-        annualAppreciationRate: baseAssumptions.annualAppreciationRate + 0.012,
-        vacancyRate: Math.max(0.02, baseAssumptions.vacancyRate - 0.01),
-      },
-      Downside: {
-        ...baseAssumptions,
-        annualAppreciationRate: baseAssumptions.annualAppreciationRate - 0.012,
-        exitCapRate: baseAssumptions.exitCapRate + 0.005,
-      },
-    }),
+    () => buildScenarioPresets(baseAssumptions),
     [baseAssumptions]
   );
-  const [activeScenario, setActiveScenario] = useState('Base Case');
+  const [activeScenario, setActiveScenario] = useState<ScenarioName>('Base Case');
   const [locked, setLocked] = useState(false);
   const [overriddenGates, setOverriddenGates] = useState<string[]>([]);
   const [overrideTarget, setOverrideTarget] = useState<{
@@ -599,6 +599,7 @@ export function StudioUnderwritingPage(): ReactElement {
   } | null>(null);
   const { pushToast } = usePrototypeToast();
   const [assumptions, setAssumptions] = useState(() => baseAssumptions);
+
   const metrics = useMemo(() => calculateUnderwritingMetrics(assumptions), [assumptions]);
   const reviewedCompCount = getStudioCompViews().filter(
     (comp) => comp.authority === 'Reviewed' && comp.visible
@@ -615,7 +616,6 @@ export function StudioUnderwritingPage(): ReactElement {
     [assumptions, metrics, overriddenGates, reviewedCompCount]
   );
   const proFormaRows = useMemo(() => buildProFormaRows(assumptions), [assumptions]);
-  if (!deal) return <StudioDealNotFound />;
 
   return (
     <WorkflowContinuityContainer label="Underwriting workflow">
@@ -627,7 +627,11 @@ export function StudioUnderwritingPage(): ReactElement {
       />
       <DealWorkflowTabs deal={deal} />
       <SyntheticDataBanner />
-      <div className="tabs-row" role="group" aria-label="Scenario controls">
+      <p className="muted" id="scenario-truth-note">
+        Scenario controls apply formula-backed assumption presets. Metrics below update when the
+        active scenario changes.
+      </p>
+      <div className="tabs-row" role="group" aria-label="Scenario controls" aria-describedby="scenario-truth-note">
         {Object.keys(scenarioAssumptions).map((scenario) => (
           <button
             key={scenario}
@@ -635,8 +639,9 @@ export function StudioUnderwritingPage(): ReactElement {
             aria-pressed={activeScenario === scenario}
             className={activeScenario === scenario ? 'active' : ''}
             onClick={() => {
-              setActiveScenario(scenario);
-              setAssumptions(scenarioAssumptions[scenario as keyof typeof scenarioAssumptions]);
+              const nextScenario = scenario as ScenarioName;
+              setActiveScenario(nextScenario);
+              setAssumptions(scenarioAssumptions[nextScenario]);
               setLocked(false);
             }}
           >
@@ -653,7 +658,10 @@ export function StudioUnderwritingPage(): ReactElement {
           provenance={underwritingProvenanceByDeal[deal.id]}
           onChange={setAssumptions}
         />
-        <MetricsPanel metrics={metrics} />
+        <MetricsPanel metrics={metrics} scenarioLabel={activeScenario} />
+        <div aria-live="polite" className="sr-only">
+          {activeScenario} scenario: IRR {formatPercent(metrics.irr)}, NOI {formatCurrency(metrics.noi)}
+        </div>
         <GatesPanel
           gates={gates}
           onOverride={(gateId) => {
@@ -709,35 +717,9 @@ export function StudioScenarioComparisonPage(): ReactElement {
   const grid = useMemo(() => buildSensitivityGrid(assumptions), [assumptions]);
   const scenarioMetrics = useMemo(
     () =>
-      [
-        ['Base Case', assumptions],
-        [
-          'Upside',
-          {
-            ...assumptions,
-            annualAppreciationRate: assumptions.annualAppreciationRate + 0.012,
-            vacancyRate: Math.max(0.02, assumptions.vacancyRate - 0.01),
-          },
-        ],
-        [
-          'Downside',
-          {
-            ...assumptions,
-            annualAppreciationRate: assumptions.annualAppreciationRate - 0.012,
-            exitCapRate: assumptions.exitCapRate + 0.005,
-          },
-        ],
-        [
-          'Lender Case',
-          {
-            ...assumptions,
-            ltv: Math.max(0.5, assumptions.ltv - 0.06),
-            interestRate: assumptions.interestRate + 0.004,
-          },
-        ],
-      ].map(([name, scenarioAssumptions]) => ({
-        name: name as string,
-        metrics: calculateUnderwritingMetrics(scenarioAssumptions as typeof assumptions),
+      listScenarioPresets(assumptions).map(({ name, assumptions: scenarioAssumptions }) => ({
+        name,
+        metrics: calculateUnderwritingMetrics(scenarioAssumptions),
       })),
     [assumptions]
   );

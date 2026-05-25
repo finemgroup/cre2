@@ -109,9 +109,18 @@ export function AssumptionsPanel({
   );
 }
 
-export function MetricsPanel({ metrics }: { metrics: UnderwritingMetrics }): ReactElement {
+export function MetricsPanel({
+  metrics,
+  scenarioLabel,
+}: {
+  metrics: UnderwritingMetrics;
+  scenarioLabel?: string;
+}): ReactElement {
   return (
-    <StudioCard title="Calculated Metrics" eyebrow="Formula-backed mock">
+    <StudioCard
+      title="Calculated Metrics"
+      eyebrow={scenarioLabel ? `${scenarioLabel} · formula-backed mock` : 'Formula-backed mock'}
+    >
       <div className="metric-grid">
         <MetricCard label="NOI" value={formatCurrency(metrics.noi)} detail="EGI - expenses" />
         <MetricCard

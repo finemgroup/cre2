@@ -1,5 +1,4 @@
-import { mockSourceBlocks, summarizeSourceBundle } from '@/lib/source-bundle';
-import type { SourceEvidenceBlock } from '@/lib/source-bundle';
+import { summarizeSourceBundle, type SourceEvidenceBlock } from '@/lib/source-bundle';
 
 export type ReadinessSection = {
   id: string;
@@ -32,9 +31,30 @@ function statusLabel(status: string): string {
 
 export function evaluateExportReadiness(
   sections: ReadinessSection[],
-  blocks: SourceEvidenceBlock[] = mockSourceBlocks
+  blocks?: SourceEvidenceBlock[]
 ): ExportReadiness {
   const approvedCount = sections.filter((section) => isApprovedStatus(section.status)).length;
+
+  if (blocks === undefined) {
+    return {
+      ready: false,
+      approvedCount,
+      totalCount: sections.length,
+      warnings: [],
+      blockedReasons: ['Source bundle context is required before export readiness can be evaluated.'],
+    };
+  }
+
+  if (blocks.length === 0) {
+    return {
+      ready: false,
+      approvedCount,
+      totalCount: sections.length,
+      warnings: [],
+      blockedReasons: ['Source bundle has no evidence blocks for this workflow context.'],
+    };
+  }
+
   const sourceSummary = summarizeSourceBundle(blocks);
   const unapproved = sections
     .filter((section) => !isApprovedStatus(section.status))

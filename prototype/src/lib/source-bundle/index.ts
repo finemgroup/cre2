@@ -116,6 +116,6 @@ export const sourceBlocksByDeal: Record<string, SourceEvidenceBlock[]> = {
 };
 
 export function getSourceBlocksForDeal(dealId?: string): SourceEvidenceBlock[] {
-  if (!dealId) return mockSourceBlocks;
-  return sourceBlocksByDeal[dealId] ?? mockSourceBlocks;
+  if (!dealId) return [];
+  return sourceBlocksByDeal[dealId] ?? [];
 }

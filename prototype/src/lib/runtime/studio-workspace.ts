@@ -13,7 +13,7 @@ import type { ActorContext } from '@/lib/contracts/actor-context';
 import { decideVisibility } from '@/lib/contracts/visibility';
 import { getValuationVersionForActor } from '@/lib/contracts/valuation-version';
 import { getSourceBlocksForDeal } from '@/lib/source-bundle';
-import { getStudioReportSections } from '@/lib/workflow-identity';
+import { getStudioReportSections, resolvePropertyIdForDeal } from '@/lib/workflow-identity';
 import { evaluateExportReadiness } from '@/lib/report-governance';
 
 function authorityToVisibility(authority: AuthorityState) {
@@ -64,6 +64,7 @@ export function getStudioReportBuilderView(
   const sections = getStudioReportSections(deal.id);
   const sourceBlocks = getSourceBlocksForDeal(deal.id);
   const readiness = evaluateExportReadiness(sections, sourceBlocks);
+  const linkedPropertyId = resolvePropertyIdForDeal(deal.id);
   return {
     deal,
     actorId: actor.id,
@@ -72,7 +73,7 @@ export function getStudioReportBuilderView(
     readiness,
     valuationVersion: getValuationVersionForActor({
       actor,
-      propertyId: 'demo-001',
+      propertyId: linkedPropertyId ?? deal.id,
       reportId: `studio-report-${deal.id}`,
       exportConsent: false,
       sourceRightsClear: readiness.ready,
