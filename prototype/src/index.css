@@ -2134,6 +2134,28 @@ button.upload-zone {
   gap: 0.15rem;
 }
 
+button.notification-item {
+  width: 100%;
+  text-align: left;
+  border: 1px solid var(--studio-line);
+  border-radius: 0.55rem;
+  padding: 0.65rem 0.75rem;
+  background: var(--studio-surface);
+  font: inherit;
+  cursor: pointer;
+  display: grid;
+  gap: 0.15rem;
+}
+
+button.notification-item span {
+  color: var(--studio-subtle);
+  font-size: 0.875rem;
+}
+
+button.notification-item:hover {
+  border-color: var(--studio-primary);
+}
+
 .studio-topbar-actions {
   position: relative;
 }

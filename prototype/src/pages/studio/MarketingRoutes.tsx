@@ -11,6 +11,7 @@ import {
   StageStepper,
   StudioCard,
 } from '@/components/studio/StudioPrimitives';
+import { PrototypeActionAnchor } from '@/components/overlays/PrototypeActionAnchor';
 import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
 import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitives';
 import { useA11yAnnouncement } from '@/lib/a11y/useA11yAnnouncement';
@@ -25,10 +26,18 @@ export function StudioLandingPage(): ReactElement {
           Finem CRE Studio
         </Link>
         <nav aria-label="Marketing navigation">
-          <a href="#how-it-works">How it works</a>
-          <a href="#workflows">Workflows</a>
-          <Link to="/studio/settings/billing">Pricing</Link>
-          <Link to="/studio/dashboard">Sign in</Link>
+          <PrototypeActionAnchor href="#how-it-works" feature="How it works navigation">
+            How it works
+          </PrototypeActionAnchor>
+          <PrototypeActionAnchor href="#workflows" feature="Workflows navigation">
+            Workflows
+          </PrototypeActionAnchor>
+          <PrototypeActionLink to="/studio/settings/billing" feature="Pricing navigation">
+            Pricing
+          </PrototypeActionLink>
+          <PrototypeActionLink to="/studio/dashboard" feature="Studio sign in">
+            Sign in
+          </PrototypeActionLink>
         </nav>
       </header>
       <section className="studio-hero">
@@ -40,12 +49,16 @@ export function StudioLandingPage(): ReactElement {
             reporting, and white-label investor presentation surfaces.
           </p>
           <div className="studio-actions">
-            <Link to="/studio/onboarding" className="btn btn-primary">
+            <PrototypeActionLink to="/studio/onboarding" className="btn btn-primary" feature="Start workspace">
               Start workspace
-            </Link>
-            <Link to="/studio/dashboard" className="btn btn-secondary">
+            </PrototypeActionLink>
+            <PrototypeActionLink
+              to="/studio/dashboard"
+              className="btn btn-secondary"
+              feature="View dashboard"
+            >
               View dashboard
-            </Link>
+            </PrototypeActionLink>
           </div>
         </MotionBlock>
         <MotionBlock className="hero-product-card" motionName="railEnter">
@@ -119,9 +132,13 @@ export function StudioLandingPage(): ReactElement {
           <h2>Ready to build the first broker workspace?</h2>
           <p>Start with the guided onboarding flow or jump into the mock dashboard.</p>
         </div>
-        <Link to="/studio/settings/billing" className="btn btn-secondary">
+        <PrototypeActionLink
+          to="/studio/settings/billing"
+          className="btn btn-secondary"
+          feature="Compare plans"
+        >
           Compare plans
-        </Link>
+        </PrototypeActionLink>
       </section>
       <footer className="studio-footer">
         <span>Finem CRE Studio prototype</span>
@@ -230,18 +247,30 @@ export function StudioOnboardingPage(): ReactElement {
           ) : null}
           {step === 3 ? (
             <div className="choice-grid">
-              <Link to={studioDealPath(DEFAULT_DEAL_ID, 'intake')} className="choice-card active">
+              <PrototypeActionLink
+                to={studioDealPath(DEFAULT_DEAL_ID, 'intake')}
+                className="choice-card active"
+                feature="Create first deal"
+              >
                 <strong>Create first deal</strong>
                 <span>Start with an intake packet and source materials.</span>
-              </Link>
-              <Link to="/studio/dashboard" className="choice-card">
+              </PrototypeActionLink>
+              <PrototypeActionLink
+                to="/studio/dashboard"
+                className="choice-card"
+                feature="Explore dashboard"
+              >
                 <strong>Explore dashboard</strong>
                 <span>Review the mock broker workspace first.</span>
-              </Link>
-              <Link to={studioDealPath()} className="choice-card">
+              </PrototypeActionLink>
+              <PrototypeActionLink
+                to={studioDealPath()}
+                className="choice-card"
+                feature="Open sample deal"
+              >
                 <strong>Open sample deal</strong>
                 <span>Use Riverside Flats to inspect the full workflow.</span>
-              </Link>
+              </PrototypeActionLink>
             </div>
           ) : null}
         </div>
@@ -259,9 +288,9 @@ export function StudioOnboardingPage(): ReactElement {
               Continue
             </button>
           ) : (
-            <Link className="btn btn-primary" to="/studio/dashboard">
+            <PrototypeActionLink className="btn btn-primary" to="/studio/dashboard" feature="Finish onboarding">
               Finish
-            </Link>
+            </PrototypeActionLink>
           )}
         </div>
       </StudioCard>

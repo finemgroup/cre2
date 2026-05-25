@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react';
 
-import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';import { SophexModal } from '@/components/overlays/SophexModal';
+import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
+import { SophexModal } from '@/components/overlays/SophexModal';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
 
 type UpgradePlanModalProps = {

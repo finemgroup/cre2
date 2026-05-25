@@ -1,5 +1,7 @@
 import { useEffect, useRef, type ReactElement } from 'react';
 
+import { PrototypeActionAnchor } from '@/components/overlays/PrototypeActionAnchor';
+import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
 
 type PanelProps = {
@@ -57,19 +59,46 @@ export function HelpPanel({
     <TopbarPanel isOpen={isOpen} onClose={onClose} label="Help">
       <ul className="panel-link-list">
         <li>
-          <a href="#workflow-guide">Deal workflow guide (prototype)</a>
+          <PrototypeActionAnchor href="#workflow-guide" feature="Deal workflow guide">
+            Deal workflow guide (prototype)
+          </PrototypeActionAnchor>
         </li>
         <li>
-          <a href="#source-trust">Understanding source trust tiers</a>
+          <PrototypeActionAnchor href="#source-trust" feature="Source trust tiers guide">
+            Understanding source trust tiers
+          </PrototypeActionAnchor>
         </li>
         <li>
-          <a href="#export-governance">Export governance checklist</a>
+          <PrototypeActionAnchor href="#export-governance" feature="Export governance checklist">
+            Export governance checklist
+          </PrototypeActionAnchor>
         </li>
       </ul>
       <p className="muted">Support chat is mock-only in MVP0.</p>
     </TopbarPanel>
   );
 }
+
+const NOTIFICATIONS = [
+  {
+    id: 'comp-review',
+    feature: 'Comp set review notification',
+    title: 'Comp set review due',
+    detail: 'Riverside Flats · 2 sections need approval',
+  },
+  {
+    id: 'upload-complete',
+    feature: 'Upload extraction notification',
+    title: 'Upload extraction complete',
+    detail: '1200 Tech Boulevard rent roll · candidate evidence',
+  },
+  {
+    id: 'plan-usage',
+    feature: 'Plan usage notification',
+    title: 'Plan usage at 72%',
+    detail: 'Premium mock tier · 1 of 2 deals active',
+  },
+] as const;
 
 export function NotificationsPanel({
   isOpen,
@@ -81,18 +110,14 @@ export function NotificationsPanel({
   return (
     <TopbarPanel isOpen={isOpen} onClose={onClose} label="Notifications">
       <ul className="notification-list">
-        <li>
-          <strong>Comp set review due</strong>
-          <span>Riverside Flats · 2 sections need approval</span>
-        </li>
-        <li>
-          <strong>Upload extraction complete</strong>
-          <span>1200 Tech Boulevard rent roll · candidate evidence</span>
-        </li>
-        <li>
-          <strong>Plan usage at 72%</strong>
-          <span>Premium mock tier · 1 of 2 deals active</span>
-        </li>
+        {NOTIFICATIONS.map((item) => (
+          <li key={item.id}>
+            <PrototypeActionButton feature={item.feature} className="notification-item">
+              <strong>{item.title}</strong>
+              <span>{item.detail}</span>
+            </PrototypeActionButton>
+          </li>
+        ))}
       </ul>
     </TopbarPanel>
   );
@@ -115,35 +140,20 @@ export function SupportSignOutPanel({
     >
       {mode === 'support' ? (
         <>
-          <p id="support-disabled-note">Prototype support surfaces only — no tickets are created.</p>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            disabled
-            aria-describedby="support-disabled-note"
-          >
+          <p>Prototype support surfaces only — no tickets are created.</p>
+          <PrototypeActionButton feature="Support chat" className="btn btn-secondary">
             Open support chat
-          </button>
-          <button
-            type="button"
-            className="btn btn-ghost"
-            disabled
-            aria-describedby="support-disabled-note"
-          >
+          </PrototypeActionButton>
+          <PrototypeActionButton feature="Support email" className="btn btn-ghost">
             Email support@finem.studio
-          </button>
+          </PrototypeActionButton>
         </>
       ) : (
         <>
-          <p id="signout-disabled-note">Sign out is disabled in the clickable prototype.</p>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            disabled
-            aria-describedby="signout-disabled-note"
-          >
+          <p>Sign out is simulated in the clickable prototype.</p>
+          <PrototypeActionButton feature="Studio sign out" className="btn btn-secondary">
             Sign out of Studio
-          </button>
+          </PrototypeActionButton>
         </>
       )}
     </TopbarPanel>

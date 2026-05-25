@@ -168,6 +168,25 @@ describe('Finem CRE Studio routes', () => {
     expect(screen.getByRole('heading', { name: /Deal not found/i })).toBeInTheDocument();
   });
 
+  it('shows prototype feedback for marketing landing CTAs', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/studio');
+    await user.click(screen.getByRole('link', { name: /Start workspace/i }));
+    expect(screen.getByText(/Start workspace is simulated/i)).toBeInTheDocument();
+  });
+
+  it('shows prototype feedback for studio support and notifications', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/studio/dashboard');
+    await user.click(screen.getByRole('button', { name: /^Support$/i }));
+    await user.click(screen.getByRole('button', { name: /Open support chat/i }));
+    expect(screen.getByText(/Support chat is simulated/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: /Notifications/i }));
+    await user.click(screen.getByRole('button', { name: /Comp set review due/i }));
+    expect(screen.getByText(/Comp set review notification is simulated/i)).toBeInTheDocument();
+  });
+
   it('opens help and notifications panels from the top bar', async () => {
     const user = userEvent.setup();
     await renderRoute('/studio/dashboard');
