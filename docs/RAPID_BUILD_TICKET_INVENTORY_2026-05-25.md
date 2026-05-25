@@ -161,12 +161,22 @@ Canonical ticket pack: [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPI
 | `SOPHEX-FE-COCKPIT-STORYBOOK-AND-TESTS`       | Implemented on branch | Storybook and Vitest coverage               |
 | `SOPHEX-DOCS-CRE-COCKPIT-HARVEST-SYNC`        | Implemented on branch | Registry, UX, MVP0, and spec sync           |
 
-## Wave 9 Install / Polish Backlog
+## Wave 9 Install / Polish (2026-05-25)
 
-| Ticket                                             | Status  | Notes                                                           |
-| -------------------------------------------------- | ------- | --------------------------------------------------------------- |
-| `SOPHEX-FE-COCKPIT-VISUAL-POLISH`                  | Backlog | Responsive spacing, visual hierarchy, and visual baselines      |
-| `SOPHEX-FE-EVIDENCE-WORKBENCH-SPATIAL-INTEGRATION` | Backlog | Bring spatial into the Evidence Workbench mental model          |
-| `SOPHEX-FE-COCKPIT-RUNTIME-PORT-ENRICHMENT`        | Backlog | Enrich sandbox cockpit projection without schema/provider lanes |
-| `SOPHEX-FE-HITL-CONFIDENCE-E2E-FLOWS`              | Backlog | Browser coverage for confidence-aware HITL drawer/detail paths  |
-| `SOPHEX-FE-WAVE-8-LIGHTHOUSE-VISUAL-REGRESSION`    | Backlog | Lighthouse and visual regression pass after Wave 8 landing      |
+| Track                              | Status      | Notes                                                                                         |
+| ---------------------------------- | ----------- | --------------------------------------------------------------------------------------------- |
+| Cockpit visual polish              | Implemented | Responsive bento breakpoints, cockpit stack spacing, duplicate heading cleanup                |
+| Spatial workbench integration      | Implemented | `GisRoutes` uses `DataWorkbenchShell` with source-rights/verification header controls       |
+| Cockpit runtime port enrichment    | Implemented | `/studio/deals/:dealId/cockpit` projection; `DealCockpitPanel` consumes unified advisory port |
+| HITL confidence e2e flows          | Implemented | Underwriting drawer/detail flow in `flows.spec.ts`; API-mode cockpit smoke in `api-mode.spec.ts` |
+| Visual regression baselines        | Implemented | New cockpit/spatial snapshots; existing studio baselines refreshed                            |
+
+### Wave 9 Ticket Ledger
+
+| Ticket                                             | Status      | Notes                                                           |
+| -------------------------------------------------- | ----------- | --------------------------------------------------------------- |
+| `SOPHEX-FE-COCKPIT-VISUAL-POLISH`                  | Implemented | Responsive spacing, visual hierarchy, and visual baselines      |
+| `SOPHEX-FE-EVIDENCE-WORKBENCH-SPATIAL-INTEGRATION` | Implemented | Spatial route uses Evidence Workbench shell                     |
+| `SOPHEX-FE-COCKPIT-RUNTIME-PORT-ENRICHMENT`        | Implemented | Sandbox cockpit projection with actor-filtered review summary   |
+| `SOPHEX-FE-HITL-CONFIDENCE-E2E-FLOWS`              | Implemented | Browser coverage for confidence-aware HITL drawer/detail paths  |
+| `SOPHEX-FE-WAVE-8-LIGHTHOUSE-VISUAL-REGRESSION`    | Implemented | Visual baselines updated; per-file CSS budget adjusted to 54 KB |

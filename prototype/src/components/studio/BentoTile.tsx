@@ -22,14 +22,16 @@ export function BentoSection({
   eyebrow,
   children,
   actions,
+  className = '',
 }: {
   title?: string;
   eyebrow?: string;
   children: ReactNode;
   actions?: ReactNode;
+  className?: string;
 }): ReactElement {
   return (
-    <section className="sophex-bento-section">
+    <section className={`sophex-bento-section ${className}`.trim()}>
       {(title || eyebrow || actions) && (
         <header className="sophex-bento-section-header">
           <div>

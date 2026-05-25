@@ -2,7 +2,7 @@
 
 **Purpose:** Single checklist of every mock-only prototype location so operators can resolve them deliberately when gated lanes open. This is a **tracking doc**, not runtime authorization.
 
-**Last synced:** 2026-05-25 (after Wave 8 CRE cockpit utilization)
+**Last synced:** 2026-05-25 (after Wave 9 cockpit install/polish)
 
 **Related docs:**
 
@@ -71,7 +71,7 @@
 | `/studio/deals/:dealId/capital-stack`        | `DesignReferenceRoutes.tsx` | `design-ref`; `disabled-gate` Export Waterfall; advanced nav gate hint                                   | `hitl-legal`, `provider`                | Wave 3/6, Stitch design-ref                               |
 | `/studio/deals/:dealId/ic-packet`            | `DesignReferenceRoutes.tsx` | `design-ref`; `disabled-gate` Send to IC; `MockBoundaryBanner` (`ic`)                                    | `hitl-legal`                            | Wave 3/6, Stitch design-ref                               |
 | `/studio/deals/:dealId/hitl-review`          | `DesignReferenceRoutes.tsx` | **Analyst review** — shared mock assignments + confidence tiers; `MockBoundaryBanner` (`review`)         | `hitl-legal`, `schema-db`               | Wave 3/5/6/8                                              |
-| `/studio/deals/:dealId/spatial`              | `GisRoutes.tsx`             | **Location intelligence** — GIS manifest + layer budgets mock                                            | `provider`, `sandbox-api`               | Wave 3/4/6 nav label, GIS pack                            |
+| `/studio/deals/:dealId/spatial`              | `GisRoutes.tsx`             | **Location intelligence** — GIS manifest + `DataWorkbenchShell` table/list/grid; source-rights badges   | `provider`, `sandbox-api`               | Wave 3/4/6 nav label, Wave 9 spatial workbench integration |
 | `/studio/reports/:dealId/builder`            | `ReportRoutes.tsx`          | Report builder + export gates; deal breadcrumb; `MockBoundaryBanner` (`export`)                          | `hitl-legal`, `schema-db`               | Wave 2/4/6                                                |
 | `/studio/settings/billing`                   | `MarketingRoutes.tsx`       | Mock plan tiers                                                                                          | `billing-auth`                          | Phase 2                                                   |
 | `/studio/settings/white-label`               | `ReportRoutes.tsx`          | Mock branding uploads                                                                                    | `schema-db`, `billing-auth`             | Phase 2                                                   |
@@ -82,6 +82,8 @@
 **Studio workflow chrome (all deal routes via `StudioShared.tsx`):** `DealStageStepper` (six-stage model), `DealWorkflowTabs` (Evidence / Snapshots labels), `AdvancedWorkflowNav` (delivery surfaces + gate hints)
 
 **Wave 8 cockpit primitives:** `BentoTile` state contract, `DealCockpitPanel`, `DataWorkbenchShell`, `AiTaskPulse`, `confidence.ts`, `next-action.ts`, and shared `review-assignments.ts` are `workflow-advisory` / `mock-ui`. They do not authorize evidence promotion, reviewer decisions, IC delivery, or export.
+
+**Wave 9 cockpit projection:** `GET /sandbox/v0/studio/deals/:dealId/cockpit` returns unified advisory progress, next action, blocked stages, AI task pulse, and actor-filtered review summary. `DealCockpitPanel` consumes this port in fixture and API modes; KPI tiles remain page-local props.
 
 ---
 

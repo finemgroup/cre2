@@ -15,6 +15,7 @@ import {
   TrustBadge,
   WorkflowContextHeader,
 } from '@/components/studio/StudioPrimitives';
+import { DataWorkbenchShell } from '@/components/workflow/DataWorkbenchShell';
 import { fixtureActors } from '@/lib/contracts/fixtures';
 import {
   evaluateSourceRightsManifest,
@@ -63,6 +64,111 @@ export function StudioSpatialWorkbenchPage(): ReactElement {
 
   if (!deal) return <StudioDealNotFound />;
 
+  const manifestPanel = (
+    <StudioCard title="Map Layer Manifest" className="wide-card">
+      <MapPlaceholderPreview caption="Sample spatial workbench — metadata-first, geometry deferred.">
+        <div className="provenance-labels">
+          <AuthorityBadge label="sample-map-data" />
+          <AuthorityBadge label="not-legal-boundary" />
+        </div>
+      </MapPlaceholderPreview>
+      <MapLayerControlPanel
+        layers={layers}
+        evidenceByLayer={spatialContext?.evidenceByLayer ?? {}}
+        heading="Report-context layer controls"
+      />
+      <DataTable
+        caption="Source rights manifest"
+        headers={['Layer', 'Policy', 'Decision', 'Safe message']}
+        rows={sourceRights.map((entry) => [
+          entry.label,
+          entry.policy,
+          entry.decision,
+          entry.safeExplanation,
+        ])}
+      />
+    </StudioCard>
+  );
+
+  const tradeAreaPanel = (
+    <StudioCard title="Trade Areas">
+      {tradeAreas.length > 0 ? (
+        <DataTable
+          caption="Report-eligible trade areas"
+          headers={['Label', 'Method', 'Parameters', 'Posture']}
+          rows={tradeAreas.map((area) => [
+            area.label,
+            area.method,
+            area.parametersLabel,
+            <TrustBadge
+              key={area.id}
+              state={
+                area.visibility === 'organization-private'
+                  ? 'Reviewer required'
+                  : area.visibility === 'provider-restricted'
+                    ? 'Blocked'
+                    : 'Reviewed'
+              }
+            />,
+          ])}
+        />
+      ) : (
+        <p className="muted">No report-eligible trade areas for this actor context.</p>
+      )}
+      {summary.warnings.length > 0 ? (
+        <ul className="governance-list">
+          {summary.warnings.map((warning) => (
+            <li key={warning}>{warning}</li>
+          ))}
+        </ul>
+      ) : null}
+    </StudioCard>
+  );
+
+  const verificationPanel = (
+    <StudioCard title="Location Verification">
+      <StatusBadge
+        status={verification.conflicts > 0 ? 'Coordinate conflict' : 'Sample verification'}
+      />
+      <DataTable
+        caption="Spatial evidence verification"
+        headers={['Label', 'State', 'Caveat']}
+        rows={verification.items.map((item) => [item.label, item.state, item.caveat])}
+      />
+      {summary.blockedLayers.length > 0 ? (
+        <>
+          <p className="studio-eyebrow">Blocked layers</p>
+          <ul className="governance-list">
+            {summary.blockedLayers.map((layer) => (
+              <li key={layer}>
+                <MaterialIcon name="block" /> {layer}
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : null}
+    </StudioCard>
+  );
+
+  const performancePanel = (
+    <StudioCard title="Layer Performance Budgets">
+      <DataTable
+        caption="GIS layer performance budgets"
+        headers={['Layer', 'Payload class', 'Lazy load', 'Budget (KB)', 'Note']}
+        rows={performanceBudgets.map((budget) => [
+          budget.label,
+          budget.payloadSizeClass,
+          budget.lazyLoadPolicy,
+          String(budget.maxInitialPayloadKb),
+          budget.safeNote,
+        ])}
+      />
+      <p className="muted">
+        {performanceSummary.deferredCount} layers deferred · mock MVP0 initial cap 128 KB
+      </p>
+    </StudioCard>
+  );
+
   return (
     <div>
       <WorkflowContextHeader
@@ -82,7 +188,7 @@ export function StudioSpatialWorkbenchPage(): ReactElement {
         No live GeoJSON, provider keys, or external GIS services. Geometry remains deferred-heavy in
         prototype manifests.
       </NonProductionCallout>
-      <div className="metric-grid">
+      <div className="metric-grid spatial-workbench-metrics">
         <MetricCard label="Visible layers" value={String(summary.layerCount)} detail="Report context" />
         <MetricCard
           label="Trade areas"
@@ -105,101 +211,71 @@ export function StudioSpatialWorkbenchPage(): ReactElement {
           detail={performanceSummary.withinBudget ? 'Within mock budget' : 'Review deferred layers'}
         />
       </div>
-      <div className="split-workstation-grid">
-        <StudioCard title="Map Layer Manifest" className="wide-card">
-          <MapPlaceholderPreview caption="Sample spatial workbench — metadata-first, geometry deferred.">
-            <div className="provenance-labels">
-              <AuthorityBadge label="sample-map-data" />
-              <AuthorityBadge label="not-legal-boundary" />
-            </div>
-          </MapPlaceholderPreview>
-          <MapLayerControlPanel
-            layers={layers}
-            evidenceByLayer={spatialContext?.evidenceByLayer ?? {}}
-            heading="Report-context layer controls"
-          />
-          <DataTable
-            caption="Source rights manifest"
-            headers={['Layer', 'Policy', 'Decision', 'Safe message']}
-            rows={sourceRights.map((entry) => [
-              entry.label,
-              entry.policy,
-              entry.decision,
-              entry.safeExplanation,
-            ])}
-          />
-        </StudioCard>
-        <StudioCard title="Trade Areas">
-          {tradeAreas.length > 0 ? (
-            <DataTable
-              caption="Report-eligible trade areas"
-              headers={['Label', 'Method', 'Parameters', 'Posture']}
-              rows={tradeAreas.map((area) => [
-                area.label,
-                area.method,
-                area.parametersLabel,
-                <TrustBadge
-                  key={area.id}
-                  state={
-                    area.visibility === 'organization-private'
-                      ? 'Reviewer required'
-                      : area.visibility === 'provider-restricted'
-                        ? 'Blocked'
-                        : 'Reviewed'
-                  }
-                />,
-              ])}
+      <DataWorkbenchShell
+        title="Spatial Evidence Workbench"
+        subtitle="Source rights, verification, and layer budgets stay visible across table, list, and grid views."
+        storageKey={`spatial-workbench-${deal.id}`}
+        secondaryControls={
+          <>
+            <StatusBadge
+              status={summary.spatialSourceClear ? 'Source rights clear' : 'Source rights blocked'}
             />
-          ) : (
-            <p className="muted">No report-eligible trade areas for this actor context.</p>
-          )}
-          {summary.warnings.length > 0 ? (
-            <ul className="governance-list">
-              {summary.warnings.map((warning) => (
-                <li key={warning}>{warning}</li>
+            <StatusBadge
+              status={
+                verification.conflicts > 0
+                  ? `${verification.conflicts} verification conflicts`
+                  : 'Verification sample'
+              }
+            />
+          </>
+        }
+        views={{
+          table: (
+            <div className="split-workstation-grid">
+              {manifestPanel}
+              {tradeAreaPanel}
+              {verificationPanel}
+              {performancePanel}
+            </div>
+          ),
+          list: (
+            <ul className="governance-list spatial-workbench-list">
+              {sourceRights.map((entry) => (
+                <li key={entry.label}>
+                  <strong>{entry.label}</strong>
+                  <span>
+                    {entry.decision} · {entry.safeExplanation}
+                  </span>
+                </li>
+              ))}
+              {tradeAreas.map((area) => (
+                <li key={area.id}>
+                  <strong>{area.label}</strong>
+                  <span>
+                    {area.method} · {area.parametersLabel}
+                  </span>
+                </li>
+              ))}
+              {verification.items.map((item) => (
+                <li key={item.label}>
+                  <strong>{item.label}</strong>
+                  <span>
+                    {item.state} · {item.caveat}
+                  </span>
+                </li>
               ))}
             </ul>
-          ) : null}
-        </StudioCard>
-        <StudioCard title="Location Verification">
-          <StatusBadge
-            status={verification.conflicts > 0 ? 'Coordinate conflict' : 'Sample verification'}
-          />
-          <DataTable
-            caption="Spatial evidence verification"
-            headers={['Label', 'State', 'Caveat']}
-            rows={verification.items.map((item) => [item.label, item.state, item.caveat])}
-          />
-          {summary.blockedLayers.length > 0 ? (
-            <>
-              <p className="studio-eyebrow">Blocked layers</p>
-              <ul className="governance-list">
-                {summary.blockedLayers.map((layer) => (
-                  <li key={layer}>
-                    <MaterialIcon name="block" /> {layer}
-                  </li>
-                ))}
-              </ul>
-            </>
-          ) : null}
-        </StudioCard>
-        <StudioCard title="Layer Performance Budgets">
-          <DataTable
-            caption="GIS layer performance budgets"
-            headers={['Layer', 'Payload class', 'Lazy load', 'Budget (KB)', 'Note']}
-            rows={performanceBudgets.map((budget) => [
-              budget.label,
-              budget.payloadSizeClass,
-              budget.lazyLoadPolicy,
-              String(budget.maxInitialPayloadKb),
-              budget.safeNote,
-            ])}
-          />
-          <p className="muted">
-            {performanceSummary.deferredCount} layers deferred · mock MVP0 initial cap 128 KB
-          </p>
-        </StudioCard>
-      </div>
+          ),
+          grid: (
+            <div className="dashboard-grid spatial-workbench-grid">
+              {manifestPanel}
+              {tradeAreaPanel}
+              {verificationPanel}
+              {performancePanel}
+            </div>
+          ),
+        }}
+      />
     </div>
   );
 }

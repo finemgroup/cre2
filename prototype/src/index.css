@@ -3053,8 +3053,17 @@ button.heatmap-cell:focus-visible {
   }
 }
 
-.sophex-bento-section {
-  margin: 1rem 0;
+.sophex-bento-section,
+.deal-cockpit-stack {
+  margin: 1.25rem 0 1.5rem;
+}
+
+.deal-cockpit-stack {
+  margin-top: 0.5rem;
+}
+
+.deal-cockpit-panel {
+  scroll-margin-top: 5.5rem;
 }
 
 .sophex-bento-section-header,
@@ -3209,6 +3218,15 @@ button.heatmap-cell:focus-visible {
   font-size: 0.9rem;
 }
 
+.spatial-workbench-metrics {
+  margin-bottom: 0.5rem;
+}
+
+.spatial-workbench-list li {
+  padding: 0.65rem 0;
+  border-bottom: 1px solid var(--studio-line);
+}
+
 .view-mode-toggle {
   display: inline-flex;
   padding: 0.2rem;
@@ -3274,6 +3292,18 @@ button.heatmap-cell:focus-visible {
   height: 100%;
   border-radius: inherit;
   background: var(--studio-primary);
+}
+
+@media (max-width: 1200px) {
+  .sophex-bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .sophex-bento-span-3,
+  .sophex-bento-span-4,
+  .sophex-bento-span-full {
+    grid-column: 1 / -1;
+  }
 }
 
 @media (max-width: 900px) {

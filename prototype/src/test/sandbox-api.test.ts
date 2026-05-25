@@ -98,11 +98,31 @@ describe('sandbox API shell', () => {
     const nextAction = await readJson<{ label: string }>(
       await request('/studio/deals/riverside-flats/workflow/next-action')
     );
+    const cockpit = await readJson<{
+      dealId: string;
+      nextAction: { label: string; confidence: { trustTier: string } };
+      tasks: unknown[];
+      reviewSummary: { visible: boolean; pendingCount: number };
+    }>(await request('/studio/deals/riverside-flats/cockpit', { actor: fixtureActors.orgAdmin }));
 
     expect(dashboard.deals.length).toBeGreaterThan(0);
     expect(deal.deal.id).toBe('riverside-flats');
     expect(progress.progress.Underwriting).toBeTruthy();
     expect(nextAction.label.length).toBeGreaterThan(0);
+    expect(cockpit.dealId).toBe('riverside-flats');
+    expect(cockpit.nextAction.confidence.trustTier.length).toBeGreaterThan(0);
+    expect(cockpit.tasks.length).toBeGreaterThan(0);
+    expect(cockpit.reviewSummary.visible).toBe(true);
+    expect(cockpit.reviewSummary.pendingCount).toBeGreaterThan(0);
+  });
+
+  it('hides review summary from public actors in cockpit projection', async () => {
+    const cockpit = await readJson<{
+      reviewSummary: { visible: boolean; pendingCount: number };
+    }>(await request('/studio/deals/riverside-flats/cockpit', { actor: fixtureActors.public }));
+
+    expect(cockpit.reviewSummary.visible).toBe(false);
+    expect(cockpit.reviewSummary.pendingCount).toBe(0);
   });
 
   it('replays identical export idempotency keys with the same receipt', async () => {

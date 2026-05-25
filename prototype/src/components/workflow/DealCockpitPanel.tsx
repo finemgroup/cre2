@@ -3,14 +3,13 @@ import type { ReactElement, ReactNode } from 'react';
 
 import { BentoSection, BentoTile } from '@/components/studio/BentoTile';
 import { StatusBadge, TrustBadge } from '@/components/studio/StudioPrimitives';
+import { AiTaskPulse } from '@/components/workflow/AiTaskPulse';
 import { HitlTrustTierBadge } from '@/components/workflow/HitlTrustTierBadge';
 import {
   DEAL_STAGE_DEFINITIONS,
-  getDealNextAction,
-  getDealStageProgress,
   type DealStageStatus,
 } from '@/lib/workflow/deal-stage-model';
-import { getUnifiedDealNextAction } from '@/lib/workflow/next-action';
+import { getDealCockpitProjection } from '@/lib/workflow/cockpit-projection';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 
@@ -46,29 +45,31 @@ export function DealCockpitPanel({
   rail,
   actions,
 }: DealCockpitPanelProps): ReactElement {
-  const progressState = useRuntimeResource(
-    () => runtimeServices.studio.getWorkflowProgress(dealId),
-    `wave8-cockpit-progress-${dealId}`,
-    getDealStageProgress(dealId)
+  const fallbackProjection = getDealCockpitProjection(dealId);
+  const cockpitState = useRuntimeResource(
+    () => runtimeServices.studio.getCockpitProjection(dealId),
+    `wave9-cockpit-projection-${dealId}`,
+    fallbackProjection
   );
-  const nextActionState = useRuntimeResource(
-    () => runtimeServices.studio.getNextAction(dealId),
-    `wave8-cockpit-next-action-${dealId}`,
-    getDealNextAction(dealId)
-  );
-  const progress = progressState.value;
-  const unifiedAction = getUnifiedDealNextAction(dealId, undefined, progress);
-  const nextAction = nextActionState.value ?? unifiedAction;
-  const action = { ...unifiedAction, ...nextAction };
-  const blockedStages = DEAL_STAGE_DEFINITIONS.filter((stage) => progress[stage.id] === 'blocked');
+  const projection = cockpitState.value ?? fallbackProjection;
+  const progress = projection.progress;
+  const action = projection.nextAction;
+  const blockedStages = projection.blockedStages;
+  const taskRail = rail ?? <AiTaskPulse tasks={projection.tasks} />;
 
   return (
     <BentoSection
       title={title}
       eyebrow={eyebrow}
+      className="deal-cockpit-panel"
       actions={
         <>
           <StatusBadge status={`${action.blockerCount} blockers`} />
+          {projection.reviewSummary.visible ? (
+            <StatusBadge
+              status={`${projection.reviewSummary.pendingCount} pending reviews`}
+            />
+          ) : null}
           {actions}
         </>
       }
@@ -79,7 +80,7 @@ export function DealCockpitPanel({
         variant="action"
         span={2}
         status={runtimeServices.mode === 'api' ? 'API-backed advisory' : 'Fixture advisory'}
-        state={progressState.loading || nextActionState.loading ? 'loading' : 'ok'}
+        state={cockpitState.loading ? 'loading' : 'ok'}
         primary={
           <div className="sophex-next-action-primary">
             <HitlTrustTierBadge tier={action.confidence.trustTier} />
@@ -102,7 +103,7 @@ export function DealCockpitPanel({
         subtitle="Advisory progress only; UI state never authorizes export."
         variant="status"
         span={2}
-        state="ok"
+        state={cockpitState.loading ? 'loading' : 'ok'}
       >
         <div className="sophex-stage-chip-grid">
           {DEAL_STAGE_DEFINITIONS.map((stage) => (
@@ -128,7 +129,7 @@ export function DealCockpitPanel({
         title="Blocked Work"
         subtitle="High-priority gaps pulled into one cockpit rail."
         variant="list"
-        span={rail ? 2 : 1}
+        span={taskRail ? 2 : 1}
         state={blockedStages.length > 0 ? 'ok' : 'empty'}
         emptyMessage="No blocked stages are visible in the current advisory model."
       >
@@ -141,14 +142,14 @@ export function DealCockpitPanel({
           ))}
         </ul>
       </BentoTile>
-      {rail ? (
+      {taskRail ? (
         <BentoTile
           title="Cockpit Rail"
           subtitle="Contextual operator-safe projection."
           variant="composite"
           span={2}
         >
-          {rail}
+          {taskRail}
         </BentoTile>
       ) : null}
     </BentoSection>

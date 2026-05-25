@@ -12,6 +12,7 @@ import type {
   StudioReportBuilderView,
   StudioScenarioView,
 } from '@/lib/runtime/service-ports';
+import type { DealCockpitProjection } from '@/lib/workflow/cockpit-projection';
 import type { DealNextAction, DealStageStatus, DealWorkflowStage } from '@/lib/workflow/deal-stage-model';
 import type { ExportPolicyDecision } from '@/lib/runtime/export-policy';
 import { handleSandboxApiRequest } from '@/lib/runtime/sandbox-api';
@@ -89,6 +90,9 @@ export function createSandboxApiRuntimeServices(
       },
       async getNextAction(dealId) {
         return client.get<DealNextAction>(`/studio/deals/${dealId}/workflow/next-action`);
+      },
+      async getCockpitProjection(dealId, actor) {
+        return client.get<DealCockpitProjection>(`/studio/deals/${dealId}/cockpit`, { actor });
       },
     },
   };

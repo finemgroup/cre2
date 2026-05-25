@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 import { BentoTile } from '@/components/studio/BentoTile';
 import { assessConfidence, getEscalationLevel } from '@/lib/workflow/confidence';
+import { getDealCockpitProjection } from '@/lib/workflow/cockpit-projection';
 import { getUnifiedDealNextAction } from '@/lib/workflow/next-action';
 
 describe('Wave 8 cockpit primitives', () => {
@@ -47,5 +48,15 @@ describe('Wave 8 cockpit primitives', () => {
 
     expect(screen.getByText(/No rows are available/i)).toBeInTheDocument();
     expect(screen.getByText(/not that business activity is zero/i)).toBeInTheDocument();
+  });
+
+  it('builds a unified cockpit projection with advisory tasks and review summary', () => {
+    const projection = getDealCockpitProjection('riverside-flats');
+
+    expect(projection.dealId).toBe('riverside-flats');
+    expect(projection.nextAction.label.length).toBeGreaterThan(0);
+    expect(projection.tasks.length).toBeGreaterThan(0);
+    expect(projection.reviewSummary.visible).toBe(true);
+    expect(projection.blockedStages.every((stage) => stage.label.length > 0)).toBe(true);
   });
 });

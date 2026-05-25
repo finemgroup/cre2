@@ -13,6 +13,10 @@ import {
 import { getPublicSearchProperties } from '@/lib/runtime/public-search';
 import type { ExportPolicyDecision, ExportScope } from '@/lib/runtime/export-policy';
 import {
+  getDealCockpitProjection,
+  type DealCockpitProjection,
+} from '@/lib/workflow/cockpit-projection';
+import {
   getDealNextAction,
   getDealStageProgress,
   type DealNextAction,
@@ -60,6 +64,10 @@ export type StudioRuntimeServices = {
   getScenarios(): Promise<StudioScenarioView>;
   getWorkflowProgress(dealId: string): Promise<Record<DealWorkflowStage, DealStageStatus>>;
   getNextAction(dealId: string): Promise<DealNextAction>;
+  getCockpitProjection(
+    dealId: string,
+    actor?: ActorContext
+  ): Promise<DealCockpitProjection>;
 };
 
 export type RuntimeServices = {
@@ -108,6 +116,9 @@ export const fixtureRuntimeServices: RuntimeServices = {
     },
     async getNextAction(dealId) {
       return getDealNextAction(dealId);
+    },
+    async getCockpitProjection(dealId, actor) {
+      return getDealCockpitProjection(dealId, actor);
     },
   },
 };

@@ -211,7 +211,40 @@ test.describe('route shell visuals', () => {
     await expect(
       page.getByRole('heading', { name: /Spatial Manifest & Trade Area Workbench/i })
     ).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Spatial Evidence Workbench/i })).toBeVisible();
+    await expect(page.getByText(/Source rights clear|Source rights blocked/i)).toBeVisible();
     await expect(page).toHaveScreenshot('studio-spatial-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
+  test('deal cockpit overview desktop', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/studio/deals/riverside-flats');
+    await expect(page.getByRole('heading', { name: /Deal Cockpit/i })).toBeVisible();
+    await expect(page.getByText(/Stage Posture/i)).toBeVisible();
+    await expect(page).toHaveScreenshot('studio-deal-cockpit-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
+  test('deal cockpit overview mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await gotoRoute(page, '/studio/deals/riverside-flats');
+    await expect(page.getByRole('heading', { name: /Deal Cockpit/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('studio-deal-cockpit-mobile.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.08,
+    });
+  });
+
+  test('underwriting cockpit desktop', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/studio/deals/riverside-flats/underwriting');
+    await expect(page.getByRole('heading', { name: /Executive Underwriting Cockpit/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('studio-underwriting-cockpit-desktop.png', {
       fullPage: true,
       maxDiffPixelRatio: 0.03,
     });

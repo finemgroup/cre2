@@ -115,6 +115,18 @@ test.describe('Studio end-to-end flows', () => {
     await expect(page.getByRole('button', { name: /^Lock Version$/i })).toBeDisabled();
     await page.keyboard.press('Escape');
 
+    await page.getByRole('button', { name: /Open analyst review drawer/i }).click();
+    const hitlDrawer = page.getByRole('dialog', { name: /Analyst review queue/i });
+    await expect(hitlDrawer).toBeVisible();
+    await expect(hitlDrawer.getByText(/Internal-only HITL projection/i)).toBeVisible();
+    await page.getByRole('button', { name: /Open assignment/i }).first().click();
+    const detailDrawer = page.getByRole('dialog', { name: /Reviewer assignment detail/i });
+    await expect(detailDrawer).toBeVisible();
+    await expect(detailDrawer.getByText(/Reviewer decision required/i)).toBeVisible();
+    await expect(detailDrawer.getByRole('button', { name: /Approve for export/i })).toBeDisabled();
+    await page.keyboard.press('Escape');
+    await page.keyboard.press('Escape');
+
     await gotoRoute(page, '/studio/deals/riverside-flats/underwriting/sources');
     await page.getByRole('button', { name: /Resolve conflict/i }).click();
     await expect(page.getByRole('dialog', { name: /Unit Count Discrepancy/i })).toBeVisible();

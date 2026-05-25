@@ -14,6 +14,7 @@ import {
   getStudioReportBuilderView,
   getStudioScenarioView,
 } from '@/lib/runtime/studio-workspace';
+import { getDealCockpitProjection } from '@/lib/workflow/cockpit-projection';
 import { getDealNextAction, getDealStageProgress } from '@/lib/workflow/deal-stage-model';
 
 export type SandboxApiSuccess<T> = {
@@ -151,6 +152,17 @@ export async function routeSandboxRequest(request: Request): Promise<SandboxApiR
   const workflowNextActionMatch = path.match(/^\/studio\/deals\/([^/]+)\/workflow\/next-action$/);
   if (request.method === 'GET' && workflowNextActionMatch) {
     return ok(getDealNextAction(workflowNextActionMatch[1]));
+  }
+
+  const cockpitMatch = path.match(/^\/studio\/deals\/([^/]+)\/cockpit$/);
+  if (request.method === 'GET' && cockpitMatch) {
+    const projection = getDealCockpitProjection(cockpitMatch[1], actor);
+    return ok({
+      ...projection,
+      reviewSummary: projection.reviewSummary.visible
+        ? projection.reviewSummary
+        : { pendingCount: 0, highestTrustTier: null, visible: false },
+    });
   }
 
   const reportMatch = path.match(/^\/reports\/([^/]+)$/);

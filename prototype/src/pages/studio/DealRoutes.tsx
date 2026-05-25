@@ -377,6 +377,7 @@ export function StudioDealOverviewPage(): ReactElement {
         Deal metrics are mock projections with candidate/review state labels.
       </NonProductionCallout>
       <DealWorkflowTabs deal={deal} />
+      <div className="deal-cockpit-stack">
       <DealCockpitPanel
         dealId={deal.id}
         kpis={[
@@ -390,8 +391,8 @@ export function StudioDealOverviewPage(): ReactElement {
           { label: 'Target IRR', value: '14.8%', detail: 'Scenario draft' },
           { label: 'Equity Multiple', value: '1.82x', detail: 'Analyst review active' },
         ]}
-        rail={<AiTaskPulse />}
       />
+      </div>
       <div className="dashboard-grid">
         <StudioCard title="Property Snapshot" className="wide-card">
           <div className="property-snapshot">
@@ -848,6 +849,7 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
           resolveLabel="Resolve evidence blockers"
         />
       ) : null}
+      <div className="deal-cockpit-stack">
       <DealCockpitPanel
         dealId={deal.id}
         title="Executive Underwriting Cockpit"
@@ -866,8 +868,8 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
             detail: 'Mock underwriting gates',
           },
         ]}
-        rail={<AiTaskPulse />}
       />
+      </div>
       <StudioCard title="Workflow Spine" eyebrow="Assumptions → export">
         <WorkflowSpineNav steps={buildUnderwritingSpineSteps(deal.id, 'assumptions')} />
       </StudioCard>
@@ -902,7 +904,7 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
         </Link>
       </div>
       <div className="workstation-hero-grid">
-        <StudioCard title="Executive Underwriting Cockpit" eyebrow="Stitch rollout surface">
+        <StudioCard title="Valuation Range & Model Output" eyebrow="Stitch rollout surface">
           <div className="valuation-range">
             <span>Advisory valuation range</span>
             <strong>
