@@ -5,6 +5,7 @@ import { SophexSheet } from '@/components/motion/SophexSheet';
 import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
 import { MapPlaceholderPreview } from '@/components/spatial/MapPlaceholderPreview';
 import { EvidenceMetadataList } from '@/components/evidence/EvidenceMetadataList';
+import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { usePrototypeAction } from '@/lib/prototype/usePrototypeAction';
 import { studioDealPath } from '@/data/studio';
@@ -58,6 +59,8 @@ export function PropertyPage(): ReactElement {
           {property.market} · {property.assetType}
         </p>
       </header>
+
+      <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="property" />
 
       <div className="split-layout">
         <div className="card">

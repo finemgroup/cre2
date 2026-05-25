@@ -7,7 +7,10 @@ test.describe('public end-to-end flows', () => {
     await gotoRoute(page, '/');
     await page.getByLabel(/Property or market/i).fill('Austin');
     await page.getByRole('button', { name: /^Search$/ }).click();
-    await page.getByRole('link', { name: /View property/i }).first().click();
+    await page
+      .getByRole('link', { name: /View property/i })
+      .first()
+      .click();
 
     await expect(page.getByRole('heading', { name: /1200 Commerce St/i })).toBeVisible();
     await page.getByRole('link', { name: /Compare comps/i }).click();
@@ -83,7 +86,12 @@ test.describe('Studio end-to-end flows', () => {
   test('report builder standalone shell keeps export gated', async ({ page }) => {
     await gotoRoute(page, '/studio/reports/riverside-flats/builder');
     await expect(page.getByRole('heading', { name: /Report Builder/i })).toBeVisible();
-    await expect(page.locator('span').filter({ hasText: /Export is disabled until section review/i }).first()).toBeVisible();
+    await expect(
+      page
+        .locator('span')
+        .filter({ hasText: /Export is disabled until section review/i })
+        .first()
+    ).toBeVisible();
     await page.getByRole('button', { name: /^Export$/i }).click();
     await expect(page.getByText(/Report export is simulated/i)).toBeVisible();
   });
@@ -92,5 +100,58 @@ test.describe('Studio end-to-end flows', () => {
     await gotoRoute(page, '/studio/broker-os');
     await page.getByRole('button', { name: /Refresh streams/i }).click();
     await expect(page.getByText(/Broker OS job refresh is simulated/i)).toBeVisible();
+  });
+
+  test('Stitch workstation interactions remain mock-only and gated', async ({ page }) => {
+    await gotoRoute(page, '/studio/deals/riverside-flats/underwriting');
+    await expect(page.getByText(/Advisory valuation range/i)).toBeVisible();
+    await expect(page.getByRole('navigation', { name: /Underwriting workflow spine/i })).toBeVisible();
+    await page.getByRole('button', { name: /Open DSCR calculation breakdown/i }).click();
+    await expect(page.getByRole('dialog', { name: /DSCR calculation breakdown/i })).toBeVisible();
+    await page.keyboard.press('Escape');
+
+    await page.getByRole('button', { name: /Review Version Lock/i }).click();
+    await expect(page.getByRole('dialog', { name: /Lock Version/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /^Lock Version$/i })).toBeDisabled();
+    await page.keyboard.press('Escape');
+
+    await gotoRoute(page, '/studio/deals/riverside-flats/underwriting/sources');
+    await page.getByRole('button', { name: /Resolve conflict/i }).click();
+    await expect(page.getByRole('dialog', { name: /Unit Count Discrepancy/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Confirm Decision/i })).toBeDisabled();
+  });
+
+  test('new workstation routes render source, debt, data, scenario, and version surfaces', async ({
+    page,
+  }) => {
+    await gotoRoute(page, '/studio/deals/riverside-flats/data-review');
+    await expect(
+      page.getByRole('heading', { name: /Rent roll \/ T12 normalization/i })
+    ).toBeVisible();
+    await page.getByRole('button', { name: /Resolve Unit Count Conflict/i }).click();
+    await expect(page.getByRole('dialog', { name: /Unit Count Discrepancy/i })).toBeVisible();
+    await page.keyboard.press('Escape');
+    await page.getByRole('link', { name: /Review Source Trace/i }).click();
+    await expect(page.getByRole('heading', { name: /Assumption Source Trace/i })).toBeVisible();
+
+    await gotoRoute(page, '/studio/deals/riverside-flats/underwriting/debt');
+    await expect(page.getByRole('heading', { name: /Debt \/ lender quote panel/i })).toBeVisible();
+    await page.getByRole('button', { name: /Add Mock Lender Quote/i }).click();
+    await expect(page.getByRole('dialog', { name: /Add mock lender quote/i })).toBeVisible();
+    await page.keyboard.press('Escape');
+
+    await gotoRoute(page, '/studio/deals/riverside-flats/scenarios');
+    await expect(page.getByRole('heading', { name: /Driver Comparison/i })).toBeVisible();
+    await expect(page.getByText(/Gate implication/i)).toBeVisible();
+    await page
+      .getByRole('button', { name: /Open sensitivity drilldown/i })
+      .first()
+      .click();
+    await expect(page.getByRole('dialog', { name: /Sensitivity cell drilldown/i })).toBeVisible();
+    await page.keyboard.press('Escape');
+
+    await gotoRoute(page, '/studio/deals/riverside-flats/versions');
+    await expect(page.getByRole('heading', { name: /Valuation version timeline/i })).toBeVisible();
+    await expect(page.getByText(/EVID-SNAP-992/i)).toBeVisible();
   });
 });

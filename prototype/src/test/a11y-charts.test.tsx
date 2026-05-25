@@ -1,4 +1,4 @@
-import { screen, within } from '@testing-library/react';
+import { screen, within, waitFor } from '@testing-library/react';
 import { axe } from 'jest-axe';
 import { describe, expect, it } from 'vitest';
 
@@ -8,9 +8,11 @@ describe('accessibility chart alternatives', () => {
   it('exposes underwriting metrics in a non-visual table', async () => {
     await renderRoute('/studio/deals/riverside-flats/underwriting');
 
-    const metricsTable = screen.getByRole('table', {
-      name: /Base Case calculated metrics/i,
-    });
+    const metricsTable = await waitFor(() =>
+      screen.getByRole('table', {
+        name: /Base Case calculated metrics/i,
+      })
+    );
     expect(within(metricsTable).getByRole('rowheader', { name: /^IRR$/i })).toBeInTheDocument();
     const irrRow = within(metricsTable)
       .getAllByRole('row')

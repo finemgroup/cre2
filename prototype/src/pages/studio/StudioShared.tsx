@@ -26,9 +26,13 @@ export function DealWorkflowTabs({ deal }: { deal: Deal }): ReactElement {
   const tabs = [
     ['Overview', studioDealPath(deal.id), /^\/studio\/deals\/[^/]+$/],
     ['Inputs', studioDealPath(deal.id, 'intake'), /\/intake$/],
+    ['Data', studioDealPath(deal.id, 'data-review'), /\/data-review$/],
     ['Comps', studioDealPath(deal.id, 'comps'), /\/comps$/],
     ['Underwriting', studioDealPath(deal.id, 'underwriting'), /\/underwriting$/],
+    ['Sources', studioDealPath(deal.id, 'underwriting-sources'), /\/underwriting\/sources$/],
+    ['Debt', studioDealPath(deal.id, 'underwriting-debt'), /\/underwriting\/debt$/],
     ['Scenarios', studioDealPath(deal.id, 'scenarios'), /\/scenarios$/],
+    ['Versions', studioDealPath(deal.id, 'versions'), /\/versions$/],
     ['Reports', studioReportPath(deal.id), /^\/studio\/reports\//],
   ] as const;
 

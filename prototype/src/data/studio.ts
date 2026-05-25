@@ -79,13 +79,25 @@ export type JobStatusProjection = {
 
 export const DEFAULT_DEAL_ID = 'riverside-flats';
 
-export type StudioDealSection = 'overview' | 'intake' | 'comps' | 'underwriting' | 'scenarios';
+export type StudioDealSection =
+  | 'overview'
+  | 'intake'
+  | 'comps'
+  | 'underwriting'
+  | 'underwriting-sources'
+  | 'underwriting-debt'
+  | 'data-review'
+  | 'scenarios'
+  | 'versions';
 
 export function studioDealPath(
   dealId = DEFAULT_DEAL_ID,
   section: StudioDealSection = 'overview'
 ): string {
   if (section === 'intake') return `/studio/deals/${dealId}/intake`;
+  if (section === 'underwriting-sources') return `/studio/deals/${dealId}/underwriting/sources`;
+  if (section === 'underwriting-debt') return `/studio/deals/${dealId}/underwriting/debt`;
+  if (section === 'data-review') return `/studio/deals/${dealId}/data-review`;
   const suffix = section === 'overview' ? '' : `/${section}`;
   return `/studio/deals/${dealId}${suffix}`;
 }
@@ -124,6 +136,12 @@ export function getStudioNavItems(dealId = DEFAULT_DEAL_ID) {
       href: studioDealPath(dealId, 'underwriting'),
       icon: 'calculate',
       match: 'underwriting',
+    },
+    {
+      label: 'Versions',
+      href: studioDealPath(dealId, 'versions'),
+      icon: 'history',
+      match: 'versions',
     },
     { label: 'Reports', href: studioReportPath(dealId), icon: 'assessment', match: 'reports' },
     { label: 'Billing', href: '/studio/settings/billing', icon: 'payments', match: 'billing' },

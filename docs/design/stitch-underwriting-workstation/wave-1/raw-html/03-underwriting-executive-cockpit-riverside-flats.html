@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Underwriting Executive Cockpit - Riverside Flats</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-surface-variant": "#45464d",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#fcdeb5",
+                        "surface-container-highest": "#e4e2e4",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "outline": "#76777d",
+                        "on-surface": "#1b1b1d",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "tertiary-container": "#271901",
+                        "background": "#fcf8fa",
+                        "on-secondary-fixed": "#00174b",
+                        "surface-dim": "#dcd9db",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "secondary": "#0051d5",
+                        "primary-fixed": "#dae2fd",
+                        "surface-tint": "#565e74",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "on-tertiary-container": "#98805d",
+                        "secondary-container": "#316bf3",
+                        "on-secondary-container": "#fefcff",
+                        "on-primary-container": "#7c839b",
+                        "surface-variant": "#e4e2e4",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "inverse-primary": "#bec6e0",
+                        "surface-container-high": "#eae7e9",
+                        "surface": "#fcf8fa",
+                        "on-primary": "#ffffff",
+                        "primary": "#000000",
+                        "surface-bright": "#fcf8fa",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#dbe1ff",
+                        "inverse-on-surface": "#f3f0f2",
+                        "on-primary-fixed": "#131b2e",
+                        "surface-container": "#f0edef",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f6f3f5",
+                        "tertiary": "#000000",
+                        "primary-container": "#131b2e",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#303032",
+                        "outline-variant": "#c6c6cd",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#271901",
+                        "on-background": "#1b1b1d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "24px",
+                        "gutter": "16px",
+                        "table-cell-padding": "8px 12px",
+                        "rail-width": "48px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "source-ref": ["JetBrains Mono"],
+                        "advisory-italic": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "source-ref": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "advisory-italic": ["13px", { "lineHeight": "18px", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .sharp-shadow { box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); }
+        .gated-mesh { background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px); }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased overflow-hidden">
+<!-- TopAppBar -->
+<header class="bg-surface text-primary border-b border-outline-variant flat no shadows flex justify-between items-center w-full px-margin-desktop h-16 fixed top-0 z-50">
+<div class="flex items-center gap-6">
+<span class="text-headline-md font-headline-md font-bold text-on-surface">Riverside Flats</span>
+<nav class="hidden md:flex gap-4">
+<a class="text-primary font-bold border-b-2 border-primary h-16 flex items-center px-2 text-label-caps font-label-caps" href="#">456 Riverside Drive</a>
+<a class="text-on-surface-variant font-body-md hover:bg-surface-container-high transition-colors h-16 flex items-center px-2 text-label-caps font-label-caps" href="#">In-Underwriting</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full cursor-pointer" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full cursor-pointer" data-icon="history">history</span>
+<div class="w-8 h-8 rounded-full bg-surface-variant flex items-center justify-center overflow-hidden border border-outline-variant">
+<img alt="Current Reviewer Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a reviewer in a well-lit office setting. The lighting is soft and bright, emphasizing a clean, modern aesthetic. The color palette is neutral with soft blues and grays, fitting a corporate environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ_aoY6-xttP-DnavfojTkHQ6vjoG2X6G5zdKVdN0UcwDr1h5vIJXDzVG0HzS-zxmys4W2Yt07Gwm31EWDfAeqAuUnibycfFkvJEKq0zZw2rqz13-GV6lZnO8blVJxAHJsfbQQt2T9g8_I-IfhY95cALe_Noy-LE5fNNU1TbKuIn6NJP4BIXZ08_vrz-Ps0A0qLOX1pielMBqneievYcwnWa1xywo6dOuU5MgCPz95cB8F4L2K1jE_zb2ReoBzL8asm_SemXUFBgI"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 pt-16 h-screen">
+<!-- SideNavBar -->
+<nav class="bg-primary-container text-on-primary-container bg-primary-container shadow-sm fixed left-0 top-0 h-full flex flex-col z-40 w-rail-width lg:w-64 pt-16">
+<div class="p-4 mb-4 hidden lg:block border-b border-surface-variant/20">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded bg-surface flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="domain">domain</span>
+</div>
+<div>
+<h2 class="text-headline-sm font-headline-sm font-black text-on-primary-container">Broker OS</h2>
+<p class="text-body-sm font-body-sm text-primary-fixed-dim">Institutional Grade</p>
+</div>
+</div>
+</div>
+<ul class="flex-1 overflow-y-auto px-2 py-4 space-y-1">
+<li><a aria-current="page" class="flex items-center gap-3 p-2 rounded-lg bg-secondary-container text-on-secondary-container font-bold scale-95" href="#"><span class="material-symbols-outlined" data-icon="dashboard">dashboard</span><span class="hidden lg:inline text-label-caps font-label-caps">Dashboard</span></a></li>
+<li><a class="flex items-center gap-3 p-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all" href="#"><span class="material-symbols-outlined" data-icon="input">input</span><span class="hidden lg:inline text-label-caps font-label-caps">Deal Intake</span></a></li>
+<li><a class="flex items-center gap-3 p-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all" href="#"><span class="material-symbols-outlined" data-icon="visibility">visibility</span><span class="hidden lg:inline text-label-caps font-label-caps">Deal Overview</span></a></li>
+<li><a class="flex items-center gap-3 p-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all" href="#"><span class="material-symbols-outlined" data-icon="compare">compare</span><span class="hidden lg:inline text-label-caps font-label-caps">Comps</span></a></li>
+<li><a class="flex items-center gap-3 p-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all" href="#"><span class="material-symbols-outlined" data-icon="analytics">analytics</span><span class="hidden lg:inline text-label-caps font-label-caps">Underwriting</span></a></li>
+<li><a class="flex items-center gap-3 p-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all" href="#"><span class="material-symbols-outlined" data-icon="layers">layers</span><span class="hidden lg:inline text-label-caps font-label-caps">Scenarios</span></a></li>
+<li><a class="flex items-center gap-3 p-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all" href="#"><span class="material-symbols-outlined" data-icon="description">description</span><span class="hidden lg:inline text-label-caps font-label-caps">Reports</span></a></li>
+<li><a class="flex items-center gap-3 p-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all" href="#"><span class="material-symbols-outlined" data-icon="payments">payments</span><span class="hidden lg:inline text-label-caps font-label-caps">Billing</span></a></li>
+<li><a class="flex items-center gap-3 p-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all" href="#"><span class="material-symbols-outlined" data-icon="settings">settings</span><span class="hidden lg:inline text-label-caps font-label-caps">Broker OS</span></a></li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 ml-rail-width lg:ml-64 mr-rail-width p-margin-desktop overflow-y-auto">
+<!-- Context Header -->
+<div class="mb-6 flex flex-col gap-2 border-b border-outline-variant pb-4">
+<div class="flex items-center gap-4 text-body-sm font-body-sm text-on-surface-variant">
+<span class="bg-surface-variant px-2 py-1 rounded text-label-caps font-label-caps text-on-surface">196 Units</span>
+<span>•</span>
+<span>Austin, TX</span>
+<span>•</span>
+<span>Multifamily</span>
+<span>•</span>
+<span class="font-source-ref text-source-ref">PID: 104-TX-2024</span>
+</div>
+</div>
+<!-- Dashboard Grid -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Valuation Range Card -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-lg p-6 sharp-shadow flex flex-col justify-center items-center relative overflow-hidden">
+<div class="absolute top-4 left-4 bg-surface-variant px-2 py-1 rounded text-label-caps font-label-caps text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="info">info</span>
+                        Advisory / model-inferred
+                    </div>
+<div class="absolute top-4 right-4 text-advisory-italic font-advisory-italic text-on-surface-variant opacity-60">
+                        Prototype-only. No live valuation.
+                    </div>
+<h2 class="text-display-lg font-display-lg text-primary mt-8">$44.2M - $48.7M</h2>
+<div class="mt-6 flex items-center gap-4 w-full max-w-md">
+<div class="flex-1 h-2 bg-surface-variant rounded-full overflow-hidden flex">
+<div class="bg-secondary h-full" style="width: 72%;"></div>
+</div>
+<span class="text-body-sm font-body-sm text-on-surface-variant font-medium">72% source coverage</span>
+</div>
+<div class="mt-4 flex gap-4">
+<span class="bg-error-container text-on-error-container px-3 py-1 rounded-full text-label-caps font-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="block">block</span> 3 blockers
+                        </span>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-full text-label-caps font-label-caps flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="warning">warning</span> 2 warnings
+                        </span>
+</div>
+</div>
+<!-- Top Blockers Card -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-lowest border border-outline-variant rounded-lg sharp-shadow flex flex-col">
+<div class="p-4 border-b border-outline-variant flex justify-between items-center">
+<h3 class="text-headline-sm font-headline-sm text-primary">Readiness Blockers</h3>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="assignment_late">assignment_late</span>
+</div>
+<ul class="flex-1 p-4 space-y-4">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-error mt-0.5" data-icon="error">error</span>
+<div>
+<p class="text-body-sm font-body-sm text-on-surface font-medium">Lender quote missing</p>
+<p class="text-advisory-italic font-advisory-italic text-on-surface-variant">Required for debt sizing</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary-container mt-0.5" data-icon="warning">warning</span>
+<div>
+<p class="text-body-sm font-body-sm text-on-surface font-medium">T12 expense normalization needs review</p>
+<a class="text-secondary text-body-sm font-body-sm hover:underline mt-1 inline-block" href="#">Review Now</a>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-tertiary-container mt-0.5" data-icon="warning">warning</span>
+<div>
+<p class="text-body-sm font-body-sm text-on-surface font-medium">Provider-restricted comp excluded from export</p>
+</div>
+</li>
+</ul>
+<div class="p-4 border-t border-outline-variant bg-surface-container-low">
+<button class="w-full bg-secondary text-on-secondary px-4 py-2 rounded text-label-caps font-label-caps hover:bg-secondary-container transition-colors flex items-center justify-center gap-2">
+                            Review T12 normalization <span class="material-symbols-outlined text-[16px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Metrics Row -->
+<div class="col-span-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-gutter">
+<!-- Metric 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-4 sharp-shadow relative">
+<div class="text-label-caps font-label-caps text-on-surface-variant mb-1">NOI</div>
+<div class="text-headline-md font-headline-md text-primary">$3.1M</div>
+<div class="absolute top-2 right-2 bg-surface-variant text-on-surface-variant text-[9px] px-1.5 py-0.5 rounded font-label-caps">Advisory</div>
+</div>
+<!-- Metric 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-4 sharp-shadow relative">
+<div class="text-label-caps font-label-caps text-on-surface-variant mb-1">Cap Rate</div>
+<div class="text-headline-md font-headline-md text-primary">6.25%</div>
+<div class="absolute top-2 right-2 bg-surface-variant text-on-surface-variant text-[9px] px-1.5 py-0.5 rounded font-label-caps">Advisory</div>
+</div>
+<!-- Metric 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-4 sharp-shadow relative">
+<div class="text-label-caps font-label-caps text-on-surface-variant mb-1">IRR</div>
+<div class="text-headline-md font-headline-md text-primary">14.2%</div>
+<div class="absolute top-2 right-2 bg-tertiary-fixed text-on-tertiary-fixed text-[9px] px-1.5 py-0.5 rounded font-label-caps">Source Pending</div>
+</div>
+<!-- Metric 4 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-4 sharp-shadow relative">
+<div class="text-label-caps font-label-caps text-on-surface-variant mb-1">Equity Multiple</div>
+<div class="text-headline-md font-headline-md text-primary">1.8x</div>
+<div class="absolute top-2 right-2 bg-surface-variant text-on-surface-variant text-[9px] px-1.5 py-0.5 rounded font-label-caps">Advisory</div>
+</div>
+<!-- Metric 5 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-4 sharp-shadow relative">
+<div class="text-label-caps font-label-caps text-on-surface-variant mb-1">DSCR</div>
+<div class="text-headline-md font-headline-md text-primary">1.24x</div>
+<div class="absolute top-2 right-2 bg-error-container text-on-error-container text-[9px] px-1.5 py-0.5 rounded font-label-caps">Blocked</div>
+</div>
+<!-- Metric 6 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-4 sharp-shadow relative">
+<div class="text-label-caps font-label-caps text-on-surface-variant mb-1">LTV</div>
+<div class="text-headline-md font-headline-md text-primary">65%</div>
+<div class="absolute top-2 right-2 bg-surface-variant text-on-surface-variant text-[9px] px-1.5 py-0.5 rounded font-label-caps">Advisory</div>
+</div>
+</div>
+</div>
+</main>
+<!-- ReadinessRail -->
+<aside class="bg-surface-container-low text-primary border-l border-outline-variant flat no shadows fixed right-0 top-16 h-[calc(100%-64px)] flex flex-col items-center py-gutter z-30 w-rail-width">
+<div class="flex flex-col gap-6 w-full items-center">
+<button class="w-10 h-10 rounded hover:bg-surface-variant flex items-center justify-center text-secondary font-bold scale-110" title="Assumptions">
+<span class="material-symbols-outlined" data-icon="settings_input_component">settings_input_component</span>
+</button>
+<button class="w-10 h-10 rounded hover:text-primary text-on-surface-variant opacity-60 flex items-center justify-center" title="Evidence">
+<span class="material-symbols-outlined" data-icon="verified_user">verified_user</span>
+</button>
+<button class="w-10 h-10 rounded hover:text-primary text-on-surface-variant opacity-60 flex items-center justify-center" title="Scenarios">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+</button>
+<button class="w-10 h-10 rounded hover:text-primary text-on-surface-variant opacity-60 flex items-center justify-center" title="Review">
+<span class="material-symbols-outlined" data-icon="rate_review">rate_review</span>
+</button>
+<div class="w-full h-px bg-outline-variant my-2"></div>
+<button class="w-10 h-10 rounded hover:text-primary text-on-surface-variant opacity-60 flex items-center justify-center" title="Export">
+<span class="material-symbols-outlined" data-icon="ios_share">ios_share</span>
+</button>
+</div>
+<!-- Contextual Actions -->
+<div class="mt-auto flex flex-col gap-4 w-full items-center">
+<button class="w-10 h-10 rounded-full border border-outline-variant bg-surface hover:bg-surface-variant flex items-center justify-center text-primary shadow-sm" title="Compare scenarios">
+<span class="material-symbols-outlined text-[20px]" data-icon="compare_arrows">compare_arrows</span>
+</button>
+<button class="w-10 h-10 rounded-full border border-outline-variant bg-surface hover:bg-surface-variant flex items-center justify-center text-primary shadow-sm" title="Open evidence review">
+<span class="material-symbols-outlined text-[20px]" data-icon="plagiarism">plagiarism</span>
+</button>
+<!-- Gated Actions -->
+<button class="w-10 h-10 rounded-full border border-outline-variant bg-surface-variant text-on-surface-variant opacity-50 cursor-not-allowed gated-mesh flex items-center justify-center" title="Lock valuation version (Disabled)">
+<span class="material-symbols-outlined text-[20px]" data-icon="lock">lock</span>
+</button>
+<button class="w-10 h-10 rounded-full border border-outline-variant bg-surface-variant text-on-surface-variant opacity-50 cursor-not-allowed gated-mesh flex items-center justify-center" title="Continue to report builder (Disabled)">
+<span class="material-symbols-outlined text-[20px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</aside>
+</div>
+<!-- Footer -->
+<footer class="bg-error-container text-on-error-container border-t border-error flat no shadows fixed bottom-0 left-0 w-full z-50 flex justify-center items-center py-1 px-4 text-body-sm font-body-sm gap-4">
+<span class="font-bold">Prototype-only. No live valuation or export.</span>
+<div class="flex gap-4">
+<a class="opacity-90 hover:opacity-100 text-label-caps font-label-caps" href="#">Security Policy</a>
+<a class="opacity-90 hover:opacity-100 text-label-caps font-label-caps" href="#">System Status</a>
+</div>
+</footer>
+</body></html>
+<button class="text-primary dark:text-primary-fixed-dim hover:bg-surface-container-high p-2 rounded-full transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high border border-outline-variant overflow-hidden cursor-pointer">
+<img alt="Current Reviewer Profile" class="w-full h-full object-cover" data-alt="Professional headshot of a female financial analyst in a modern, well-lit corporate office. She is wearing a smart dark blazer and looking confidently at the camera." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAwgVkRCqqIKnDpGr8pRb_euESLJfpgOq0b5jNIc_MKkKrXUQpVJNv9Q5yHj6VPoFrBgY2-cppdTlOHkwcPYmgqSUbxmI-jMlYqKbV84PR7Vu3rJ9_q4Gw2KKgZPIGCfh1QMpA6Ml0Fww9pxMzjLkONcohl8JgrgDltFc0W0V_iWgIz-I5eEmp0bWfxNuYUCgC7VnsLrTcRFubRJa0SNoN1cWqt6qoDaBTMjhqYCkOvLOyxOld0AfeZtOR_AAtKODbXYeLMvuwFdc"/>
+</div>
+</div>
+</header>
+<!-- Advisory Banner -->
+<div class="bg-tertiary-fixed border-b border-outline-variant py-2 px-margin-desktop flex items-center gap-2 flex-shrink-0">
+<span class="material-symbols-outlined text-on-tertiary-fixed-variant" data-icon="warning" style="font-size: 18px;">warning</span>
+<span class="text-body-sm font-body-sm text-on-tertiary-fixed-variant">Candidate evidence is not promoted to valuation truth until reviewed.</span>
+</div>
+<!-- Scrollable Workspace -->
+<main class="flex-1 overflow-y-auto custom-scrollbar p-margin-desktop bg-surface-container-low flex flex-col gap-6">
+<!-- Page Header & Batch Actions -->
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+<div>
+<h1 class="text-display-lg font-display-lg text-on-surface">Data Normalization</h1>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">Review extracted document data against Underwriting Standards.</p>
+</div>
+<div class="flex gap-2">
+<button class="bg-surface-container-lowest border border-outline text-on-surface hover:bg-surface-container-highest px-4 py-2 rounded text-body-sm font-body-sm transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="block" style="font-size: 16px;">block</span> Exclude from valuation
+                    </button>
+<button class="bg-surface-container-lowest border border-outline text-on-surface hover:bg-surface-container-highest px-4 py-2 rounded text-body-sm font-body-sm transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="forward_to_inbox" style="font-size: 16px;">forward_to_inbox</span> Send to reviewer
+                    </button>
+<button class="bg-primary text-on-primary hover:bg-on-surface px-4 py-2 rounded text-body-sm font-body-sm font-medium transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="check_circle" style="font-size: 16px;">check_circle</span> Approve selected
+                    </button>
+</div>
+</div>
+<!-- Source Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Source Card 1 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 sharp-shadow flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-secondary" data-icon="table_view">table_view</span>
+<span class="text-headline-sm font-headline-sm">Rent roll.xlsx</span>
+</div>
+<span class="bg-secondary-fixed text-on-secondary-fixed text-label-caps font-label-caps px-2 py-1 rounded">PROCESSED</span>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant flex justify-between">
+<span>Extracted: 142 rows</span>
+<span class="text-source-ref font-source-ref text-outline">Ref: RR-01</span>
+</div>
+</div>
+<!-- Source Card 2 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 sharp-shadow flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-error" data-icon="picture_as_pdf">picture_as_pdf</span>
+<span class="text-headline-sm font-headline-sm">T12.pdf</span>
+</div>
+<span class="bg-error-container text-on-error-container text-label-caps font-label-caps px-2 py-1 rounded flex items-center gap-1">
+<span class="material-symbols-outlined" data-icon="error" style="font-size: 12px;">error</span> ISSUES (1)
+                        </span>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant flex justify-between">
+<span>Extracted: 8 tables</span>
+<span class="text-source-ref font-source-ref text-outline">Ref: T12-04</span>
+</div>
+</div>
+<!-- Source Card 3 -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-4 sharp-shadow flex flex-col gap-3">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-error" data-icon="picture_as_pdf">picture_as_pdf</span>
+<span class="text-headline-sm font-headline-sm">Offering memorandum.pdf</span>
+</div>
+<span class="bg-surface-container-highest text-on-surface text-label-caps font-label-caps px-2 py-1 rounded">REFERENCE</span>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant flex justify-between">
+<span>Extracted: text/metadata</span>
+<span class="text-source-ref font-source-ref text-outline">Ref: OM-01</span>
+</div>
+</div>
+</div>
+<!-- Extraction Table Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg sharp-shadow overflow-hidden flex flex-col flex-1">
+<div class="px-4 py-3 border-b border-outline-variant bg-surface flex justify-between items-center">
+<h2 class="text-headline-sm font-headline-sm text-on-surface">Financial Normalization</h2>
+<div class="flex items-center gap-2 text-body-sm font-body-sm text-on-surface-variant">
+<span class="w-3 h-3 rounded-full bg-secondary block"></span> Automated Match
+                        <span class="w-3 h-3 rounded-full bg-error block ml-2"></span> Requires Review
+                    </div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-container-lowest">
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant w-8">
+<input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant w-48">Line Item</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant text-right">Extracted Value</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant text-right">Normalized Value</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant text-center">Confidence</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant">Source Ref</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant">Issue / Status</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant text-right">Action</th>
+</tr>
+</thead>
+<tbody class="text-body-sm font-body-sm divide-y divide-surface-container-highest">
+<!-- Row 1: Occupied Units -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-table-cell-padding">
+<input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="p-table-cell-padding font-medium text-on-surface">Occupied Units</td>
+<td class="p-table-cell-padding text-right font-source-ref text-source-ref">142</td>
+<td class="p-table-cell-padding text-right font-source-ref text-source-ref font-bold text-on-surface">142</td>
+<td class="p-table-cell-padding text-center">
+<span class="inline-flex items-center gap-1 text-secondary"><span class="material-symbols-outlined" style="font-size: 14px;">verified</span> 99%</span>
+</td>
+<td class="p-table-cell-padding">
+<span class="border border-outline-variant rounded px-1 py-0.5 font-source-ref text-source-ref text-on-surface-variant inline-flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 12px;">link</span> RR-01 (Summary)
+                                    </span>
+</td>
+<td class="p-table-cell-padding text-on-surface-variant">--</td>
+<td class="p-table-cell-padding text-right">
+<button class="text-secondary hover:underline font-medium text-body-sm font-body-sm">Edit</button>
+</td>
+</tr>
+<!-- Row 2: Vacancy -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-table-cell-padding">
+<input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="p-table-cell-padding font-medium text-on-surface">Vacancy</td>
+<td class="p-table-cell-padding text-right font-source-ref text-source-ref">8</td>
+<td class="p-table-cell-padding text-right font-source-ref text-source-ref font-bold text-on-surface">8</td>
+<td class="p-table-cell-padding text-center">
+<span class="inline-flex items-center gap-1 text-secondary"><span class="material-symbols-outlined" style="font-size: 14px;">verified</span> 98%</span>
+</td>
+<td class="p-table-cell-padding">
+<span class="border border-outline-variant rounded px-1 py-0.5 font-source-ref text-source-ref text-on-surface-variant inline-flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 12px;">link</span> RR-01 (Summary)
+                                    </span>
+</td>
+<td class="p-table-cell-padding text-on-surface-variant">--</td>
+<td class="p-table-cell-padding text-right">
+<button class="text-secondary hover:underline font-medium text-body-sm font-body-sm">Edit</button>
+</td>
+</tr>
+<!-- Row 3: Gross Scheduled Rent -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-table-cell-padding">
+<input checked="" class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="p-table-cell-padding font-medium text-on-surface">Gross Scheduled Rent</td>
+<td class="p-table-cell-padding text-right font-source-ref text-source-ref">$2,145,000</td>
+<td class="p-table-cell-padding text-right font-source-ref text-source-ref font-bold text-on-surface">$2,145,000</td>
+<td class="p-table-cell-padding text-center">
+<span class="inline-flex items-center gap-1 text-outline"><span class="material-symbols-outlined" style="font-size: 14px;">help_outline</span> 82%</span>
+</td>
+<td class="p-table-cell-padding">
+<span class="border border-outline-variant rounded px-1 py-0.5 font-source-ref text-source-ref text-on-surface-variant inline-flex items-center gap-1 cursor-pointer hover:bg-surface-container-high">
+<span class="material-symbols-outlined" style="font-size: 12px;">link</span> T12-04 (Pg 2)
+                                    </span>
+</td>
+<td class="p-table-cell-padding">
+<span class="text-error font-medium flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 14px;">warning</span> Missing month in T12
+                                    </span>
+</td>
+<td class="p-table-cell-padding text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="bg-surface-container-highest text-on-surface p-1 rounded hover:bg-outline-variant transition-colors" title="Verify Source">
+<span class="material-symbols-outlined" style="font-size: 16px;">plagiarism</span>
+</button>
+<button class="bg-primary text-on-primary p-1 rounded hover:bg-on-surface transition-colors" title="Resolve">
+<span class="material-symbols-outlined" style="font-size: 16px;">done</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: Concessions -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-table-cell-padding">
+<input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="p-table-cell-padding font-medium text-on-surface pl-8">↳ Concessions</td>
+<td class="p-table-cell-padding text-right font-source-ref text-source-ref">($45,000)</td>
+<td class="p-table-cell-padding text-right font-source-ref text-source-ref font-bold text-on-surface">($45,000)</td>
+<td class="p-table-cell-padding text-center">
+<span class="inline-flex items-center gap-1 text-secondary"><span class="material-symbols-outlined" style="font-size: 14px;">verified</span> 95%</span>
+</td>
+<td class="p-table-cell-padding">
+<span class="border border-outline-variant rounded px-1 py-0.5 font-source-ref text-source-ref text-on-surface-variant inline-flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 12px;">link</span> T12-04 (Pg 2)
+                                    </span>
+</td>
+<td class="p-table-cell-padding text-on-surface-variant">--</td>
+<td class="p-table-cell-padding text-right">
+<button class="text-secondary hover:underline font-medium text-body-sm font-body-sm">Edit</button>
+</td>
+</tr>
+<!-- Row 5: Repairs & Maintenance -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-table-cell-padding">
+<input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="p-table-cell-padding font-medium text-on-surface">Repairs &amp; Maintenance</td>
+<td class="p-table-cell-padding text-right font-source-ref text-source-ref">$125,400</td>
+<td class="p-table-cell-padding text-right">
+<input class="w-24 text-right font-source-ref text-source-ref font-bold text-on-surface border-outline-variant rounded focus:ring-primary p-1 bg-surface-container-lowest h-7" type="text" value="$130,000"/>
+</td>
+<td class="p-table-cell-padding text-center">
+<span class="inline-flex items-center gap-1 text-secondary"><span class="material-symbols-outlined" style="font-size: 14px;">verified</span> 91%</span>
+</td>
+<td class="p-table-cell-padding">
+<span class="border border-outline-variant rounded px-1 py-0.5 font-source-ref text-source-ref text-on-surface-variant inline-flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 12px;">link</span> T12-04 (Pg 3)
+                                    </span>
+</td>
+<td class="p-table-cell-padding">
+<span class="text-advisory-italic font-advisory-italic text-on-surface-variant bg-surface-container px-2 py-0.5 rounded">Manual adj. (CapEx)</span>
+</td>
+<td class="p-table-cell-padding text-right">
+<button class="text-secondary hover:underline font-medium text-body-sm font-body-sm">Save</button>
+</td>
+</tr>
+<!-- Row 6: Taxes -->
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="p-table-cell-padding">
+<input class="rounded border-outline-variant text-primary focus:ring-primary" type="checkbox"/>
+</td>
+<td class="p-table-cell-padding font-medium text-on-surface">Taxes</td>
+<td class="p-table-cell-padding text-right font-source-ref text-source-ref">$340,000</td>
+<td class="p-table-cell-padding text-right font-source-ref text-source-ref font-bold text-on-surface">$340,000</td>
+<td class="p-table-cell-padding text-center">
+<span class="inline-flex items-center gap-1 text-secondary"><span class="material-symbols-outlined" style="font-size: 14px;">verified</span> 96%</span>
+</td>
+<td class="p-table-cell-padding">
+<span class="border border-outline-variant rounded px-1 py-0.5 font-source-ref text-source-ref text-on-surface-variant inline-flex items-center gap-1">
+<span class="material-symbols-outlined" style="font-size: 12px;">link</span> T12-04 (Pg 4)
+                                    </span>
+</td>
+<td class="p-table-cell-padding text-on-surface-variant">--</td>
+<td class="p-table-cell-padding text-right">
+<button class="text-secondary hover:underline font-medium text-body-sm font-body-sm">Edit</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-4 py-3 border-t border-outline-variant bg-surface text-body-sm font-body-sm text-on-surface-variant flex justify-between items-center">
+<span>Showing 6 of 24 extracted line items</span>
+<button class="text-secondary hover:underline font-medium flex items-center gap-1">
+                        View all rows <span class="material-symbols-outlined" style="font-size: 16px;">expand_more</span>
+</button>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-center items-center py-1 px-4 bg-error-container dark:bg-on-error-container border-t border-error">
+<div class="flex items-center justify-between w-full max-w-7xl">
+<span class="text-body-sm font-body-sm text-on-error-container dark:text-error-container">Prototype-only. No live valuation or export.</span>
+<div class="flex gap-4">
+<a class="text-label-caps font-label-caps text-on-error-container dark:text-error-container underline font-bold opacity-90 hover:opacity-100" href="#">Security Policy</a>
+<a class="text-label-caps font-label-caps text-on-error-container dark:text-error-container opacity-90 hover:opacity-100" href="#">System Status</a>
+</div>
+</div>
+</footer>
+</div>
+<!-- ReadinessRail -->
+<aside class="fixed right-0 top-16 h-[calc(100%-64px)] flex flex-col items-center py-gutter z-30 bg-surface-container-low dark:bg-surface-container-highest border-l border-outline-variant w-rail-width">
+<div class="flex flex-col gap-6 w-full items-center">
+<div class="group relative flex flex-col items-center cursor-pointer">
+<span class="material-symbols-outlined text-secondary font-bold scale-110" data-icon="settings_input_component">settings_input_component</span>
+<div class="absolute right-full mr-2 top-1/2 -translate-y-1/2 bg-inverse-surface text-inverse-on-surface text-label-caps px-2 py-1 rounded hidden group-hover:block whitespace-nowrap">Assumptions</div>
+</div>
+<div class="w-4 h-px bg-outline-variant"></div>
+<div class="group relative flex flex-col items-center cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant opacity-60 hover:text-primary transition-colors" data-icon="verified_user">verified_user</span>
+<div class="absolute right-full mr-2 top-1/2 -translate-y-1/2 bg-inverse-surface text-inverse-on-surface text-label-caps px-2 py-1 rounded hidden group-hover:block whitespace-nowrap">Evidence</div>
+</div>
+<div class="w-4 h-px bg-outline-variant"></div>
+<div class="group relative flex flex-col items-center cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant opacity-60 hover:text-primary transition-colors" data-icon="query_stats">query_stats</span>
+<div class="absolute right-full mr-2 top-1/2 -translate-y-1/2 bg-inverse-surface text-inverse-on-surface text-label-caps px-2 py-1 rounded hidden group-hover:block whitespace-nowrap">Scenarios</div>
+</div>
+<div class="w-4 h-px bg-outline-variant"></div>
+<div class="group relative flex flex-col items-center cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant opacity-60 hover:text-primary transition-colors" data-icon="rate_review">rate_review</span>
+<div class="absolute right-full mr-2 top-1/2 -translate-y-1/2 bg-inverse-surface text-inverse-on-surface text-label-caps px-2 py-1 rounded hidden group-hover:block whitespace-nowrap">Review</div>
+</div>
+<div class="w-4 h-px bg-outline-variant"></div>
+<div class="group relative flex flex-col items-center cursor-pointer">
+<span class="material-symbols-outlined text-on-surface-variant opacity-60 hover:text-primary transition-colors" data-icon="ios_share">ios_share</span>
+<div class="absolute right-full mr-2 top-1/2 -translate-y-1/2 bg-inverse-surface text-inverse-on-surface text-label-caps px-2 py-1 rounded hidden group-hover:block whitespace-nowrap">Export</div>
+</div>
+</div>
+</aside>
+</body></html>

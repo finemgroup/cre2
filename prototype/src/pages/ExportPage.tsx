@@ -2,6 +2,7 @@ import { useState, type ReactElement } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceModal';
+import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
 import { StageRail } from '@/components/ui/StageRail';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
@@ -10,6 +11,7 @@ import { getPublicExportDecision, getPublicReportView } from '@/lib/runtime/repo
 import type { ExportScope } from '@/lib/runtime/export-policy';
 import type { GovernedReceipt } from '@/lib/contracts/receipts';
 import { trackEvent } from '@/lib/analytics/collector';
+import { getLinkedDealId } from '@/lib/workflow-identity';
 
 const STAGES = [...EXPORT_FLOW_STAGES];
 
@@ -40,6 +42,7 @@ export function ExportPage(): ReactElement {
 
   const { property, readiness, valuationVersion } = reportView;
   const propertyId = property.id;
+  const linkedDealId = getLinkedDealId(propertyId);
   const policyDecision = getPublicExportDecision({
     propertyId,
     scope,
@@ -85,6 +88,8 @@ export function ExportPage(): ReactElement {
           Export is a permissioned, audited value exchange — not a simple download button.
         </p>
       </header>
+
+      <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="export" />
 
       <StageRail stages={STAGES} activeIndex={stage} />
 

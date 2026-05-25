@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sensitivity Cell Drilldown</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1b1b1d",
+                        "on-tertiary-container": "#98805d",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-container-high": "#eae7e9",
+                        "primary": "#000000",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#000000",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "surface": "#fcf8fa",
+                        "on-surface-variant": "#45464d",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f3f0f2",
+                        "secondary-container": "#316bf3",
+                        "secondary": "#0051d5",
+                        "secondary-fixed": "#dbe1ff",
+                        "outline": "#76777d",
+                        "background": "#fcf8fa",
+                        "surface-container": "#f0edef",
+                        "primary-container": "#131b2e",
+                        "on-secondary-fixed": "#00174b",
+                        "on-secondary-container": "#fefcff",
+                        "on-tertiary-fixed": "#271901",
+                        "surface-tint": "#565e74",
+                        "tertiary-fixed": "#fcdeb5",
+                        "surface-variant": "#e4e2e4",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#303032",
+                        "on-background": "#1b1b1d",
+                        "on-primary-fixed": "#131b2e",
+                        "primary-fixed": "#dae2fd",
+                        "primary-fixed-dim": "#bec6e0",
+                        "outline-variant": "#c6c6cd",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f6f3f5",
+                        "surface-dim": "#dcd9db",
+                        "on-primary-container": "#7c839b",
+                        "surface-bright": "#fcf8fa",
+                        "tertiary-container": "#271901",
+                        "inverse-primary": "#bec6e0",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "surface-container-highest": "#e4e2e4",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "table-cell-padding": "8px 12px",
+                        "margin-desktop": "24px",
+                        "base": "4px",
+                        "rail-width": "48px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "source-ref": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "advisory-italic": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "source-ref": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "advisory-italic": ["13px", { "lineHeight": "18px", "fontWeight": "400", "fontStyle": "italic" }],
+                        "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .fill-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scrollbar for data tables */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fcf8fa;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #dcd9db;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #c6c6cd;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-sm h-screen overflow-hidden flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-surface text-primary flex justify-between items-center w-full px-margin-desktop h-16 docked full-width top-0 border-b border-outline-variant flat no shadows">
+<div class="flex items-center gap-4">
+<span class="text-headline-md font-headline-md font-bold text-on-surface">Riverside Flats</span>
+</div>
+<nav class="hidden md:flex items-center gap-8 h-full">
+<a class="text-on-surface-variant font-body-md h-full flex items-center hover:bg-surface-container-high transition-colors px-4 border-b-2 border-transparent" href="#">456 Riverside Drive</a>
+<a class="text-on-surface-variant font-body-md h-full flex items-center hover:bg-surface-container-high transition-colors px-4 border-b-2 border-transparent" href="#">In-Underwriting</a>
+<a class="text-primary font-bold border-b-2 border-primary h-full flex items-center px-4" href="#">Scenarios</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border border-outline-variant overflow-hidden">
+<img alt="Current Reviewer Profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCec9sbbz6TbxAvaOplmjiImrUzXC1BxAKKqCh8B5L0Hc9G4m68PqDXnaNnMm-dxpL7En07JdqT1DpCrd0uqkioddxiyOi94PZUpSM4K-7EcPMxmvblchD9Yj_2dzVOU1KID4poeXMlZWPxGiGXwQy6lcZPwU6wK0dc4ULcT3fYQumWuNBtcEliiYNkBwHcLNkXEsrXiApxCESBM6bNIH4qzohmxuCp_hcXMy2OGUdPkJUiJW8lhrG_98pV2U6RotJ0B9LA-jNOHGs"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden relative">
+<!-- SideNavBar -->
+<aside class="bg-primary-container text-on-primary-container fixed left-0 top-0 h-full flex flex-col z-40 docked h-full w-rail-width lg:w-64 shadow-sm">
+<div class="h-16 flex items-center px-4 lg:px-6 mb-4 mt-16 border-b border-surface-tint/20">
+<div class="w-8 h-8 rounded bg-surface-container-lowest flex items-center justify-center text-primary-container font-bold mr-3 hidden lg:flex">B</div>
+<div class="hidden lg:block">
+<div class="text-headline-sm font-headline-sm font-black text-on-primary-container leading-tight">Broker OS</div>
+<div class="text-label-caps font-label-caps text-on-primary-container/70">Institutional Grade</div>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto py-2 px-2 lg:px-4 space-y-1">
+<a class="flex items-center px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-0 lg:mr-3 text-[20px]" data-icon="dashboard">dashboard</span>
+<span class="hidden lg:block text-label-caps font-label-caps">Dashboard</span>
+</a>
+<a class="flex items-center px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-0 lg:mr-3 text-[20px]" data-icon="input">input</span>
+<span class="hidden lg:block text-label-caps font-label-caps">Deal Intake</span>
+</a>
+<a class="flex items-center px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-0 lg:mr-3 text-[20px]" data-icon="visibility">visibility</span>
+<span class="hidden lg:block text-label-caps font-label-caps">Deal Overview</span>
+</a>
+<a class="flex items-center px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-0 lg:mr-3 text-[20px]" data-icon="compare">compare</span>
+<span class="hidden lg:block text-label-caps font-label-caps">Comps</span>
+</a>
+<a class="flex items-center px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-0 lg:mr-3 text-[20px]" data-icon="analytics">analytics</span>
+<span class="hidden lg:block text-label-caps font-label-caps">Underwriting</span>
+</a>
+<a class="flex items-center px-3 py-2 bg-secondary-container text-on-secondary-container font-bold rounded-lg group scale-95 origin-left" href="#">
+<span class="material-symbols-outlined mr-0 lg:mr-3 text-[20px] fill-icon" data-icon="layers">layers</span>
+<span class="hidden lg:block text-label-caps font-label-caps">Scenarios</span>
+</a>
+<a class="flex items-center px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-0 lg:mr-3 text-[20px]" data-icon="description">description</span>
+<span class="hidden lg:block text-label-caps font-label-caps">Reports</span>
+</a>
+<a class="flex items-center px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined mr-0 lg:mr-3 text-[20px]" data-icon="payments">payments</span>
+<span class="hidden lg:block text-label-caps font-label-caps">Billing</span>
+</a>
+<a class="flex items-center px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group mt-auto" href="#">
+<span class="material-symbols-outlined mr-0 lg:mr-3 text-[20px]" data-icon="settings">settings</span>
+<span class="hidden lg:block text-label-caps font-label-caps">Broker OS</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-[48px] lg:ml-64 mr-[48px] bg-background overflow-y-auto p-margin-desktop relative pb-20">
+<div class="max-w-7xl mx-auto">
+<div class="mb-8">
+<h1 class="text-display-lg font-display-lg text-on-surface mb-2">Sensitivity Analysis</h1>
+<p class="text-body-md font-body-md text-on-surface-variant">Reviewing cell output implications before committing to scenario set.</p>
+</div>
+<!-- Backdrop for Context (Simulated Table behind Drawer) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-6 opacity-40 select-none pointer-events-none mb-8">
+<div class="h-8 w-1/3 bg-surface-container-high rounded mb-4"></div>
+<div class="grid grid-cols-5 gap-4">
+<div class="h-12 bg-surface-container rounded col-span-1"></div>
+<div class="h-12 bg-surface-container rounded col-span-1"></div>
+<div class="h-12 bg-surface-container rounded col-span-1"></div>
+<div class="h-12 bg-surface-container-high border-2 border-primary rounded col-span-1"></div>
+<div class="h-12 bg-surface-container rounded col-span-1"></div>
+<div class="h-12 bg-surface-container rounded col-span-1"></div>
+<div class="h-12 bg-surface-container rounded col-span-1"></div>
+<div class="h-12 bg-surface-container rounded col-span-1"></div>
+<div class="h-12 bg-surface-container rounded col-span-1"></div>
+<div class="h-12 bg-surface-container rounded col-span-1"></div>
+</div>
+</div>
+</div>
+<!-- SENSITIVITY CELL DRILLDOWN DRAWER (Right Aligned Overlay) -->
+<div class="fixed top-16 right-[48px] h-[calc(100vh-64px)] w-full max-w-md bg-surface-container-lowest border-l border-outline-variant shadow-lg z-20 flex flex-col transform transition-transform duration-300 ease-in-out translate-x-0">
+<!-- Drawer Header -->
+<div class="p-6 border-b border-outline-variant flex justify-between items-start bg-surface-bright">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-secondary text-[20px]" data-icon="target">target</span>
+<span class="text-label-caps font-label-caps text-on-surface-variant uppercase tracking-wider">Selected Cell Target</span>
+</div>
+<h2 class="text-headline-md font-headline-md text-on-surface leading-tight">Exit Cap 5.75% <br/> <span class="text-on-surface-variant text-headline-sm font-headline-sm font-normal">Purchase Price $44.2M</span></h2>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface p-1 rounded hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<!-- Drawer Content -->
+<div class="flex-1 overflow-y-auto p-6 flex flex-col gap-8">
+<!-- Metrics Bento Grid -->
+<div>
+<h3 class="text-label-caps font-label-caps text-on-surface-variant mb-4 uppercase tracking-wider border-b border-outline-variant pb-2">Resulting Metrics</h3>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low border border-outline-variant rounded p-4 flex flex-col">
+<span class="text-label-caps font-label-caps text-on-surface-variant mb-1">IRR</span>
+<span class="text-headline-sm font-headline-sm text-primary">14.2%</span>
+</div>
+<div class="bg-surface-container-low border border-outline-variant rounded p-4 flex flex-col">
+<span class="text-label-caps font-label-caps text-on-surface-variant mb-1">Equity Multiple</span>
+<span class="text-headline-sm font-headline-sm text-primary">1.8x</span>
+</div>
+<div class="bg-surface-container-low border border-outline-variant rounded p-4 flex flex-col">
+<span class="text-label-caps font-label-caps text-on-surface-variant mb-1">DSCR</span>
+<span class="text-headline-sm font-headline-sm text-error flex items-center gap-1">
+                                    1.15x
+                                    <span class="material-symbols-outlined text-[16px]" data-icon="warning">warning</span>
+</span>
+</div>
+<div class="bg-surface-container-low border border-outline-variant rounded p-4 flex flex-col">
+<span class="text-label-caps font-label-caps text-on-surface-variant mb-1">Indicated Value</span>
+<span class="text-headline-sm font-headline-sm text-primary">$46.8M</span>
+</div>
+</div>
+</div>
+<!-- Source Posture -->
+<div>
+<h3 class="text-label-caps font-label-caps text-on-surface-variant mb-4 uppercase tracking-wider border-b border-outline-variant pb-2">Source Posture &amp; Evidence</h3>
+<ul class="space-y-3">
+<li class="flex items-start gap-3 bg-surface border border-outline-variant rounded p-3">
+<span class="material-symbols-outlined text-secondary mt-0.5 text-[20px]" data-icon="verified">verified</span>
+<div>
+<span class="text-source-ref font-source-ref text-on-surface block mb-1">Exit Cap: market comp candidate</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant">Aligned with recent multi-family dispositions in MSA.</span>
+</div>
+</li>
+<li class="flex items-start gap-3 bg-error-container/20 border border-error/30 rounded p-3">
+<span class="material-symbols-outlined text-error mt-0.5 text-[20px]" data-icon="error_outline">error_outline</span>
+<div>
+<span class="text-source-ref font-source-ref text-on-error-container block mb-1">Purchase Price: conflict unresolved</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant">Variance with seller OM expectations.</span>
+</div>
+</li>
+<li class="flex items-start gap-3 bg-surface-container border border-outline-variant rounded p-3 opacity-80">
+<span class="material-symbols-outlined text-on-surface-variant mt-0.5 text-[20px]" data-icon="pending">pending</span>
+<div>
+<span class="text-source-ref font-source-ref text-on-surface block mb-1">Debt Service: source pending</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant">Awaiting final term sheet from lender.</span>
+</div>
+</li>
+</ul>
+</div>
+<!-- Advisory Note -->
+<div class="bg-surface-container-high rounded p-4 border-l-2 border-outline flex gap-3 mt-auto">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]" data-icon="info">info</span>
+<p class="text-advisory-italic font-advisory-italic text-on-surface-variant">
+                            Sensitivity output is advisory until scenario and evidence gates clear.
+                        </p>
+</div>
+</div>
+<!-- Drawer Footer Actions -->
+<div class="p-6 border-t border-outline-variant bg-surface flex flex-col gap-3">
+<button class="w-full bg-primary text-on-primary font-headline-sm text-body-md py-2.5 px-4 rounded hover:bg-surface-tint transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="add_circle">add_circle</span>
+                        Add to Scenario Set
+                    </button>
+<button class="w-full bg-surface-container-lowest text-on-surface border border-outline-variant font-headline-sm text-body-md py-2.5 px-4 rounded hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="send">send</span>
+                        Send Scenario for Review
+                    </button>
+</div>
+</div>
+</main>
+<!-- ReadinessRail -->
+<aside class="bg-surface-container-low text-primary fixed right-0 top-16 h-[calc(100%-64px)] flex flex-col items-center py-gutter z-30 docked right-0 w-rail-width border-l border-outline-variant flat no shadows">
+<nav class="flex flex-col gap-6 w-full items-center">
+<a class="flex flex-col items-center text-on-surface-variant opacity-60 hover:text-primary transition-colors group" href="#" title="Assumptions">
+<span class="material-symbols-outlined text-[24px] mb-1" data-icon="settings_input_component">settings_input_component</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant opacity-60 hover:text-primary transition-colors group" href="#" title="Evidence">
+<span class="material-symbols-outlined text-[24px] mb-1" data-icon="verified_user">verified_user</span>
+</a>
+<a class="flex flex-col items-center text-secondary font-bold scale-110 transition-transform group" href="#" title="Scenarios">
+<span class="material-symbols-outlined text-[24px] mb-1 fill-icon" data-icon="query_stats">query_stats</span>
+</a>
+<a class="flex flex-col items-center text-on-surface-variant opacity-60 hover:text-primary transition-colors group" href="#" title="Review">
+<span class="material-symbols-outlined text-[24px] mb-1" data-icon="rate_review">rate_review</span>
+</a>
+<div class="h-px w-8 bg-outline-variant my-2"></div>
+<a class="flex flex-col items-center text-on-surface-variant opacity-60 hover:text-primary transition-colors group" href="#" title="Export">
+<span class="material-symbols-outlined text-[24px] mb-1" data-icon="ios_share">ios_share</span>
+</a>
+</nav>
+</aside>
+</div>
+<!-- Footer -->
+<footer class="bg-error-container text-on-error-container fixed bottom-0 left-0 w-full z-50 flex justify-center items-center py-1 px-4 docked full-width bottom-0 border-t border-error flat no shadows">
+<div class="flex items-center gap-4 text-body-sm font-body-sm">
+<span class="font-bold">Prototype-only. No live valuation or export.</span>
+<div class="h-3 w-px bg-on-error-container opacity-30"></div>
+<a class="text-label-caps font-label-caps opacity-90 hover:opacity-100 transition-opacity" href="#">Security Policy</a>
+<div class="h-3 w-px bg-on-error-container opacity-30"></div>
+<a class="text-label-caps font-label-caps opacity-90 hover:opacity-100 transition-opacity" href="#">System Status</a>
+</div>
+</footer>
+</body></html>

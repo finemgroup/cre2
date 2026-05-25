@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Assumption Source Trace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-surface-variant": "#45464d",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#fcdeb5",
+                        "surface-container-highest": "#e4e2e4",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "outline": "#76777d",
+                        "on-surface": "#1b1b1d",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "tertiary-container": "#271901",
+                        "background": "#fcf8fa",
+                        "on-secondary-fixed": "#00174b",
+                        "surface-dim": "#dcd9db",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "secondary": "#0051d5",
+                        "primary-fixed": "#dae2fd",
+                        "surface-tint": "#565e74",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "on-tertiary-container": "#98805d",
+                        "secondary-container": "#316bf3",
+                        "on-secondary-container": "#fefcff",
+                        "on-primary-container": "#7c839b",
+                        "surface-variant": "#e4e2e4",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "inverse-primary": "#bec6e0",
+                        "surface-container-high": "#eae7e9",
+                        "surface": "#fcf8fa",
+                        "on-primary": "#ffffff",
+                        "primary": "#000000",
+                        "surface-bright": "#fcf8fa",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#dbe1ff",
+                        "inverse-on-surface": "#f3f0f2",
+                        "on-primary-fixed": "#131b2e",
+                        "surface-container": "#f0edef",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f6f3f5",
+                        "tertiary": "#000000",
+                        "primary-container": "#131b2e",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#303032",
+                        "outline-variant": "#c6c6cd",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#271901",
+                        "on-background": "#1b1b1d"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "margin-desktop": "24px",
+                        "gutter": "16px",
+                        "table-cell-padding": "8px 12px",
+                        "rail-width": "48px",
+                        "base": "4px"
+                    },
+                    fontFamily: {
+                        "source-ref": ["JetBrains Mono"],
+                        "advisory-italic": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "label-caps": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    fontSize: {
+                        "source-ref": ["11px", { lineHeight: "14px", fontWeight: "500" }],
+                        "advisory-italic": ["13px", { lineHeight: "18px", fontWeight: "400", fontStyle: "italic" }],
+                        "headline-md": ["20px", { lineHeight: "28px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "display-lg": ["30px", { lineHeight: "36px", letterSpacing: "-0.02em", fontWeight: "600" }],
+                        "label-caps": ["11px", { lineHeight: "16px", letterSpacing: "0.05em", fontWeight: "700" }],
+                        "headline-sm": ["16px", { lineHeight: "24px", letterSpacing: "-0.01em", fontWeight: "600" }],
+                        "body-sm": ["13px", { lineHeight: "18px", letterSpacing: "0.01em", fontWeight: "400" }],
+                        "body-md": ["14px", { lineHeight: "20px", letterSpacing: "0em", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .sharp-shadow { box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .mesh-bg { background-image: radial-gradient(var(--tw-colors-outline-variant) 1px, transparent 0); background-size: 8px 8px; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md h-screen w-screen overflow-hidden flex selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<!-- SideNavBar (Shared Component) -->
+<nav class="bg-primary-container dark:bg-surface-container-lowest text-on-primary-container dark:text-primary-fixed-dim fixed left-0 top-0 h-full flex flex-col z-40 shadow-sm w-rail-width lg:w-64 transition-all duration-300">
+<!-- Header -->
+<div class="h-16 flex items-center px-4 border-b border-surface-tint/20">
+<div class="w-8 h-8 rounded bg-on-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">domain</span>
+</div>
+<div class="ml-3 hidden lg:block overflow-hidden whitespace-nowrap">
+<div class="text-headline-sm font-headline-sm font-black text-on-primary-container">Broker OS</div>
+<div class="text-label-caps font-label-caps text-on-primary-fixed-variant opacity-80">Institutional Grade</div>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="flex-1 overflow-y-auto py-4 flex flex-col gap-1 px-2">
+<!-- Dashboard -->
+<a class="flex items-center px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group" href="#">
+<span class="material-symbols-outlined text-xl shrink-0 group-hover:scale-110 transition-transform">dashboard</span>
+<span class="ml-3 text-label-caps font-label-caps hidden lg:block">Dashboard</span>
+</a>
+<!-- Deal Intake -->
+<a class="flex items-center px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group" href="#">
+<span class="material-symbols-outlined text-xl shrink-0 group-hover:scale-110 transition-transform">input</span>
+<span class="ml-3 text-label-caps font-label-caps hidden lg:block">Deal Intake</span>
+</a>
+<!-- Deal Overview -->
+<a class="flex items-center px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group" href="#">
+<span class="material-symbols-outlined text-xl shrink-0 group-hover:scale-110 transition-transform">visibility</span>
+<span class="ml-3 text-label-caps font-label-caps hidden lg:block">Deal Overview</span>
+</a>
+<!-- Comps -->
+<a class="flex items-center px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group" href="#">
+<span class="material-symbols-outlined text-xl shrink-0 group-hover:scale-110 transition-transform">compare</span>
+<span class="ml-3 text-label-caps font-label-caps hidden lg:block">Comps</span>
+</a>
+<!-- Underwriting (ACTIVE) -->
+<a class="flex items-center px-3 py-2 rounded-lg bg-secondary-container text-on-secondary-container font-bold hover:bg-on-primary-fixed-variant transition-all scale-95 group" href="#">
+<span class="material-symbols-outlined text-xl shrink-0" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="ml-3 text-label-caps font-label-caps hidden lg:block">Underwriting</span>
+</a>
+<!-- Scenarios -->
+<a class="flex items-center px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group" href="#">
+<span class="material-symbols-outlined text-xl shrink-0 group-hover:scale-110 transition-transform">layers</span>
+<span class="ml-3 text-label-caps font-label-caps hidden lg:block">Scenarios</span>
+</a>
+<!-- Reports -->
+<a class="flex items-center px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group" href="#">
+<span class="material-symbols-outlined text-xl shrink-0 group-hover:scale-110 transition-transform">description</span>
+<span class="ml-3 text-label-caps font-label-caps hidden lg:block">Reports</span>
+</a>
+<!-- Billing -->
+<a class="flex items-center px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group" href="#">
+<span class="material-symbols-outlined text-xl shrink-0 group-hover:scale-110 transition-transform">payments</span>
+<span class="ml-3 text-label-caps font-label-caps hidden lg:block">Billing</span>
+</a>
+</div>
+<!-- Bottom Settings -->
+<div class="p-2 border-t border-surface-tint/20 mt-auto">
+<a class="flex items-center px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group" href="#">
+<span class="material-symbols-outlined text-xl shrink-0 group-hover:scale-110 transition-transform">settings</span>
+<span class="ml-3 text-label-caps font-label-caps hidden lg:block">Broker OS</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Wrapper -->
+<div class="flex-1 flex flex-col ml-rail-width lg:ml-64 transition-all duration-300 bg-surface">
+<!-- TopAppBar (Shared Component) -->
+<header class="bg-surface dark:bg-surface-dim text-primary dark:text-primary-fixed-dim flex justify-between items-center w-full px-margin-desktop h-16 border-b border-outline-variant dark:border-on-surface-variant z-30 shrink-0">
+<!-- Brand & Context -->
+<div class="flex items-center gap-6">
+<div class="text-headline-md font-headline-md font-bold text-on-surface dark:text-inverse-on-surface">Riverside Flats</div>
+<!-- Navigation Links -->
+<nav class="hidden md:flex gap-6 h-full items-center">
+<a class="text-on-surface-variant font-body-md hover:bg-surface-container-high transition-colors px-2 py-1 rounded" href="#">456 Riverside Drive</a>
+<a class="text-primary font-bold border-b-2 border-primary hover:bg-surface-container-high transition-colors px-2 py-1 h-full flex items-center opacity-80" href="#">In-Underwriting</a>
+</nav>
+</div>
+<!-- Trailing Actions -->
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-surface-container-high transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">history</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-fixed text-primary-container flex items-center justify-center font-label-caps text-label-caps border border-outline-variant cursor-pointer ml-2">
+                    CR
+                </div>
+</div>
+</header>
+<!-- Canvas & Details Area -->
+<main class="flex-1 flex overflow-hidden relative">
+<!-- Left Canvas: Data Table -->
+<div class="flex-1 flex flex-col overflow-y-auto px-margin-desktop py-6">
+<!-- Page Header -->
+<div class="flex justify-between items-end mb-6">
+<div>
+<h1 class="text-display-lg font-display-lg text-on-surface">Assumption Source Trace</h1>
+<p class="text-body-md font-body-md text-on-surface-variant mt-1">Connect underwriting assumptions to underlying source documentation.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 bg-surface-container-lowest border border-outline-variant rounded text-body-sm font-body-sm hover:bg-surface-container transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+                            Filter
+                        </button>
+<button class="px-4 py-2 bg-primary text-on-primary rounded text-body-sm font-body-sm hover:opacity-90 transition-opacity flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                            Export
+                        </button>
+</div>
+</div>
+<!-- Table Container (Sharp Layout) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-sm overflow-hidden flex-1 flex flex-col sharp-shadow">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse min-w-[800px]">
+<thead class="bg-surface-container-low border-b border-outline-variant sticky top-0 z-10">
+<tr>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant w-[20%]">Assumption</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant">Value</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant">Source Family</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant">Source Ref</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant">As of Date</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant">Confidence</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant">Status</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant w-[40px]"></th>
+</tr>
+</thead>
+<tbody class="text-body-sm font-body-sm">
+<!-- Row 1: Selected -->
+<tr class="border-b border-outline-variant bg-secondary-fixed/20 cursor-pointer">
+<td class="p-table-cell-padding font-medium text-on-surface flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary"></div>
+                                        Gross Potential Rent
+                                    </td>
+<td class="p-table-cell-padding font-medium">$2,450,000</td>
+<td class="p-table-cell-padding text-on-surface-variant">Financials</td>
+<td class="p-table-cell-padding">
+<span class="font-source-ref text-source-ref border border-outline-variant/50 rounded px-1.5 py-0.5 bg-surface inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">link</span> RR-Oct23
+                                        </span>
+</td>
+<td class="p-table-cell-padding text-on-surface-variant">10/31/23</td>
+<td class="p-table-cell-padding">
+<div class="flex items-center gap-2">
+<div class="w-12 h-1.5 bg-surface-variant rounded-full overflow-hidden"><div class="bg-secondary h-full w-[95%]"></div></div>
+<span class="text-[11px] text-on-surface-variant">95%</span>
+</div>
+</td>
+<td class="p-table-cell-padding">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary border border-secondary/20 text-[10px] font-bold uppercase tracking-wider">Reviewed</span>
+</td>
+<td class="p-table-cell-padding text-center">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="p-table-cell-padding text-on-surface">Vacancy Rate</td>
+<td class="p-table-cell-padding">5.0%</td>
+<td class="p-table-cell-padding text-on-surface-variant">Market</td>
+<td class="p-table-cell-padding">
+<span class="font-source-ref text-source-ref border border-outline-variant/50 rounded px-1.5 py-0.5 bg-surface inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">link</span> Comp-A
+                                        </span>
+</td>
+<td class="p-table-cell-padding text-on-surface-variant">11/15/23</td>
+<td class="p-table-cell-padding">
+<div class="flex items-center gap-2">
+<div class="w-12 h-1.5 bg-surface-variant rounded-full overflow-hidden"><div class="bg-primary-container h-full w-[80%]"></div></div>
+<span class="text-[11px] text-on-surface-variant">80%</span>
+</div>
+</td>
+<td class="p-table-cell-padding">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-variant text-on-surface-variant border border-outline-variant/30 text-[10px] font-bold uppercase tracking-wider">Candidate</span>
+</td>
+<td class="p-table-cell-padding text-center">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="p-table-cell-padding text-on-surface">Operating Expenses</td>
+<td class="p-table-cell-padding">$850,000</td>
+<td class="p-table-cell-padding text-on-surface-variant">Financials</td>
+<td class="p-table-cell-padding">
+<span class="font-source-ref text-source-ref border border-outline-variant/50 rounded px-1.5 py-0.5 bg-surface inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">link</span> T12-Nov23
+                                        </span>
+</td>
+<td class="p-table-cell-padding text-on-surface-variant">11/30/23</td>
+<td class="p-table-cell-padding">
+<div class="flex items-center gap-2">
+<div class="w-12 h-1.5 bg-surface-variant rounded-full overflow-hidden"><div class="bg-secondary h-full w-[90%]"></div></div>
+<span class="text-[11px] text-on-surface-variant">90%</span>
+</div>
+</td>
+<td class="p-table-cell-padding">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-secondary-container/20 text-secondary border border-secondary/20 text-[10px] font-bold uppercase tracking-wider">Reviewed</span>
+</td>
+<td class="p-table-cell-padding text-center">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Row 4: Conflict Row -->
+<tr class="border-b border-outline-variant bg-tertiary-fixed/20 hover:bg-tertiary-fixed/30 cursor-pointer transition-colors relative">
+<!-- Left highlight bar -->
+<td class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary-container"></td>
+<td class="p-table-cell-padding pl-4">
+<div class="flex items-center gap-2 text-on-surface font-medium">
+<span class="material-symbols-outlined text-tertiary-container text-[18px]">warning</span>
+                                            Purchase Price
+                                        </div>
+</td>
+<td class="p-table-cell-padding text-on-surface">
+<div class="font-medium line-through text-on-surface-variant/60">$14.25M</div>
+<div class="font-bold text-tertiary-container mt-0.5">$14.5M</div>
+</td>
+<td class="p-table-cell-padding text-on-surface-variant">Overrides</td>
+<td class="p-table-cell-padding">
+<span class="font-source-ref text-source-ref border border-tertiary-fixed-dim rounded px-1.5 py-0.5 bg-surface inline-flex items-center gap-1 text-tertiary-container">
+<span class="material-symbols-outlined text-[12px]">link</span> Override-1
+                                        </span>
+</td>
+<td class="p-table-cell-padding text-on-surface-variant">Today</td>
+<td class="p-table-cell-padding">
+<div class="flex items-center gap-2">
+<div class="w-12 h-1.5 bg-surface-variant rounded-full overflow-hidden"><div class="bg-tertiary-container h-full w-[50%]"></div></div>
+<span class="text-[11px] text-on-surface-variant">50%</span>
+</div>
+</td>
+<td class="p-table-cell-padding">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-tertiary-fixed text-on-tertiary-fixed-variant border border-tertiary-fixed-dim text-[10px] font-bold uppercase tracking-wider">Conflict</span>
+</td>
+<td class="p-table-cell-padding text-center">
+<button class="text-tertiary-container hover:text-on-surface"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Conflict Context Sub-row -->
+<tr class="bg-tertiary-fixed/10 border-b border-outline-variant">
+<td class="px-4 py-2 text-advisory-italic font-advisory-italic text-on-surface-variant text-[12px]" colspan="8">
+<span class="font-semibold not-italic text-tertiary-container">Observation Conflict:</span> OM dictates $14.25M vs Analyst Override set to $14.5M based on updated seller guidance. Resolution required before export.
+                                    </td>
+</tr>
+<!-- Row 5 -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low cursor-pointer transition-colors">
+<td class="p-table-cell-padding text-on-surface">Renovation Budget</td>
+<td class="p-table-cell-padding">$1,200,000</td>
+<td class="p-table-cell-padding text-on-surface-variant">Sponsor</td>
+<td class="p-table-cell-padding">
+<span class="font-source-ref text-source-ref border border-outline-variant/50 rounded px-1.5 py-0.5 bg-surface inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">link</span> CapEx-v2
+                                        </span>
+</td>
+<td class="p-table-cell-padding text-on-surface-variant">10/05/23</td>
+<td class="p-table-cell-padding">
+<div class="flex items-center gap-2">
+<div class="w-12 h-1.5 bg-surface-variant rounded-full overflow-hidden"><div class="bg-primary-container h-full w-[75%]"></div></div>
+<span class="text-[11px] text-on-surface-variant">75%</span>
+</div>
+</td>
+<td class="p-table-cell-padding">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-variant text-on-surface-variant border border-outline-variant/30 text-[10px] font-bold uppercase tracking-wider">Candidate</span>
+</td>
+<td class="p-table-cell-padding text-center">
+<button class="text-on-surface-variant hover:text-primary"><span class="material-symbols-outlined text-[18px]">more_vert</span></button>
+</td>
+</tr>
+<!-- Rows 6-9 Omitted for brevity but styling matches standard rows -->
+<tr class="border-b border-outline-variant hover:bg-surface-container-low cursor-pointer transition-colors opacity-60">
+<td class="p-table-cell-padding text-on-surface">LTV</td>
+<td class="p-table-cell-padding">65.0%</td>
+<td class="p-table-cell-padding text-on-surface-variant">Capital</td>
+<td class="p-table-cell-padding">...</td>
+<td class="p-table-cell-padding text-on-surface-variant">11/20/23</td>
+<td class="p-table-cell-padding">...</td>
+<td class="p-table-cell-padding">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full border border-outline-variant/30 text-[10px] font-bold uppercase tracking-wider bg-surface">Final</span>
+</td>
+<td class="p-table-cell-padding"></td>
+</tr>
+<tr class="hover:bg-surface-container-low cursor-pointer transition-colors opacity-60">
+<td class="p-table-cell-padding text-on-surface">Interest Rate</td>
+<td class="p-table-cell-padding">5.75%</td>
+<td class="p-table-cell-padding text-on-surface-variant">Capital</td>
+<td class="p-table-cell-padding">...</td>
+<td class="p-table-cell-padding text-on-surface-variant">11/20/23</td>
+<td class="p-table-cell-padding">...</td>
+<td class="p-table-cell-padding">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full border border-outline-variant/30 text-[10px] font-bold uppercase tracking-wider bg-surface">Final</span>
+</td>
+<td class="p-table-cell-padding"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Detail Panel -->
+<aside class="w-[360px] bg-surface-container-lowest border-l border-outline-variant shrink-0 flex flex-col h-full shadow-[-4px_0_15px_rgba(0,0,0,0.02)] z-20">
+<!-- Header -->
+<div class="px-6 py-4 border-b border-outline-variant flex justify-between items-center bg-surface-container-low/50">
+<h2 class="text-headline-sm font-headline-sm text-on-surface">Observation Details</h2>
+<button class="text-on-surface-variant hover:text-on-surface rounded-full p-1 hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto p-6 space-y-6">
+<!-- Selected Value Banner -->
+<div class="space-y-1">
+<div class="text-label-caps font-label-caps text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">key</span> Active Assumption
+                        </div>
+<h3 class="text-display-lg font-display-lg text-on-surface">Gross Potential Rent</h3>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-headline-md font-headline-md text-secondary">$2,450,000</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant">Annualized</span>
+</div>
+</div>
+<!-- Formula Impact -->
+<div class="bg-surface border border-outline-variant/50 rounded p-4 sharp-shadow">
+<h4 class="text-label-caps font-label-caps text-on-surface-variant mb-2">System Impact</h4>
+<div class="flex items-center gap-2 text-body-sm font-body-sm text-on-surface">
+<span class="material-symbols-outlined text-secondary text-[16px]">account_tree</span>
+                            Drives <strong class="mx-1">Net Operating Income (NOI)</strong>
+</div>
+<div class="mt-2 text-advisory-italic font-advisory-italic text-on-surface-variant text-[12px]">
+                            Updating this value will trigger recalculation of Year 1 Yield and Debt Yield metrics.
+                        </div>
+</div>
+<!-- Competing Observations -->
+<div>
+<h4 class="text-label-caps font-label-caps text-on-surface-variant mb-3 border-b border-outline-variant/30 pb-1">Observation Lineage</h4>
+<div class="space-y-3">
+<!-- Observation 1 (Selected) -->
+<div class="border border-secondary/40 bg-secondary-fixed/10 rounded p-3 relative">
+<div class="absolute top-2 right-2 text-secondary">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="text-[12px] text-on-surface-variant flex items-center gap-1 mb-1">
+<span class="material-symbols-outlined text-[14px]">description</span> Rent Roll (Oct '23)
+                                </div>
+<div class="font-headline-sm font-headline-sm text-on-surface">$2,450,000</div>
+<div class="mt-2 font-source-ref text-source-ref text-on-surface-variant text-[10px]">Doc: RR_103123_Final.pdf</div>
+</div>
+<!-- Observation 2 (Discarded) -->
+<div class="border border-outline-variant/30 bg-surface rounded p-3 opacity-70 hover:opacity-100 transition-opacity cursor-pointer">
+<div class="text-[12px] text-on-surface-variant flex items-center gap-1 mb-1">
+<span class="material-symbols-outlined text-[14px]">menu_book</span> Offering Memorandum
+                                </div>
+<div class="font-headline-sm font-headline-sm text-on-surface strike-through line-through">$2,500,000</div>
+<div class="mt-2 font-source-ref text-source-ref text-on-surface-variant text-[10px]">Doc: OM_Riverside_Aug.pdf (Pg 12)</div>
+</div>
+</div>
+</div>
+<!-- Evidence Snapshot -->
+<div>
+<h4 class="text-label-caps font-label-caps text-on-surface-variant mb-3 border-b border-outline-variant/30 pb-1">Source Evidence</h4>
+<!-- Placeholder for document snapshot -->
+<div class="w-full h-32 bg-surface-container border border-outline-variant/50 rounded overflow-hidden relative group cursor-zoom-in">
+<div class="absolute inset-0 mesh-bg opacity-20"></div>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-on-surface-variant group-hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined mb-1">crop_free</span>
+<span class="font-source-ref text-[10px]">View Crop (Pg 4)</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="p-4 border-t border-outline-variant bg-surface-container-low flex flex-col gap-2 shrink-0">
+<button class="w-full bg-primary text-on-primary py-2.5 rounded font-headline-sm font-headline-sm text-[14px] hover:opacity-90 transition-opacity shadow-sm flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+                        Promote to Reviewed
+                    </button>
+<button class="w-full bg-surface text-on-surface border border-outline-variant py-2.5 rounded font-headline-sm font-headline-sm text-[14px] hover:bg-surface-container-low transition-colors">
+                        Hold as Candidate
+                    </button>
+</div>
+</aside>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-error-container dark:bg-on-error-container text-on-error-container dark:text-error-container fixed bottom-0 left-0 w-full z-50 flex justify-center items-center py-1 px-4 border-t border-error">
+<span class="text-body-sm font-body-sm">Prototype-only. No live valuation or export.</span>
+<div class="ml-4 flex gap-4 text-label-caps font-label-caps opacity-90">
+<a class="underline font-bold hover:opacity-100" href="#">Security Policy</a>
+<a class="underline font-bold hover:opacity-100" href="#">System Status</a>
+</div>
+</footer>
+</div>
+</body></html>

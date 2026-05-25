@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { evaluateExportReadiness } from '@/lib/report-governance';
+import { evaluateExportReadiness, buildExportManifest } from '@/lib/report-governance';
 import { mockSourceBlocks } from '@/lib/source-bundle';
 
 describe('evaluateExportReadiness', () => {
@@ -27,5 +27,16 @@ describe('evaluateExportReadiness', () => {
     const readiness = evaluateExportReadiness([approvedSection], readyBlocks);
     expect(readiness.ready).toBe(true);
     expect(readiness.receiptHash).toMatch(/sha256/);
+  });
+
+  it('builds export manifest with appendix and redaction copy', () => {
+    const sections = [
+      { id: 'summary', name: 'Executive summary', status: 'Approved' },
+      { id: 'map', name: 'Regional map', status: 'Needs Review' },
+    ];
+    const manifest = buildExportManifest(sections, mockSourceBlocks);
+    expect(manifest.sections.some((entry) => entry.disposition === 'redacted')).toBe(true);
+    expect(manifest.evidenceAppendix.length).toBeGreaterThan(0);
+    expect(manifest.redactionCopy).toMatch(/redacted/i);
   });
 });

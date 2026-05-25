@@ -19,6 +19,7 @@ import { StageRail } from '@/components/ui/StageRail';
 import { VALUATION_READINESS_STAGES } from '@/lib/readiness-stages';
 import {
   ExportReadinessCard,
+  ExportManifestCard,
   ReportProvenanceCard,
   ReportSectionReviewCard,
 } from '@/components/report-governance/ReportGovernanceCards';
@@ -185,6 +186,7 @@ export function StudioReportBuilderPage(): ReactElement {
             Export is disabled until section review and source-rights gates clear.
           </NonProductionCallout>
           <ExportReadinessCard sections={sections} sourceBlocks={sourceBlocks} />
+          <ExportManifestCard sections={sections} sourceBlocks={sourceBlocks} />
           {receipt ? (
             <div className="receipt" role="status">
               <p>

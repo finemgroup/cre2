@@ -52,6 +52,9 @@ const StudioDealIntakeRedirect = lazy(() =>
 const StudioDealIntakePage = lazy(() =>
   import('@/pages/studio/DealRoutes').then((module) => ({ default: module.StudioDealIntakePage }))
 );
+const StudioDataReviewPage = lazy(() =>
+  import('@/pages/studio/DealRoutes').then((module) => ({ default: module.StudioDataReviewPage }))
+);
 const StudioDealOverviewPage = lazy(() =>
   import('@/pages/studio/DealRoutes').then((module) => ({
     default: module.StudioDealOverviewPage,
@@ -65,9 +68,22 @@ const StudioUnderwritingPage = lazy(() =>
     default: module.StudioUnderwritingPage,
   }))
 );
+const StudioAssumptionSourceTracePage = lazy(() =>
+  import('@/pages/studio/DealRoutes').then((module) => ({
+    default: module.StudioAssumptionSourceTracePage,
+  }))
+);
+const StudioDebtPanelPage = lazy(() =>
+  import('@/pages/studio/DealRoutes').then((module) => ({ default: module.StudioDebtPanelPage }))
+);
 const StudioScenarioComparisonPage = lazy(() =>
   import('@/pages/studio/DealRoutes').then((module) => ({
     default: module.StudioScenarioComparisonPage,
+  }))
+);
+const StudioValuationVersionTimelinePage = lazy(() =>
+  import('@/pages/studio/DealRoutes').then((module) => ({
+    default: module.StudioValuationVersionTimelinePage,
   }))
 );
 const StudioReportBuilderPage = lazy(() =>
@@ -104,6 +120,10 @@ export default function App(): ReactElement {
           <Route path="onboarding" element={<LazyPage page={StudioOnboardingPage} />} />
           <Route path="deal-intake" element={<LazyPage page={StudioDealIntakeRedirect} />} />
           <Route path="deals/:dealId/intake" element={<LazyPage page={StudioDealIntakePage} />} />
+          <Route
+            path="deals/:dealId/data-review"
+            element={<LazyPage page={StudioDataReviewPage} />}
+          />
           <Route path="deals/:dealId" element={<LazyPage page={StudioDealOverviewPage} />} />
           <Route path="deals/:dealId/comps" element={<LazyPage page={StudioCompsPage} />} />
           <Route
@@ -111,8 +131,20 @@ export default function App(): ReactElement {
             element={<LazyPage page={StudioUnderwritingPage} />}
           />
           <Route
+            path="deals/:dealId/underwriting/sources"
+            element={<LazyPage page={StudioAssumptionSourceTracePage} />}
+          />
+          <Route
+            path="deals/:dealId/underwriting/debt"
+            element={<LazyPage page={StudioDebtPanelPage} />}
+          />
+          <Route
             path="deals/:dealId/scenarios"
             element={<LazyPage page={StudioScenarioComparisonPage} />}
+          />
+          <Route
+            path="deals/:dealId/versions"
+            element={<LazyPage page={StudioValuationVersionTimelinePage} />}
           />
           <Route path="settings/billing" element={<LazyPage page={StudioPricingPage} />} />
           <Route path="settings/white-label" element={<LazyPage page={StudioWhiteLabelPage} />} />

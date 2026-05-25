@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Underwriting Workbench - Export Manifest</title>
+<!-- Google Fonts & Material Symbols -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#1b1b1d",
+                    "on-tertiary-container": "#98805d",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "surface-container-high": "#eae7e9",
+                    "primary": "#000000",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#000000",
+                    "error-container": "#ffdad6",
+                    "error": "#ba1a1a",
+                    "surface": "#fcf8fa",
+                    "on-surface-variant": "#45464d",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-on-surface": "#f3f0f2",
+                    "secondary-container": "#316bf3",
+                    "secondary": "#0051d5",
+                    "secondary-fixed": "#dbe1ff",
+                    "outline": "#76777d",
+                    "background": "#fcf8fa",
+                    "surface-container": "#f0edef",
+                    "primary-container": "#131b2e",
+                    "on-secondary-fixed": "#00174b",
+                    "on-secondary-container": "#fefcff",
+                    "on-tertiary-fixed": "#271901",
+                    "surface-tint": "#565e74",
+                    "tertiary-fixed": "#fcdeb5",
+                    "surface-variant": "#e4e2e4",
+                    "on-error-container": "#93000a",
+                    "on-error": "#ffffff",
+                    "inverse-surface": "#303032",
+                    "on-background": "#1b1b1d",
+                    "on-primary-fixed": "#131b2e",
+                    "primary-fixed": "#dae2fd",
+                    "primary-fixed-dim": "#bec6e0",
+                    "outline-variant": "#c6c6cd",
+                    "secondary-fixed-dim": "#b4c5ff",
+                    "on-secondary-fixed-variant": "#003ea8",
+                    "on-primary": "#ffffff",
+                    "surface-container-low": "#f6f3f5",
+                    "surface-dim": "#dcd9db",
+                    "on-primary-container": "#7c839b",
+                    "surface-bright": "#fcf8fa",
+                    "tertiary-container": "#271901",
+                    "inverse-primary": "#bec6e0",
+                    "on-tertiary-fixed-variant": "#574425",
+                    "surface-container-highest": "#e4e2e4",
+                    "tertiary-fixed-dim": "#dec29a",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "table-cell-padding": "8px 12px",
+                    "margin-desktop": "24px",
+                    "base": "4px",
+                    "rail-width": "48px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "label-caps": [
+                            "Inter"
+                    ],
+                    "source-ref": [
+                            "JetBrains Mono"
+                    ],
+                    "body-sm": [
+                            "Inter"
+                    ],
+                    "advisory-italic": [
+                            "Inter"
+                    ],
+                    "headline-sm": [
+                            "Inter"
+                    ],
+                    "headline-md": [
+                            "Inter"
+                    ],
+                    "display-lg": [
+                            "Inter"
+                    ],
+                    "body-md": [
+                            "Inter"
+                    ]
+            },
+            "fontSize": {
+                    "label-caps": [
+                            "11px",
+                            {
+                                    "lineHeight": "16px",
+                                    "letterSpacing": "0.05em",
+                                    "fontWeight": "700"
+                            }
+                    ],
+                    "source-ref": [
+                            "11px",
+                            {
+                                    "lineHeight": "14px",
+                                    "fontWeight": "500"
+                            }
+                    ],
+                    "body-sm": [
+                            "13px",
+                            {
+                                    "lineHeight": "18px",
+                                    "letterSpacing": "0.01em",
+                                    "fontWeight": "400"
+                            }
+                    ],
+                    "advisory-italic": [
+                            "13px",
+                            {
+                                    "lineHeight": "18px",
+                                    "fontWeight": "400",
+                                    "fontStyle": "italic"
+                            }
+                    ],
+                    "headline-sm": [
+                            "16px",
+                            {
+                                    "lineHeight": "24px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "headline-md": [
+                            "20px",
+                            {
+                                    "lineHeight": "28px",
+                                    "letterSpacing": "-0.01em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "display-lg": [
+                            "30px",
+                            {
+                                    "lineHeight": "36px",
+                                    "letterSpacing": "-0.02em",
+                                    "fontWeight": "600"
+                            }
+                    ],
+                    "body-md": [
+                            "14px",
+                            {
+                                    "lineHeight": "20px",
+                                    "letterSpacing": "0em",
+                                    "fontWeight": "400"
+                            }
+                    ]
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased h-screen overflow-hidden flex relative">
+<!-- 1. TopAppBar (JSON Sourced) -->
+<header class="bg-surface dark:bg-surface-dim text-primary dark:text-primary-fixed-dim docked full-width top-0 border-b border-outline-variant dark:border-on-surface-variant flex justify-between items-center w-full px-margin-desktop h-16 fixed top-0 left-0 z-20">
+<div class="flex items-center gap-4 pl-[calc(64px+16px)] lg:pl-[calc(256px+16px)]"> <!-- Offset for SideNav -->
+<h1 class="text-headline-md font-headline-md font-bold text-on-surface dark:text-inverse-on-surface">Riverside Flats</h1>
+<div class="h-4 w-[1px] bg-outline-variant"></div>
+<nav class="flex gap-4">
+<a class="text-on-surface-variant font-body-md hover:bg-surface-container-high transition-colors px-2 py-1 rounded" href="#">456 Riverside Drive</a>
+<a class="text-on-surface-variant font-body-md hover:bg-surface-container-high transition-colors px-2 py-1 rounded" href="#">In-Underwriting</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">history</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-variant border border-outline flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-outline">person</span>
+</div>
+</div>
+</header>
+<!-- 2. SideNavBar (JSON Sourced) -->
+<!-- Active State Logic: Context is "Export Manifest Preview" -> logically fits under "Reports" -->
+<aside class="bg-primary-container dark:bg-surface-container-lowest text-on-primary-container dark:text-primary-fixed-dim docked left-0 h-full w-rail-width lg:w-64 fixed left-0 top-0 h-full flex flex-col z-40 shadow-sm transition-all duration-300">
+<div class="h-16 flex items-center px-4 border-b border-surface-tint/20">
+<span class="text-headline-sm font-headline-sm font-black text-on-primary-container hidden lg:block truncate">Broker OS</span>
+<span class="material-symbols-outlined lg:hidden text-on-primary-container">apartment</span>
+</div>
+<nav class="flex-1 overflow-y-auto py-4 flex flex-col gap-1 px-2">
+<!-- Dashboard -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Dashboard</span>
+</a>
+<!-- Deal Intake -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group" href="#">
+<span class="material-symbols-outlined">input</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Deal Intake</span>
+</a>
+<!-- Deal Overview -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group" href="#">
+<span class="material-symbols-outlined">visibility</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Deal Overview</span>
+</a>
+<!-- Comps -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group" href="#">
+<span class="material-symbols-outlined">compare</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Comps</span>
+</a>
+<!-- Underwriting -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Underwriting</span>
+</a>
+<!-- Scenarios -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group" href="#">
+<span class="material-symbols-outlined">layers</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Scenarios</span>
+</a>
+<!-- Reports (ACTIVE STATE) -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg bg-secondary-container text-on-secondary-container font-bold scale-95 group" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">description</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Reports</span>
+</a>
+<!-- Billing -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Billing</span>
+</a>
+<!-- Broker OS -->
+<a class="flex items-center gap-3 px-3 py-2 rounded-lg text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all group mt-auto border-t border-surface-tint/20 pt-4" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Broker OS</span>
+</a>
+</nav>
+</aside>
+<!-- 3. ReadinessRail (JSON Sourced) -->
+<!-- Active State Logic: "Export" -->
+<aside class="bg-surface-container-low dark:bg-surface-container-highest text-primary dark:text-primary-fixed-dim docked right-0 border-l border-outline-variant flat no shadows fixed right-0 top-16 h-[calc(100%-64px)] w-rail-width flex flex-col items-center py-gutter z-10 gap-6">
+<div class="flex flex-col items-center gap-1 group cursor-pointer text-on-surface-variant opacity-60 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">settings_input_component</span>
+</div>
+<div class="flex flex-col items-center gap-1 group cursor-pointer text-on-surface-variant opacity-60 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">verified_user</span>
+</div>
+<div class="flex flex-col items-center gap-1 group cursor-pointer text-on-surface-variant opacity-60 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">query_stats</span>
+</div>
+<div class="flex flex-col items-center gap-1 group cursor-pointer text-on-surface-variant opacity-60 hover:text-primary transition-colors">
+<span class="material-symbols-outlined">rate_review</span>
+</div>
+<!-- Export (ACTIVE STATE) -->
+<div class="flex flex-col items-center gap-1 group cursor-pointer text-secondary font-bold scale-110 relative">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">ios_share</span>
+<!-- Indicator dot for blocked state -->
+<div class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-error rounded-full border border-surface"></div>
+</div>
+</aside>
+<!-- Main Canvas (Background context) -->
+<main class="flex-1 pl-[64px] lg:pl-[256px] pr-[48px] pt-[64px] pb-[32px] h-full overflow-y-auto bg-background filter blur-[2px] opacity-60 pointer-events-none transition-all">
+<!-- Placeholder content to simulate workbench beneath modal -->
+<div class="p-8 max-w-5xl mx-auto">
+<div class="h-8 w-48 bg-surface-variant rounded mb-6"></div>
+<div class="h-64 w-full bg-surface border border-outline-variant rounded shadow-sm mb-6"></div>
+<div class="grid grid-cols-2 gap-6">
+<div class="h-48 bg-surface border border-outline-variant rounded shadow-sm"></div>
+<div class="h-48 bg-surface border border-outline-variant rounded shadow-sm"></div>
+</div>
+</div>
+</main>
+<!-- 4. Footer (JSON Sourced) -->
+<footer class="bg-error-container dark:bg-on-error-container text-on-error-container dark:text-error-container border-t border-error flat no shadows fixed bottom-0 left-0 w-full z-50 flex justify-center items-center py-1 px-4 gap-6">
+<span class="text-body-sm font-body-sm opacity-90">Prototype-only. No live valuation or export.</span>
+<div class="flex gap-4">
+<a class="text-label-caps font-label-caps opacity-90 hover:opacity-100 transition-opacity" href="#">Security Policy</a>
+<a class="text-label-caps font-label-caps opacity-90 hover:opacity-100 transition-opacity" href="#">System Status</a>
+</div>
+</footer>
+<!-- ========================================================= -->
+<!-- MODAL OVERLAY: Export Manifest Preview                    -->
+<!-- ========================================================= -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center px-4 bg-primary-container/40 backdrop-blur-sm">
+<!-- Modal Container Level 2 Depth (Sharp Shadow, 1px Border) -->
+<div aria-labelledby="modal-title" aria-modal="true" class="bg-surface border border-outline-variant rounded-lg shadow-[0_4px_12px_rgba(0,0,0,0.1)] w-full max-w-4xl flex flex-col max-h-[921px] overflow-hidden" role="dialog">
+<!-- Header -->
+<div class="px-6 py-5 border-b border-outline-variant flex justify-between items-start bg-surface-container-lowest">
+<div>
+<div class="flex items-center gap-3 mb-1">
+<h2 class="text-headline-md font-headline-md text-on-surface" id="modal-title">Export Manifest Preview</h2>
+<!-- Status Badge -->
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-error-container text-on-error-container border border-error/20">
+<span class="material-symbols-outlined text-[16px]">block</span>
+<span class="text-label-caps font-label-caps uppercase tracking-wider">Export Blocked</span>
+</span>
+</div>
+<p class="text-body-sm font-body-sm text-on-surface-variant">Review manifest requirements before generating final client deliverables.</p>
+</div>
+<button aria-label="Close modal" class="text-on-surface-variant hover:text-on-surface transition-colors p-1 rounded hover:bg-surface-variant">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Body -->
+<div class="flex-1 overflow-y-auto p-6 bg-background space-y-6">
+<!-- Split View: Included vs Excluded -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+<!-- Excluded Sections (Priority Focus) -->
+<div class="flex flex-col gap-3">
+<h3 class="text-headline-sm font-headline-sm text-on-surface border-b border-outline-variant pb-2">Excluded Sections</h3>
+<div class="bg-error-container/30 border border-error rounded p-4 flex gap-3">
+<span class="material-symbols-outlined text-error mt-0.5">warning</span>
+<div>
+<h4 class="text-body-sm font-body-sm font-semibold text-on-surface">Debt Quote Detail</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">Missing secondary underwriter review.</p>
+</div>
+</div>
+<div class="bg-error-container/30 border border-error rounded p-4 flex gap-3">
+<span class="material-symbols-outlined text-error mt-0.5">policy</span>
+<div>
+<h4 class="text-body-sm font-body-sm font-semibold text-on-surface">Waterfall Preview</h4>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">Pending external legal counsel sign-off.</p>
+</div>
+</div>
+</div>
+<!-- Included Sections -->
+<div class="flex flex-col gap-3">
+<h3 class="text-headline-sm font-headline-sm text-on-surface border-b border-outline-variant pb-2">Included Report Sections</h3>
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-3 flex gap-3 items-center">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="text-body-sm font-body-sm text-on-surface font-medium">Executive Summary</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-3 flex gap-3 items-center">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="text-body-sm font-body-sm text-on-surface font-medium">Core Assumptions</span>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-3 flex gap-3 items-center">
+<span class="material-symbols-outlined text-secondary">check_circle</span>
+<span class="text-body-sm font-body-sm text-on-surface font-medium">Sales &amp; Rent Comps</span>
+</div>
+</div>
+</div>
+<!-- Audit Trail / Metadata Bento Block -->
+<div class="bg-surface-container-low border border-outline-variant rounded-lg p-5">
+<h3 class="text-label-caps font-label-caps text-on-surface-variant uppercase tracking-wider mb-4 border-b border-outline-variant pb-2">Audit Manifest Details</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8">
+<!-- Checksum -->
+<div>
+<span class="block text-label-caps font-label-caps text-on-surface-variant mb-1">Pre-flight Checksum</span>
+<span class="font-source-ref text-source-ref text-on-surface bg-surface-variant px-2 py-1 rounded border border-outline-variant inline-block">a7f9b2c4e1...</span>
+</div>
+<!-- Receipt Ref -->
+<div>
+<span class="block text-label-caps font-label-caps text-on-surface-variant mb-1">Session Receipt Ref</span>
+<span class="font-source-ref text-source-ref text-on-surface bg-surface-variant px-2 py-1 rounded border border-outline-variant inline-block">REQ-8824-XV</span>
+</div>
+<!-- Redacted Notes -->
+<div class="sm:col-span-2 pt-2 border-t border-outline-variant/50">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-outline text-[16px] mt-0.5">visibility_off</span>
+<div>
+<span class="block text-label-caps font-label-caps text-on-surface-variant mb-1">Permissions &amp; Redactions</span>
+<p class="font-advisory-italic text-advisory-italic text-on-surface-variant">Sensitive LP identifiers and internal advisory chips have been automatically redacted from the generation stream per Institutional Security Policy.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer / Actions -->
+<div class="px-6 py-4 border-t border-outline-variant bg-surface-container-lowest flex items-center justify-between">
+<button class="px-4 py-2 rounded text-body-sm font-body-sm font-medium border border-outline-variant bg-surface text-on-surface hover:bg-surface-container-low transition-colors shadow-sm">
+                    Return to Gates
+                </button>
+<div class="flex items-center gap-3">
+<button class="px-4 py-2 rounded text-body-sm font-body-sm font-medium bg-surface text-secondary border border-secondary/30 hover:bg-secondary-container hover:text-on-secondary-container transition-colors shadow-sm">
+                        Request Review
+                    </button>
+<!-- Gated State: Ghosted, custom cursor, lock icon -->
+<button aria-disabled="true" class="px-4 py-2 rounded text-body-sm font-body-sm font-medium flex items-center gap-2 border border-outline opacity-40 text-on-surface-variant cursor-not-allowed bg-surface-variant" title="Export restricted due to blocked sections.">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+                        Generate Export
+                    </button>
+</div>
+</div>
+</div>
+</div>
+</body></html>

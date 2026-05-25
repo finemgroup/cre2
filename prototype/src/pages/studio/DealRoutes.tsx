@@ -35,6 +35,7 @@ import type { EvidenceMetadataItem } from '@/components/evidence/EvidenceMetadat
 import { UploadDropzone } from '@/components/upload/UploadDropzone';
 import { StagedImportReviewPanel } from '@/components/review/StagedImportReviewPanel';
 import { GateOverrideModal } from '@/components/overlays/GateOverrideModal';
+import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
 import { TrustExplainerDrawer } from '@/components/overlays/TrustExplainerDrawer';
 import { UpgradePlanModal } from '@/components/overlays/UpgradePlanModal';
@@ -47,6 +48,24 @@ import {
   WorkflowHandoffLink,
 } from '@/components/workflow/WorkflowPrimitives';
 import {
+  CalculationBreakdownDrawer,
+  EvidenceConflictResolverModal,
+  EvidenceTraceList,
+  EvidenceValueCard,
+  ReadinessRail,
+  SensitivityCellDrilldownDrawer,
+  SourceCoverageCard,
+  VersionLockConfirmationModal,
+  WorkflowSpineNav,
+  IntakeWorkflowNav,
+  buildUnderwritingSpineSteps,
+  WorkstationDrawer,
+  type ConflictOption,
+  type EvidenceTraceItem,
+  type ReadinessRailItem,
+  type VersionSnapshot,
+} from '@/components/workstation/UnderwritingWorkstationPrimitives';
+import {
   buildProFormaRows,
   buildSensitivityGrid,
   calculateUnderwritingMetrics,
@@ -55,12 +74,17 @@ import {
   formatMultiple,
   formatPercent,
 } from '@/lib/underwriting';
-import { buildScenarioPresets, listScenarioPresets, type ScenarioName } from '@/lib/underwriting/scenarios';
+import {
+  buildScenarioPresets,
+  listScenarioPresets,
+  type ScenarioName,
+} from '@/lib/underwriting/scenarios';
 import { mockCandidateFields, mockUploadFiles } from '@/lib/staged-import';
 import {
   activity,
   DEFAULT_DEAL_ID,
   studioDealPath,
+  studioReportPath,
   underwritingAssumptionsByDeal,
   underwritingProvenanceByDeal,
   type Deal,
@@ -70,10 +94,7 @@ import {
   getStudioDashboardView,
   getStudioDealView,
 } from '@/lib/runtime/studio-workspace';
-import {
-  formatOnboardingSummary,
-  getOnboardingProfile,
-} from '@/lib/studio/onboarding-profile';
+import { formatOnboardingSummary, getOnboardingProfile } from '@/lib/studio/onboarding-profile';
 import {
   DealWorkflowTabs,
   SegmentedControl,
@@ -105,6 +126,134 @@ const DEAL_DOCUMENT_EVIDENCE: EvidenceMetadataItem[] = [
     safeExplanation: 'Expense normalization remains advisory until reviewer signoff.',
     sourceId: 'doc-t12-riverside-flats',
     asOf: '2026-05-19',
+  },
+];
+
+const ASSUMPTION_TRACE_ITEMS: EvidenceTraceItem[] = [
+  {
+    id: 'unit-count',
+    label: 'Unit count',
+    value: '195 units',
+    posture: 'Blocked',
+    sourceRef: 'OM p.14 / RentRoll p.1',
+    asOf: '2026-05-22',
+    confidence: 'Medium',
+    detail: 'Offering memorandum and rent roll disagree; senior reviewer resolution is required.',
+  },
+  {
+    id: 'exit-cap',
+    label: 'Exit cap rate',
+    value: '5.75%',
+    posture: 'Candidate evidence',
+    sourceRef: 'CompSet-Austin-MF-05',
+    asOf: '2026-05-20',
+    confidence: 'Medium',
+    detail: 'Candidate market-comp evidence supports the current exit cap assumption.',
+  },
+  {
+    id: 't12-noi',
+    label: 'T12 NOI',
+    value: '$2.9M',
+    posture: 'Reviewed',
+    sourceRef: 'T12_Normalized_04',
+    asOf: '2026-05-19',
+    confidence: 'High',
+    detail: 'Reviewed normalization supports current NOI calculation inputs.',
+  },
+  {
+    id: 'debt-service',
+    label: 'Debt service',
+    value: '$2.3M',
+    posture: 'Source pending',
+    sourceRef: 'Lender quote missing',
+    asOf: 'Pending',
+    confidence: 'Low',
+    detail: 'Awaiting lender quote review before DSCR can clear export gates.',
+  },
+];
+
+const UNIT_CONFLICT_OPTIONS: ConflictOption[] = [
+  {
+    id: 'om',
+    source: 'Offering Memorandum',
+    value: '196',
+    sourceRef: 'OM p.14',
+    asOf: '2026-05-20',
+    confidence: 'High',
+  },
+  {
+    id: 'rent-roll',
+    source: 'Rent Roll',
+    value: '194',
+    sourceRef: 'RentRoll p.1',
+    asOf: '2026-05-21',
+    confidence: 'Medium',
+  },
+  {
+    id: 'analyst',
+    source: 'Analyst Override',
+    value: '195',
+    sourceRef: 'J. Doe note',
+    asOf: '2026-05-22',
+    confidence: 'Low',
+  },
+];
+
+const VERSION_SNAPSHOTS: VersionSnapshot[] = [
+  {
+    id: 'v0.3',
+    label: 'IC-Ready Draft',
+    actor: 'Sarah Jenkins (VP)',
+    createdAt: '2026-05-25 14:30',
+    gateStatus: 'Cleared for IC',
+    evidenceRef: 'EVID-SNAP-992',
+    scenarioSet: 'Base + Conservative Refi',
+    current: true,
+  },
+  {
+    id: 'v0.2',
+    label: 'Analyst Reviewed',
+    actor: 'Mike Chen (Analyst)',
+    createdAt: '2026-05-24 09:15',
+    gateStatus: 'Analyst sign-off',
+    evidenceRef: 'EVID-SNAP-991',
+    scenarioSet: 'Base only',
+  },
+  {
+    id: 'v0.1',
+    label: 'Draft',
+    actor: 'System Auto-Gen',
+    createdAt: '2026-05-22 16:45',
+    gateStatus: 'Pending review',
+    evidenceRef: 'EVID-SNAP-980',
+    scenarioSet: 'Default processing',
+  },
+];
+
+const READINESS_ITEMS: ReadinessRailItem[] = [
+  {
+    id: 'assumptions',
+    label: 'Assumptions',
+    status: 'warning',
+    detail: 'Two candidate values need reviewer confirmation.',
+  },
+  {
+    id: 'evidence',
+    label: 'Evidence',
+    status: 'blocked',
+    detail: 'Lender quote and unit count conflict unresolved.',
+  },
+  {
+    id: 'scenarios',
+    label: 'Scenarios',
+    status: 'warning',
+    detail: 'Scenario output remains advisory until gates clear.',
+  },
+  {
+    id: 'review',
+    label: 'Review',
+    status: 'pending',
+    detail: 'Senior reviewer signoff required before export.',
   },
 ];
 
@@ -349,6 +498,11 @@ export function StudioDealIntakePage(): ReactElement {
           title="Deal Intake"
           lede={`Capture deal basics for ${activeDeal.id} before comps and underwriting.`}
         />
+        <IntakeWorkflowNav dealId={activeDeal.id} activeStep="intake" />
+        <NonProductionCallout>
+          Uploaded files and extracted fields remain candidate evidence until data review and
+          source trace gates clear.
+        </NonProductionCallout>
         <StudioCard title="Property Basics">
           <div className="form-grid">
             <label>
@@ -425,6 +579,9 @@ export function StudioDealIntakePage(): ReactElement {
           <Link to={studioDealPath(continueDealId, 'comps')} className="btn btn-primary">
             Continue to Comps
           </Link>
+          <Link to={studioDealPath(continueDealId, 'data-review')} className="btn btn-secondary">
+            Open Data Review
+          </Link>
         </StickyActionBar>
       </div>
       <StudioCard title="Packet Preview">
@@ -467,6 +624,11 @@ export function StudioCompsPage(): ReactElement {
         returnLabel="Return to deal"
       />
       <DealWorkflowTabs deal={deal} />
+      <PageTitle
+        eyebrow="Comparable sales"
+        title="Comparable Sales Review"
+        lede="Review comp authority, source citations, and visibility before underwriting assumptions."
+      />
       <NonProductionCallout>
         Comparable sales are sample rows with mixed authority states.
       </NonProductionCallout>
@@ -619,6 +781,12 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
   );
   const [activeScenario, setActiveScenario] = useState<ScenarioName>('Base Case');
   const [locked, setLocked] = useState(false);
+  const [lockModalOpen, setLockModalOpen] = useState(false);
+  const [calculationTarget, setCalculationTarget] = useState<{
+    label: string;
+    value: string;
+    formula: string;
+  } | null>(null);
   const [overriddenGates, setOverriddenGates] = useState<string[]>([]);
   const [overrideTarget, setOverrideTarget] = useState<{
     id: string;
@@ -634,11 +802,7 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
   ).length;
   const gates = useMemo(
     () =>
-      evaluateUnderwritingGates(
-        assumptions,
-        metrics,
-        reviewedCompCount
-      ).map((gate) =>
+      evaluateUnderwritingGates(assumptions, metrics, reviewedCompCount).map((gate) =>
         overriddenGates.includes(gate.id) ? { ...gate, status: 'OVERRIDDEN' as const } : gate
       ),
     [assumptions, metrics, overriddenGates, reviewedCompCount]
@@ -655,11 +819,19 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
       />
       <DealWorkflowTabs deal={deal} />
       <SyntheticDataBanner />
+      <StudioCard title="Workflow Spine" eyebrow="Assumptions → export">
+        <WorkflowSpineNav steps={buildUnderwritingSpineSteps(deal.id, 'assumptions')} />
+      </StudioCard>
       <p className="muted" id="scenario-truth-note">
         Scenario controls apply formula-backed assumption presets. Metrics below update when the
         active scenario changes.
       </p>
-      <div className="tabs-row" role="group" aria-label="Scenario controls" aria-describedby="scenario-truth-note">
+      <div
+        className="tabs-row"
+        role="group"
+        aria-label="Scenario controls"
+        aria-describedby="scenario-truth-note"
+      >
         {Object.keys(scenarioAssumptions).map((scenario) => (
           <button
             key={scenario}
@@ -680,15 +852,58 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
           Compare Scenarios
         </Link>
       </div>
+      <div className="workstation-hero-grid">
+        <StudioCard title="Executive Underwriting Cockpit" eyebrow="Stitch rollout surface">
+          <div className="valuation-range">
+            <span>Advisory valuation range</span>
+            <strong>
+              {formatCurrency(metrics.indicatedValue * 0.94)} -{' '}
+              {formatCurrency(metrics.indicatedValue * 1.06)}
+            </strong>
+            <p>
+              Range is formula-backed mock output. Lender quote and unit-count evidence must clear
+              before report/export.
+            </p>
+          </div>
+          <div className="studio-actions">
+            <Link
+              to={studioDealPath(deal.id, 'underwriting-sources')}
+              className="btn btn-secondary"
+            >
+              Open Source Trace
+            </Link>
+            <Link to={studioReportPath(deal.id)} className="btn btn-primary">
+              Review Report Gates
+            </Link>
+          </div>
+        </StudioCard>
+        <SourceCoverageCard
+          documentedPercent={92}
+          blockers={[
+            'Lender quote missing',
+            'Unit count conflict unresolved',
+            'Scenario set not locked',
+          ]}
+        />
+        <StudioCard title="Readiness Rail">
+          <ReadinessRail items={READINESS_ITEMS} />
+        </StudioCard>
+      </div>
       <div className="cockpit-grid">
         <AssumptionsPanel
           assumptions={assumptions}
           provenance={underwritingProvenanceByDeal[deal.id]}
+          sourceTracePath={studioDealPath(deal.id, 'underwriting-sources')}
           onChange={setAssumptions}
         />
-        <MetricsPanel metrics={metrics} scenarioLabel={activeScenario} />
+        <MetricsPanel
+          metrics={metrics}
+          scenarioLabel={activeScenario}
+          onInspectMetric={setCalculationTarget}
+        />
         <div aria-live="polite" className="sr-only">
-          {activeScenario} scenario: IRR {formatPercent(metrics.irr)}, NOI {formatCurrency(metrics.noi)}
+          {activeScenario} scenario: IRR {formatPercent(metrics.irr)}, NOI{' '}
+          {formatCurrency(metrics.noi)}
         </div>
         <GatesPanel
           gates={gates}
@@ -708,11 +923,26 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
       </StudioCard>
       <div className="dashboard-grid">
         <VersionLockCard
-          canLock={gates.every((gate) => gate.status !== 'BLOCKED')}
+          canLock={gates.every((gate) => gate.status === 'PASS' || gate.status === 'OVERRIDDEN')}
           locked={locked}
-          onLock={() => setLocked(true)}
+          onLock={() => setLockModalOpen(true)}
         />
         <StudioCard title="Next Handoff">
+          <WorkflowHandoffLink
+            to={studioDealPath(deal.id, 'underwriting-sources')}
+            label="Resolve evidence blockers"
+            reason="Lender quote and unit count conflict block version lock and export."
+          />
+          <WorkflowHandoffLink
+            to={studioDealPath(deal.id, 'versions')}
+            label="Review version timeline"
+            reason="Version lock stays disabled until all gates pass or are overridden."
+          />
+          <WorkflowHandoffLink
+            to={studioReportPath(deal.id)}
+            label="Review report gates"
+            reason="Export remains blocked until section review and source rights clear."
+          />
           <WorkflowHandoffLink
             to={studioDealPath(deal.id, 'scenarios')}
             label="Compare scenarios"
@@ -731,14 +961,37 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
           pushToast(`Override recorded for ${overrideTarget.label}: ${reason}`, 'warning');
         }}
       />
+      <CalculationBreakdownDrawer
+        isOpen={calculationTarget !== null}
+        onClose={() => setCalculationTarget(null)}
+        metricLabel={calculationTarget?.label ?? 'Metric'}
+        metricValue={calculationTarget?.value ?? ''}
+        formula={calculationTarget?.formula ?? 'Formula-backed mock calculation'}
+        metrics={metrics}
+      />
+      <VersionLockConfirmationModal
+        isOpen={lockModalOpen}
+        onClose={() => setLockModalOpen(false)}
+        canLock={gates.every((gate) => gate.status === 'PASS' || gate.status === 'OVERRIDDEN')}
+        gates={gates}
+        onConfirm={() => {
+          setLocked(true);
+          pushToast('Version lock recorded as mock governance state.', 'success');
+        }}
+      />
     </WorkflowContinuityContainer>
   );
 }
 
 export function StudioScenarioComparisonPage(): ReactElement {
   const deal = useStudioDeal();
-  const heatmapLocked = true;
+  const heatmapLocked = false;
   const [upgradeOpen, setUpgradeOpen] = useState(false);
+  const [selectedCell, setSelectedCell] = useState<{
+    purchasePrice: number;
+    exitCapRate: number;
+    metrics: ReturnType<typeof calculateUnderwritingMetrics>;
+  } | null>(null);
   const assumptions =
     underwritingAssumptionsByDeal[deal?.id ?? ''] ??
     underwritingAssumptionsByDeal['riverside-flats'];
@@ -764,8 +1017,14 @@ export function StudioScenarioComparisonPage(): ReactElement {
         returnLabel="Return to underwriting"
       />
       <DealWorkflowTabs deal={deal} />
+      <PageTitle
+        eyebrow="Scenario governance"
+        title="Scenario Comparison & Sensitivity"
+        lede="Compare governed scenario presets, driver deltas, and advisory sensitivity output before lock."
+      />
       <NonProductionCallout>
-        Scenario outputs are mock calculations and not investment recommendations.
+        Scenario outputs are mock calculations and not investment recommendations. Lock remains
+        disabled until source and lender gates clear.
       </NonProductionCallout>
       <div className="scenario-grid">
         {scenarioMetrics.map((scenario) => (
@@ -796,6 +1055,62 @@ export function StudioScenarioComparisonPage(): ReactElement {
           getRowKey={(_row, index) => scenarioMetrics[index].name}
         />
       </StudioCard>
+      <StudioCard
+        title="Driver Comparison"
+        actions={
+          <PrototypeActionLink
+            to={studioDealPath(deal.id, 'underwriting-sources')}
+            className="btn btn-secondary"
+            feature="Scenario driver evidence"
+          >
+            Open evidence trace
+          </PrototypeActionLink>
+        }
+      >
+        <DataTable
+          caption="Scenario driver comparison with source posture"
+          headers={['Driver', 'Base', 'Upside', 'Downside', 'Max delta', 'Source posture', 'Gate implication']}
+          rows={[
+            ['Vacancy', '4.5%', '3.5%', '4.5%', '1.0%', <TrustBadge state="Reviewed" />, 'Clear for scenario lock'],
+            [
+              'Rent growth',
+              '3.0%',
+              '4.2%',
+              '1.8%',
+              '2.4%',
+              <TrustBadge state="Candidate evidence" />,
+              'Reviewer required before upside lock',
+            ],
+            [
+              'Exit cap rate',
+              '5.75%',
+              '5.75%',
+              '6.25%',
+              '0.50%',
+              <TrustBadge state="Candidate evidence" />,
+              'Export blocked until comp citation clears',
+            ],
+            [
+              'Interest rate',
+              '6.75%',
+              '6.75%',
+              '6.75%',
+              '-',
+              <TrustBadge state="Source pending" />,
+              'Lender quote required for DSCR gate',
+            ],
+            [
+              'Renovation budget',
+              '$2.4M',
+              '$2.4M',
+              '$2.4M',
+              '-',
+              <TrustBadge state="Reviewer required" />,
+              'Senior signoff before IC memo export',
+            ],
+          ]}
+        />
+      </StudioCard>
       <StudioCard title="Key Metrics Matrix">
         <SensitivityMatrix grid={grid} />
       </StudioCard>
@@ -817,7 +1132,45 @@ export function StudioScenarioComparisonPage(): ReactElement {
           grid={grid}
           locked={heatmapLocked}
           onUnlock={() => setUpgradeOpen(true)}
+          onSelectCell={(cell) => setSelectedCell(cell)}
         />
+      </StudioCard>
+      <StudioCard title="Scenario Gates">
+        <ReadinessRail
+          orientation="horizontal"
+          items={[
+            {
+              id: 'base-reviewed',
+              label: 'Base reviewed',
+              status: 'ready',
+              detail: 'IC memo v2 source references are linked.',
+            },
+            {
+              id: 'upside-source',
+              label: 'Upside source pending',
+              status: 'warning',
+              detail: 'Market comp data is candidate evidence.',
+            },
+            {
+              id: 'downside-lender',
+              label: 'Downside lender quote missing',
+              status: 'blocked',
+              detail: 'Term sheet draft is required before lock.',
+            },
+          ]}
+        />
+        <p className="muted" id="scenario-lock-blocked">
+          Scenario set lock is simulated and disabled while downside lender quote and upside source
+          gates remain open.
+        </p>
+        <button
+          type="button"
+          className="btn btn-primary"
+          disabled
+          aria-describedby="scenario-lock-blocked"
+        >
+          Lock Scenario Set
+        </button>
       </StudioCard>
       <UpgradePlanModal
         isOpen={upgradeOpen}
@@ -825,6 +1178,420 @@ export function StudioScenarioComparisonPage(): ReactElement {
         feature="Sensitivity heatmap"
         detail="Premium unlocks IRR/DSCR heatmaps across purchase price and exit cap ranges."
       />
+      <SensitivityCellDrilldownDrawer
+        isOpen={selectedCell !== null}
+        onClose={() => setSelectedCell(null)}
+        purchasePrice={selectedCell?.purchasePrice ?? assumptions.purchasePrice}
+        exitCap={selectedCell?.exitCapRate ?? assumptions.exitCapRate}
+        metrics={selectedCell?.metrics ?? calculateUnderwritingMetrics(assumptions)}
+      />
+    </div>
+  );
+}
+
+export function StudioAssumptionSourceTracePage(): ReactElement {
+  const deal = useStudioDeal();
+  const [selectedEvidence, setSelectedEvidence] = useState<EvidenceTraceItem | null>(
+    ASSUMPTION_TRACE_ITEMS[0]
+  );
+  const [conflictOpen, setConflictOpen] = useState(false);
+  const { pushToast } = usePrototypeToast();
+  if (!deal) return <StudioDealNotFound />;
+
+  return (
+    <div>
+      <WorkflowContextHeader
+        dealName={deal.name}
+        stage="Assumption source trace"
+        returnTo={studioDealPath(deal.id, 'underwriting')}
+        returnLabel="Return to cockpit"
+      />
+      <DealWorkflowTabs deal={deal} />
+      <IntakeWorkflowNav dealId={deal.id} activeStep="source-trace" />
+      <PageTitle
+        eyebrow="Source trace"
+        title="Assumption Source Trace"
+        lede="Review every important underwriting input against source refs, as-of dates, confidence, and reviewer posture."
+      />
+      <NonProductionCallout>
+        Assumption lineage is deterministic mock data. Reviewer actions are simulated and do not
+        persist truth.
+      </NonProductionCallout>
+      <div className="split-workstation-grid">
+        <StudioCard title="Assumption Sources" className="wide-card">
+          <DataTable
+            caption="Assumption source trace"
+            headers={[
+              'Assumption',
+              'Current value',
+              'Source ref',
+              'As of',
+              'Confidence',
+              'Posture',
+              'Action',
+            ]}
+            rows={ASSUMPTION_TRACE_ITEMS.map((item) => [
+              item.label,
+              item.value,
+              item.sourceRef,
+              item.asOf,
+              item.confidence,
+              <TrustBadge state={item.posture} />,
+              item.id === 'unit-count' ? (
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setConflictOpen(true)}
+                >
+                  Resolve conflict
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setSelectedEvidence(item)}
+                >
+                  Inspect
+                </button>
+              ),
+            ])}
+            getRowKey={(_row, index) => ASSUMPTION_TRACE_ITEMS[index].id}
+          />
+        </StudioCard>
+        <StudioCard title="Selected Evidence Detail">
+          {selectedEvidence ? (
+            <EvidenceValueCard item={selectedEvidence} />
+          ) : (
+            <p className="muted">Select an assumption row to inspect source posture.</p>
+          )}
+          <EvidenceTraceList
+            items={ASSUMPTION_TRACE_ITEMS.filter((item) => item.id !== selectedEvidence?.id)}
+            onInspect={setSelectedEvidence}
+          />
+        </StudioCard>
+      </div>
+      <EvidenceConflictResolverModal
+        isOpen={conflictOpen}
+        onClose={() => setConflictOpen(false)}
+        options={UNIT_CONFLICT_OPTIONS}
+        onConfirm={(reason) =>
+          pushToast(`Conflict resolution captured for review: ${reason}`, 'warning')
+        }
+      />
+    </div>
+  );
+}
+
+export function StudioDataReviewPage(): ReactElement {
+  const deal = useStudioDeal();
+  const [conflictOpen, setConflictOpen] = useState(false);
+  const { pushToast } = usePrototypeToast();
+  if (!deal) return <StudioDealNotFound />;
+
+  return (
+    <div>
+      <WorkflowContextHeader
+        dealName={deal.name}
+        stage="Rent roll / T12 normalization"
+        returnTo={studioDealPath(deal.id, 'intake')}
+        returnLabel="Return to intake"
+      />
+      <DealWorkflowTabs deal={deal} />
+      <IntakeWorkflowNav dealId={deal.id} activeStep="data-review" />
+      <PageTitle
+        eyebrow="Data review"
+        title="Rent roll / T12 normalization"
+        lede="Compare extracted fields against normalized candidate values before promotion to assumptions."
+      />
+      <NonProductionCallout>
+        Normalization rows are candidate-only mock evidence until analyst and reviewer gates clear.
+      </NonProductionCallout>
+      <div className="dashboard-grid">
+        <StudioCard title="Source Files">
+          <DataTable
+            caption="Normalization source files"
+            headers={['File', 'Type', 'State', 'Issue']}
+            rows={mockUploadFiles.map((file) => [
+              file.name,
+              file.type,
+              <StatusBadge status={file.status} />,
+              file.issue ?? 'No blocking issue',
+            ])}
+          />
+        </StudioCard>
+        <StudioCard title="Candidate Normalization" className="wide-card">
+          <DataTable
+            caption="Rent roll and T12 normalized candidate fields"
+            headers={['Field', 'Extracted', 'Normalized', 'Source', 'Confidence', 'Posture']}
+            rows={[
+              [
+                'Unit count',
+                '194 / 196 conflict',
+                '195 held',
+                'OM + Rent roll',
+                'Medium',
+                <TrustBadge state="Blocked" />,
+              ],
+              [
+                'T12 revenue',
+                '$7.52M',
+                '$7.52M',
+                'T12 page 1',
+                'High',
+                <TrustBadge state="Reviewed" />,
+              ],
+              [
+                'Property taxes',
+                '$315k',
+                '$315k',
+                'County tax record',
+                'High',
+                <TrustBadge state="Reviewed" />,
+              ],
+              [
+                'Insurance premium',
+                '$185k estimate',
+                '$185k',
+                'Broker estimate',
+                'Low',
+                <TrustBadge state="Source pending" />,
+              ],
+            ]}
+          />
+          <StickyActionBar>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => setConflictOpen(true)}
+            >
+              Resolve Unit Count Conflict
+            </button>
+            <PrototypeActionLink
+              to={studioDealPath(deal.id, 'underwriting-sources')}
+              className="btn btn-primary"
+              feature="Review normalization evidence"
+            >
+              Review Source Trace
+            </PrototypeActionLink>
+            <button type="button" className="btn btn-secondary" disabled aria-describedby="promote-blocked">
+              Promote to Assumptions
+            </button>
+            <span className="sr-only" id="promote-blocked">
+              Promotion is disabled until conflicts clear and reviewer gates pass.
+            </span>
+          </StickyActionBar>
+        </StudioCard>
+      </div>
+      <EvidenceConflictResolverModal
+        isOpen={conflictOpen}
+        onClose={() => setConflictOpen(false)}
+        options={UNIT_CONFLICT_OPTIONS}
+        onConfirm={(summary) => {
+          pushToast(`Mock conflict resolution recorded: ${summary}`, 'warning');
+        }}
+      />
+    </div>
+  );
+}
+
+export function StudioDebtPanelPage(): ReactElement {
+  const deal = useStudioDeal();
+  const assumptions =
+    underwritingAssumptionsByDeal[deal?.id ?? ''] ??
+    underwritingAssumptionsByDeal['riverside-flats'];
+  const metrics = calculateUnderwritingMetrics(assumptions);
+  const [quoteOpen, setQuoteOpen] = useState(false);
+  if (!deal) return <StudioDealNotFound />;
+
+  return (
+    <div>
+      <WorkflowContextHeader
+        dealName={deal.name}
+        stage="Debt / lender quote panel"
+        returnTo={studioDealPath(deal.id, 'underwriting')}
+        returnLabel="Return to cockpit"
+      />
+      <DealWorkflowTabs deal={deal} />
+      <PageTitle
+        eyebrow="Debt posture"
+        title="Debt / lender quote panel"
+        lede="Track DSCR, LTV, debt yield, and source-pending lender quote gates."
+      />
+      <NonProductionCallout>
+        Lender quote capture is mock-only. No files, providers, storage, or borrower data are used.
+      </NonProductionCallout>
+      <div className="metric-grid four">
+        <MetricCard
+          label="DSCR"
+          value={formatMultiple(metrics.dscr)}
+          detail="Source pending"
+          icon="warning"
+        />
+        <MetricCard label="LTV" value={formatPercent(assumptions.ltv)} detail="Mock lender case" />
+        <MetricCard
+          label="Debt amount"
+          value={formatCurrency(metrics.debtAmount)}
+          detail="Formula-backed"
+        />
+        <MetricCard
+          label="Annual debt service"
+          value={formatCurrency(metrics.annualDebtService)}
+          detail="Quote pending"
+          icon="pending"
+        />
+      </div>
+      <div className="dashboard-grid">
+        <StudioCard title="Lender Quote Gate" className="wide-card">
+          <div className="blocked-panel">
+            <strong>Lender quote missing</strong>
+            <p>
+              DSCR and debt yield remain advisory until a reviewed term sheet or lender quote is
+              attached as candidate evidence.
+            </p>
+          </div>
+          <EvidenceTraceList
+            items={ASSUMPTION_TRACE_ITEMS.filter((item) => item.id === 'debt-service')}
+          />
+          <button type="button" className="btn btn-primary" onClick={() => setQuoteOpen(true)}>
+            Add Mock Lender Quote
+          </button>
+        </StudioCard>
+        <StudioCard title="Debt Assumptions">
+          <DataTable
+            caption="Debt assumptions"
+            headers={['Assumption', 'Value', 'Posture']}
+            rows={[
+              [
+                'Interest rate',
+                formatPercent(assumptions.interestRate),
+                <TrustBadge state="Source pending" />,
+              ],
+              [
+                'Amortization',
+                `${assumptions.amortizationYears} years`,
+                <TrustBadge state="Model-inferred" />,
+              ],
+              [
+                'Loan-to-value',
+                formatPercent(assumptions.ltv),
+                <TrustBadge state="Candidate evidence" />,
+              ],
+            ]}
+          />
+        </StudioCard>
+      </div>
+      <WorkstationDrawer
+        isOpen={quoteOpen}
+        onClose={() => setQuoteOpen(false)}
+        title="Add mock lender quote"
+        footer={
+          <PrototypeActionButton
+            feature="Save lender quote candidate evidence"
+            className="btn btn-primary"
+          >
+            Save Candidate Quote
+          </PrototypeActionButton>
+        }
+      >
+        <label className="form-field">
+          Lender
+          <input defaultValue="Regional Bank term sheet (mock)" />
+        </label>
+        <label className="form-field">
+          Rate
+          <input defaultValue="6.75%" />
+        </label>
+        <label className="form-field">
+          Term
+          <input defaultValue="5 years fixed, 30-year amortization" />
+        </label>
+        <p className="muted">
+          Saving creates candidate evidence only and does not upload, store, or send files.
+        </p>
+      </WorkstationDrawer>
+    </div>
+  );
+}
+
+export function StudioValuationVersionTimelinePage(): ReactElement {
+  const deal = useStudioDeal();
+  const [selectedVersion, setSelectedVersion] = useState(VERSION_SNAPSHOTS[0]);
+  if (!deal) return <StudioDealNotFound />;
+
+  return (
+    <div>
+      <WorkflowContextHeader
+        dealName={deal.name}
+        stage="Valuation version timeline"
+        returnTo={studioDealPath(deal.id, 'underwriting')}
+        returnLabel="Return to cockpit"
+      />
+      <DealWorkflowTabs deal={deal} />
+      <PageTitle
+        eyebrow="Version governance"
+        title="Valuation version timeline"
+        lede="Trace governed valuation snapshots to evidence refs, scenario sets, and export eligibility."
+      />
+      <NonProductionCallout>
+        Version history is a mock governance projection. Immutable storage and receipts remain
+        runtime gated.
+      </NonProductionCallout>
+      <div className="split-workstation-grid">
+        <StudioCard title="Timeline" className="wide-card">
+          <div className="version-timeline">
+            {VERSION_SNAPSHOTS.map((version) => (
+              <button
+                key={version.id}
+                type="button"
+                className={
+                  selectedVersion.id === version.id ? 'version-card active' : 'version-card'
+                }
+                onClick={() => setSelectedVersion(version)}
+              >
+                <span>{version.id}</span>
+                <strong>{version.label}</strong>
+                <small>
+                  {version.createdAt} · {version.actor}
+                </small>
+                <TrustBadge state={version.current ? 'Reviewed' : 'Candidate evidence'} />
+              </button>
+            ))}
+          </div>
+        </StudioCard>
+        <StudioCard title="Selected Version Details">
+          <EvidenceValueCard
+            item={{
+              id: selectedVersion.id,
+              label: selectedVersion.label,
+              value: selectedVersion.id,
+              posture: selectedVersion.current ? 'Reviewed' : 'Candidate evidence',
+              sourceRef: selectedVersion.evidenceRef,
+              asOf: selectedVersion.createdAt,
+              confidence: selectedVersion.current ? 'High' : 'Medium',
+              detail: `${selectedVersion.scenarioSet}. Gate status: ${selectedVersion.gateStatus}.`,
+            }}
+          />
+          <DataTable
+            caption="Version deltas"
+            headers={['Delta', 'Detail']}
+            rows={[
+              ['Cap rate adjust', '5.25% to 5.50%'],
+              ['Scenario added', selectedVersion.scenarioSet],
+              ['Excluded candidate', 'OM_Draft_v1.pdf superseded'],
+            ]}
+          />
+          <PrototypeActionLink
+            to={studioReportPath(deal.id)}
+            className="btn btn-primary"
+            feature="Create report draft"
+          >
+            Create Report Draft
+          </PrototypeActionLink>
+          <button type="button" className="btn btn-secondary" disabled>
+            Lock Version
+          </button>
+        </StudioCard>
+      </div>
     </div>
   );
 }

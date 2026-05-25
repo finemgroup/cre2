@@ -16,6 +16,19 @@ export type ExportReadiness = {
   receiptHash?: string;
 };
 
+export type ExportManifestSection = {
+  name: string;
+  disposition: 'included' | 'excluded' | 'redacted' | 'reviewer-required';
+  reason?: string;
+};
+
+export type ExportManifest = {
+  sections: ExportManifestSection[];
+  redactionCopy: string;
+  evidenceAppendix: string[];
+  checksumPlaceholder: string;
+};
+
 function sectionLabel(section: ReadinessSection): string {
   return section.name ?? section.title ?? section.id;
 }
@@ -72,5 +85,65 @@ export function evaluateExportReadiness(
     warnings: sourceSummary.warnings,
     blockedReasons,
     receiptHash: ready ? 'sha256:prototype-source-manifest-8f3c' : undefined,
+  };
+}
+
+function sectionDisposition(status: string): ExportManifestSection['disposition'] {
+  if (status === 'Approved' || status === 'ready') return 'included';
+  if (status === 'blocked') return 'excluded';
+  if (status === 'Draft') return 'reviewer-required';
+  if (status === 'review-required') return 'reviewer-required';
+  return 'excluded';
+}
+
+function sectionReason(section: ReadinessSection, disposition: ExportManifestSection['disposition']): string | undefined {
+  const label = sectionLabel(section);
+  if (disposition === 'included') return undefined;
+  if (disposition === 'reviewer-required') return `${label} requires reviewer signoff before export.`;
+  if (disposition === 'redacted') return `${label} redacted for LP identifiers in this mock manifest.`;
+  return `${label} is ${statusLabel(section.status)} and excluded from delivery.`;
+}
+
+export function buildExportManifest(
+  sections: ReadinessSection[],
+  blocks?: SourceEvidenceBlock[]
+): ExportManifest {
+  const manifestSections: ExportManifestSection[] = sections.map((section) => {
+    const disposition = sectionDisposition(section.status);
+    return {
+      name: sectionLabel(section),
+      disposition,
+      reason: sectionReason(section, disposition),
+    };
+  });
+
+  manifestSections.push({
+    name: 'Evidence appendix',
+    disposition: blocks && blocks.length > 0 ? 'included' : 'excluded',
+    reason:
+      blocks && blocks.length > 0
+        ? undefined
+        : 'Evidence appendix withheld until source bundle context is attached.',
+  });
+
+  manifestSections.push({
+    name: 'LP identifiers',
+    disposition: 'redacted',
+    reason: 'Sensitive LP identifiers are redacted in prototype export manifests.',
+  });
+
+  const evidenceAppendix =
+    blocks?.flatMap((block) =>
+      block.citations.map(
+        (citation) => `${block.title}: ${citation.label} (${citation.sourceType})`
+      )
+    ) ?? [];
+
+  return {
+    sections: manifestSections,
+    redactionCopy:
+      'Advisory chips, internal reviewer notes, and LP identifiers are redacted. Export remains simulated.',
+    evidenceAppendix,
+    checksumPlaceholder: 'sha256:prototype-export-manifest-a7f9',
   };
 }

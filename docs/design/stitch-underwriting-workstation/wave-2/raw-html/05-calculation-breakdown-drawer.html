@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Calculation Breakdown Drawer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1b1b1d",
+                        "on-tertiary-container": "#98805d",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-container-high": "#eae7e9",
+                        "primary": "#000000",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#000000",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "surface": "#fcf8fa",
+                        "on-surface-variant": "#45464d",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f3f0f2",
+                        "secondary-container": "#316bf3",
+                        "secondary": "#0051d5",
+                        "secondary-fixed": "#dbe1ff",
+                        "outline": "#76777d",
+                        "background": "#fcf8fa",
+                        "surface-container": "#f0edef",
+                        "primary-container": "#131b2e",
+                        "on-secondary-fixed": "#00174b",
+                        "on-secondary-container": "#fefcff",
+                        "on-tertiary-fixed": "#271901",
+                        "surface-tint": "#565e74",
+                        "tertiary-fixed": "#fcdeb5",
+                        "surface-variant": "#e4e2e4",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#303032",
+                        "on-background": "#1b1b1d",
+                        "on-primary-fixed": "#131b2e",
+                        "primary-fixed": "#dae2fd",
+                        "primary-fixed-dim": "#bec6e0",
+                        "outline-variant": "#c6c6cd",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f6f3f5",
+                        "surface-dim": "#dcd9db",
+                        "on-primary-container": "#7c839b",
+                        "surface-bright": "#fcf8fa",
+                        "tertiary-container": "#271901",
+                        "inverse-primary": "#bec6e0",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "surface-container-highest": "#e4e2e4",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "table-cell-padding": "8px 12px",
+                        "margin-desktop": "24px",
+                        "base": "4px",
+                        "rail-width": "48px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "source-ref": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "advisory-italic": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "source-ref": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "advisory-italic": ["13px", { "lineHeight": "18px", "fontWeight": "400", "fontStyle": "italic" }],
+                        "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        /* Custom scrollbar for drawer */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #c6c6cd;
+            border-radius: 10px;
+        }
+        /* Gated state mesh pattern */
+        .bg-mesh-pattern {
+            background-image: repeating-linear-gradient(
+                45deg,
+                rgba(0, 0, 0, 0.03) 0,
+                rgba(0, 0, 0, 0.03) 2px,
+                transparent 2px,
+                transparent 8px
+            );
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-sm h-screen flex overflow-hidden">
+<!-- SideNavBar Component -->
+<nav class="fixed left-0 top-0 h-full w-rail-width lg:w-64 bg-primary-container dark:bg-surface-container-lowest z-40 flex flex-col shadow-sm">
+<div class="flex items-center gap-3 p-4 border-b border-on-primary-fixed-variant border-opacity-20">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center shrink-0 overflow-hidden">
+<span class="material-symbols-outlined text-on-surface-variant icon-fill">domain</span>
+</div>
+<div class="hidden lg:block">
+<div class="text-headline-sm font-headline-sm font-black text-on-primary-container">Broker OS</div>
+<div class="text-label-caps font-label-caps text-primary-fixed-dim">Institutional Grade</div>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto py-4 px-2 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">input</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Deal Intake</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">visibility</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Deal Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">compare</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Comps</span>
+</a>
+<!-- Active State -->
+<a class="flex items-center gap-3 px-3 py-2 bg-secondary-container text-on-secondary-container font-bold rounded-lg scale-95 transition-all" href="#">
+<span class="material-symbols-outlined icon-fill">analytics</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Underwriting</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">layers</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Scenarios</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Billing</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg mt-auto" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-body-sm font-body-sm hidden lg:block">Broker OS</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Area (Background Context) -->
+<main class="ml-[48px] lg:ml-64 flex-1 h-full relative">
+<!-- Canvas Content Placeholder -->
+<div class="p-margin-desktop h-full overflow-hidden blur-[2px] opacity-70 transition-all pointer-events-none">
+<div class="max-w-5xl mx-auto space-y-6">
+<div class="h-8 w-48 bg-surface-variant rounded"></div>
+<div class="grid grid-cols-3 gap-4">
+<div class="h-24 bg-surface-container-lowest border border-outline-variant rounded-lg p-4"></div>
+<div class="h-24 bg-surface-container-lowest border border-outline-variant rounded-lg p-4 ring-2 ring-secondary"></div>
+<div class="h-24 bg-surface-container-lowest border border-outline-variant rounded-lg p-4"></div>
+</div>
+<div class="h-96 bg-surface-container-lowest border border-outline-variant rounded-lg"></div>
+</div>
+</div>
+<!-- Overlay to darken background slightly when drawer is open -->
+<div class="absolute inset-0 bg-on-surface bg-opacity-10 z-40 transition-opacity"></div>
+</main>
+<!-- Side Drawer: Calculation Breakdown -->
+<aside class="fixed right-0 top-0 h-full w-[440px] max-w-full bg-surface-container-lowest border-l border-outline-variant shadow-[-4px_0_24px_rgba(0,0,0,0.05)] z-50 flex flex-col transform transition-transform duration-300">
+<!-- Drawer Header -->
+<header class="flex-none px-6 py-5 border-b border-outline-variant bg-surface-container-lowest">
+<div class="flex items-center justify-between mb-4">
+<span class="text-label-caps font-label-caps text-on-surface-variant uppercase tracking-widest flex items-center gap-2">
+<span class="material-symbols-outlined text-[14px]">account_tree</span>
+                    Calculation Breakdown
+                </span>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors p-1 rounded hover:bg-surface-variant">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<div class="mb-1">
+<h2 class="text-headline-md font-headline-md text-on-surface">Debt Service Coverage Ratio (DSCR)</h2>
+</div>
+<div class="flex items-baseline gap-3">
+<span class="text-display-lg font-display-lg text-primary tracking-tight">1.24x</span>
+<span class="text-body-sm font-body-sm text-on-surface-variant bg-surface-variant px-2 py-0.5 rounded font-medium">Model Output</span>
+</div>
+</header>
+<!-- Drawer Body -->
+<div class="flex-1 overflow-y-auto px-6 py-6 space-y-8 bg-surface">
+<!-- Formula Section -->
+<section>
+<h3 class="text-label-caps font-label-caps text-on-surface-variant mb-3">Formula Application</h3>
+<div class="bg-surface-container-lowest border border-outline-variant rounded p-4 font-source-ref text-source-ref text-on-surface flex items-center justify-center bg-mesh-pattern">
+<div class="bg-surface-container-lowest px-4 py-2 border border-outline-variant rounded shadow-sm">
+                        NOI / Debt Service
+                    </div>
+</div>
+</section>
+<!-- Inputs Breakdown -->
+<section>
+<h3 class="text-label-caps font-label-caps text-on-surface-variant mb-3">Input Traceability</h3>
+<div class="bg-surface-container-lowest border border-outline-variant rounded shadow-sm overflow-hidden flex flex-col">
+<!-- Valid Input Row -->
+<div class="p-4 border-b border-outline-variant flex items-start gap-4 bg-surface-container-lowest hover:bg-surface-container-low transition-colors">
+<div class="mt-0.5 w-5 h-5 rounded-full bg-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[12px] text-on-surface">check</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<span class="text-body-md font-body-md font-medium text-on-surface">Net Operating Income (NOI)</span>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant flex items-center flex-wrap gap-2">
+<span>Source:</span>
+<span class="text-on-surface">T12 normalized</span>
+<span class="font-source-ref text-source-ref border border-outline-variant bg-surface px-1.5 py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-[10px]">description</span>
+                                    ref T12-04
+                                </span>
+</div>
+</div>
+</div>
+<!-- Gated/Error Input Row -->
+<div class="p-4 flex items-start gap-4 bg-error-container bg-opacity-20">
+<div class="mt-0.5 w-5 h-5 rounded-full bg-error text-on-error flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[12px] icon-fill">priority_high</span>
+</div>
+<div class="flex-1">
+<div class="flex items-center justify-between mb-1">
+<span class="text-body-md font-body-md font-medium text-error">Debt Service</span>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant flex items-center flex-wrap gap-2">
+<span>Source:</span>
+<span class="text-error font-medium">Lender quote missing (source pending)</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Result Message (Gated State Alert) -->
+<section>
+<div class="bg-error-container border border-error bg-opacity-50 rounded-lg p-4 flex gap-3 shadow-sm">
+<span class="material-symbols-outlined text-on-error-container shrink-0">block</span>
+<div>
+<h4 class="text-body-md font-body-md font-medium text-on-error-container mb-1">Calculation Suspended</h4>
+<p class="text-body-sm font-body-sm text-on-error-container opacity-90">Blocked until lender quote reviewed. The current value of 1.24x is a placeholder based on assumed terms.</p>
+</div>
+</div>
+</section>
+<!-- Advisory -->
+<section class="border-t border-outline-variant pt-4">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-outline mt-0.5">info</span>
+<p class="text-advisory-italic font-advisory-italic text-outline">
+                        This metric is model-inferred and not an appraisal. Ensure all underlying assumptions are verified before final underwriting submission.
+                    </p>
+</div>
+</section>
+</div>
+<!-- Drawer Footer -->
+<footer class="flex-none p-6 border-t border-outline-variant bg-surface-container-lowest">
+<button class="w-full flex items-center justify-center gap-2 bg-primary text-on-primary py-2.5 px-4 rounded font-headline-sm text-headline-sm hover:bg-surface-tint transition-colors shadow-sm">
+<span class="material-symbols-outlined text-[18px]">account_tree</span>
+                Open Assumption Trace
+            </button>
+</footer>
+</aside>
+</body></html>

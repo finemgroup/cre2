@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Investment Committee Packet - Riverside Flats</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface": "#1b1b1d",
+                      "on-tertiary-container": "#98805d",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "surface-container-high": "#eae7e9",
+                      "primary": "#000000",
+                      "on-tertiary": "#ffffff",
+                      "tertiary": "#000000",
+                      "error-container": "#ffdad6",
+                      "error": "#ba1a1a",
+                      "surface": "#fcf8fa",
+                      "on-surface-variant": "#45464d",
+                      "surface-container-lowest": "#ffffff",
+                      "inverse-on-surface": "#f3f0f2",
+                      "secondary-container": "#316bf3",
+                      "secondary": "#0051d5",
+                      "secondary-fixed": "#dbe1ff",
+                      "outline": "#76777d",
+                      "background": "#fcf8fa",
+                      "surface-container": "#f0edef",
+                      "primary-container": "#131b2e",
+                      "on-secondary-fixed": "#00174b",
+                      "on-secondary-container": "#fefcff",
+                      "on-tertiary-fixed": "#271901",
+                      "surface-tint": "#565e74",
+                      "tertiary-fixed": "#fcdeb5",
+                      "surface-variant": "#e4e2e4",
+                      "on-error-container": "#93000a",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#303032",
+                      "on-background": "#1b1b1d",
+                      "on-primary-fixed": "#131b2e",
+                      "primary-fixed": "#dae2fd",
+                      "primary-fixed-dim": "#bec6e0",
+                      "outline-variant": "#c6c6cd",
+                      "secondary-fixed-dim": "#b4c5ff",
+                      "on-secondary-fixed-variant": "#003ea8",
+                      "on-primary": "#ffffff",
+                      "surface-container-low": "#f6f3f5",
+                      "surface-dim": "#dcd9db",
+                      "on-primary-container": "#7c839b",
+                      "surface-bright": "#fcf8fa",
+                      "tertiary-container": "#271901",
+                      "inverse-primary": "#bec6e0",
+                      "on-tertiary-fixed-variant": "#574425",
+                      "surface-container-highest": "#e4e2e4",
+                      "tertiary-fixed-dim": "#dec29a",
+                      "on-secondary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "table-cell-padding": "8px 12px",
+                      "margin-desktop": "24px",
+                      "base": "4px",
+                      "rail-width": "48px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "source-ref": [
+                              "JetBrains Mono"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "advisory-italic": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "source-ref": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "advisory-italic": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0em",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .sharp-shadow {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-sm text-body-sm antialiased pb-24 overflow-x-hidden selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<!-- TopAppBar -->
+<header class="bg-surface text-primary border-b border-outline-variant flex justify-between items-center w-full px-margin-desktop h-16 sticky top-0 z-50">
+<div class="flex items-center gap-6">
+<h1 class="text-headline-md font-headline-md text-on-surface">Riverside Flats</h1>
+<nav class="hidden md:flex gap-4 h-full items-end">
+<a class="text-on-surface-variant font-body-md pb-4 hover:bg-surface-container-high transition-colors px-2 rounded-t" href="#">456 Riverside Drive</a>
+<a class="text-on-surface-variant font-body-md pb-4 hover:bg-surface-container-high transition-colors px-2 rounded-t" href="#">In-Underwriting</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-4 px-2 hover:bg-surface-container-high transition-colors" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button aria-label="Notifications" class="p-2 hover:bg-surface-container-high transition-colors rounded-full">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button aria-label="History" class="p-2 hover:bg-surface-container-high transition-colors rounded-full">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden border border-outline-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-outline" data-icon="person">person</span>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="bg-primary-container text-on-primary-container fixed left-0 top-16 h-[calc(100%-64px)] w-rail-width lg:w-64 flex flex-col z-40 border-r border-outline-variant lg:border-none shadow-sm hidden md:flex transition-all duration-300">
+<div class="p-4 border-b border-outline-variant/20 hidden lg:block">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-10 h-10 rounded bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="domain">domain</span>
+</div>
+<div>
+<h2 class="text-headline-sm font-headline-sm font-black text-on-primary-container">Broker OS</h2>
+<p class="text-label-caps font-label-caps opacity-70">Institutional Grade</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto py-4 flex flex-col gap-1 px-2">
+<a class="text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all flex items-center gap-3 p-3 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Dashboard</span>
+</a>
+<a class="text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all flex items-center gap-3 p-3 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="input">input</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Deal Intake</span>
+</a>
+<a class="text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all flex items-center gap-3 p-3 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="visibility">visibility</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Deal Overview</span>
+</a>
+<a class="text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all flex items-center gap-3 p-3 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="compare">compare</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Comps</span>
+</a>
+<a class="text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all flex items-center gap-3 p-3 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Underwriting</span>
+</a>
+<a class="text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all flex items-center gap-3 p-3 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="layers">layers</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Scenarios</span>
+</a>
+<a class="bg-secondary-container text-on-secondary-container font-bold rounded-lg flex items-center gap-3 p-3 group transform transition-transform scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Reports</span>
+</a>
+<a class="text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all flex items-center gap-3 p-3 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Billing</span>
+</a>
+<a class="text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all flex items-center gap-3 p-3 rounded-lg group" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Broker OS</span>
+</a>
+</nav>
+</aside>
+<!-- ReadinessRail -->
+<aside class="bg-surface-container-low text-primary border-l border-outline-variant fixed right-0 top-16 h-[calc(100%-64px)] w-rail-width flex flex-col items-center py-gutter z-30">
+<nav class="flex flex-col gap-6 w-full">
+<a class="text-on-surface-variant opacity-60 hover:text-primary flex flex-col items-center gap-1 group" href="#" title="Assumptions">
+<span class="material-symbols-outlined text-xl" data-icon="settings_input_component">settings_input_component</span>
+</a>
+<a class="text-on-surface-variant opacity-60 hover:text-primary flex flex-col items-center gap-1 group" href="#" title="Evidence">
+<span class="material-symbols-outlined text-xl" data-icon="verified_user">verified_user</span>
+</a>
+<a class="text-on-surface-variant opacity-60 hover:text-primary flex flex-col items-center gap-1 group" href="#" title="Scenarios">
+<span class="material-symbols-outlined text-xl" data-icon="query_stats">query_stats</span>
+</a>
+<a class="text-secondary font-bold transform transition-transform scale-110 flex flex-col items-center gap-1 group" href="#" title="Review">
+<span class="material-symbols-outlined text-xl" data-icon="rate_review">rate_review</span>
+</a>
+<a class="text-on-surface-variant opacity-60 hover:text-primary flex flex-col items-center gap-1 group" href="#" title="Export">
+<span class="material-symbols-outlined text-xl" data-icon="ios_share">ios_share</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-rail-width lg:ml-64 mr-rail-width pt-8 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto">
+<!-- Header Section -->
+<div class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+<div>
+<h1 class="text-display-lg font-display-lg text-on-surface mb-2 tracking-tight">Investment Committee Packet</h1>
+<div class="flex items-center gap-3">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-error-container text-on-error-container text-label-caps font-label-caps border border-error/20">
+<span class="material-symbols-outlined text-[14px]" data-icon="warning">warning</span>
+                        Reviewer required before export
+                    </span>
+<span class="text-advisory-italic font-advisory-italic text-on-surface-variant">Last updated 2 hours ago by Analyst AI</span>
+</div>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface text-primary border border-outline hover:bg-surface-container-high px-4 py-2 rounded text-body-sm font-body-sm font-medium transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="draft">draft</span>
+                    Generate Report Draft
+                </button>
+<button class="bg-surface text-primary border border-outline hover:bg-surface-container-high px-4 py-2 rounded text-body-sm font-body-sm font-medium transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="preview">preview</span>
+                    Preview Export Manifest
+                </button>
+<button class="bg-primary text-on-primary px-4 py-2 rounded text-body-sm font-body-sm font-medium hover:bg-primary/90 transition-colors flex items-center gap-2 shadow-sm">
+                    Request Reviewer Signoff
+                </button>
+</div>
+</div>
+<!-- Layout Grid -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+<!-- Left Column (Main Content) -->
+<div class="xl:col-span-8 flex flex-col gap-6">
+<!-- Section Summary Bento -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-6 sharp-shadow relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-secondary/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+<h3 class="text-headline-sm font-headline-sm border-b border-outline-variant pb-3 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="summarize">summarize</span>
+                        Executive Summary
+                    </h3>
+<p class="text-body-md font-body-md text-on-surface-variant leading-relaxed mb-4">
+                        Riverside Flats presents a stabilized Class B+ multifamily asset in a high-growth tertiary submarket. The underwriting assumes a 5-year hold with light value-add implementation focusing on interior upgrades for 40% of units. Current DSCR at Year 1 is projected at 1.35x, with a modeled exit cap rate of 5.75%.
+                    </p>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+<div class="p-3 bg-surface-container-low rounded border border-outline-variant/50">
+<div class="text-label-caps font-label-caps text-on-surface-variant mb-1">Entry Yield</div>
+<div class="text-headline-md font-headline-md font-medium">5.20%</div>
+</div>
+<div class="p-3 bg-surface-container-low rounded border border-outline-variant/50">
+<div class="text-label-caps font-label-caps text-on-surface-variant mb-1">Stabilized NOI</div>
+<div class="text-headline-md font-headline-md font-medium">$1.82M</div>
+</div>
+<div class="p-3 bg-surface-container-low rounded border border-outline-variant/50">
+<div class="text-label-caps font-label-caps text-on-surface-variant mb-1">Unlevered IRR</div>
+<div class="text-headline-md font-headline-md font-medium">8.4%</div>
+</div>
+<div class="p-3 bg-surface-container-low rounded border border-outline-variant/50">
+<div class="text-label-caps font-label-caps text-on-surface-variant mb-1">Max LTV</div>
+<div class="text-headline-md font-headline-md font-medium">65.0%</div>
+</div>
+</div>
+</div>
+<!-- Key Valuation Drivers & Risks -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-5 sharp-shadow">
+<h3 class="text-headline-sm font-headline-sm border-b border-outline-variant pb-3 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" data-icon="trending_up">trending_up</span>
+                            Key Valuation Drivers
+                        </h3>
+<ul class="space-y-3">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5" data-icon="check_circle">check_circle</span>
+<div>
+<span class="text-body-sm font-body-sm font-medium">Rent Roll Mark-to-Market</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-0.5">In-place rents trail submarket comps by 8-12%, providing immediate upside potential on lease turns.</p>
+<div class="mt-1"><span class="text-source-ref font-source-ref text-on-surface-variant bg-surface-container px-1 py-0.5 rounded border border-outline-variant/50">[RentRoll_Analysis_v2.pdf]</span></div>
+</div>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-secondary mt-0.5" data-icon="check_circle">check_circle</span>
+<div>
+<span class="text-body-sm font-body-sm font-medium">Favorable Tax Assessment</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-0.5">Recent reassessment locked for 3 years, mitigating near-term OpEx volatility.</p>
+</div>
+</li>
+</ul>
+</div>
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-5 sharp-shadow">
+<h3 class="text-headline-sm font-headline-sm border-b border-outline-variant pb-3 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-error" data-icon="warning_amber">warning_amber</span>
+                            Major Risks
+                        </h3>
+<ul class="space-y-3">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-error mt-0.5" data-icon="priority_high">priority_high</span>
+<div>
+<span class="text-body-sm font-body-sm font-medium">CapEx Overruns</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-0.5">Exterior deferred maintenance estimated at $450k; structural review pending.</p>
+<div class="mt-1"><span class="text-source-ref font-source-ref text-on-surface-variant bg-surface-container px-1 py-0.5 rounded border border-outline-variant/50">[PCA_Draft_Report.pdf]</span></div>
+</div>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[16px] text-on-surface-variant mt-0.5" data-icon="trending_down">trending_down</span>
+<div>
+<span class="text-body-sm font-body-sm font-medium">Interest Rate Sensitivity</span>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-0.5">Exit yield highly sensitive to benchmark rate shifts; +50bps swing impacts IRR by -120bps.</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<!-- Source Coverage Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg sharp-shadow overflow-hidden">
+<div class="p-4 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+<h3 class="text-headline-sm font-headline-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="source_environment">source_environment</span>
+                            Source Coverage
+                        </h3>
+<span class="text-label-caps font-label-caps text-on-surface-variant">92% Documented</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-body-sm font-body-sm">
+<thead class="bg-surface border-b border-outline-variant">
+<tr>
+<th class="p-table-cell-padding font-medium text-on-surface-variant">Data Point</th>
+<th class="p-table-cell-padding font-medium text-on-surface-variant">Value</th>
+<th class="p-table-cell-padding font-medium text-on-surface-variant">Source Anchor</th>
+<th class="p-table-cell-padding font-medium text-on-surface-variant">Confidence</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/50">
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="p-table-cell-padding font-medium">T12 Revenue</td>
+<td class="p-table-cell-padding">$2,450,120</td>
+<td class="p-table-cell-padding"><span class="text-source-ref font-source-ref border border-outline-variant/50 bg-surface px-1 py-0.5 rounded">T12_Operating_Statement.pdf p.1</span></td>
+<td class="p-table-cell-padding"><span class="inline-flex items-center gap-1 text-secondary"><span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span> High</span></td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors">
+<td class="p-table-cell-padding font-medium">Property Taxes</td>
+<td class="p-table-cell-padding">$315,000</td>
+<td class="p-table-cell-padding"><span class="text-source-ref font-source-ref border border-outline-variant/50 bg-surface px-1 py-0.5 rounded">County_Tax_Record_2023.pdf</span></td>
+<td class="p-table-cell-padding"><span class="inline-flex items-center gap-1 text-secondary"><span class="material-symbols-outlined text-[14px]" data-icon="check_circle">check_circle</span> High</span></td>
+</tr>
+<tr class="hover:bg-surface-container-lowest transition-colors bg-error-container/10">
+<td class="p-table-cell-padding font-medium text-error">Insurance Premium</td>
+<td class="p-table-cell-padding">$185,000</td>
+<td class="p-table-cell-padding"><span class="text-advisory-italic font-advisory-italic text-on-surface-variant">Broker Estimate (Pending Quote)</span></td>
+<td class="p-table-cell-padding"><span class="inline-flex items-center gap-1 text-error"><span class="material-symbols-outlined text-[14px]" data-icon="warning">warning</span> Low</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Column (Review & Actions) -->
+<div class="xl:col-span-4 flex flex-col gap-6">
+<!-- Export Readiness Card -->
+<div class="bg-surface-container-lowest border border-error/50 rounded-lg p-5 sharp-shadow relative overflow-hidden">
+<div class="absolute top-0 right-0 w-2 h-full bg-error"></div>
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-error text-[28px]" data-icon="block">block</span>
+<h3 class="text-headline-sm font-headline-sm text-error">Not exportable yet</h3>
+</div>
+<div class="space-y-3">
+<div class="flex items-start gap-2 bg-error-container/20 p-2 rounded border border-error/10">
+<span class="material-symbols-outlined text-[16px] text-error mt-0.5" data-icon="close">close</span>
+<span class="text-body-sm font-body-sm">Lender quote missing</span>
+</div>
+<div class="flex items-start gap-2 bg-error-container/20 p-2 rounded border border-error/10">
+<span class="material-symbols-outlined text-[16px] text-error mt-0.5" data-icon="close">close</span>
+<span class="text-body-sm font-body-sm">T12 review pending</span>
+</div>
+<div class="flex items-start gap-2 bg-error-container/20 p-2 rounded border border-error/10">
+<span class="material-symbols-outlined text-[16px] text-error mt-0.5" data-icon="close">close</span>
+<span class="text-body-sm font-body-sm">Scenario set not locked</span>
+</div>
+</div>
+</div>
+<!-- Approval Status -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-5 sharp-shadow">
+<h3 class="text-headline-sm font-headline-sm border-b border-outline-variant pb-3 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="fact_check">fact_check</span>
+                        Approval Chain
+                    </h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container text-on-secondary-container flex items-center justify-center font-bold text-body-sm">A</div>
+<div>
+<div class="text-body-sm font-body-sm font-medium">Analyst</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">J. Smith</div>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 text-secondary text-label-caps font-label-caps bg-secondary-container/20 px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[14px]" data-icon="check">check</span> Approved
+                            </span>
+</div>
+<div class="border-l-2 border-outline-variant/30 ml-4 pl-4 py-2"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center border border-outline-variant border-dashed">
+<span class="material-symbols-outlined text-[18px]" data-icon="person_outline">person_outline</span>
+</div>
+<div>
+<div class="text-body-sm font-body-sm font-medium">Senior Reviewer</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">Pending Assigment</div>
+</div>
+</div>
+<span class="inline-flex items-center gap-1 text-on-surface-variant text-label-caps font-label-caps bg-surface-container px-2 py-1 rounded">
+<span class="material-symbols-outlined text-[14px]" data-icon="pending">pending</span> Pending
+                            </span>
+</div>
+<div class="border-l-2 border-outline-variant/30 ml-4 pl-4 py-2"></div>
+<div class="flex items-center justify-between opacity-50">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container text-on-surface-variant flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]" data-icon="policy">policy</span>
+</div>
+<div>
+<div class="text-body-sm font-body-sm font-medium">Compliance</div>
+<div class="text-label-caps font-label-caps text-on-surface-variant">Automated</div>
+</div>
+</div>
+<span class="text-label-caps font-label-caps text-on-surface-variant">Not Required</span>
+</div>
+</div>
+</div>
+<!-- Reviewer Checklist (Gated) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg p-5 sharp-shadow relative">
+<!-- Gated Overlay -->
+<div class="absolute inset-0 bg-surface/60 backdrop-blur-[1px] z-10 flex items-center justify-center rounded-lg cursor-not-allowed group" title="Requires Senior Reviewer role to complete">
+<div class="bg-surface-container-lowest px-4 py-2 rounded-full border border-outline-variant sharp-shadow flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="lock">lock</span>
+<span class="text-body-sm font-body-sm font-medium">Reviewer Access Required</span>
+</div>
+</div>
+<h3 class="text-headline-sm font-headline-sm border-b border-outline-variant pb-3 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="checklist">checklist</span>
+                        Reviewer Checklist
+                    </h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 p-2 rounded hover:bg-surface-container transition-colors cursor-pointer">
+<input class="form-checkbox h-4 w-4 text-primary rounded border-outline-variant bg-surface" disabled="" type="checkbox"/>
+<span class="text-body-sm font-body-sm">Assumptions reviewed</span>
+</label>
+<label class="flex items-center gap-3 p-2 rounded hover:bg-surface-container transition-colors cursor-pointer">
+<input class="form-checkbox h-4 w-4 text-primary rounded border-outline-variant bg-surface" disabled="" type="checkbox"/>
+<span class="text-body-sm font-body-sm">Evidence reviewed</span>
+</label>
+<label class="flex items-center gap-3 p-2 rounded hover:bg-surface-container transition-colors cursor-pointer">
+<input class="form-checkbox h-4 w-4 text-primary rounded border-outline-variant bg-surface" disabled="" type="checkbox"/>
+<span class="text-body-sm font-body-sm">Scenarios reviewed</span>
+</label>
+<label class="flex items-center gap-3 p-2 rounded hover:bg-surface-container transition-colors cursor-pointer">
+<input class="form-checkbox h-4 w-4 text-primary rounded border-outline-variant bg-surface" disabled="" type="checkbox"/>
+<span class="text-body-sm font-body-sm">Export policy reviewed</span>
+</label>
+<label class="flex items-center gap-3 p-2 rounded hover:bg-surface-container transition-colors cursor-pointer">
+<input class="form-checkbox h-4 w-4 text-primary rounded border-outline-variant bg-surface" disabled="" type="checkbox"/>
+<span class="text-body-sm font-body-sm">Not-an-appraisal language confirmed</span>
+</label>
+</div>
+</div>
+<!-- IC Decision Box -->
+<div class="bg-primary-container text-on-primary-container border border-primary-container rounded-lg p-5 sharp-shadow">
+<h3 class="text-headline-sm font-headline-sm border-b border-outline-variant/20 pb-3 mb-4">IC Decision</h3>
+<div class="flex flex-col gap-3">
+<button class="w-full bg-secondary-container text-on-secondary-container py-2.5 rounded font-medium text-body-sm font-body-sm hover:brightness-110 transition-all opacity-50 cursor-not-allowed flex justify-center items-center gap-2" disabled="">
+<span class="material-symbols-outlined text-[18px]" data-icon="thumb_up">thumb_up</span>
+                            Recommend Proceed
+                        </button>
+<button class="w-full bg-surface-container/10 text-on-primary-container border border-on-primary-container/20 py-2.5 rounded font-medium text-body-sm font-body-sm hover:bg-surface-container/20 transition-all flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="pause_circle">pause_circle</span>
+                            Hold for Evidence
+                        </button>
+<button class="w-full bg-error-container/10 text-error-container border border-error-container/20 py-2.5 rounded font-medium text-body-sm font-body-sm hover:bg-error-container/20 transition-all flex justify-center items-center gap-2">
+<span class="material-symbols-outlined text-[18px]" data-icon="archive">archive</span>
+                            Reject / Archive
+                        </button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-error-container text-on-error-container border-t border-error fixed bottom-0 left-0 w-full z-50 flex justify-center items-center py-1 px-4 flat no shadows">
+<div class="flex items-center gap-4">
+<span class="text-body-sm font-body-sm font-medium">Prototype-only. No live valuation or export.</span>
+<div class="h-4 w-px bg-error/30 mx-2"></div>
+<a class="text-label-caps font-label-caps opacity-90 hover:opacity-100 underline font-bold transition-opacity" href="#">Security Policy</a>
+<a class="text-label-caps font-label-caps opacity-90 hover:opacity-100 underline font-bold transition-opacity" href="#">System Status</a>
+</div>
+</footer>
+</body></html>

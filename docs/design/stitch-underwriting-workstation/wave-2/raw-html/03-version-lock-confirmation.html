@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Version Lock Confirmation</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1b1b1d",
+                        "on-tertiary-container": "#98805d",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-container-high": "#eae7e9",
+                        "primary": "#000000",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#000000",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "surface": "#fcf8fa",
+                        "on-surface-variant": "#45464d",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f3f0f2",
+                        "secondary-container": "#316bf3",
+                        "secondary": "#0051d5",
+                        "secondary-fixed": "#dbe1ff",
+                        "outline": "#76777d",
+                        "background": "#fcf8fa",
+                        "surface-container": "#f0edef",
+                        "primary-container": "#131b2e",
+                        "on-secondary-fixed": "#00174b",
+                        "on-secondary-container": "#fefcff",
+                        "on-tertiary-fixed": "#271901",
+                        "surface-tint": "#565e74",
+                        "tertiary-fixed": "#fcdeb5",
+                        "surface-variant": "#e4e2e4",
+                        "on-error-container": "#93000a",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#303032",
+                        "on-background": "#1b1b1d",
+                        "on-primary-fixed": "#131b2e",
+                        "primary-fixed": "#dae2fd",
+                        "primary-fixed-dim": "#bec6e0",
+                        "outline-variant": "#c6c6cd",
+                        "secondary-fixed-dim": "#b4c5ff",
+                        "on-secondary-fixed-variant": "#003ea8",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f6f3f5",
+                        "surface-dim": "#dcd9db",
+                        "on-primary-container": "#7c839b",
+                        "surface-bright": "#fcf8fa",
+                        "tertiary-container": "#271901",
+                        "inverse-primary": "#bec6e0",
+                        "on-tertiary-fixed-variant": "#574425",
+                        "surface-container-highest": "#e4e2e4",
+                        "tertiary-fixed-dim": "#dec29a",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "table-cell-padding": "8px 12px",
+                        "margin-desktop": "24px",
+                        "base": "4px",
+                        "rail-width": "48px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "source-ref": ["JetBrains Mono"],
+                        "body-sm": ["Inter"],
+                        "advisory-italic": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["11px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+                        "source-ref": ["11px", { "lineHeight": "14px", "fontWeight": "500" }],
+                        "body-sm": ["13px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+                        "advisory-italic": ["13px", { "lineHeight": "18px", "fontWeight": "400", "fontStyle": "italic" }],
+                        "headline-sm": ["16px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "display-lg": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .gated-overlay {
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.03) 10px, rgba(0,0,0,0.03) 20px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen flex items-center justify-center p-4">
+<!-- Modal Backdrop -->
+<div class="fixed inset-0 bg-on-surface/40 backdrop-blur-sm z-40 flex items-center justify-center p-4">
+<!-- Modal Container (Level 2 Elevation) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg shadow-xl w-full max-w-2xl flex flex-col max-h-[921px] overflow-hidden">
+<!-- Header -->
+<div class="flex justify-between items-center px-6 py-4 border-b border-outline-variant bg-surface-container-low">
+<div>
+<h2 class="text-headline-md font-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">lock</span>
+                        Lock Version v0.3 (IC-Ready Draft)
+                    </h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">Review contents before locking. This action commits the current state.</p>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Scrollable Content -->
+<div class="p-6 overflow-y-auto flex flex-col gap-6">
+<!-- Summary List (Bento Grid Style) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="bg-surface border border-outline-variant rounded p-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-outline">calculate</span>
+<h3 class="text-label-caps font-label-caps text-on-surface-variant">ASSUMPTIONS</h3>
+</div>
+<div class="text-headline-sm font-headline-sm">14 Included</div>
+</div>
+<div class="bg-surface border border-outline-variant rounded p-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-outline">query_stats</span>
+<h3 class="text-label-caps font-label-caps text-on-surface-variant">SCENARIOS</h3>
+</div>
+<div class="text-headline-sm font-headline-sm">3 Active</div>
+</div>
+<div class="bg-surface border border-outline-variant rounded p-4">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-outline">description</span>
+<h3 class="text-label-caps font-label-caps text-on-surface-variant">SOURCE REFS</h3>
+</div>
+<div class="text-headline-sm font-headline-sm">28 Linked</div>
+</div>
+</div>
+<!-- Excluded Candidates & Blockers Container -->
+<div class="flex flex-col gap-4">
+<!-- Warning Section -->
+<div class="bg-error-container border border-error text-on-error-container rounded p-4 flex gap-3 items-start">
+<span class="material-symbols-outlined text-error mt-0.5">warning</span>
+<div>
+<h4 class="text-body-md font-body-md font-semibold">Current Blockers</h4>
+<ul class="text-body-sm font-body-sm mt-2 list-disc list-inside space-y-1">
+<li>Missing environmental report confirmation for Parcel B.</li>
+<li>Debt Yield scenario 'Downside' fails minimum DSCR threshold.</li>
+</ul>
+</div>
+</div>
+<!-- Excluded Sources List -->
+<div class="border border-outline-variant rounded">
+<div class="px-4 py-3 border-b border-outline-variant bg-surface-container-low flex justify-between items-center">
+<h4 class="text-label-caps font-label-caps text-on-surface-variant">EXCLUDED CANDIDATE SOURCES</h4>
+<span class="text-source-ref font-source-ref bg-surface-variant px-2 py-0.5 rounded">2 ITEMS</span>
+</div>
+<div class="p-0">
+<div class="flex justify-between items-center px-4 py-2 border-b border-outline-variant last:border-0 hover:bg-surface transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline text-sm">insert_drive_file</span>
+<span class="text-body-sm font-body-sm">Draft_RentRoll_Q3_Unverified.pdf</span>
+</div>
+<span class="text-advisory-italic font-advisory-italic text-on-surface-variant text-xs">Pending Review</span>
+</div>
+<div class="flex justify-between items-center px-4 py-2 hover:bg-surface transition-colors">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline text-sm">insert_drive_file</span>
+<span class="text-body-sm font-body-sm">Operating_Statement_Prelim.xlsx</span>
+</div>
+<span class="text-advisory-italic font-advisory-italic text-on-surface-variant text-xs">Superseded</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Evidence Snapshot -->
+<div>
+<h4 class="text-label-caps font-label-caps text-on-surface-variant mb-2">EVIDENCE SNAPSHOT</h4>
+<div class="flex items-center gap-3 bg-surface border border-outline-variant p-3 rounded">
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+<div class="flex-1">
+<div class="text-body-sm font-body-sm font-medium">Snapshot ID: <span class="font-source-ref text-source-ref bg-surface-variant px-1 rounded">SNAP-89A2F</span></div>
+<div class="text-advisory-italic font-advisory-italic text-on-surface-variant text-xs mt-1">Generated Oct 24, 2023 - 14:32 EST</div>
+</div>
+<button class="text-secondary hover:underline text-body-sm font-body-sm font-medium">View Archive</button>
+</div>
+</div>
+<!-- Final Warning -->
+<div class="bg-surface-container border-l-4 border-outline-variant p-3">
+<p class="text-body-sm font-body-sm text-on-surface-variant flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">info</span>
+                        Locked version controls report/export eligibility. Further edits will require a new version branch.
+                    </p>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="px-6 py-4 border-t border-outline-variant bg-surface flex justify-end gap-3">
+<button class="px-4 py-2 border border-outline text-on-surface bg-surface-container-lowest hover:bg-surface-container-low text-body-sm font-body-sm font-medium rounded transition-colors">
+                    Cancel
+                </button>
+<!-- Disabled Gated Button -->
+<div class="relative group inline-block">
+<button class="px-4 py-2 bg-primary/20 text-on-primary/50 text-body-sm font-body-sm font-medium rounded gated-overlay cursor-not-allowed flex items-center gap-2" disabled="">
+<span class="material-symbols-outlined text-sm">lock</span>
+                        Lock Version
+                    </button>
+<!-- Tooltip -->
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2 bg-inverse-surface text-inverse-on-surface text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none text-center z-50">
+                        Resolve current blockers to unlock this action.
+                    </div>
+</div>
+</div>
+</div>
+</div>
+</body></html>

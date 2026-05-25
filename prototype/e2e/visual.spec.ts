@@ -115,6 +115,36 @@ test.describe('route shell visuals', () => {
     });
   });
 
+  test('studio source trace workstation', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/studio/deals/riverside-flats/underwriting/sources');
+    await expect(page.getByRole('heading', { name: /Assumption Sources/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('studio-source-trace-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
+  test('studio scenario diff workstation', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/studio/deals/riverside-flats/scenarios');
+    await expect(page.getByRole('heading', { name: /Driver Comparison/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('studio-scenario-diff-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
+  test('studio version timeline workstation', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/studio/deals/riverside-flats/versions');
+    await expect(page.getByRole('heading', { name: /Timeline/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('studio-version-timeline-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
   test('public report preview', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await gotoRoute(page, '/report/demo-001');

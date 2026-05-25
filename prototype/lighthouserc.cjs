@@ -12,7 +12,7 @@
 module.exports = {
   ci: {
     collect: {
-      startServerCommand: 'npm run preview -- --host 127.0.0.1 --port 4173',
+      startServerCommand: 'npx vite preview --host 127.0.0.1 --port 4173',
       startServerReadyPattern: 'Local',
       url: [
         'http://127.0.0.1:4173/',
@@ -23,6 +23,11 @@ module.exports = {
         'http://127.0.0.1:4173/export/demo-001',
         'http://127.0.0.1:4173/studio/dashboard',
         'http://127.0.0.1:4173/studio/deals/riverside-flats/underwriting',
+        'http://127.0.0.1:4173/studio/deals/riverside-flats/underwriting/sources',
+        'http://127.0.0.1:4173/studio/deals/riverside-flats/underwriting/debt',
+        'http://127.0.0.1:4173/studio/deals/riverside-flats/data-review',
+        'http://127.0.0.1:4173/studio/deals/riverside-flats/scenarios',
+        'http://127.0.0.1:4173/studio/deals/riverside-flats/versions',
         'http://127.0.0.1:4173/studio/settings/billing',
         'http://127.0.0.1:4173/studio/reports/riverside-flats/builder',
       ],

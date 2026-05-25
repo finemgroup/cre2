@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Capital Stack &amp; Waterfall - Underwriting Workbench</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-surface": "#1b1b1d",
+                      "on-tertiary-container": "#98805d",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "surface-container-high": "#eae7e9",
+                      "primary": "#000000",
+                      "on-tertiary": "#ffffff",
+                      "tertiary": "#000000",
+                      "error-container": "#ffdad6",
+                      "error": "#ba1a1a",
+                      "surface": "#fcf8fa",
+                      "on-surface-variant": "#45464d",
+                      "surface-container-lowest": "#ffffff",
+                      "inverse-on-surface": "#f3f0f2",
+                      "secondary-container": "#316bf3",
+                      "secondary": "#0051d5",
+                      "secondary-fixed": "#dbe1ff",
+                      "outline": "#76777d",
+                      "background": "#fcf8fa",
+                      "surface-container": "#f0edef",
+                      "primary-container": "#131b2e",
+                      "on-secondary-fixed": "#00174b",
+                      "on-secondary-container": "#fefcff",
+                      "on-tertiary-fixed": "#271901",
+                      "surface-tint": "#565e74",
+                      "tertiary-fixed": "#fcdeb5",
+                      "surface-variant": "#e4e2e4",
+                      "on-error-container": "#93000a",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#303032",
+                      "on-background": "#1b1b1d",
+                      "on-primary-fixed": "#131b2e",
+                      "primary-fixed": "#dae2fd",
+                      "primary-fixed-dim": "#bec6e0",
+                      "outline-variant": "#c6c6cd",
+                      "secondary-fixed-dim": "#b4c5ff",
+                      "on-secondary-fixed-variant": "#003ea8",
+                      "on-primary": "#ffffff",
+                      "surface-container-low": "#f6f3f5",
+                      "surface-dim": "#dcd9db",
+                      "on-primary-container": "#7c839b",
+                      "surface-bright": "#fcf8fa",
+                      "tertiary-container": "#271901",
+                      "inverse-primary": "#bec6e0",
+                      "on-tertiary-fixed-variant": "#574425",
+                      "surface-container-highest": "#e4e2e4",
+                      "tertiary-fixed-dim": "#dec29a",
+                      "on-secondary": "#ffffff"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "table-cell-padding": "8px 12px",
+                      "margin-desktop": "24px",
+                      "base": "4px",
+                      "rail-width": "48px",
+                      "gutter": "16px"
+              },
+              "fontFamily": {
+                      "label-caps": [
+                              "Inter"
+                      ],
+                      "source-ref": [
+                              "JetBrains Mono"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "advisory-italic": [
+                              "Inter"
+                      ],
+                      "headline-sm": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "label-caps": [
+                              "11px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "source-ref": [
+                              "11px",
+                              {
+                                      "lineHeight": "14px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "body-sm": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "letterSpacing": "0.01em",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "advisory-italic": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "letterSpacing": "-0.01em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "30px",
+                              {
+                                      "lineHeight": "36px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0em",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .sharp-shadow {
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .bg-mesh-pattern {
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.05) 10px, rgba(0,0,0,0.05) 20px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-margin-desktop h-16 bg-surface dark:bg-surface-dim border-b border-outline-variant dark:border-on-surface-variant z-50 fixed top-0">
+<div class="flex items-center gap-6">
+<h1 class="text-headline-md font-headline-md font-bold text-on-surface dark:text-inverse-on-surface">Riverside Flats</h1>
+<nav class="hidden md:flex gap-4">
+<a class="text-on-surface-variant font-body-md hover:bg-surface-container-high transition-colors px-2 py-4 border-b-2 border-transparent" href="#">456 Riverside Drive</a>
+<a class="text-primary font-bold border-b-2 border-primary px-2 py-4 opacity-80" href="#">In-Underwriting</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-primary dark:text-primary-fixed-dim hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<button class="text-primary dark:text-primary-fixed-dim hover:bg-surface-container-high transition-colors p-2 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">history</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden border border-outline-variant">
+<img alt="Current Reviewer Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a male reviewer in a modern corporate setting. The lighting is soft and high-key, conveying a trustworthy and authoritative presence suitable for a financial application. The color palette features neutral grays and crisp whites." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAi5KO0P7wyXa4vY6qAiuYLP9MBck53yKaCtqoEIQ3hgNEzbiFcoXgvujzIz-5_nXB8kdw0bzw-Icy0n4cSKSr5oV4WwLHkTzcNWLVQZU-dGeC7n930L2LSpwA64-8zCYkg1ZlhamH4HhNQMmIJ9f2zQ9eSMnjMc_1GVVmYNvZZvWK9xIQKy3eu56W5LIuf6uScDCiSfj2TuaMPmyC09VYdu6Ec1U2WG-mzpUT5b_UbgHDSa7jwNpuTPmQWh7wooU8KfqP--MhOo6M"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100%-64px)] flex flex-col z-40 bg-primary-container dark:bg-surface-container-lowest w-rail-width lg:w-64 shadow-sm border-r border-outline-variant">
+<div class="p-4 hidden lg:flex flex-col border-b border-on-primary-fixed-variant border-opacity-20">
+<div class="flex items-center gap-3 mb-1">
+<div class="w-8 h-8 rounded bg-surface-variant overflow-hidden flex-shrink-0">
+<img alt="Broker Logo" class="w-full h-full object-cover" data-alt="A minimal, abstract architectural logo representing a commercial real estate firm. The design uses sharp geometric lines in deep navy and subtle slate tones, communicating institutional grade professionalism." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUxhabxBF0gXihkA230caXEdtKklFHiVMa12j2d98MzLad3hH85ah4F-beqmdkVCYBa8Cm7EgZV1-e1M7HoLqqDBoERDjq-pR9oiBKGYHy7iUcDAwsBn-wC0y59s2YcEB4SUkzG2YN4V0fOEvvZqtOn869tNsqIEX1GP4Plr53q9ImaTIsUBsa5rBGWgHEcGcM1tWqfgisksmHakpnCs_CIO36CZmL7-LzVa7q8JY4FlhjcR-0ZbuQNCgtfmBHbBnu7XXW9XVUIPk"/>
+</div>
+<div class="flex flex-col">
+<span class="text-headline-sm font-headline-sm font-black text-on-primary-container leading-tight">Broker OS</span>
+<span class="text-label-caps font-label-caps text-on-primary-container opacity-70">Institutional Grade</span>
+</div>
+</div>
+</div>
+<nav class="flex-1 overflow-y-auto py-4 flex flex-col gap-1 px-2 lg:px-3">
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined flex-shrink-0" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined flex-shrink-0" style="font-variation-settings: 'FILL' 0;">input</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Deal Intake</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined flex-shrink-0" style="font-variation-settings: 'FILL' 0;">visibility</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Deal Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined flex-shrink-0" style="font-variation-settings: 'FILL' 0;">compare</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Comps</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-secondary-container text-on-secondary-container font-bold rounded-lg scale-95 transition-all group" href="#">
+<span class="material-symbols-outlined flex-shrink-0" style="font-variation-settings: 'FILL' 1;">analytics</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Underwriting</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined flex-shrink-0" style="font-variation-settings: 'FILL' 0;">layers</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Scenarios</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined flex-shrink-0" style="font-variation-settings: 'FILL' 0;">description</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Reports</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group" href="#">
+<span class="material-symbols-outlined flex-shrink-0" style="font-variation-settings: 'FILL' 0;">payments</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Billing</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-primary-fixed-dim hover:text-on-primary-container hover:bg-on-primary-fixed-variant transition-all rounded-lg group mt-auto" href="#">
+<span class="material-symbols-outlined flex-shrink-0" style="font-variation-settings: 'FILL' 0;">settings</span>
+<span class="text-label-caps font-label-caps hidden lg:block">Broker OS</span>
+</a>
+</nav>
+</aside>
+<!-- ReadinessRail -->
+<aside class="fixed right-0 top-16 h-[calc(100%-64px)] flex flex-col items-center py-gutter z-30 bg-surface-container-low dark:bg-surface-container-highest border-l border-outline-variant w-rail-width">
+<nav class="flex flex-col gap-6 w-full items-center">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant opacity-60 hover:text-primary group relative w-full" title="Assumptions">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings_input_component</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant opacity-60 hover:text-primary group relative w-full" title="Evidence">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">verified_user</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-secondary font-bold scale-110 group relative w-full" title="Scenarios">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">query_stats</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant opacity-60 hover:text-primary group relative w-full" title="Review">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">rate_review</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant opacity-60 hover:text-primary group relative w-full" title="Export">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">ios_share</span>
+</button>
+</nav>
+</aside>
+<!-- Main Canvas -->
+<main class="flex-1 mt-16 ml-rail-width lg:ml-64 mr-rail-width p-margin-desktop mb-8 overflow-x-hidden">
+<div class="max-w-6xl mx-auto space-y-6">
+<!-- Header Section -->
+<div class="flex justify-between items-end border-b border-outline-variant pb-4">
+<div>
+<h2 class="text-display-lg font-display-lg text-on-surface">Capital Stack &amp; Waterfall</h2>
+</div>
+<div class="flex gap-3">
+<button class="px-4 py-2 border border-outline bg-surface text-on-surface rounded font-body-sm font-medium hover:bg-surface-container transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+                        Open Waterfall Assumptions
+                    </button>
+<button class="px-4 py-2 bg-primary text-on-primary rounded font-body-sm font-medium hover:opacity-90 transition-opacity">
+                        Send to Reviewer
+                    </button>
+</div>
+</div>
+<!-- Advisory Banner -->
+<div class="bg-surface-container-high border-l-4 border-error p-4 rounded-r-lg flex items-start gap-3">
+<span class="material-symbols-outlined text-error mt-0.5" style="font-variation-settings: 'FILL' 1;">warning</span>
+<div>
+<p class="text-body-md font-body-md text-on-surface-variant">
+<span class="font-bold text-on-surface">Advisory:</span> Waterfall preview is model-inferred and requires legal/economic review.
+                    </p>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+<!-- Main Column (Left/Center) -->
+<div class="xl:col-span-2 space-y-6">
+<!-- Visual Capital Stack -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg sharp-shadow overflow-hidden">
+<div class="border-b border-outline-variant bg-surface px-4 py-3 flex justify-between items-center">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Capital Stack</h3>
+<span class="text-label-caps font-label-caps text-on-surface-variant">LTV: 65%</span>
+</div>
+<div class="p-6">
+<div class="h-64 flex flex-col-reverse gap-1">
+<!-- Senior Debt -->
+<div class="w-full bg-primary-container rounded flex items-center justify-between px-4 py-2 relative group" style="height: 65%;">
+<div class="flex items-center gap-2 z-10 text-on-primary-container">
+<span class="material-symbols-outlined text-sm">account_balance</span>
+<span class="text-body-sm font-bold">Senior Debt</span>
+</div>
+<span class="text-source-ref font-source-ref z-10 text-on-primary-container">$32,500,000</span>
+</div>
+<!-- LP Equity -->
+<div class="w-full bg-surface-tint rounded flex items-center justify-between px-4 py-2 relative group" style="height: 25%;">
+<div class="flex items-center gap-2 z-10 text-on-primary">
+<span class="material-symbols-outlined text-sm">group</span>
+<span class="text-body-sm font-bold">LP Equity</span>
+</div>
+<span class="text-source-ref font-source-ref z-10 text-on-primary">$12,500,000</span>
+</div>
+<!-- Sponsor Equity -->
+<div class="w-full bg-secondary rounded flex items-center justify-between px-4 py-2 relative group" style="height: 10%;">
+<div class="flex items-center gap-2 z-10 text-on-secondary">
+<span class="material-symbols-outlined text-sm">person</span>
+<span class="text-body-sm font-bold">Sponsor Equity</span>
+</div>
+<span class="text-source-ref font-source-ref z-10 text-on-secondary">$5,000,000</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Uses and Sources Table -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg sharp-shadow overflow-hidden">
+<div class="border-b border-outline-variant bg-surface px-4 py-3">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Uses &amp; Sources</h3>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="border-b border-outline-variant bg-surface-container-low">
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant w-1/2">Use</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant text-right">Amount</th>
+<th class="p-table-cell-padding text-label-caps font-label-caps text-on-surface-variant text-right">% of Total</th>
+</tr>
+</thead>
+<tbody class="text-body-sm font-body-sm text-on-surface">
+<tr class="border-b border-surface-variant">
+<td class="p-table-cell-padding">Purchase Price</td>
+<td class="p-table-cell-padding text-right font-source-ref">$45,000,000</td>
+<td class="p-table-cell-padding text-right text-on-surface-variant">90.0%</td>
+</tr>
+<tr class="border-b border-surface-variant">
+<td class="p-table-cell-padding">Renovation Budget</td>
+<td class="p-table-cell-padding text-right font-source-ref">$3,500,000</td>
+<td class="p-table-cell-padding text-right text-on-surface-variant">7.0%</td>
+</tr>
+<tr class="border-b border-surface-variant">
+<td class="p-table-cell-padding">Closing Costs</td>
+<td class="p-table-cell-padding text-right font-source-ref">$1,500,000</td>
+<td class="p-table-cell-padding text-right text-on-surface-variant">3.0%</td>
+</tr>
+<tr class="border-t-2 border-outline bg-surface">
+<td class="p-table-cell-padding font-bold">Total Capitalization</td>
+<td class="p-table-cell-padding text-right font-source-ref font-bold">$50,000,000</td>
+<td class="p-table-cell-padding text-right font-bold text-on-surface-variant">100.0%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Right Column (Context & Metrics) -->
+<div class="space-y-6">
+<!-- Metrics Card -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg sharp-shadow p-5 flex flex-col gap-4">
+<h3 class="text-headline-sm font-headline-sm text-on-surface border-b border-outline-variant pb-2">Key Metrics</h3>
+<div class="flex justify-between items-center py-2">
+<span class="text-body-sm text-on-surface-variant">Sponsor IRR</span>
+<span class="text-headline-md font-source-ref text-primary font-bold">18.4%</span>
+</div>
+<div class="flex justify-between items-center py-2 border-t border-surface-variant">
+<span class="text-body-sm text-on-surface-variant">LP Equity Multiple</span>
+<span class="text-headline-sm font-source-ref text-on-surface">1.85x</span>
+</div>
+<div class="flex justify-between items-center py-2 border-t border-surface-variant">
+<span class="text-body-sm text-on-surface-variant">Sponsor Promote</span>
+<span class="text-headline-sm font-source-ref text-on-surface">$2,140,000</span>
+</div>
+</div>
+<!-- Waterfall Tiers -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg sharp-shadow overflow-hidden">
+<div class="border-b border-outline-variant bg-surface px-4 py-3 flex justify-between items-center">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">Waterfall Tiers</h3>
+<button class="text-secondary text-sm flex items-center"><span class="material-symbols-outlined text-sm">edit</span></button>
+</div>
+<div class="p-4 space-y-3">
+<div class="flex items-center gap-3 p-2 rounded bg-surface border border-surface-variant">
+<div class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-label-caps font-bold text-on-surface-variant">1</div>
+<div class="flex-1">
+<div class="text-body-sm font-medium text-on-surface">Return of Capital</div>
+<div class="text-label-caps text-on-surface-variant">Pari Passu</div>
+</div>
+</div>
+<div class="flex items-center gap-3 p-2 rounded bg-surface border border-surface-variant">
+<div class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-label-caps font-bold text-on-surface-variant">2</div>
+<div class="flex-1">
+<div class="text-body-sm font-medium text-on-surface">8% Preferred Return</div>
+<div class="text-label-caps text-on-surface-variant">Pro Rata</div>
+</div>
+</div>
+<div class="flex items-center gap-3 p-2 rounded bg-surface border border-surface-variant">
+<div class="w-6 h-6 rounded-full bg-surface-container flex items-center justify-center text-label-caps font-bold text-on-surface-variant">3</div>
+<div class="flex-1">
+<div class="text-body-sm font-medium text-on-surface">70/30 Split</div>
+<div class="text-label-caps text-on-surface-variant">Up to 16% IRR</div>
+</div>
+</div>
+<div class="flex items-center gap-3 p-2 rounded bg-secondary-fixed border border-secondary-fixed-dim">
+<div class="w-6 h-6 rounded-full bg-secondary text-on-secondary flex items-center justify-center text-label-caps font-bold">4</div>
+<div class="flex-1">
+<div class="text-body-sm font-medium text-on-secondary-fixed-variant">Promote Tier</div>
+<div class="text-label-caps text-secondary">&gt; 16% IRR (50/50)</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Posture & Status (Gated) -->
+<div class="bg-surface-container-lowest border border-outline-variant rounded-lg sharp-shadow p-5 space-y-4">
+<div>
+<span class="text-label-caps font-label-caps text-on-surface-variant mb-1 block">Review Status</span>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container"></span>
+<span class="text-body-sm font-medium text-on-surface">Needs legal/economic review</span>
+</div>
+</div>
+<div class="pt-4 border-t border-surface-variant">
+<span class="text-label-caps font-label-caps text-on-surface-variant mb-1 block">Source Posture</span>
+<div class="inline-flex items-center gap-1 border border-outline-variant bg-surface rounded px-2 py-1">
+<span class="material-symbols-outlined text-sm text-outline">description</span>
+<span class="font-source-ref text-on-surface">Sponsor model / candidate evidence</span>
+</div>
+</div>
+<!-- Gated Export Action -->
+<div class="pt-4 border-t border-surface-variant relative">
+<div class="bg-mesh-pattern bg-surface-variant rounded p-4 text-center border border-outline-variant opacity-80 cursor-not-allowed group relative">
+<span class="material-symbols-outlined text-outline-variant mb-2 block">lock</span>
+<span class="text-body-sm font-medium text-on-surface-variant">Export Blocked</span>
+<button class="mt-3 w-full px-4 py-2 bg-surface text-outline border border-outline-variant rounded font-body-sm cursor-not-allowed" disabled="">
+                                    Mark Reviewed
+                                </button>
+<!-- Tooltip -->
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 bg-inverse-surface text-inverse-on-surface text-label-caps p-2 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10 shadow-lg">
+                                    Blocked until waterfall assumptions reviewed
+                                </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 w-full z-50 flex justify-center items-center py-1 px-4 bg-error-container dark:bg-on-error-container border-t border-error">
+<div class="flex items-center gap-4">
+<span class="text-body-sm font-body-sm text-on-error-container dark:text-error-container">Prototype-only. No live valuation or export.</span>
+<div class="flex gap-3">
+<a class="text-label-caps font-label-caps text-on-error-container dark:text-error-container underline font-bold opacity-90 hover:opacity-100" href="#">Security Policy</a>
+<a class="text-label-caps font-label-caps text-on-error-container dark:text-error-container underline font-bold opacity-90 hover:opacity-100" href="#">System Status</a>
+</div>
+</div>
+</footer>
+</body></html>
+
+Please review these and all of our screenshots for quality.  And we need to make sure that these and the others including the code is all saved.
+</user_query>

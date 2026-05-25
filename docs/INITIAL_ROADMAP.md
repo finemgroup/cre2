@@ -48,6 +48,8 @@ All runtime, schema, deploy, and production integration phases are future-gated.
 - Design contracts for property, field, observation, source, visibility, lineage, and audit.
 - Align with CRE Platform concepts.
 - Define document evidence, observation visibility, resolved field value, comp candidate, resolved comp set, and operational receipt concepts.
+- Layer in the actively evolving sister-project schema as a future upstream reference: first through read-only concept harvest, then through Sophex contract mapping, and only later through explicitly approved schema/runtime work.
+- Keep the sister schema alignment packet current enough that Sophex can reuse stable concepts once the source project declares its schema review-ready.
 - Keep implementation gated until contracts are reviewed.
 
 ## Phase 4: Valuation/Reporting Workflow Prototype
@@ -69,3 +71,4 @@ All runtime, schema, deploy, and production integration phases are future-gated.
 - Integrate with approved CRE APIs/contracts.
 - Respect CRE audit, idempotency, correlation, and evidence posture.
 - Avoid direct production DB coupling.
+- Prefer API/contract reuse from the sister project over direct database coupling. Any schema borrowing must pass `SISTER_SCHEMA_BORROWING_GATE.md` and preserve Sophex as a separate external trust boundary.

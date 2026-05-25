@@ -77,6 +77,7 @@ describe('public Sophex routes', () => {
   it('shows spatial provenance labels and a non-map fallback on property pages', async () => {
     await renderRoute('/property/demo-001');
 
+    expect(screen.getByText(/Public ↔ Studio continuity/i)).toBeInTheDocument();
     expect(screen.getAllByText(/Sample map data/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Approximate centroid/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Not legal boundary/i).length).toBeGreaterThan(0);

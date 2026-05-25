@@ -37,7 +37,10 @@ export function StagedImportReviewPanel({
         <div>
           <MaterialIcon name="rule" />
           <strong>{candidates.length} candidate fields</strong>
-          <span>None are promoted to truth in the prototype.</span>
+          <span>
+            None are promoted to truth in the prototype. Continue to data review for normalization
+            and conflict resolution before assumption trace.
+          </span>
         </div>
         <TrustBadge state="Candidate evidence" />
       </div>

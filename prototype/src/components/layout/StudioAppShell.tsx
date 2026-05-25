@@ -29,7 +29,14 @@ function isActiveMatch(path: string, match: string): boolean {
   if (match === 'deal-intake') return path === '/studio/deal-intake' || /\/intake$/.test(path);
   if (match === 'deal-overview') return /^\/studio\/deals\/[^/]+$/.test(path);
   if (match === 'comps') return /\/comps$/.test(path);
-  if (match === 'underwriting') return /\/underwriting$/.test(path) || /\/scenarios$/.test(path);
+  if (match === 'underwriting') {
+    return (
+      /\/underwriting(\/sources|\/debt)?$/.test(path) ||
+      /\/scenarios$/.test(path) ||
+      /\/data-review$/.test(path)
+    );
+  }
+  if (match === 'versions') return /\/versions$/.test(path);
   if (match === 'reports') return path.startsWith('/studio/reports/');
   if (match === 'billing') return path === '/studio/settings/billing';
   if (match === 'white-label') return path === '/studio/settings/white-label';

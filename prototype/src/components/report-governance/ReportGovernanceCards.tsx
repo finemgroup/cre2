@@ -1,18 +1,32 @@
 import { useState, type ReactElement } from 'react';
 
 import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceModal';
-import { MaterialIcon, StatusBadge, StudioCard } from '@/components/studio/StudioPrimitives';
-import { evaluateExportReadiness } from '@/lib/report-governance';
+import { MaterialIcon, StatusBadge, StudioCard, TrustBadge, DataTable } from '@/components/studio/StudioPrimitives';
+import {
+  buildExportManifest,
+  evaluateExportReadiness,
+  type ExportManifest,
+} from '@/lib/report-governance';
 import type { SourceEvidenceBlock } from '@/lib/source-bundle';
 import type { ReportSection } from '@/data/studio';
 
+const SECTION_STATUS_COPY: Record<string, string> = {
+  Approved: 'Ready for export inclusion.',
+  Draft: 'Draft content — reviewer required before export.',
+  'Needs Review': 'Section review required before export.',
+  Blocked: 'Blocked by source posture or missing citations.',
+};
+
 export function ReportSectionReviewCard({ section }: { section: ReportSection }): ReactElement {
+  const statusCopy = SECTION_STATUS_COPY[section.status] ?? 'Reviewer posture determines export inclusion.';
   return (
     <div className="section-check governance-section">
       <MaterialIcon name={section.status === 'Approved' ? 'check_circle' : 'pending'} />
       <div>
         <strong>{section.name}</strong>
-        <span>{section.citationCount} citations · section review required before export</span>
+        <span>
+          {section.citationCount} citations · {statusCopy}
+        </span>
       </div>
       <StatusBadge status={section.status} />
     </div>
@@ -107,6 +121,60 @@ export function ExportReadinessCard({
         onClose={() => setModalOpen(false)}
         readiness={readiness}
       />
+    </StudioCard>
+  );
+}
+
+export function ExportManifestCard({
+  sections,
+  sourceBlocks,
+}: {
+  sections: ReportSection[];
+  sourceBlocks?: SourceEvidenceBlock[];
+}): ReactElement {
+  const manifest: ExportManifest = buildExportManifest(sections, sourceBlocks);
+
+  return (
+    <StudioCard title="Export Manifest" eyebrow="Included / excluded / redacted">
+      <p className="muted">{manifest.redactionCopy}</p>
+      <DataTable
+        caption="Export manifest sections"
+        headers={['Section', 'Disposition', 'Reason']}
+        rows={manifest.sections.map((entry) => [
+          entry.name,
+          <TrustBadge
+            key={`${entry.name}-${entry.disposition}`}
+            state={
+              entry.disposition === 'included'
+                ? 'Reviewed'
+                : entry.disposition === 'redacted'
+                  ? 'Source pending'
+                  : entry.disposition === 'reviewer-required'
+                    ? 'Reviewer required'
+                    : 'Blocked'
+            }
+          />,
+          entry.reason ?? 'Included in mock delivery.',
+        ])}
+      />
+      <div className="manifest-split">
+        <section>
+          <h3>Evidence appendix</h3>
+          {manifest.evidenceAppendix.length > 0 ? (
+            <ul className="governance-list">
+              {manifest.evidenceAppendix.map((entry) => (
+                <li key={entry}>{entry}</li>
+              ))}
+            </ul>
+          ) : (
+            <p className="muted">Appendix withheld until source bundle context is attached.</p>
+          )}
+        </section>
+        <section>
+          <h3>Checksum placeholder</h3>
+          <code>{manifest.checksumPlaceholder}</code>
+        </section>
+      </div>
     </StudioCard>
   );
 }

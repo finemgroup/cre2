@@ -2,6 +2,7 @@ import { useState, type ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
+import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
 import { getPublicSearchProperties } from '@/lib/runtime/public-search';
 
@@ -29,6 +30,8 @@ export function LandingPage(): ReactElement {
           visible source and review state.
         </p>
       </header>
+
+      <PublicStudioContinuityBanner surface="landing" />
 
       <form
         className="search-form"

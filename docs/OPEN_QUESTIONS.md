@@ -33,6 +33,8 @@
 - Should user contributions feed model training, and under what consent?
 - What export/share actions require consent and audit?
 - Which CRE schema or evidence contract wave must land before Sophex can use real data?
+- When will the actively updated sister-project schema be stable enough for a read-only Sophex harvest, and which repo/branch/commit should be treated as the review source of truth?
+- Which sister-project concepts should Sophex reuse directly as contracts, which should be adapted for the external marketplace trust boundary, and which must remain internal-only?
 - Which public pages may be indexed first under SEO/GEO strategy?
 - **What data rights support public baseline pages** (GIS, records, aggregates) before indexing?
 - **What does free tier contribute publicly vs keep private** by default?
@@ -63,6 +65,7 @@
 - **When should the provisional CRE underwriting annex be re-harvested from a clean authoritative checkout before any valuation/runtime/schema work?**
 - **Which underwriting readiness gates are MVP0-visible versus authenticated-workstation-only: assumptions, evidence, scenarios, review, export, or publication?**
 - **What is the first approved `ValuationVersion`/`EvidenceSnapshot` contract shape for public reports and private workbench exports?**
+- **How should sister-project `ValuationVersion`, `EvidenceSnapshot`, export manifest, and underwriting trace concepts map into Sophex without direct schema coupling?**
 - **Which scenario/sensitivity outputs can be shown publicly as advisory without legal/appraisal overclaim risk?**
 - **Which GIS/spatial providers, licenses, and source-rights policies can support public property maps, comp maps, and trade-area reports?**
 - **What precision labels are required for public map claims: parcel, approximate centroid, inferred region, provider polygon, sample/mock, or legal boundary unavailable?**

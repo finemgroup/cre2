@@ -6,6 +6,7 @@ import type { ComponentType } from 'react';
 import { describe, expect, it } from 'vitest';
 
 import '@/index.css';
+import { PrototypeToastProvider } from '@/components/overlays/PrototypeToast';
 import * as AuthorityBadgeStories from '@/stories/AuthorityBadge.stories';
 import * as EmptyStateCardStories from '@/stories/EmptyStateCard.stories';
 import * as GovernanceFlowsStories from '@/stories/GovernanceFlows.stories';
@@ -17,6 +18,7 @@ import * as StudioPrimitivesStories from '@/stories/StudioPrimitives.stories';
 import * as TrustBadgeStories from '@/stories/TrustBadge.stories';
 import * as TrustExplainerDrawerStories from '@/stories/TrustExplainerDrawer.stories';
 import * as UploadDropzoneStories from '@/stories/UploadDropzone.stories';
+import * as WorkstationPrimitivesStories from '@/stories/WorkstationPrimitives.stories';
 
 type StorySurface = 'public' | 'studio';
 
@@ -28,11 +30,13 @@ function renderStory(Story: ComponentType, surface: StorySurface = 'public') {
 
   return render(
     <MemoryRouter>
-      <div className={shellClass}>
-        <main className={mainClass}>
-          <Story />
-        </main>
-      </div>
+      <PrototypeToastProvider>
+        <div className={shellClass}>
+          <main className={mainClass}>
+            <Story />
+          </main>
+        </div>
+      </PrototypeToastProvider>
     </MemoryRouter>
   );
 }
@@ -42,13 +46,26 @@ const storyGroups = [
   { name: 'EmptyStateCard', module: EmptyStateCardStories, surface: 'studio' as const },
   { name: 'GovernanceFlows', module: GovernanceFlowsStories, surface: 'studio' as const },
   { name: 'MapLayerControlPanel', module: MapLayerControlPanelStories, surface: 'public' as const },
-  { name: 'MapPlaceholderPreview', module: MapPlaceholderPreviewStories, surface: 'public' as const },
+  {
+    name: 'MapPlaceholderPreview',
+    module: MapPlaceholderPreviewStories,
+    surface: 'public' as const,
+  },
   { name: 'ReportGovernance', module: ReportGovernanceStories, surface: 'studio' as const },
-  { name: 'StagedImportReviewPanel', module: StagedImportReviewPanelStories, surface: 'studio' as const },
+  {
+    name: 'StagedImportReviewPanel',
+    module: StagedImportReviewPanelStories,
+    surface: 'studio' as const,
+  },
   { name: 'StudioPrimitives', module: StudioPrimitivesStories, surface: 'studio' as const },
   { name: 'TrustBadge', module: TrustBadgeStories, surface: 'studio' as const },
   { name: 'TrustExplainerDrawer', module: TrustExplainerDrawerStories, surface: 'studio' as const },
   { name: 'UploadDropzone', module: UploadDropzoneStories, surface: 'studio' as const },
+  {
+    name: 'WorkstationPrimitives',
+    module: WorkstationPrimitivesStories,
+    surface: 'studio' as const,
+  },
 ];
 
 describe('Storybook compositions', () => {

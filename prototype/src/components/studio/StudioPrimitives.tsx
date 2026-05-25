@@ -1,11 +1,23 @@
 import { motion, type Variants } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Children, isValidElement, useEffect, type CSSProperties, type ReactElement, type ReactNode } from 'react';
+import {
+  Children,
+  isValidElement,
+  useEffect,
+  type CSSProperties,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { ensureMaterialSymbolsFont } from '@/lib/fonts/font-loader';
-import { getMotionProps, getMotionSpec, LIST_STAGGER_CHILD_DELAY_S, useReducedMotionPreference } from '@/lib/motion';
+import {
+  getMotionProps,
+  getMotionSpec,
+  LIST_STAGGER_CHILD_DELAY_S,
+  useReducedMotionPreference,
+} from '@/lib/motion';
 import { formatTrustBadgeState } from '@/lib/authority/authority-vocabulary';
 import type { AuthorityState, JobStatusProjection } from '@/data/studio';
 
@@ -81,20 +93,37 @@ export function MetricCard({
   value,
   detail,
   icon = 'check_circle',
+  onInspect,
 }: {
   label: string;
   value: string;
   detail?: string;
   icon?: string;
+  onInspect?: () => void;
 }): ReactElement {
-  return (
-    <div className="metric-card">
+  const content = (
+    <>
       <span>{label}</span>
       <strong>{value}</strong>
       <small>{detail ?? 'Mock projection'}</small>
       <MaterialIcon name={icon} />
-    </div>
+    </>
   );
+
+  if (onInspect) {
+    return (
+      <button
+        type="button"
+        className="metric-card metric-card-button"
+        onClick={onInspect}
+        aria-label={`Open ${label} calculation breakdown`}
+      >
+        {content}
+      </button>
+    );
+  }
+
+  return <div className="metric-card">{content}</div>;
 }
 
 export function TrustBadge({ state }: { state: AuthorityState | string }): ReactElement {

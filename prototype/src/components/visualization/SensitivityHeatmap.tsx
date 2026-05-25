@@ -2,12 +2,24 @@ import type { ReactElement } from 'react';
 
 import { DataTable } from '@/components/studio/StudioPrimitives';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
-import { formatMultiple, formatPercent, type SensitivityGrid } from '@/lib/underwriting';
+import {
+  formatMultiple,
+  formatPercent,
+  type SensitivityGrid,
+  type UnderwritingMetrics,
+} from '@/lib/underwriting';
 
 type SensitivityHeatmapProps = {
   grid: SensitivityGrid;
   locked?: boolean;
   onUnlock?: () => void;
+  onSelectCell?: (cell: {
+    rowIndex: number;
+    columnIndex: number;
+    purchasePrice: number;
+    exitCapRate: number;
+    metrics: UnderwritingMetrics;
+  }) => void;
 };
 
 function heatClass(irr: number, min: number, max: number): string {
@@ -22,6 +34,7 @@ export function SensitivityHeatmap({
   grid,
   locked = false,
   onUnlock,
+  onSelectCell,
 }: SensitivityHeatmapProps): ReactElement {
   const irrValues = grid.cells.flat().map((cell) => cell.irr);
   const minIrr = Math.min(...irrValues);
@@ -43,16 +56,35 @@ export function SensitivityHeatmap({
           {grid.rows.map((price, rowIndex) => (
             <div key={price} className="heatmap-row">
               <div className="heatmap-row-label">{Math.round(price / 1_000_000)}M</div>
-              {grid.cells[rowIndex].map((cell, colIndex) => (
-                <div
-                  key={`${rowIndex}-${colIndex}`}
-                  className={`heatmap-cell ${heatClass(cell.irr, minIrr, maxIrr)}`}
-                  aria-label={`Purchase ${Math.round(price / 1_000_000)}M at ${formatPercent(grid.columns[colIndex])} exit: IRR ${formatPercent(cell.irr)}, DSCR ${formatMultiple(cell.dscr)}`}
-                >
-                  <strong>{formatPercent(cell.irr)}</strong>
-                  <span>{formatMultiple(cell.dscr)} DSCR</span>
-                </div>
-              ))}
+              {grid.cells[rowIndex].map((cell, colIndex) => {
+                const label = `Purchase ${Math.round(price / 1_000_000)}M at ${formatPercent(grid.columns[colIndex])} exit: IRR ${formatPercent(cell.irr)}, DSCR ${formatMultiple(cell.dscr)}`;
+                const className = `heatmap-cell ${heatClass(cell.irr, minIrr, maxIrr)}`;
+                return onSelectCell && !locked ? (
+                  <button
+                    type="button"
+                    key={`${rowIndex}-${colIndex}`}
+                    className={className}
+                    aria-label={`${label}. Open sensitivity drilldown.`}
+                    onClick={() =>
+                      onSelectCell({
+                        rowIndex,
+                        columnIndex: colIndex,
+                        purchasePrice: price,
+                        exitCapRate: grid.columns[colIndex],
+                        metrics: cell,
+                      })
+                    }
+                  >
+                    <strong>{formatPercent(cell.irr)}</strong>
+                    <span>{formatMultiple(cell.dscr)} DSCR</span>
+                  </button>
+                ) : (
+                  <div key={`${rowIndex}-${colIndex}`} className={className} aria-label={label}>
+                    <strong>{formatPercent(cell.irr)}</strong>
+                    <span>{formatMultiple(cell.dscr)} DSCR</span>
+                  </div>
+                );
+              })}
             </div>
           ))}
         </div>
@@ -74,7 +106,11 @@ export function SensitivityHeatmap({
       {locked ? (
         <div className="heatmap-lock-overlay">
           <p>Premium sensitivity heatmap locked</p>
-          <PrototypeActionButton feature="Premium heatmap unlock" className="btn btn-primary" onClick={onUnlock}>
+          <PrototypeActionButton
+            feature="Premium heatmap unlock"
+            className="btn btn-primary"
+            onClick={onUnlock}
+          >
             Unlock preview
           </PrototypeActionButton>
         </div>

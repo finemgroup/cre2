@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   DataTable,
@@ -6,6 +7,7 @@ import {
   MetricCard,
   StatusBadge,
   StudioCard,
+  TrustBadge,
 } from '@/components/studio/StudioPrimitives';
 import {
   formatCurrency,
@@ -79,14 +81,26 @@ export function DataProvenanceLabel({ provenance }: { provenance: DataProvenance
 export function AssumptionsPanel({
   assumptions,
   provenance,
+  sourceTracePath,
   onChange,
 }: {
   assumptions: UnderwritingAssumptions;
   provenance: DataProvenance;
+  sourceTracePath?: string;
   onChange: (next: UnderwritingAssumptions) => void;
 }): ReactElement {
   return (
-    <StudioCard title="Assumptions Editor" eyebrow="CRE workbench adapted">
+    <StudioCard
+      title="Assumptions Editor"
+      eyebrow="CRE workbench adapted"
+      actions={
+        sourceTracePath ? (
+          <Link to={sourceTracePath} className="btn btn-secondary">
+            Open source trace
+          </Link>
+        ) : null
+      }
+    >
       <div className="form-grid compact">
         {assumptionFields.map((field) => (
           <label key={field.key}>
@@ -105,6 +119,10 @@ export function AssumptionsPanel({
         ))}
       </div>
       <DataProvenanceLabel provenance={provenance} />
+      <div className="review-summary">
+        <TrustBadge state={provenance.requiresConfirmation ? 'Candidate evidence' : 'Reviewed'} />
+        <span>Every assumption change stays candidate-only until source trace and gates clear.</span>
+      </div>
     </StudioCard>
   );
 }
@@ -112,43 +130,74 @@ export function AssumptionsPanel({
 export function MetricsPanel({
   metrics,
   scenarioLabel,
+  onInspectMetric,
 }: {
   metrics: UnderwritingMetrics;
   scenarioLabel?: string;
+  onInspectMetric?: (metric: { label: string; value: string; formula: string }) => void;
 }): ReactElement {
+  const metricItems = [
+    {
+      label: 'NOI',
+      value: formatCurrency(metrics.noi),
+      detail: 'EGI - expenses',
+      formula: 'Effective Gross Income - Operating Expenses',
+    },
+    {
+      label: 'Cap Rate',
+      value: formatPercent(metrics.capRate),
+      detail: 'NOI / purchase price',
+      formula: 'NOI / Purchase Price',
+    },
+    {
+      label: 'Indicated Value',
+      value: formatCurrency(metrics.indicatedValue),
+      detail: 'NOI / exit cap',
+      formula: 'NOI / Exit Cap Rate',
+    },
+    {
+      label: 'DSCR',
+      value: formatMultiple(metrics.dscr),
+      detail: 'NOI / debt service',
+      formula: 'NOI / Debt Service',
+      icon: metrics.dscr >= 1.25 ? 'check_circle' : 'warning',
+    },
+    {
+      label: 'IRR',
+      value: formatPercent(metrics.irr),
+      detail: 'Model-inferred',
+      formula: 'Mock hold-period cash-flow projection',
+    },
+    {
+      label: 'Equity Multiple',
+      value: formatMultiple(metrics.equityMultiple),
+      detail: '5-year mock hold',
+      formula: 'Total mock distributions / equity invested',
+    },
+  ];
+
   return (
     <StudioCard
       title="Calculated Metrics"
       eyebrow={scenarioLabel ? `${scenarioLabel} · formula-backed mock` : 'Formula-backed mock'}
     >
       <div className="metric-grid">
-        <MetricCard label="NOI" value={formatCurrency(metrics.noi)} detail="EGI - expenses" />
-        <MetricCard
-          label="Cap Rate"
-          value={formatPercent(metrics.capRate)}
-          detail="NOI / purchase price"
-        />
-        <MetricCard
-          label="Indicated Value"
-          value={formatCurrency(metrics.indicatedValue)}
-          detail="NOI / exit cap"
-        />
-        <MetricCard
-          label="DSCR"
-          value={formatMultiple(metrics.dscr)}
-          detail="NOI / debt service"
-          icon={metrics.dscr >= 1.25 ? 'check_circle' : 'warning'}
-        />
-        <MetricCard label="IRR" value={formatPercent(metrics.irr)} detail="Model-inferred" />
-        <MetricCard
-          label="Equity Multiple"
-          value={formatMultiple(metrics.equityMultiple)}
-          detail="5-year mock hold"
-        />
+        {metricItems.map((item) => (
+          <MetricCard
+            key={item.label}
+            label={item.label}
+            value={item.value}
+            detail={item.detail}
+            icon={item.icon}
+            onInspect={onInspectMetric ? () => onInspectMetric(item) : undefined}
+          />
+        ))}
       </div>
       <table className="sr-only">
         <caption>
-          {scenarioLabel ? `${scenarioLabel} calculated metrics` : 'Calculated underwriting metrics'}
+          {scenarioLabel
+            ? `${scenarioLabel} calculated metrics`
+            : 'Calculated underwriting metrics'}
         </caption>
         <thead>
           <tr>
@@ -245,9 +294,12 @@ export function VersionLockCard({
         </>
       ) : (
         <>
-          <p>Lock the model only when no blocking gates remain.</p>
-          <button type="button" className="btn btn-primary" disabled={!canLock} onClick={onLock}>
-            Lock Version & Advance
+          <p>
+            Review the lock packet before advancing.{' '}
+            {canLock ? 'No blocking gates remain.' : 'Open blockers still prevent final lock.'}
+          </p>
+          <button type="button" className="btn btn-primary" onClick={onLock}>
+            Review Version Lock
           </button>
         </>
       )}
