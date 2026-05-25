@@ -38,6 +38,7 @@ import { TrustExplainerDrawer } from '@/components/overlays/TrustExplainerDrawer
 import { UpgradePlanModal } from '@/components/overlays/UpgradePlanModal';
 import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
 import { SensitivityHeatmap } from '@/components/visualization/SensitivityHeatmap';
+import { AccessibleBarChart } from '@/components/visualization/AccessibleBarChart';
 import {
   ActivityTimelinePanel,
   WorkflowContinuityContainer,
@@ -755,39 +756,33 @@ export function StudioScenarioComparisonPage(): ReactElement {
           </StudioCard>
         ))}
       </div>
+      <StudioCard title="Scenario metrics">
+        <DataTable
+          caption="Scenario comparison metrics"
+          headers={['Scenario', 'IRR', 'Equity multiple', 'Indicated value']}
+          rows={scenarioMetrics.map((scenario) => [
+            scenario.name,
+            formatPercent(scenario.metrics.irr),
+            formatMultiple(scenario.metrics.equityMultiple),
+            formatCurrency(scenario.metrics.indicatedValue),
+          ])}
+          getRowKey={(_row, index) => scenarioMetrics[index].name}
+        />
+      </StudioCard>
       <StudioCard title="Key Metrics Matrix">
         <SensitivityMatrix grid={grid} />
       </StudioCard>
       <StudioCard title="IRR Bar Chart">
-        <figure aria-labelledby="irr-bar-caption">
-          <figcaption id="irr-bar-caption" className="sr-only">
-            IRR by scenario. Values are listed below each bar and in the data table.
-          </figcaption>
-          <div className="bar-chart vertical-bars">
-            {scenarioMetrics.map((scenario) => (
-              <div key={scenario.name}>
-                <span>{scenario.name}</span>
-                <div>
-                  <span
-                    className="chart-bar-fill"
-                    style={{
-                      height: `${Math.round((scenario.metrics.irr / maxIrr) * 100)}%`,
-                    }}
-                  />
-                </div>
-                <strong>{formatPercent(scenario.metrics.irr)}</strong>
-              </div>
-            ))}
-          </div>
-        </figure>
-        <DataTable
-          caption="Scenario IRR values"
-          headers={['Scenario', 'IRR']}
-          rows={scenarioMetrics.map((scenario) => [
-            scenario.name,
-            formatPercent(scenario.metrics.irr),
-          ])}
-          getRowKey={(_row, index) => scenarioMetrics[index].name}
+        <AccessibleBarChart
+          title="IRR by scenario"
+          caption="IRR by scenario. Bar heights are decorative; use the table for exact values."
+          items={scenarioMetrics.map((scenario) => ({
+            id: scenario.name,
+            label: scenario.name,
+            value: formatPercent(scenario.metrics.irr),
+            ratio: scenario.metrics.irr / maxIrr,
+          }))}
+          tableHeaders={['Scenario', 'IRR']}
         />
       </StudioCard>
       <StudioCard title="Sensitivity Heatmap">

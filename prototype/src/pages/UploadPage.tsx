@@ -128,10 +128,11 @@ export function UploadPage(): ReactElement {
 
       {stage === 2 ? (
         <div className="card" aria-busy="true" aria-live="polite">
-          <p id="upload-progress-label">Uploading sample document...</p>
+          <p id="upload-progress-label">Uploading {fileName}…</p>
           <div
             className="progress-bar"
             role="progressbar"
+            aria-label={`Uploading ${fileName}`}
             aria-labelledby="upload-progress-label"
             aria-valuenow={progress}
             aria-valuemin={0}

@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react';
 
+import { DataTable } from '@/components/studio/StudioPrimitives';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { formatMultiple, formatPercent, type SensitivityGrid } from '@/lib/underwriting';
 
@@ -46,7 +47,7 @@ export function SensitivityHeatmap({
                 <div
                   key={`${rowIndex}-${colIndex}`}
                   className={`heatmap-cell ${heatClass(cell.irr, minIrr, maxIrr)}`}
-                  title={`IRR ${formatPercent(cell.irr)} · DSCR ${formatMultiple(cell.dscr)}`}
+                  aria-label={`Purchase ${Math.round(price / 1_000_000)}M at ${formatPercent(grid.columns[colIndex])} exit: IRR ${formatPercent(cell.irr)}, DSCR ${formatMultiple(cell.dscr)}`}
                 >
                   <strong>{formatPercent(cell.irr)}</strong>
                   <span>{formatMultiple(cell.dscr)} DSCR</span>
@@ -56,6 +57,20 @@ export function SensitivityHeatmap({
           ))}
         </div>
       </figure>
+      <DataTable
+        caption="Sensitivity grid values (IRR and DSCR by purchase price and exit cap)"
+        headers={[
+          'Purchase price',
+          ...grid.columns.map((cap) => `${formatPercent(cap)} exit IRR / DSCR`),
+        ]}
+        rows={grid.rows.map((price, rowIndex) => [
+          `${Math.round(price / 1_000_000)}M`,
+          ...grid.cells[rowIndex].map(
+            (cell) => `${formatPercent(cell.irr)} / ${formatMultiple(cell.dscr)}`
+          ),
+        ])}
+        getRowKey={(_row, index) => String(grid.rows[index])}
+      />
       {locked ? (
         <div className="heatmap-lock-overlay">
           <p>Premium sensitivity heatmap locked</p>

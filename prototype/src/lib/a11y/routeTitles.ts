@@ -1,15 +1,39 @@
 import { getDealIdFromPath, getStudioDeal } from '@/data/studio';
+import { getPropertyRecord } from '@/lib/workflow-identity';
+
+function propertyScopedTitle(suffix: string, propertyId: string): string {
+  const property = getPropertyRecord(propertyId);
+  const label = property?.address ?? propertyId;
+  return `${suffix} - ${label} - Sophex`;
+}
+
+function extractPublicPropertyId(pathname: string): string | undefined {
+  const match = pathname.match(/^\/(?:property|report|export)\/([^/]+)/);
+  return match?.[1];
+}
 
 export function getPublicRouteTitle(pathname: string): string {
+  const propertyId = extractPublicPropertyId(pathname);
+
   if (pathname === '/') return 'Search - Sophex';
   if (pathname.startsWith('/property/') && pathname.endsWith('/comps')) {
-    return 'Comparable Sales - Sophex';
+    return propertyId
+      ? propertyScopedTitle('Comparable Sales', propertyId)
+      : 'Comparable Sales - Sophex';
   }
-  if (pathname.startsWith('/property/')) return 'Property Intelligence - Sophex';
+  if (pathname.startsWith('/property/')) {
+    return propertyId
+      ? propertyScopedTitle('Property Intelligence', propertyId)
+      : 'Property Intelligence - Sophex';
+  }
   if (pathname === '/upload') return 'Upload Documents - Sophex';
   if (pathname === '/comps') return 'Comparable Sales - Sophex';
-  if (pathname.startsWith('/report/')) return 'Report Preview - Sophex';
-  if (pathname.startsWith('/export/')) return 'Export Gate - Sophex';
+  if (pathname.startsWith('/report/')) {
+    return propertyId ? propertyScopedTitle('Report Preview', propertyId) : 'Report Preview - Sophex';
+  }
+  if (pathname.startsWith('/export/')) {
+    return propertyId ? propertyScopedTitle('Export Gate', propertyId) : 'Export Gate - Sophex';
+  }
   return 'Page Not Found - Sophex';
 }
 

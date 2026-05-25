@@ -103,7 +103,7 @@ describe('public Sophex routes', () => {
 
     expect(
       screen
-        .getByRole('progressbar', { name: /Uploading sample document/i })
+        .getByRole('progressbar', { name: /Uploading rent-roll\.pdf/i })
         .getAttribute('aria-valuetext')
     ).toMatch(/\d+% complete/);
     expect(screen.queryByRole('button', { name: /Start upload/i })).not.toBeInTheDocument();

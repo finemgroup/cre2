@@ -179,15 +179,16 @@ describe('Finem CRE Studio routes', () => {
     const user = userEvent.setup();
     await renderRoute('/studio/deals/riverside-flats/underwriting');
 
-    const initialIrr = screen
-      .getByText('IRR')
-      .closest('.metric-card')
-      ?.querySelector('strong')?.textContent;
+    const readIrrFromMetricCard = () =>
+      screen
+        .getAllByText('IRR')
+        .find((node) => node.closest('.metric-card'))
+        ?.closest('.metric-card')
+        ?.querySelector('strong')?.textContent;
+
+    const initialIrr = readIrrFromMetricCard();
     await user.click(screen.getByRole('button', { name: /Upside/i }));
-    const upsideIrr = screen
-      .getByText('IRR')
-      .closest('.metric-card')
-      ?.querySelector('strong')?.textContent;
+    const upsideIrr = readIrrFromMetricCard();
 
     expect(upsideIrr).not.toBe(initialIrr);
   });

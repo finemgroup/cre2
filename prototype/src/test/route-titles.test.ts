@@ -5,9 +5,15 @@ import { getPublicRouteTitle, getStudioRouteTitle } from '@/lib/a11y/routeTitles
 describe('routeTitles', () => {
   it('maps public routes to document titles', () => {
     expect(getPublicRouteTitle('/')).toBe('Search - Sophex');
-    expect(getPublicRouteTitle('/property/demo-001')).toBe('Property Intelligence - Sophex');
-    expect(getPublicRouteTitle('/property/demo-001/comps')).toBe('Comparable Sales - Sophex');
-    expect(getPublicRouteTitle('/export/demo-001')).toBe('Export Gate - Sophex');
+    expect(getPublicRouteTitle('/property/demo-001')).toBe(
+      'Property Intelligence - 1200 Commerce St - Sophex'
+    );
+    expect(getPublicRouteTitle('/property/demo-001/comps')).toBe(
+      'Comparable Sales - 1200 Commerce St - Sophex'
+    );
+    expect(getPublicRouteTitle('/export/demo-001')).toBe(
+      'Export Gate - 1200 Commerce St - Sophex'
+    );
   });
 
   it('maps studio routes to deal-aware document titles', () => {

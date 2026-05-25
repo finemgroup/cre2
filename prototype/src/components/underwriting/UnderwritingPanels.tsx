@@ -146,6 +146,43 @@ export function MetricsPanel({
           detail="5-year mock hold"
         />
       </div>
+      <table className="sr-only">
+        <caption>
+          {scenarioLabel ? `${scenarioLabel} calculated metrics` : 'Calculated underwriting metrics'}
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Metric</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">NOI</th>
+            <td>{formatCurrency(metrics.noi)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Cap rate</th>
+            <td>{formatPercent(metrics.capRate)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Indicated value</th>
+            <td>{formatCurrency(metrics.indicatedValue)}</td>
+          </tr>
+          <tr>
+            <th scope="row">DSCR</th>
+            <td>{formatMultiple(metrics.dscr)}</td>
+          </tr>
+          <tr>
+            <th scope="row">IRR</th>
+            <td>{formatPercent(metrics.irr)}</td>
+          </tr>
+          <tr>
+            <th scope="row">Equity multiple</th>
+            <td>{formatMultiple(metrics.equityMultiple)}</td>
+          </tr>
+        </tbody>
+      </table>
     </StudioCard>
   );
 }

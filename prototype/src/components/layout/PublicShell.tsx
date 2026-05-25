@@ -26,11 +26,15 @@ export function PublicShell(): ReactElement {
           Sophex
         </Link>
         <nav className="shell-nav" aria-label="Primary">
-          <NavLink to="/" end>
+          <NavLink to="/" end aria-label="Search properties">
             Search
           </NavLink>
-          <NavLink to="/upload">Upload</NavLink>
-          <NavLink to="/studio">Studio</NavLink>
+          <NavLink to="/upload" aria-label="Upload documents">
+            Upload
+          </NavLink>
+          <NavLink to="/studio" aria-label="Open Finem CRE Studio">
+            Studio
+          </NavLink>
         </nav>
         <ActorDemoSelector />
       </header>
