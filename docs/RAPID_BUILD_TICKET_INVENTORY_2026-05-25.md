@@ -104,3 +104,14 @@ See `STITCH_UNDERWRITING_WORKSTATION_TRIAGE.md` and `docs/design/stitch-underwri
 | Cross-entity e2e | Implemented | `demo-001`↔`riverside-flats`, `demo-002`↔`1200-tech` public→Studio continuity |
 | CTA accessibility audit | Implemented | Disabled Export Waterfall, Send to IC, Approve for export use `aria-describedby` |
 | Quality coverage | Implemented | `hitl-trust-tier.test.ts`, extended `cta-feedback.test.tsx`, Storybook a11y |
+
+## Wave 6 UX Polish (2026-05-25)
+
+| Track | Status | Notes |
+| --- | --- | --- |
+| Underwriting UX review doc | Implemented | `UNDERWRITING_WORKFLOW_UX_REVIEW_2026-05-25.md` |
+| Deal stage stepper | Implemented | Six-stage model on all deal workflow tabs |
+| Deal cockpit next action | Implemented | Overview cockpit card with blocker count and resolution link |
+| Gate resolution copy | Implemented | `GateResolutionCallout` pattern on debt and related surfaces |
+| Navigation/copy refresh | Implemented | Evidence/Snapshots labels, advanced nav gate hints, valuation snapshot language |
+| Delivery continuity | Implemented | Report breadcrumb, mock-boundary banners, Underwrite in Studio CTA |

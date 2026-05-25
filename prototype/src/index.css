@@ -2765,6 +2765,116 @@ button.heatmap-cell:focus-visible {
   margin-block: 0.75rem 1rem;
 }
 
+.advanced-nav-gate {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--studio-subtle);
+}
+
+.deal-stage-stepper {
+  margin: 0.75rem 0 1rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--studio-line);
+  border-radius: 0.75rem;
+  background: var(--studio-surface);
+}
+
+.deal-stage-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 960px) {
+  .deal-stage-list {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.deal-stage-link {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 0.55rem;
+  border: 1px solid transparent;
+  color: inherit;
+  text-decoration: none;
+}
+
+.deal-stage-item.active .deal-stage-link {
+  border-color: var(--studio-accent);
+  background: color-mix(in srgb, var(--studio-accent) 10%, transparent);
+}
+
+.deal-stage-name {
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.deal-stage-status {
+  font-size: 0.72rem;
+  color: var(--studio-subtle);
+}
+
+.deal-stage-blocked .deal-stage-status {
+  color: var(--studio-danger);
+}
+
+.deal-cockpit-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .deal-cockpit-grid {
+    grid-template-columns: 1fr 1.2fr;
+    align-items: start;
+  }
+}
+
+.deal-cockpit-action {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.gate-resolution-callout,
+.mock-boundary-banner {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  margin: 0.75rem 0 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.75rem;
+}
+
+.gate-resolution-callout {
+  border: 1px solid #fde68a;
+  background: #fffbeb;
+}
+
+.mock-boundary-banner {
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.deal-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  font-size: 0.82rem;
+  color: var(--studio-subtle);
+}
+
+.deal-breadcrumb a {
+  color: inherit;
+}
+
 .capital-stack-grid {
   display: grid;
   gap: 1rem;

@@ -138,7 +138,7 @@ test.describe('route shell visuals', () => {
   test('studio version timeline workstation', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await gotoRoute(page, '/studio/deals/riverside-flats/versions');
-    await expect(page.getByRole('heading', { name: /Valuation version timeline/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Valuation snapshots/i })).toBeVisible();
     await expect(page).toHaveScreenshot('studio-version-timeline-desktop.png', {
       fullPage: true,
       maxDiffPixelRatio: 0.03,

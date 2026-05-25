@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceModal';
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
+import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
 import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
 import { StageRail } from '@/components/ui/StageRail';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
@@ -91,6 +92,7 @@ export function ExportPage(): ReactElement {
       </header>
 
       <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="export" />
+      <MockBoundaryBanner variant="export" />
 
       <StageRail stages={STAGES} activeIndex={stage} />
 

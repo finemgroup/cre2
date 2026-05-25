@@ -16,6 +16,7 @@ import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceMod
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { ReviewPostureBanner } from '@/components/provenance/ProvenanceWidgets';
 import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
+import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
 import { StageRail } from '@/components/ui/StageRail';
 import { VALUATION_READINESS_STAGES } from '@/lib/readiness-stages';
 import {
@@ -57,6 +58,13 @@ export function StudioReportBuilderPage(): ReactElement {
 
   return (
     <div className="report-builder-workspace">
+      <nav className="deal-breadcrumb" aria-label="Deal context">
+        <Link to={studioDealPath(deal.id)}>Studio</Link>
+        <span aria-hidden="true">/</span>
+        <Link to={studioDealPath(deal.id)}>{deal.name}</Link>
+        <span aria-hidden="true">/</span>
+        <span>Report builder</span>
+      </nav>
       <WorkflowContextHeader
         dealName={deal.name}
         stage="Report builder"
@@ -95,6 +103,7 @@ export function StudioReportBuilderPage(): ReactElement {
         }
       />
       <ReviewPostureBanner blocks={sourceBlocks} />
+      <MockBoundaryBanner variant="export" />
       <StageRail stages={[...VALUATION_READINESS_STAGES]} activeIndex={3} />
       <p className="sr-only" id="report-export-blocked">
         Export is disabled until section review and source-rights gates clear.

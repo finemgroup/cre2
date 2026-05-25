@@ -48,6 +48,9 @@ import {
   WorkflowContinuityContainer,
   WorkflowHandoffLink,
 } from '@/components/workflow/WorkflowPrimitives';
+import { DealCockpitSummary } from '@/components/workflow/DealCockpitSummary';
+import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
+import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
 import {
   CalculationBreakdownDrawer,
   EvidenceConflictResolverModal,
@@ -364,12 +367,13 @@ export function StudioDealOverviewPage(): ReactElement {
     <div>
       <WorkflowContextHeader
         dealName={deal.name}
-        stage="Underwriting workspace"
+        stage="Deal cockpit"
         returnTo="/studio/dashboard"
       />
       <NonProductionCallout>
         Deal metrics are mock projections with candidate/review state labels.
       </NonProductionCallout>
+      <DealCockpitSummary dealId={deal.id} />
       <div className="metric-grid four">
         <MetricCard label="Asking Price" value={deal.value} detail={deal.authority} />
         <MetricCard label="Indicated Value" value="$46.8M" detail="Model-inferred" />
@@ -1323,7 +1327,7 @@ export function StudioDataReviewPage(): ReactElement {
       <DealWorkflowTabs deal={deal} />
       <IntakeWorkflowNav dealId={deal.id} activeStep="data-review" />
       <PageTitle
-        eyebrow="Data review"
+        eyebrow="Evidence review"
         title="Rent roll / T12 normalization"
         lede="Compare extracted fields against normalized candidate values before promotion to assumptions."
       />
@@ -1444,6 +1448,13 @@ export function StudioDebtPanelPage(): ReactElement {
       <NonProductionCallout>
         Lender quote capture is mock-only. No files, providers, storage, or borrower data are used.
       </NonProductionCallout>
+      <GateResolutionCallout
+        action="Lock assumptions"
+        prerequisite="A lender quote is missing and DSCR remains source pending."
+        owner="An analyst"
+        resolveTo={studioDealPath(deal.id, 'underwriting')}
+        resolveLabel="Go to Underwriting"
+      />
       <div className="metric-grid four">
         <MetricCard
           label="DSCR"
@@ -1551,18 +1562,19 @@ export function StudioValuationVersionTimelinePage(): ReactElement {
     <div>
       <WorkflowContextHeader
         dealName={deal.name}
-        stage="Valuation version timeline"
+        stage="Valuation snapshots"
         returnTo={studioDealPath(deal.id, 'underwriting')}
         returnLabel="Return to cockpit"
       />
       <DealWorkflowTabs deal={deal} />
       <PageTitle
-        eyebrow="Version governance"
-        title="Valuation version timeline"
-        lede="Trace governed valuation snapshots to evidence refs, scenario sets, and export eligibility."
+        eyebrow="Snapshot governance"
+        title="Valuation snapshots"
+        lede="A scenario is working assumptions. A valuation snapshot locks one scenario with evidence refs, comp set, as-of dates, and export posture."
       />
+      <MockBoundaryBanner variant="snapshot" />
       <NonProductionCallout>
-        Version history is a mock governance projection. Immutable storage and receipts remain
+        Snapshot history is a mock governance projection. Immutable storage and receipts remain
         runtime gated.
       </NonProductionCallout>
       <StudioCard title="Export eligibility">

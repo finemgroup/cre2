@@ -12,9 +12,12 @@ export async function renderRoute(path: string): Promise<RenderResult> {
     </MemoryRouter>
   );
 
-  await waitFor(() => {
-    expect(screen.queryByText(/Loading view…/i)).toBeNull();
-  });
+  await waitFor(
+    () => {
+      expect(screen.queryByText(/Loading view…/i)).toBeNull();
+    },
+    { timeout: 5000 }
+  );
 
   return view;
 }

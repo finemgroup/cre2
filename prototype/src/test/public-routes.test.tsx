@@ -249,6 +249,10 @@ describe('public Sophex routes', () => {
 
   it('links public properties to linked Studio deals', async () => {
     await renderRoute('/property/demo-002');
+    expect(screen.getByRole('link', { name: /Underwrite in Studio/i })).toHaveAttribute(
+      'href',
+      '/studio/deals/1200-tech/intake'
+    );
     expect(screen.getByRole('link', { name: /Open linked Studio deal/i })).toHaveAttribute(
       'href',
       '/studio/deals/1200-tech'

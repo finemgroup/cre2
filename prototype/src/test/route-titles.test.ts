@@ -21,7 +21,7 @@ describe('routeTitles', () => {
       'Comps - Riverside Flats - Finem CRE Studio'
     );
     expect(getStudioRouteTitle('/studio/deals/riverside-flats/data-review')).toBe(
-      'Data Review - Riverside Flats - Finem CRE Studio'
+      'Evidence Review - Riverside Flats - Finem CRE Studio'
     );
     expect(getStudioRouteTitle('/studio/deals/riverside-flats/underwriting/sources')).toBe(
       'Assumption Source Trace - Riverside Flats - Finem CRE Studio'
@@ -30,7 +30,7 @@ describe('routeTitles', () => {
       'Debt Quote Panel - Riverside Flats - Finem CRE Studio'
     );
     expect(getStudioRouteTitle('/studio/deals/riverside-flats/versions')).toBe(
-      'Valuation Versions - Riverside Flats - Finem CRE Studio'
+      'Valuation Snapshots - Riverside Flats - Finem CRE Studio'
     );
     expect(getStudioRouteTitle('/studio/reports/1200-tech/builder')).toBe(
       'Report Builder - 1200 Tech Boulevard - Finem CRE Studio'
@@ -39,7 +39,7 @@ describe('routeTitles', () => {
       'Capital Stack - Riverside Flats - Finem CRE Studio'
     );
     expect(getStudioRouteTitle('/studio/deals/riverside-flats/spatial')).toBe(
-      'Spatial Workbench - Riverside Flats - Finem CRE Studio'
+      'Location Intelligence - Riverside Flats - Finem CRE Studio'
     );
   });
 });

@@ -55,18 +55,18 @@ export function getStudioRouteTitle(pathname: string): string {
   const dealId = getDealIdFromPath(pathname);
 
   if (/\/intake$/.test(pathname)) return dealScopedTitle('Deal Intake', dealId);
-  if (/\/data-review$/.test(pathname)) return dealScopedTitle('Data Review', dealId);
+  if (/\/data-review$/.test(pathname)) return dealScopedTitle('Evidence Review', dealId);
   if (/\/comps$/.test(pathname)) return dealScopedTitle('Comps', dealId);
   if (/\/underwriting\/sources$/.test(pathname))
     return dealScopedTitle('Assumption Source Trace', dealId);
   if (/\/underwriting\/debt$/.test(pathname)) return dealScopedTitle('Debt Quote Panel', dealId);
   if (/\/underwriting$/.test(pathname)) return dealScopedTitle('Underwriting', dealId);
   if (/\/scenarios$/.test(pathname)) return dealScopedTitle('Scenario Comparison', dealId);
-  if (/\/versions$/.test(pathname)) return dealScopedTitle('Valuation Versions', dealId);
+  if (/\/versions$/.test(pathname)) return dealScopedTitle('Valuation Snapshots', dealId);
   if (/\/capital-stack$/.test(pathname)) return dealScopedTitle('Capital Stack', dealId);
   if (/\/ic-packet$/.test(pathname)) return dealScopedTitle('IC Packet', dealId);
-  if (/\/hitl-review$/.test(pathname)) return dealScopedTitle('HITL Review', dealId);
-  if (/\/spatial$/.test(pathname)) return dealScopedTitle('Spatial Workbench', dealId);
+  if (/\/hitl-review$/.test(pathname)) return dealScopedTitle('Analyst Review', dealId);
+  if (/\/spatial$/.test(pathname)) return dealScopedTitle('Location Intelligence', dealId);
   if (/^\/studio\/deals\/[^/]+$/.test(pathname)) {
     return `${getStudioDeal(dealId)?.name ?? 'Deal'} - Finem CRE Studio`;
   }

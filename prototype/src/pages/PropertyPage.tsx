@@ -131,6 +131,9 @@ export function PropertyPage(): ReactElement {
         </Link>
         {linkedDealId ? (
           <>
+            <Link to={studioDealPath(linkedDealId, 'intake')} className="btn btn-primary">
+              Underwrite in Studio
+            </Link>
             <Link to={studioDealPath(linkedDealId)} className="btn btn-secondary">
               Open linked Studio deal
             </Link>

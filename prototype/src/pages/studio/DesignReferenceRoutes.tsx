@@ -20,6 +20,7 @@ import {
   WorkflowContextHeader,
 } from '@/components/studio/StudioPrimitives';
 import { HitlTrustTierBadge, reviewStateToHitlTier } from '@/components/workflow/HitlTrustTierBadge';
+import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
 import { fixtureActors } from '@/lib/contracts/fixtures';
 import { getReviewQueue } from '@/lib/runtime/review-queue';
 import { studioDealPath, studioReportPath } from '@/data/studio';
@@ -193,6 +194,7 @@ export function StudioIcPacketPage(): ReactElement {
         IC packet delivery is simulated. Real reviewer assignment, legal workflow, and audit events
         remain runtime gated.
       </NonProductionCallout>
+      <MockBoundaryBanner variant="ic" />
       <div className="dashboard-grid">
         <StudioCard title="Packet Readiness">
           <ReadinessRailMock />
@@ -258,6 +260,7 @@ export function StudioHitlReviewPage(): ReactElement {
         Assignments use mock internal users only. Notifications, SLAs, and persisted decisions are
         not implemented.
       </NonProductionCallout>
+      <MockBoundaryBanner variant="review" />
       <div className="split-workstation-grid">
         <StudioCard title="Assigned Reviews" className="wide-card">
           <DataTable

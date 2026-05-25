@@ -280,7 +280,7 @@ describe('Finem CRE Studio routes', () => {
 
   it('shows save draft feedback on deal intake', async () => {
     const user = userEvent.setup();
-    await renderRoute('/studio/deal-intake');
+    await renderRoute('/studio/deals/riverside-flats/intake');
 
     await user.click(screen.getByRole('button', { name: /Save draft/i }));
     expect(screen.getByText(/Draft saved locally/i)).toBeInTheDocument();

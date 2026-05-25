@@ -151,7 +151,7 @@ test.describe('Studio end-to-end flows', () => {
     await page.keyboard.press('Escape');
 
     await gotoRoute(page, '/studio/deals/riverside-flats/versions');
-    await expect(page.getByRole('heading', { name: /Valuation version timeline/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Valuation snapshots/i })).toBeVisible();
     await expect(page.getByText(/EVID-SNAP-992/i)).toBeVisible();
   });
 
@@ -182,8 +182,9 @@ test.describe('Studio end-to-end flows', () => {
   test('cross-entity demo paths link public properties to studio deals', async ({ page }) => {
     await gotoRoute(page, '/property/demo-001');
     await expect(page.getByRole('heading', { name: /1200 Commerce St/i })).toBeVisible();
-    await page.getByRole('link', { name: /Open linked Studio deal/i }).click();
-    await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats$/);
+    await page.getByRole('link', { name: /Underwrite in Studio/i }).click();
+    await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/intake$/);
+    await gotoRoute(page, '/studio/deals/riverside-flats');
     await page.locator('a.tab-link', { hasText: 'Underwriting' }).click();
     await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/underwriting$/);
     await page.getByRole('link', { name: /Open spatial workbench/i }).click();

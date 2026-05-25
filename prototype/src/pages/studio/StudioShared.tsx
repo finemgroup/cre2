@@ -2,6 +2,7 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import type { ReactElement } from 'react';
 
 import { StudioCard } from '@/components/studio/StudioPrimitives';
+import { DealStageStepper } from '@/components/workflow/DealStageStepper';
 import { studioDealPath, studioReportPath, type Deal } from '@/data/studio';
 import { getStudioDealView } from '@/lib/runtime/studio-workspace';
 
@@ -26,18 +27,20 @@ export function DealWorkflowTabs({ deal }: { deal: Deal }): ReactElement {
   const tabs = [
     ['Overview', studioDealPath(deal.id), /^\/studio\/deals\/[^/]+$/],
     ['Inputs', studioDealPath(deal.id, 'intake'), /\/intake$/],
-    ['Data', studioDealPath(deal.id, 'data-review'), /\/data-review$/],
+    ['Evidence', studioDealPath(deal.id, 'data-review'), /\/data-review$/],
     ['Comps', studioDealPath(deal.id, 'comps'), /\/comps$/],
     ['Underwriting', studioDealPath(deal.id, 'underwriting'), /\/underwriting$/],
     ['Sources', studioDealPath(deal.id, 'underwriting-sources'), /\/underwriting\/sources$/],
     ['Debt', studioDealPath(deal.id, 'underwriting-debt'), /\/underwriting\/debt$/],
     ['Scenarios', studioDealPath(deal.id, 'scenarios'), /\/scenarios$/],
-    ['Versions', studioDealPath(deal.id, 'versions'), /\/versions$/],
+    ['Snapshots', studioDealPath(deal.id, 'versions'), /\/versions$/],
     ['Reports', studioReportPath(deal.id), /^\/studio\/reports\//],
   ] as const;
 
   return (
-    <nav className="tabs-row" aria-label="Deal workflow sections">
+    <>
+      <DealStageStepper dealId={deal.id} />
+      <nav className="tabs-row" aria-label="Deal workflow sections">
       {tabs.map(([tab, href, matcher]) => {
         const active = matcher.test(location.pathname);
         return (
@@ -51,7 +54,8 @@ export function DealWorkflowTabs({ deal }: { deal: Deal }): ReactElement {
           </Link>
         );
       })}
-    </nav>
+      </nav>
+    </>
   );
 }
 

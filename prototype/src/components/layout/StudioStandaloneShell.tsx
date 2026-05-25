@@ -5,7 +5,7 @@ import { PageTransition } from '@/components/motion/PageTransition';
 import { RouteProgress } from '@/components/layout/RouteProgress';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
-import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
+import { getDealIdFromPath, studioDealPath } from '@/data/studio';
 import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitives';
 import { useStudioSurfaceFonts } from '@/lib/fonts/useStudioSurfaceFonts';
 import { getStudioRouteTitle } from '@/lib/a11y/routeTitles';
@@ -15,6 +15,7 @@ export function StudioStandaloneShell(): ReactElement {
   const location = useLocation();
   const routeAnnouncement = useRouteAnnouncement(getStudioRouteTitle(location.pathname));
   useStudioSurfaceFonts();
+  const dealId = getDealIdFromPath(location.pathname);
 
   return (
     <div className="studio-standalone">
@@ -29,7 +30,7 @@ export function StudioStandaloneShell(): ReactElement {
         </Link>
         <nav aria-label="Report builder links">
           <Link to="/studio/dashboard">Dashboard</Link>
-          <Link to={studioDealPath(DEFAULT_DEAL_ID)}>Deals</Link>
+          <Link to={studioDealPath(dealId)}>Back to deal</Link>
           <Link to="/studio/settings/white-label">White Label</Link>
         </nav>
         <div className="studio-topbar-actions">
