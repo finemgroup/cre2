@@ -50,6 +50,7 @@ import {
 } from '@/components/workflow/WorkflowPrimitives';
 import { DealCockpitSummary } from '@/components/workflow/DealCockpitSummary';
 import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
+import { HitlReviewDrawer } from '@/components/workflow/HitlReviewDrawer';
 import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
 import {
   CalculationBreakdownDrawer,
@@ -801,6 +802,7 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
     label: string;
     detail: string;
   } | null>(null);
+  const [hitlDrawerOpen, setHitlDrawerOpen] = useState(false);
   const { pushToast } = usePrototypeToast();
   const [assumptions, setAssumptions] = useState(() => baseAssumptions);
 
@@ -827,6 +829,15 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
       />
       <DealWorkflowTabs deal={deal} />
       <SyntheticDataBanner />
+      {!gates.every((gate) => gate.status === 'PASS' || gate.status === 'OVERRIDDEN') ? (
+        <GateResolutionCallout
+          action="Lock valuation snapshot"
+          prerequisite="Underwriting gates remain open, including lender quote and unit count evidence."
+          owner="An analyst"
+          resolveTo={studioDealPath(deal.id, 'underwriting-sources')}
+          resolveLabel="Resolve evidence blockers"
+        />
+      ) : null}
       <StudioCard title="Workflow Spine" eyebrow="Assumptions → export">
         <WorkflowSpineNav steps={buildUnderwritingSpineSteps(deal.id, 'assumptions')} />
       </StudioCard>
@@ -971,6 +982,13 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
             label="Open HITL review queue"
             reason="Internal reviewer assignments do not persist promotion authority."
           />
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => setHitlDrawerOpen(true)}
+          >
+            Open analyst review drawer
+          </button>
           <WorkflowHandoffLink
             to={studioDealPath(deal.id, 'spatial')}
             label="Open spatial workbench"
@@ -1006,6 +1024,11 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
           setLocked(true);
           pushToast('Version lock recorded as mock governance state.', 'success');
         }}
+      />
+      <HitlReviewDrawer
+        dealId={deal.id}
+        isOpen={hitlDrawerOpen}
+        onClose={() => setHitlDrawerOpen(false)}
       />
     </WorkflowContinuityContainer>
   );
@@ -1054,6 +1077,13 @@ export function StudioScenarioComparisonPage(): ReactElement {
         Scenario outputs are mock calculations and not investment recommendations. Lock remains
         disabled until source and lender gates clear.
       </NonProductionCallout>
+      <GateResolutionCallout
+        action="Promote scenario to valuation snapshot"
+        prerequisite="Upside rent growth remains candidate evidence and lender quote is still missing."
+        owner="An analyst"
+        resolveTo={studioDealPath(deal.id, 'underwriting-debt')}
+        resolveLabel="Review debt / lender quote"
+      />
       <div className="scenario-grid">
         {scenarioMetrics.map((scenario) => (
           <StudioCard key={scenario.name} title={scenario.name}>
@@ -1334,6 +1364,13 @@ export function StudioDataReviewPage(): ReactElement {
       <NonProductionCallout>
         Normalization rows are candidate-only mock evidence until analyst and reviewer gates clear.
       </NonProductionCallout>
+      <GateResolutionCallout
+        action="Promote normalized fields to assumptions"
+        prerequisite="Unit count conflict between OM and rent roll remains unresolved."
+        owner="An analyst"
+        resolveTo={studioDealPath(deal.id, 'underwriting-sources')}
+        resolveLabel="Open source trace"
+      />
       <div className="dashboard-grid">
         <StudioCard title="Source Files">
           <DataTable
@@ -1577,6 +1614,13 @@ export function StudioValuationVersionTimelinePage(): ReactElement {
         Snapshot history is a mock governance projection. Immutable storage and receipts remain
         runtime gated.
       </NonProductionCallout>
+      <GateResolutionCallout
+        action="Export governed report"
+        prerequisite="Export remains blocked until section review, source rights, and snapshot lock clear."
+        owner="An analyst"
+        resolveTo={studioReportPath(deal.id)}
+        resolveLabel="Review report gates"
+      />
       <StudioCard title="Export eligibility">
         <ValuationReadinessRail
           evaluation={valuationVersion.readiness}

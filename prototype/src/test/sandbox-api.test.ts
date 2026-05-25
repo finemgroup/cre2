@@ -85,6 +85,26 @@ describe('sandbox API shell', () => {
     expect(JSON.stringify(allowed)).toContain('HITL reviewer decision required');
   });
 
+  it('serves studio dashboard and deal workflow projections', async () => {
+    const dashboard = await readJson<{ deals: unknown[] }>(
+      await request('/studio/dashboard', { actor: fixtureActors.orgAdmin })
+    );
+    const deal = await readJson<{ deal: { id: string } }>(
+      await request('/studio/deals/riverside-flats', { actor: fixtureActors.orgAdmin })
+    );
+    const progress = await readJson<{ progress: Record<string, string> }>(
+      await request('/studio/deals/riverside-flats/workflow/progress')
+    );
+    const nextAction = await readJson<{ label: string }>(
+      await request('/studio/deals/riverside-flats/workflow/next-action')
+    );
+
+    expect(dashboard.deals.length).toBeGreaterThan(0);
+    expect(deal.deal.id).toBe('riverside-flats');
+    expect(progress.progress.Underwriting).toBeTruthy();
+    expect(nextAction.label.length).toBeGreaterThan(0);
+  });
+
   it('replays identical export idempotency keys with the same receipt', async () => {
     const first = await readJson<{ receipt: { id: string } }>(
       await request('/exports', {

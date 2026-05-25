@@ -2,7 +2,7 @@
 
 **Purpose:** Single checklist of every mock-only prototype location so operators can resolve them deliberately when gated lanes open. This is a **tracking doc**, not runtime authorization.
 
-**Last synced:** 2026-05-25 (after Wave 6 UX polish, commit `0d56472`)
+**Last synced:** 2026-05-25 (after Wave 7 runtime bridge and staging hardening)
 
 **Related docs:**
 
@@ -44,6 +44,8 @@
 | `*` (404) | `prototype/src/pages/NotFoundPage.tsx` | Static guard | `keep-mock` | — |
 
 **Public mock data sources:** `prototype/src/data/mock.ts`, `lib/runtime/public-search.ts`, `lib/runtime/public-comps.ts`, `lib/runtime/report-flow.ts`, `lib/runtime/upload-flow.ts`
+
+**Runtime adapter layer (Wave 7):** When `VITE_SOPHEX_RUNTIME_MODE=api`, public and studio reads route through `lib/runtime/sandbox-api-client.ts` → `/sandbox/v0/*` (`sandbox-api.ts`). In-process fallback when `VITE_SOPHEX_API_BASE_URL` is empty; standalone rehearsal via `npm run sandbox:server`. UI routes and mock-boundary banners unchanged.
 
 **Public ↔ Studio identity:** `lib/workflow-identity/index.ts` (`demo-001`↔`riverside-flats`, `demo-002`↔`1200-tech`)
 
@@ -224,7 +226,7 @@ Artifacts: `docs/design/stitch-underwriting-workstation/`
 
 | Coverage | Location | Notes |
 | --- | --- | --- |
-| Unit tests | `prototype/src/test/` | 249 tests post–Wave 6 (`deal-stage-model.test.ts` added) |
+| Unit tests | `prototype/src/test/` | 256+ tests; `sandbox-api.test.ts` covers public + studio API shell |
 | Storybook | `prototype/src/stories/` | Includes `Wave3Polish.stories.tsx` |
 | E2E flows | `prototype/e2e/flows.spec.ts` | Cross-entity demo paths; **Underwrite in Studio** entry CTA |
 | Visual baselines | `prototype/e2e/visual.spec.ts-snapshots/` | Updated for Valuation snapshots + Wave 6 chrome |

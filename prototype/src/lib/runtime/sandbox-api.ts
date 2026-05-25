@@ -7,6 +7,14 @@ import { getPublicPropertyView } from '@/lib/runtime/public-property';
 import { getPublicCompContextView } from '@/lib/runtime/public-comps';
 import { getPublicReportView, getPublicExportDecision } from '@/lib/runtime/report-flow';
 import type { ExportScope } from '@/lib/runtime/export-policy';
+import {
+  getStudioCompViews,
+  getStudioDashboardView,
+  getStudioDealView,
+  getStudioReportBuilderView,
+  getStudioScenarioView,
+} from '@/lib/runtime/studio-workspace';
+import { getDealNextAction, getDealStageProgress } from '@/lib/workflow/deal-stage-model';
 
 export type SandboxApiSuccess<T> = {
   status: number;
@@ -109,6 +117,40 @@ export async function routeSandboxRequest(request: Request): Promise<SandboxApiR
       );
     }
     return ok({ items: getReviewQueue(actor) });
+  }
+
+  if (request.method === 'GET' && path === '/studio/dashboard') {
+    return ok(getStudioDashboardView(actor));
+  }
+
+  const studioDealMatch = path.match(/^\/studio\/deals\/([^/]+)$/);
+  if (request.method === 'GET' && studioDealMatch) {
+    const view = getStudioDealView(studioDealMatch[1], actor);
+    return view ? ok(view) : safeError(404, 'not_found', 'Deal was not found.');
+  }
+
+  if (request.method === 'GET' && path === '/studio/comps') {
+    return ok({ items: getStudioCompViews(actor) });
+  }
+
+  const reportBuilderMatch = path.match(/^\/studio\/deals\/([^/]+)\/report-builder$/);
+  if (request.method === 'GET' && reportBuilderMatch) {
+    const view = getStudioReportBuilderView(reportBuilderMatch[1], actor);
+    return view ? ok(view) : safeError(404, 'not_found', 'Report builder view was not found.');
+  }
+
+  if (request.method === 'GET' && path === '/studio/scenarios') {
+    return ok(getStudioScenarioView());
+  }
+
+  const workflowProgressMatch = path.match(/^\/studio\/deals\/([^/]+)\/workflow\/progress$/);
+  if (request.method === 'GET' && workflowProgressMatch) {
+    return ok({ progress: getDealStageProgress(workflowProgressMatch[1]) });
+  }
+
+  const workflowNextActionMatch = path.match(/^\/studio\/deals\/([^/]+)\/workflow\/next-action$/);
+  if (request.method === 'GET' && workflowNextActionMatch) {
+    return ok(getDealNextAction(workflowNextActionMatch[1]));
   }
 
   const reportMatch = path.match(/^\/reports\/([^/]+)$/);

@@ -43,6 +43,9 @@ jobs:
       - name: Unit tests with coverage
         run: npm run test:coverage
 
+      - name: Sandbox API tests
+        run: npm run test:api
+
       - name: Build
         run: npm run build
 
@@ -75,9 +78,13 @@ jobs:
 
       - name: Build preview bundle
         run: npm run build
+        env:
+          VITE_SOPHEX_RUNTIME_MODE: api
 
       - name: Playwright smoke and visual tests
         run: npm run test:e2e
+        env:
+          VITE_SOPHEX_RUNTIME_MODE: api
 
   lighthouse:
     runs-on: ubuntu-latest

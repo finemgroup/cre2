@@ -3,10 +3,18 @@ import type { ActorContext } from '@/lib/contracts/actor-context';
 import type { PropertyRecord } from '@/data/mock';
 import type { PublicPropertyView } from '@/lib/runtime/public-property';
 import type { PublicCompContextView } from '@/lib/runtime/public-comps';
-import type { PublicReportView, RuntimeServices } from '@/lib/runtime/service-ports';
+import type {
+  PublicReportView,
+  RuntimeServices,
+  StudioCompView,
+  StudioDashboardView,
+  StudioDealView,
+  StudioReportBuilderView,
+  StudioScenarioView,
+} from '@/lib/runtime/service-ports';
+import type { DealNextAction, DealStageStatus, DealWorkflowStage } from '@/lib/workflow/deal-stage-model';
 import type { ExportPolicyDecision } from '@/lib/runtime/export-policy';
 import { handleSandboxApiRequest } from '@/lib/runtime/sandbox-api';
-import { fixtureRuntimeServices } from '@/lib/runtime/service-ports';
 
 export type SandboxClientOptions = {
   baseUrl?: string;
@@ -52,7 +60,37 @@ export function createSandboxApiRuntimeServices(
         });
       },
     },
-    studio: fixtureRuntimeServices.studio,
+    studio: {
+      async getDashboard(actor) {
+        return client.get<StudioDashboardView>('/studio/dashboard', { actor });
+      },
+      async getDeal(dealId, actor) {
+        if (!dealId) return undefined;
+        return client.get<StudioDealView>(`/studio/deals/${dealId}`, { actor });
+      },
+      async getComps(actor) {
+        const response = await client.get<{ items: StudioCompView[] }>('/studio/comps', { actor });
+        return response.items;
+      },
+      async getReportBuilder(dealId, actor) {
+        if (!dealId) return undefined;
+        return client.get<StudioReportBuilderView>(`/studio/deals/${dealId}/report-builder`, {
+          actor,
+        });
+      },
+      async getScenarios() {
+        return client.get<StudioScenarioView>('/studio/scenarios');
+      },
+      async getWorkflowProgress(dealId) {
+        const response = await client.get<{ progress: Record<DealWorkflowStage, DealStageStatus> }>(
+          `/studio/deals/${dealId}/workflow/progress`
+        );
+        return response.progress;
+      },
+      async getNextAction(dealId) {
+        return client.get<DealNextAction>(`/studio/deals/${dealId}/workflow/next-action`);
+      },
+    },
   };
 }
 

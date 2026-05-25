@@ -29,9 +29,11 @@ export function DealWorkflowTabs({ deal }: { deal: Deal }): ReactElement {
     ['Inputs', studioDealPath(deal.id, 'intake'), /\/intake$/],
     ['Evidence', studioDealPath(deal.id, 'data-review'), /\/data-review$/],
     ['Comps', studioDealPath(deal.id, 'comps'), /\/comps$/],
-    ['Underwriting', studioDealPath(deal.id, 'underwriting'), /\/underwriting$/],
-    ['Sources', studioDealPath(deal.id, 'underwriting-sources'), /\/underwriting\/sources$/],
-    ['Debt', studioDealPath(deal.id, 'underwriting-debt'), /\/underwriting\/debt$/],
+    [
+      'Underwriting',
+      studioDealPath(deal.id, 'underwriting'),
+      /\/underwriting(?:\/(?:sources|debt))?$/,
+    ],
     ['Scenarios', studioDealPath(deal.id, 'scenarios'), /\/scenarios$/],
     ['Snapshots', studioDealPath(deal.id, 'versions'), /\/versions$/],
     ['Reports', studioReportPath(deal.id), /^\/studio\/reports\//],
@@ -55,7 +57,37 @@ export function DealWorkflowTabs({ deal }: { deal: Deal }): ReactElement {
         );
       })}
       </nav>
+      {/\/underwriting(?:\/(?:sources|debt))?$/.test(location.pathname) ? (
+        <UnderwritingSubTabs deal={deal} />
+      ) : null}
     </>
+  );
+}
+
+export function UnderwritingSubTabs({ deal }: { deal: Deal }): ReactElement {
+  const location = useLocation();
+  const tabs = [
+    ['Cockpit', studioDealPath(deal.id, 'underwriting'), /\/underwriting$/],
+    ['Source trace', studioDealPath(deal.id, 'underwriting-sources'), /\/underwriting\/sources$/],
+    ['Debt / lender quote', studioDealPath(deal.id, 'underwriting-debt'), /\/underwriting\/debt$/],
+  ] as const;
+
+  return (
+    <nav className="tabs-row underwriting-sub-tabs" aria-label="Underwriting panels">
+      {tabs.map(([tab, href, matcher]) => {
+        const active = matcher.test(location.pathname);
+        return (
+          <Link
+            key={tab}
+            className={active ? 'active tab-link' : 'tab-link'}
+            to={href}
+            aria-current={active ? 'page' : undefined}
+          >
+            {tab}
+          </Link>
+        );
+      })}
+    </nav>
   );
 }
 

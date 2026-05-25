@@ -116,3 +116,19 @@ See `STITCH_UNDERWRITING_WORKSTATION_TRIAGE.md` and `docs/design/stitch-underwri
 | Navigation/copy refresh | Implemented | Evidence/Snapshots labels, advanced nav gate hints, valuation snapshot language |
 | Delivery continuity | Implemented | Report breadcrumb, mock-boundary banners, Underwrite in Studio CTA |
 | Mock resolution registry sync | Implemented | `MOCK_RESOLUTION_REGISTRY.md` updated for Wave 6 workflow UX layer |
+
+## Wave 7 Runtime Bridge And Staging (2026-05-25)
+
+| Track | Status | Notes |
+| --- | --- | --- |
+| Studio sandbox API | Implemented | `/studio/dashboard`, deals, comps, report-builder, scenarios, workflow progress/next-action |
+| API client studio wiring | Implemented | `sandbox-api-client.ts` studio ports no longer fall back to fixtures |
+| Vite sandbox middleware | Implemented | `plugins/sandbox-api-plugin.mjs` serves `/sandbox/v0/*` with staging security headers |
+| Standalone sandbox server | Implemented | `npm run sandbox:server` on port 8787 |
+| Underwriting sub-tabs | Implemented | Cockpit / source trace / debt nested under Underwriting tab |
+| HITL drawer layer | Implemented | `HitlReviewDrawer` on underwriting cockpit; route preserved for deep links |
+| Gate resolution expansion | Implemented | Callouts on underwriting, data-review, scenarios, snapshots |
+| CI API tests | Implemented | `test:api` in prototype CI quality job |
+| API-mode e2e smoke | Implemented | `e2e/api-mode.spec.ts`; CI builds with `VITE_SOPHEX_RUNTIME_MODE=api` |
+| Staging deploy config | Implemented | `netlify.toml`, `public/_headers`, staging checklist status refresh |
+| Mock resolution registry sync | Implemented | Sandbox runtime adapter layer logged post-`674d023` bridge |

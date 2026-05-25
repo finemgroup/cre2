@@ -4,12 +4,15 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 
+import { sandboxApiPlugin } from './plugins/sandbox-api-plugin.mjs';
+
 const analyzeBundle = process.env.npm_lifecycle_event === 'bundle:analyze';
 
 export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
+    sandboxApiPlugin(),
     analyzeBundle
       ? visualizer({
           filename: 'dist/bundle-analysis.html',

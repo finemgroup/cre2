@@ -6,8 +6,8 @@
 
 | Area             | Requirement                                                                                       | Initial status               |
 | ---------------- | ------------------------------------------------------------------------------------------------- | ---------------------------- |
-| Frontend mode    | `VITE_SOPHEX_RUNTIME_MODE=api` for API-backed rehearsal; `fixture` remains the default local mode | Configured in `.env.example` |
-| API base URL     | `VITE_SOPHEX_API_BASE_URL` points to the approved sandbox API origin                              | Pending target selection     |
+| Frontend mode    | `VITE_SOPHEX_RUNTIME_MODE=api` for API-backed rehearsal; `fixture` remains the default local mode | Configured in `.env.example`; CI e2e builds with `api` |
+| API base URL     | `VITE_SOPHEX_API_BASE_URL` points to the approved sandbox API origin                              | In-process fallback when empty; `npm run sandbox:server` for HTTP rehearsal |
 | Data posture     | Synthetic or approved schema-backed staging data only                                             | Synthetic first              |
 | Public exposure  | Controlled staging/preview until launch gates are cleared                                         | Pending approval             |
 | Real uploads     | Disabled until contribution terms and file safety clear                                           | Blocked                      |
@@ -20,7 +20,7 @@
 | TypeScript     | `npm run typecheck` from `prototype/`                   | Pass                                |
 | Lint           | `npm run lint` from `prototype/`                        | Pass                                |
 | Formatting     | `npm run format:check` from `prototype/`                | Pass                                |
-| Unit/API tests | `npm run test` and `npm run test:api` from `prototype/` | Pass                                |
+| Unit/API tests | `npm run test` and `npm run test:api` from `prototype/` | Pass — `test:api` in CI quality job |
 | Build          | `npm run build` from `prototype/`                       | Pass                                |
 | Bundle budget  | `npm run budget:check` from `prototype/`                | Pass                                |
 | E2E smoke      | `npm run test:e2e` from `prototype/`                    | Pass or documented flake with rerun |
@@ -35,7 +35,7 @@
 | Safe errors        | API responses use safe envelopes without private field values                                |
 | Permission tests   | Anonymous/source-owner/org/paid/operator/partner fixture matrix covered at API level         |
 | Idempotency        | Governed writes require `Idempotency-Key` and fail closed on conflict                        |
-| Headers            | Staging host must set CSP, frame, referrer, content-type, and permissions policies           |
+| Headers            | Staging host must set CSP, frame, referrer, content-type, and permissions policies           | `netlify.toml`, `public/_headers`, `plugins/sandbox-api-plugin.mjs` preview middleware |
 | Observability      | Logs use correlation ids and redacted event labels only                                      |
 | Incident readiness | Security contact, privacy request path, and rollback owner identified before public exposure |
 
