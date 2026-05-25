@@ -2,6 +2,7 @@ export {
   getMotionProps,
   getMotionSpec,
   getWorkflowTransitionProps,
+  LIST_STAGGER_CHILD_DELAY_S,
   MOTION_DURATION_MS,
   MOTION_EASING,
   SOPHEX_MOTION_SPECS,

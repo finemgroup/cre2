@@ -30,10 +30,12 @@ import {
   ReviewPostureBanner,
   SourceEvidenceBlockCard,
 } from '@/components/provenance/ProvenanceWidgets';
-import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
+import { EvidenceMetadataList } from '@/components/evidence/EvidenceMetadataList';
+import type { EvidenceMetadataItem } from '@/components/evidence/EvidenceMetadataList';
 import { UploadDropzone } from '@/components/upload/UploadDropzone';
 import { StagedImportReviewPanel } from '@/components/review/StagedImportReviewPanel';
 import { GateOverrideModal } from '@/components/overlays/GateOverrideModal';
+import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
 import { TrustExplainerDrawer } from '@/components/overlays/TrustExplainerDrawer';
 import { UpgradePlanModal } from '@/components/overlays/UpgradePlanModal';
 import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
@@ -78,6 +80,33 @@ import {
   StudioDealNotFound,
   useStudioDeal,
 } from '@/pages/studio/StudioShared';
+
+const DEAL_DOCUMENT_EVIDENCE: EvidenceMetadataItem[] = [
+  {
+    label: 'Offering memorandum.pdf',
+    value: 'Purchase price and unit mix extracted as candidate fields',
+    authorityLabel: 'Candidate evidence',
+    safeExplanation: 'Document bytes stay prototype-only until review clears source-use.',
+    sourceId: 'doc-om-riverside-flats',
+    asOf: '2026-05-22',
+  },
+  {
+    label: 'Rent roll.xlsx',
+    value: 'Occupied units and in-place rents staged for analyst review',
+    authorityLabel: 'Reviewed',
+    safeExplanation: 'Reviewed org-private rent roll supports underwriting assumptions only.',
+    sourceId: 'doc-rent-roll-riverside-flats',
+    asOf: '2026-05-21',
+  },
+  {
+    label: 'T12.pdf',
+    value: 'Operating statement normalized to prototype expense categories',
+    authorityLabel: 'Candidate evidence',
+    safeExplanation: 'Expense normalization remains advisory until reviewer signoff.',
+    sourceId: 'doc-t12-riverside-flats',
+    asOf: '2026-05-19',
+  },
+];
 
 export function StudioDashboardPage(): ReactElement {
   const dashboardView = getStudioDashboardView();
@@ -297,6 +326,7 @@ export function StudioDealOverviewPage(): ReactElement {
           Candidate document evidence remains separate from canonical deal facts until reviewed.
         </p>
         <TrustBadge state="Candidate evidence" />
+        <EvidenceMetadataList heading="Source documents" items={DEAL_DOCUMENT_EVIDENCE} />
       </DetailDrawer>
     </div>
   );

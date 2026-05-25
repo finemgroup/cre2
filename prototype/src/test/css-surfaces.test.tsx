@@ -15,4 +15,18 @@ describe('surface token scoping', () => {
     expect(document.querySelector('.studio-shell')).toBeTruthy();
     expect(screen.getByRole('heading', { name: /Main Deal Dashboard/i })).toBeInTheDocument();
   });
+
+  it('uses distinct primary button tokens on public and studio surfaces', async () => {
+    const publicRender = await renderRoute('/');
+    const publicButton = publicRender.container.querySelector('.shell .btn-primary');
+    expect(publicButton).toBeTruthy();
+
+    await renderRoute('/studio/dashboard');
+    const studioButton = document.querySelector('.studio-shell .btn-primary');
+    expect(studioButton).toBeTruthy();
+
+    const publicColor = getComputedStyle(publicButton as Element).backgroundColor;
+    const studioColor = getComputedStyle(studioButton as Element).backgroundColor;
+    expect(publicColor).not.toBe(studioColor);
+  });
 });

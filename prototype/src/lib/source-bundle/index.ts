@@ -5,6 +5,7 @@ export type SourceCitation = {
   page?: number;
   confidence: 'High' | 'Medium' | 'Low';
   visibility: 'Public' | 'Org-private' | 'Premium-private' | 'Candidate-only';
+  asOf?: string;
 };
 
 export type SourceEvidenceBlock = {
@@ -52,6 +53,7 @@ export const mockSourceBlocks: SourceEvidenceBlock[] = [
         page: 4,
         confidence: 'High',
         visibility: 'Candidate-only',
+        asOf: '2026-05-20',
       },
       {
         id: 'om-2',
@@ -60,6 +62,7 @@ export const mockSourceBlocks: SourceEvidenceBlock[] = [
         page: 12,
         confidence: 'Medium',
         visibility: 'Candidate-only',
+        asOf: '2026-05-20',
       },
     ],
     missingCitations: ['Tax reassessment source still missing.'],
@@ -76,6 +79,7 @@ export const mockSourceBlocks: SourceEvidenceBlock[] = [
         sourceType: 'Rent roll',
         confidence: 'High',
         visibility: 'Org-private',
+        asOf: '2026-05-18',
       },
     ],
   },

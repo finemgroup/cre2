@@ -1,10 +1,10 @@
-import { motion } from 'framer-motion';
+import { motion, type Variants } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import type { CSSProperties, ReactElement, ReactNode } from 'react';
+import { Children, isValidElement, type CSSProperties, type ReactElement, type ReactNode } from 'react';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
-import { getMotionProps, getMotionSpec, useReducedMotionPreference } from '@/lib/motion';
+import { getMotionProps, getMotionSpec, LIST_STAGGER_CHILD_DELAY_S, useReducedMotionPreference } from '@/lib/motion';
 import { formatTrustBadgeState } from '@/lib/authority/authority-vocabulary';
 import type { AuthorityState, JobStatusProjection } from '@/data/studio';
 
@@ -176,10 +176,50 @@ export function AnimatedList({
   id,
 }: ChildrenProps & { className?: string; id?: string }): ReactElement {
   const reducedMotion = useReducedMotionPreference();
-  const props = getMotionProps(getMotionSpec('listStagger'), reducedMotion);
+  const childItems = Children.toArray(children).filter(isValidElement);
+
+  if (reducedMotion) {
+    return (
+      <div id={id} className={className} data-sophex-motion="listStagger">
+        {children}
+      </div>
+    );
+  }
+
+  const itemSpec = getMotionSpec('listStagger');
+  const childVariants: Variants = {
+    initial: (itemSpec.initial ?? { opacity: 0, y: 6 }) as Variants[string],
+    animate: (itemSpec.animate ?? { opacity: 1, y: 0 }) as Variants[string],
+  };
+
   return (
-    <motion.div id={id} className={className} data-sophex-motion="listStagger" {...props}>
-      {children}
+    <motion.div
+      id={id}
+      className={className}
+      data-sophex-motion="listStagger"
+      data-stagger-children="true"
+      initial="initial"
+      animate="animate"
+      variants={{
+        initial: {},
+        animate: {
+          transition: {
+            staggerChildren: LIST_STAGGER_CHILD_DELAY_S,
+            delayChildren: 0.02,
+          },
+        },
+      }}
+    >
+      {childItems.map((child, index) => (
+        <motion.div
+          key={child.key ?? `list-item-${index}`}
+          data-sophex-motion="listStaggerChild"
+          variants={childVariants}
+          transition={itemSpec.transition}
+        >
+          {child}
+        </motion.div>
+      ))}
     </motion.div>
   );
 }

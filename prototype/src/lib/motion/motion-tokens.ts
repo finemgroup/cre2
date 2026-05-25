@@ -37,6 +37,8 @@ function msToSeconds(ms: number): number {
   return ms / 1000;
 }
 
+export const LIST_STAGGER_CHILD_DELAY_S = 0.06;
+
 export const SOPHEX_MOTION_SPECS: Record<SophexMotionSpecName, MotionSpec> = {
   reveal: {
     initial: { opacity: 0, y: 10 },

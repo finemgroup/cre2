@@ -58,14 +58,27 @@ describe('SophexMotionSurface', () => {
 });
 
 describe('AnimatedList', () => {
-  it('exposes list stagger motion metadata', () => {
+  it('exposes list stagger motion metadata and child wrappers', () => {
     render(
       <AnimatedList>
         <span>Activity</span>
+        <span>Follow-up</span>
       </AnimatedList>
     );
 
-    const list = screen.getByText('Activity').parentElement;
+    const list = screen.getByText('Activity').parentElement?.parentElement;
     expect(list).toHaveAttribute('data-sophex-motion', 'listStagger');
+    expect(list).toHaveAttribute('data-stagger-children', 'true');
+    expect(screen.getByText('Activity').parentElement).toHaveAttribute(
+      'data-sophex-motion',
+      'listStaggerChild'
+    );
+  });
+});
+
+describe('list stagger timing', () => {
+  it('uses a child delay constant for staggered lists', async () => {
+    const { LIST_STAGGER_CHILD_DELAY_S } = await import('@/lib/motion/motion-tokens');
+    expect(LIST_STAGGER_CHILD_DELAY_S).toBeGreaterThan(0);
   });
 });

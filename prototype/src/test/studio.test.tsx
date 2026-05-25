@@ -36,6 +36,16 @@ describe('Finem CRE Studio routes', () => {
     expect(document.title).toBe('Comps - Riverside Flats - Finem CRE Studio');
   });
 
+  it('shows source metadata in the deal document evidence drawer', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/studio/deals/riverside-flats');
+
+    await user.click(screen.getByRole('button', { name: /Open drawer/i }));
+    expect(screen.getByRole('dialog', { name: /Document Evidence/i })).toBeInTheDocument();
+    expect(screen.getByText(/doc-om-riverside-flats/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/As of/i).length).toBeGreaterThan(0);
+  });
+
   it('shows prototype feedback for inert report builder actions', async () => {
     const user = userEvent.setup();
     await renderRoute('/studio/reports/riverside-flats/builder');

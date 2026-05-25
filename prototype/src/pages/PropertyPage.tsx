@@ -4,6 +4,7 @@ import { Link, useParams } from 'react-router-dom';
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
 import { MapPlaceholderPreview } from '@/components/spatial/MapPlaceholderPreview';
+import { EvidenceMetadataList } from '@/components/evidence/EvidenceMetadataList';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { usePrototypeAction } from '@/lib/prototype/usePrototypeAction';
 import { studioDealPath } from '@/data/studio';
@@ -134,19 +135,10 @@ export function PropertyPage(): ReactElement {
 
       <SophexSheet isOpen={drawerOpen} label="Evidence drawer" onClose={() => setDrawerOpen(false)}>
         <p>Public baseline fields only in this prototype.</p>
-        <ul className="evidence-list">
-          {[...(propertyView?.evidenceDrawer ?? []), ...(propertyView?.spatialContext.evidence ?? [])].map((item) => (
-            <li key={`${item.label}-${item.sourceId ?? item.value}`}>
-              <strong>{item.label}:</strong> {item.value} — {item.safeExplanation}
-              {item.sourceId ? (
-                <p className="muted">
-                  Source ref: <code>{item.sourceId}</code>
-                  {item.asOf ? ` · As of ${item.asOf}` : null}
-                </p>
-              ) : null}
-            </li>
-          ))}
-        </ul>
+        <EvidenceMetadataList
+          heading="Field evidence"
+          items={[...(propertyView?.evidenceDrawer ?? []), ...(propertyView?.spatialContext.evidence ?? [])]}
+        />
         <p className="muted">Private contributor observations are not shown on public routes.</p>
       </SophexSheet>
     </section>

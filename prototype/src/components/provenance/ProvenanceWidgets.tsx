@@ -18,7 +18,14 @@ export function SourceCitation({ citation }: { citation: Citation }): ReactEleme
       <MaterialIcon name="link" />
       {citation.label}
       {citation.page ? ` p.${citation.page}` : ''}
-      <small>{citation.confidence}</small>
+      <small>
+        {citation.confidence}
+        {citation.asOf ? ` · As of ${citation.asOf}` : ''}
+      </small>
+      <span className="sr-only">
+        Source ref {citation.id}
+        {citation.asOf ? `, as of ${citation.asOf}` : ''}
+      </span>
     </span>
   );
 }
