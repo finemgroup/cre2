@@ -29,6 +29,11 @@ Visual trust language for Sophex MVP0 and later phases. These guidelines inherit
 | Publication hold | Blocked from public/client/share/export surfaces | Error / blocked |
 | Provider-restricted | Licensed source cannot be displayed/exported publicly | Error outline |
 | AI estimate needs confirmation | Synthetic value pending human/source confirmation | Purple warning |
+| Approved private-use | Reviewed for private report use only | Success outline + privacy cue |
+| Approved public projection | Reviewed and source-rights eligible for public projection | Success |
+| Approximate centroid | Spatial point is approximate, not legal boundary | Info outline |
+| Sample map data | Mock/sample spatial context only | Neutral / stub |
+| Not legal boundary | Map layer is not survey/title/legal boundary proof | Warning outline |
 
 Do not rely on color alone; every badge needs readable text.
 

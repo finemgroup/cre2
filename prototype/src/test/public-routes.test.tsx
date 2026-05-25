@@ -60,6 +60,7 @@ describe('public Sophex routes', () => {
     expect(
       screen.getByRole('link', { name: /Preview report for 4400 Research Blvd/i })
     ).toHaveAttribute('href', '/report/demo-002');
+    expect(screen.getByRole('heading', { name: /Map context fallback/i })).toBeInTheDocument();
   });
 
   it('opens the public evidence drawer with prototype feedback', async () => {
@@ -68,6 +69,15 @@ describe('public Sophex routes', () => {
     await user.click(screen.getByRole('button', { name: /View evidence drawer/i }));
     expect(screen.getByText(/Public evidence drawer is simulated/i)).toBeInTheDocument();
     expect(screen.getByRole('dialog', { name: /Evidence drawer/i })).toBeInTheDocument();
+  });
+
+  it('shows spatial provenance labels and a non-map fallback on property pages', async () => {
+    await renderRoute('/property/demo-001');
+
+    expect(screen.getAllByText(/Sample map data/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Approximate centroid/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Not legal boundary/i).length).toBeGreaterThan(0);
+    expect(screen.getByRole('heading', { name: /Map facts as list/i })).toBeInTheDocument();
   });
 
   it('shows prototype feedback when selecting a public upload file', async () => {
@@ -135,6 +145,8 @@ describe('public Sophex routes', () => {
       () => expect(screen.getByText(/Redacted evidence refs/i)).toBeInTheDocument(),
       { timeout: 1500 }
     );
+    expect(screen.getByText(/Export manifest/i)).toBeInTheDocument();
+    expect(screen.getByText(/draft-preview/i)).toBeInTheDocument();
   });
 
   it('switches the prototype actor context without exposing private values', async () => {

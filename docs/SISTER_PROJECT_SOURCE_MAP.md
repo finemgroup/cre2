@@ -58,7 +58,7 @@ This map records **reference-only** sister-project paths that informed Sophex do
 | Version governance | `C:\Projects\p51 Site Selection Tool\cre-platform` | Provisional reference for valuation versions, source snapshots, scenario outputs, and receipt-backed export discipline |
 | Export manifest posture | `C:\Projects\p51 Site Selection Tool\cre-platform` | Provisional reference for approved-only export manifests, source bundles, checksums, and redacted receipts |
 
-**Caveat:** Treat this as docs/contracts-only until re-run against a clean authoritative checkout. Do not copy Prisma/schema, Excel/Python runtime, internal IC approval semantics, or AI approve/reject flows.
+**Caveat:** Treat this as docs/contracts-only until re-run against a clean authoritative checkout. Do not copy Prisma/schema, Excel/Python runtime, internal IC approval semantics, or AI approve/reject flows. See the rerun checklist in [CRE_UNDERWRITING_HARVEST_ANNEX_PROVISIONAL.md](CRE_UNDERWRITING_HARVEST_ANNEX_PROVISIONAL.md).
 
 ## ICSC Map Recovery
 
@@ -70,7 +70,7 @@ This map records **reference-only** sister-project paths that informed Sophex do
 | Selection-to-evidence drawer | `C:\Projects\ICSC Map Recovery` | Provisional reference for keeping map context visible while selected features expose source details and safe actions |
 | Asset audit posture | `C:\Projects\ICSC Map Recovery` | Provisional reference for future map asset manifests, source-rights checks, and oversized/stale layer detection |
 
-**Caveat:** Do not copy KML/GeoJSON assets, SharePoint/local links, provider credentials, SQL/Prisma models, or legacy map shell code into Sophex.
+**Caveat:** Do not copy KML/GeoJSON assets, SharePoint/local links, provider credentials, SQL/Prisma models, or legacy map shell code into Sophex. See the rerun checklist in [ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md).
 
 ## Finem Fabricator
 

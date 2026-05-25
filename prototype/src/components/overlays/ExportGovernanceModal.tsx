@@ -38,6 +38,9 @@ export function ExportGovernanceModal({
               Approved sections: {readiness.approvedCount}/{readiness.totalCount}
             </li>
             {policyDecision ? <li>Selected scope: {policyDecision.scope}</li> : null}
+            {policyDecision?.exportManifest ? (
+              <li>Manifest checksum: {policyDecision.exportManifest.checksum}</li>
+            ) : null}
           </ul>
           <div className="modal-actions">
             <button type="button" className="btn btn-secondary" onClick={onClose}>
@@ -69,6 +72,9 @@ export function ExportGovernanceModal({
           </ul>
           {policyDecision ? (
             <p className="muted">Policy decision: {policyDecision.safeMessage}</p>
+          ) : null}
+          {policyDecision?.exportManifest ? (
+            <p className="muted">Draft manifest: {policyDecision.exportManifest.safeSummary}</p>
           ) : null}
           {readiness.warnings.length > 0 ? (
             <>

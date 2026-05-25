@@ -324,6 +324,60 @@ a {
   color: #4a3d91;
 }
 
+.badge-advisory,
+.badge-source-pending,
+.badge-reviewer-required,
+.badge-approved-private-use,
+.badge-approved-public-projection,
+.badge-approximate-centroid,
+.badge-sample-map-data,
+.badge-not-legal-boundary {
+  border-color: #b8d9c7;
+  color: var(--accent);
+}
+
+.provenance-labels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.5rem 0;
+}
+
+.readiness-card {
+  margin: 1rem 0;
+}
+
+.readiness-gates,
+.map-layer-list {
+  display: grid;
+  gap: 0.5rem;
+  padding-left: 0;
+  list-style: none;
+}
+
+.readiness-gates li,
+.map-layer-list li,
+.manifest-summary {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 0.65rem;
+  background: var(--surface-muted);
+}
+
+.readiness-gates li[data-status='blocked'] {
+  border-color: #e0a0a0;
+}
+
+.readiness-gates li[data-status='warning'] {
+  border-color: #e6c200;
+}
+
+.manifest-summary {
+  margin-top: 0.75rem;
+}
+
 .stage-rail ol {
   display: flex;
   flex-wrap: wrap;

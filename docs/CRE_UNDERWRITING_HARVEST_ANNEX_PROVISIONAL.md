@@ -150,6 +150,20 @@ Expanded Composer-ready versions of these tickets live in [COMPOSER_2_5_RAPID_IM
 | `SOPHEX-TIER-HITL` | Adapt tier routing to HITL review policy without auto-approval. |
 | `SOPHEX-HARVEST-REBASE` | Re-run this harvest against a clean authoritative CRE checkout before schema/runtime adoption. |
 
+## Authoritative Rerun Checklist
+
+Before this provisional underwriting annex can become authoritative:
+
+1. Confirm the CRE source path, branch, commit hash, and upstream status.
+2. Confirm the source tree is clean or record all dirty/untracked artifacts.
+3. Inventory underwriting routes, docs, components, contract references, test files, and deprecated/archive paths.
+4. Identify stale, mock, deprecated, or internal-only underwriting APIs before any Sophex adoption.
+5. Exclude Prisma/schema, migrations, Excel/Python runtime, internal IC approval semantics, and AI approve/reject flows.
+6. Diff authoritative findings against this provisional annex.
+7. Update topic docs once, then mark this annex superseded if an authoritative packet replaces it.
+
+No schema, runtime, calculation engine, or provider adoption is authorized until that rerun and operator approval happen.
+
 ## Classification For Future Schema Gate
 
 | CRE underwriting concept | Sophex classification |

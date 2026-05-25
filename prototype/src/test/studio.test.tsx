@@ -42,6 +42,14 @@ describe('Finem CRE Studio routes', () => {
     expect(screen.getByText(/Export Excel is simulated/i)).toBeInTheDocument();
   });
 
+  it('renders report readiness gates and manifest-ready copy in Studio reports', async () => {
+    await renderRoute('/studio/reports/riverside-flats/builder');
+
+    expect(screen.getByRole('heading', { name: /Readiness Gates/i })).toBeInTheDocument();
+    expect(screen.getAllByText(/Assumptions/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Export is disabled until section review/i).length).toBeGreaterThan(0);
+  });
+
   it('renders representative studio routes without basic accessibility violations', async () => {
     const dashboard = await renderRoute('/studio/dashboard');
     expect(await axe(dashboard.container)).toHaveNoViolations();

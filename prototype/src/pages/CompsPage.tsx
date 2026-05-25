@@ -3,14 +3,15 @@ import { Link, useParams } from 'react-router-dom';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
-import { getPublicCompViews } from '@/lib/runtime/public-comps';
+import { getPublicCompContextView } from '@/lib/runtime/public-comps';
 import { getPropertyRecord } from '@/lib/workflow-identity';
 
 export function CompsPage(): ReactElement {
   const { id } = useParams();
   const property = getPropertyRecord(id);
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  const compViews = getPublicCompViews();
+  const compContext = getPublicCompContextView(undefined, property?.id);
+  const compViews = compContext.comps;
   const selected = compViews.find((comp) => comp.id === selectedId);
 
   if (!property) {
@@ -87,6 +88,36 @@ export function CompsPage(): ReactElement {
           </tbody>
         </table>
       </div>
+
+      <section className="card" aria-labelledby="comp-map-context-heading">
+        <h2 id="comp-map-context-heading">Map context fallback</h2>
+        <p className="muted">
+          The comp map is represented as a keyboard-readable list in this prototype.
+        </p>
+        <div className="provenance-labels" aria-label="Comp map provenance labels">
+          <AuthorityBadge label="sample-map-data" />
+          <AuthorityBadge label="not-legal-boundary" />
+        </div>
+        <ul className="map-layer-list" aria-label="Comp map layers">
+          {compContext.mapLayers.map((layer) => (
+            <li key={layer.id}>
+              <strong>{layer.label}</strong>
+              <span>
+                {layer.precisionLabel} · {layer.refreshedLabel}
+              </span>
+              <small>{layer.safeCaveat}</small>
+            </li>
+          ))}
+        </ul>
+        <ul className="evidence-list" aria-label="Trade areas">
+          {compContext.tradeAreas.map((tradeArea) => (
+            <li key={tradeArea.id}>
+              <strong>{tradeArea.label}</strong> — {tradeArea.parametersLabel}.{' '}
+              {tradeArea.safeCaveat}
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <SophexSheet
         isOpen={Boolean(selected)}

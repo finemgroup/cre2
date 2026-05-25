@@ -153,6 +153,16 @@ See `docs/SOPHEX_TRUST_UI_GUIDELINES.md`.
 
 Default to **low motion** on public SEO/GEO pages. Favor route progress bar, skeletons, drawer slide, and short fades. Defer command palette, notification drawer animations, and operator-shell transitions.
 
+## Map Performance Budgets
+
+Map motion and layer loading must stay subordinate to evidence clarity:
+
+- Initial public route JS must remain within the existing prototype bundle budget.
+- Map layer metadata should target <= 24 KB per layer payload.
+- Lazy geometry payloads should target <= 96 KB per approved layer payload.
+- Heavy geometry loads only after layer toggle, selected feature, or approved context threshold.
+- Failed layer loads need text fallback copy; never animate missing provider data as proof.
+
 ## Fabricator Job Phase Timelines (Provisional)
 
 Borrow **phase labels** from Fabricator job projection doctrine — not raw run logs:

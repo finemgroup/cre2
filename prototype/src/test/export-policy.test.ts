@@ -34,6 +34,7 @@ describe('contract-shaped export policy', () => {
 
     expect(decision.allowed).toBe(false);
     expect(decision.blockerCategories).toContain('consent');
+    expect(decision.exportManifest).toBeUndefined();
   });
 
   it('blocks share when source-rights readiness fails', () => {
@@ -49,6 +50,22 @@ describe('contract-shaped export policy', () => {
     expect(decision.allowed).toBe(false);
     expect(decision.blockerCategories).toContain('source-rights');
     expect(JSON.stringify(decision.receipt)).not.toContain('Provider-restricted comp blocked');
+    expect(decision.exportManifest).toBeUndefined();
+  });
+
+  it('returns a draft manifest for preview scope without granting download authority', () => {
+    const decision = evaluateExportPolicy({
+      actor: fixtureActors.public,
+      reportId: 'report-001',
+      scope: 'preview',
+      readiness: blocked,
+      consent: false,
+      idempotencyKey: 'preview-draft-manifest',
+    });
+
+    expect(decision.allowed).toBe(true);
+    expect(decision.exportManifest?.status).toBe('draft-preview');
+    expect(decision.exportManifest?.safeSummary).toMatch(/draft preview/i);
   });
 
   it('allows partner delivery only for partner actors with ready policy', () => {
@@ -72,5 +89,7 @@ describe('contract-shaped export policy', () => {
     expect(userDecision.allowed).toBe(false);
     expect(userDecision.blockerCategories).toContain('partner-scope');
     expect(partnerDecision.allowed).toBe(true);
+    expect(partnerDecision.exportManifest?.status).toBe('approved');
+    expect(partnerDecision.exportManifest?.checksum).toBe('sha256-ready');
   });
 });

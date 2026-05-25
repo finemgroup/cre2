@@ -161,14 +161,28 @@ Public maps need non-map alternatives:
 
 Future map work should define:
 
-- Initial map route JS budget.
-- Initial layer metadata budget.
-- Per-layer geometry budget.
-- Lazy-load threshold.
-- Maximum visible features before clustering/aggregation.
+- Initial map route JS budget: stay within the prototype JS budget unless an approved map route budget is added.
+- Initial layer metadata budget: target <= 24 KB per layer metadata payload.
+- Per-layer geometry budget: target <= 96 KB per lazy-loaded mock/approved geometry payload.
+- Lazy-load threshold: geometry loads only on toggle, selection, or zoom/context threshold.
+- Maximum visible features before clustering/aggregation: document before real provider data ships.
 - Offline/error fallback copy for failed layer fetches.
 
 MVP0 should keep map assets static, tiny, and mock-labeled.
+
+## Authoritative Rerun Checklist
+
+Before this provisional map harvest can become authoritative:
+
+1. Confirm the source path, branch/tag, commit hash, and upstream status.
+2. Confirm the source tree is clean or record all dirty/untracked artifacts.
+3. Inventory KML, GeoJSON, image, local-link, SharePoint-link, and provider-key references.
+4. Exclude secrets, `.env`, local links, provider credentials, and external storage links from Sophex.
+5. Review layer source rights, license posture, as-of dates, stale layers, and generated-vs-hand-authored assets.
+6. Diff authoritative findings against this provisional packet.
+7. Update topic docs once, then mark this packet superseded if an authoritative packet replaces it.
+
+No real map assets, GIS provider calls, or spatial runtime adoption are authorized until that rerun and operator approval happen.
 
 ## Do Not Copy
 

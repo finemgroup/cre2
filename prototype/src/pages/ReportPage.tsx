@@ -14,6 +14,7 @@ export function ReportPage(): ReactElement {
   const reportView = getPublicReportView(id);
   const property = reportView?.property;
   const sections = reportView?.sections ?? [];
+  const valuationVersion = reportView?.valuationVersion;
 
   if (!property) {
     return (
@@ -42,11 +43,40 @@ export function ReportPage(): ReactElement {
 
       <StageRail stages={STAGES} activeIndex={1} />
 
+      {valuationVersion ? (
+        <section className="card readiness-card" aria-labelledby="report-readiness-heading">
+          <h2 id="report-readiness-heading">Readiness rail</h2>
+          <p>{valuationVersion.resultSummary}</p>
+          <div className="provenance-labels" aria-label="Valuation provenance labels">
+            <AuthorityBadge label="advisory" />
+            <AuthorityBadge label="reviewer-required" />
+            <AuthorityBadge label="source-pending" />
+          </div>
+          <ul className="readiness-gates">
+            {valuationVersion.readiness.gates.slice(0, 5).map((gate) => (
+              <li key={gate.id} data-status={gate.status}>
+                <strong>{gate.label}</strong>
+                <span>
+                  {gate.status} · {gate.safeMessage}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       <div className="card-grid">
         {sections.map((section, index) => (
           <SophexMotionSurface key={section.id} motionName="stageItem" className="card">
             <h2>{section.title}</h2>
             <p>{section.citation}</p>
+            {section.id === 'map' ? (
+              <div className="provenance-labels" aria-label="Map provenance labels">
+                <AuthorityBadge label="sample-map-data" />
+                <AuthorityBadge label="approximate-centroid" />
+                <AuthorityBadge label="not-legal-boundary" />
+              </div>
+            ) : null}
             <AuthorityBadge
               label={
                 section.status === 'ready'

@@ -37,7 +37,7 @@ export function ExportPage(): ReactElement {
     );
   }
 
-  const { property, readiness } = reportView;
+  const { property, readiness, valuationVersion } = reportView;
   const propertyId = property.id;
   const policyDecision = getPublicExportDecision({
     propertyId,
@@ -175,9 +175,36 @@ export function ExportPage(): ReactElement {
                 ? receipt.redactedEvidenceRefs.join(', ')
                 : 'none'}
             </p>
+            {policyDecision?.exportManifest ? (
+              <div className="manifest-summary" aria-label="Export manifest">
+                <strong>Export manifest: {policyDecision.exportManifest.status}</strong>
+                <span>Checksum: {policyDecision.exportManifest.checksum}</span>
+                <span>
+                  Included sections:{' '}
+                  {policyDecision.exportManifest.includedSectionIds.length || 'preview only'}
+                </span>
+                <span>{policyDecision.exportManifest.safeSummary}</span>
+              </div>
+            ) : null}
           </div>
         ) : null}
       </div>
+
+      <section className="card readiness-card" aria-labelledby="readiness-heading">
+        <h2 id="readiness-heading">Valuation readiness gates</h2>
+        <p>{valuationVersion.resultSummary}</p>
+        <ul className="readiness-gates">
+          {valuationVersion.readiness.gates.map((gate) => (
+            <li key={gate.id} data-status={gate.status}>
+              <strong>{gate.label}</strong>
+              <span>
+                {gate.status} · {gate.safeMessage}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p className="muted">{valuationVersion.readiness.safeNextAction}</p>
+      </section>
 
       <ExportGovernanceModal
         isOpen={modalOpen}

@@ -26,4 +26,16 @@ describe('review queue runtime simulation', () => {
 
     expect(reviewed.reviewState).toBe('approved-public-projection');
   });
+
+  it('uses HITL-safe queue language and supports explicit holds', () => {
+    const queue = getReviewQueue(fixtureActors.internalOperator);
+    const held = applyReviewAction({
+      observation: queue[0].observation,
+      actor: fixtureActors.internalOperator,
+      action: 'hold',
+    });
+
+    expect(queue[0].safeStatus).toMatch(/HITL reviewer decision required/i);
+    expect(held.reviewState).toBe('publication-hold');
+  });
 });

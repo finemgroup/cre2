@@ -77,8 +77,38 @@ export function PropertyPage(): ReactElement {
           <p className="eyebrow">Regional map</p>
           <p>Sample map layer — no live geo precision.</p>
           <p className="muted">Selected property context preserved when drawer opens.</p>
+          <div className="provenance-labels" aria-label="Map truth labels">
+            <AuthorityBadge label="sample-map-data" />
+            <AuthorityBadge label="approximate-centroid" />
+            <AuthorityBadge label="not-legal-boundary" />
+          </div>
+          <ul className="map-layer-list" aria-label="Map layer details">
+            {propertyView?.spatialContext.layers.map((layer) => (
+              <li key={layer.id}>
+                <strong>{layer.label}</strong>
+                <span>
+                  {layer.precisionLabel} · {layer.refreshedLabel}
+                </span>
+                <small>{layer.safeCaveat}</small>
+              </li>
+            ))}
+          </ul>
         </aside>
       </div>
+
+      <section className="card" aria-labelledby="map-fallback-heading">
+        <h2 id="map-fallback-heading">Map facts as list</h2>
+        <p className="muted">
+          Non-map fallback for the same sample spatial facts shown in the regional map.
+        </p>
+        <ul className="evidence-list">
+          {propertyView?.spatialContext.evidence.map((item) => (
+            <li key={item.label}>
+              <strong>{item.label}:</strong> {item.value} — {item.safeExplanation}
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <div className="action-row">
         <Link to={`/property/${property.id}/comps`} className="btn btn-primary">
@@ -97,7 +127,7 @@ export function PropertyPage(): ReactElement {
       <SophexSheet isOpen={drawerOpen} label="Evidence drawer" onClose={() => setDrawerOpen(false)}>
         <p>Public baseline fields only in this prototype.</p>
         <ul className="evidence-list">
-          {propertyView?.evidenceDrawer.map((item) => (
+          {[...(propertyView?.evidenceDrawer ?? []), ...(propertyView?.spatialContext.evidence ?? [])].map((item) => (
             <li key={item.label}>
               <strong>{item.label}:</strong> {item.value} — {item.safeExplanation}
             </li>

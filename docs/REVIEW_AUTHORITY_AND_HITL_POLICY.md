@@ -22,6 +22,7 @@ It does not authorize queues, workers, schema work, provider sends, or productio
 - Approved public projection requires explicit reviewer action and source-use eligibility.
 - Rejected, revoked, or superseded evidence remains auditable but cannot be reused for public projection.
 - Publication hold blocks export/share/download until resolved.
+- Machine/model output may recommend, flag, or hold. It is never public projection or export authority by itself.
 
 ## HITL Timeout Policy
 
@@ -31,6 +32,7 @@ Pending review must fail closed:
 - Export/share/download: block or redact affected section.
 - Private report: allow only if private-use policy permits and UI labels remain clear.
 - Queue/job completion: never promotes evidence.
+- Recommendation completion: never promotes evidence without explicit reviewer decision.
 
 ## Audit Requirements
 

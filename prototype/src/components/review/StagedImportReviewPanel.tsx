@@ -45,7 +45,10 @@ export function StagedImportReviewPanel({
         <div>
           <MaterialIcon name="manage_search" />
           <strong>{reviewQueue.length} operator review queue items</strong>
-          <span>Queue completion does not promote evidence without explicit review.</span>
+          <span>
+            HITL reviewer decisions recommend, hold, or approve; queue completion is never
+            publication authority.
+          </span>
         </div>
         <StatusBadge status="Internal-only projection" />
       </div>
@@ -117,7 +120,7 @@ export function StagedImportReviewPanel({
         </ul>
         <DataTable
           caption="Internal operator review queue"
-          headers={['Observation', 'State', 'Action required']}
+          headers={['Observation', 'State', 'HITL action required']}
           rows={reviewQueue.map((item) => [
             item.observation.fieldKey,
             item.observation.reviewState,
@@ -142,6 +145,23 @@ export function StagedImportReviewPanel({
             }}
           >
             Apply explicit review action
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => {
+              const firstReviewItem = reviewQueue[0];
+              if (firstReviewItem) {
+                const reviewed = applyReviewAction({
+                  observation: firstReviewItem.observation,
+                  actor: fixtureActors.internalOperator,
+                  action: 'hold',
+                });
+                setReviewedState(reviewed.reviewState);
+              }
+            }}
+          >
+            Hold for HITL review
           </button>
           <button type="button" className="btn btn-primary" onClick={() => setReviewOpen(false)}>
             Mark reviewed (prototype)

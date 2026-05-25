@@ -79,5 +79,6 @@ The following open questions now have recommended MVP stances documented for fut
 - HITL timeout, promotion authority, queue/job boundaries, and review receipt requirements: `REVIEW_AUTHORITY_AND_HITL_POLICY.md`.
 - Public indexing eligibility, JSON-LD boundaries, sitemap/robots exclusions, and revocation removal: `SEO_INDEXING_GATE_PLAN.md`.
 - Privacy requests, evidence revocation, export takedown, security incident triage, and launch stop conditions: `INCIDENT_RESPONSE_AND_PRIVACY_RUNBOOKS.md`.
+- Spatial provider/source-rights, retention/cache, export/share, precision labels, and indexable map claims: `SPATIAL_SOURCE_RIGHTS_DECISION_PACKET.md`.
 
 These packets are recommendations, not final approvals. Runtime, schema, deploy, provider, queue, and outbound work still require explicit operator approval in the correct lane.

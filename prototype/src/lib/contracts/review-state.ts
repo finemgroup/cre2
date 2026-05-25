@@ -4,7 +4,13 @@ import { isInternalOperator } from '@/lib/contracts/actor-context';
 
 const PROMOTABLE_STATES: ReviewState[] = ['needs-review', 'approved-private-use'];
 
-export type ReviewAction = 'approve-private-use' | 'approve-public-projection' | 'reject' | 'revoke';
+export type ReviewAction =
+  | 'recommend-private-use'
+  | 'approve-private-use'
+  | 'approve-public-projection'
+  | 'hold'
+  | 'reject'
+  | 'revoke';
 
 export function transitionReviewState(
   observation: Observation,
@@ -12,6 +18,10 @@ export function transitionReviewState(
   action: ReviewAction
 ): Observation {
   if (!isInternalOperator(actor)) {
+    return observation;
+  }
+
+  if (action === 'recommend-private-use') {
     return observation;
   }
 
@@ -28,6 +38,7 @@ export function transitionReviewState(
     return { ...observation, reviewState: 'approved-public-projection' };
   }
 
+  if (action === 'hold') return { ...observation, reviewState: 'publication-hold' };
   if (action === 'reject') return { ...observation, reviewState: 'rejected' };
   if (action === 'revoke') return { ...observation, reviewState: 'revoked' };
   return observation;

@@ -15,6 +15,7 @@ import {
 import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceModal';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { ReviewPostureBanner } from '@/components/provenance/ProvenanceWidgets';
+import { StageRail } from '@/components/ui/StageRail';
 import {
   ExportReadinessCard,
   ReportProvenanceCard,
@@ -33,7 +34,14 @@ export function StudioReportBuilderPage(): ReactElement {
   const [receipt, setReceipt] = useState<GovernedReceipt | null>(null);
   const [exportModalOpen, setExportModalOpen] = useState(false);
   if (!reportView) return <StudioDealNotFound />;
-  const { deal, sections, sourceBlocks, readiness, brandConfig: reportBrandConfig } = reportView;
+  const {
+    deal,
+    sections,
+    sourceBlocks,
+    readiness,
+    valuationVersion,
+    brandConfig: reportBrandConfig,
+  } = reportView;
   const approvedCount = sections.filter((section) => section.status === 'Approved').length;
   const studioExportDecision = evaluateExportPolicy({
     actor: fixtureActors.orgAdmin,
@@ -84,10 +92,25 @@ export function StudioReportBuilderPage(): ReactElement {
         }
       />
       <ReviewPostureBanner blocks={sourceBlocks} />
+      <StageRail stages={['Assumptions', 'Evidence', 'Scenarios', 'Review', 'Export']} activeIndex={3} />
       <p className="sr-only" id="report-export-blocked">
         Export is disabled until section review and source-rights gates clear.
       </p>
       <div className="report-builder-grid">
+        <StudioCard title="Readiness Gates">
+          <p>{valuationVersion.resultSummary}</p>
+          <div className="governance-list" aria-label="Studio readiness gates">
+            {valuationVersion.readiness.gates.map((gate) => (
+              <div key={gate.id}>
+                <strong>{gate.label}</strong>
+                <span>
+                  {gate.status} · {gate.safeMessage}
+                </span>
+              </div>
+            ))}
+          </div>
+          <StatusBadge status={valuationVersion.readiness.safeNextAction} />
+        </StudioCard>
         <StudioCard title="Sections">
           <label>
             Report type
@@ -167,6 +190,9 @@ export function StudioReportBuilderPage(): ReactElement {
                 Studio receipt <code>{receipt.id}</code> · {receipt.policyDecision}
               </p>
               <p>{receipt.safeMessage}</p>
+              {studioExportDecision.exportManifest ? (
+                <p>Manifest checksum: {studioExportDecision.exportManifest.checksum}</p>
+              ) : null}
             </div>
           ) : null}
           <Link to="/studio/settings/white-label" className="btn btn-secondary">

@@ -36,4 +36,24 @@ describe('review state contract simulator', () => {
 
     expect(result.reviewState).toBe(observation.reviewState);
   });
+
+  it('keeps machine recommendations from becoming review authority', () => {
+    const observation = fixtureObservations.find((item) => item.id === 'obs-private-cap-rate')!;
+    const result = transitionReviewState(
+      observation,
+      fixtureActors.internalOperator,
+      'recommend-private-use'
+    );
+
+    expect(result.reviewState).toBe(observation.reviewState);
+    expect(isPublicProjectionEligible(result)).toBe(false);
+  });
+
+  it('can explicitly hold evidence for HITL review without promoting it', () => {
+    const observation = fixtureObservations.find((item) => item.id === 'obs-provider-comp')!;
+    const result = transitionReviewState(observation, fixtureActors.internalOperator, 'hold');
+
+    expect(result.reviewState).toBe('publication-hold');
+    expect(isPublicProjectionEligible(result)).toBe(false);
+  });
 });

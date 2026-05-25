@@ -12,6 +12,7 @@ It does not authorize production services, provider sends, queues, schema work, 
 | File safety controls | Real document upload or storage. | Not ready |
 | Evidence review workflow | Candidate extraction affects reports/comps/projections. | Not ready |
 | Export/share receipts | Download, share, partner delivery, or PDF generation. | Not ready |
+| Spatial source rights | Real GIS layers, trade-area claims, map export/share, or indexable map facts. | Not ready |
 | Indexing policy | Public SEO pages using property/report data. | Not ready |
 | Analytics redaction | Production telemetry or conversion analytics. | Not ready |
 | Outbound consent stack | Email, CRM, partner notifications, retargeting, syndication. | Blocked |
@@ -25,6 +26,7 @@ Highest-risk failures:
 - Private comp or uploaded document facts appear on public property pages.
 - User-private or org-private observations are indexed by search engines.
 - Provider-restricted comps leak into exports or public reports.
+- Provider-restricted or unlicensed spatial layers leak into maps, reports, exports, or indexed pages.
 - OCR/chunk output is treated as authoritative.
 - UI-only gating is mistaken for permission enforcement.
 - Export/download/share actions lack idempotent receipts.
@@ -83,6 +85,18 @@ Before extraction affects product output:
 - Queue/job completion cannot promote evidence by itself.
 
 Review policy: see `REVIEW_AUTHORITY_AND_HITL_POLICY.md`.
+
+## Spatial Source Rights Gate
+
+Before real GIS layers, trade areas, traffic, zoning, demographic, parcel, or drive-time data:
+
+- Provider/source rights are approved for public display, private reports, export/share, and indexing.
+- Precision labels are required for approximate centroids, parcels, inferred regions, and custom polygons.
+- Spatial observations have review state and revocation/supersession behavior.
+- Real KML/GeoJSON assets, local links, provider keys, and SharePoint links are excluded unless explicitly approved.
+- Public maps include non-map fallback lists and do not imply legal boundary, title, survey, zoning entitlement, or live traffic certainty.
+
+Decision packet: see `SPATIAL_SOURCE_RIGHTS_DECISION_PACKET.md`.
 
 ## Export, Download, And Share Gate
 

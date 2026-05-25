@@ -1,4 +1,4 @@
-import { useMemo, useState, type ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import {
@@ -11,20 +11,18 @@ import {
 } from '@/components/studio/StudioPrimitives';
 import { getBrokerOsProjection } from '@/lib/runtime/studio-workspace';
 
+const PLANNING_CONTEXT = {
+  mission_id: 'mb_2024_08_x9A',
+  asset_class: 'Multifamily',
+  target_markets: ['Austin, TX', 'Nashville, TN'],
+  parameters: { min_units: 150, max_vintage: 2010, value_add_req: true },
+  assigned_agents: ['Comp_Matcher_AI', 'Underwrite_Model'],
+  execution_status: 'PENDING_REVIEW',
+};
+
 export function StudioBrokerOsPage(): ReactElement {
   const [copied, setCopied] = useState(false);
   const brokerProjection = getBrokerOsProjection();
-  const planningContext = useMemo(
-    () => ({
-      mission_id: 'mb_2024_08_x9A',
-      asset_class: 'Multifamily',
-      target_markets: ['Austin, TX', 'Nashville, TN'],
-      parameters: { min_units: 150, max_vintage: 2010, value_add_req: true },
-      assigned_agents: ['Comp_Matcher_AI', 'Underwrite_Model'],
-      execution_status: 'PENDING_REVIEW',
-    }),
-    []
-  );
 
   return (
     <div>
@@ -90,7 +88,7 @@ export function StudioBrokerOsPage(): ReactElement {
             type="button"
             className="btn btn-secondary"
             onClick={() => {
-              void navigator.clipboard?.writeText(JSON.stringify(planningContext, null, 2));
+              void navigator.clipboard?.writeText(JSON.stringify(PLANNING_CONTEXT, null, 2));
               setCopied(true);
             }}
           >
@@ -103,7 +101,7 @@ export function StudioBrokerOsPage(): ReactElement {
             Sanitized mock planning context copied.
           </p>
         ) : null}
-        <JsonContextViewer value={planningContext} />
+        <JsonContextViewer value={PLANNING_CONTEXT} />
       </StudioCard>
     </div>
   );

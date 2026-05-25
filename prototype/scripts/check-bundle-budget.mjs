@@ -6,6 +6,8 @@ const JS_BUDGET_BYTES = 160 * 1024;
 const CSS_BUDGET_BYTES = 48 * 1024;
 const TOTAL_JS_BUDGET_BYTES = 520 * 1024;
 const TOTAL_CSS_BUDGET_BYTES = 64 * 1024;
+const MAP_LAYER_METADATA_BUDGET_BYTES = 24 * 1024;
+const MAP_LAYER_GEOMETRY_BUDGET_BYTES = 96 * 1024;
 
 const files = await readdir(DIST_ASSETS);
 const failures = [];
@@ -23,6 +25,16 @@ for (const file of files) {
     failures.push(`${file} is ${info.size} bytes, over CSS budget ${CSS_BUDGET_BYTES}`);
   }
   if (file.endsWith('.css')) totalCssBytes += info.size;
+  if (/map-layer.*metadata.*\.json$/i.test(file) && info.size > MAP_LAYER_METADATA_BUDGET_BYTES) {
+    failures.push(
+      `${file} is ${info.size} bytes, over map layer metadata budget ${MAP_LAYER_METADATA_BUDGET_BYTES}`
+    );
+  }
+  if (/map-layer.*geometry.*\.json$/i.test(file) && info.size > MAP_LAYER_GEOMETRY_BUDGET_BYTES) {
+    failures.push(
+      `${file} is ${info.size} bytes, over map layer geometry budget ${MAP_LAYER_GEOMETRY_BUDGET_BYTES}`
+    );
+  }
 }
 
 if (totalJsBytes > TOTAL_JS_BUDGET_BYTES) {

@@ -4,12 +4,25 @@ import type { ExportReadiness } from '@/lib/report-governance';
 
 export type ExportScope = 'preview' | 'download' | 'share' | 'partner-delivery';
 
+export type ExportManifest = {
+  id: string;
+  status: 'draft-preview' | 'approved' | 'blocked';
+  includedSectionIds: string[];
+  redactedEvidenceRefs: string[];
+  excludedReasonCount: number;
+  checksum: string;
+  actorScope: ActorContext['actorClass'];
+  receiptRef: string;
+  safeSummary: string;
+};
+
 export type ExportPolicyDecision = {
   allowed: boolean;
   scope: ExportScope;
   blockerCategories: string[];
   safeMessage: string;
   receipt: GovernedReceipt;
+  exportManifest?: ExportManifest;
 };
 
 export function evaluateExportPolicy(input: {
@@ -39,6 +52,17 @@ export function evaluateExportPolicy(input: {
       ? 'Export scope approved in prototype policy.'
       : 'Export blocked by consent, source-rights, or partner policy.',
   });
+  const exportManifest =
+    allowed || input.scope === 'preview'
+      ? createExportManifest({
+          actor: input.actor,
+          reportId: input.reportId,
+          scope: input.scope,
+          receipt,
+          readiness: input.readiness,
+          blocked: !allowed,
+        })
+      : undefined;
 
   return {
     allowed,
@@ -46,5 +70,37 @@ export function evaluateExportPolicy(input: {
     blockerCategories,
     safeMessage: receipt.safeMessage,
     receipt,
+    exportManifest,
+  };
+}
+
+function createExportManifest(input: {
+  actor: ActorContext;
+  reportId: string;
+  scope: ExportScope;
+  receipt: GovernedReceipt;
+  readiness: ExportReadiness;
+  blocked: boolean;
+}): ExportManifest {
+  const includedSectionIds = Array.from(
+    { length: input.readiness.approvedCount },
+    (_value, index) => `section-${index + 1}`
+  );
+  const status =
+    input.scope === 'preview' || input.blocked ? 'draft-preview' : 'approved';
+
+  return {
+    id: `manifest-${input.reportId}-${input.scope}`,
+    status,
+    includedSectionIds,
+    redactedEvidenceRefs: input.receipt.redactedEvidenceRefs,
+    excludedReasonCount: input.readiness.blockedReasons.length,
+    checksum: input.readiness.receiptHash ?? input.receipt.correlationId,
+    actorScope: input.actor.actorClass,
+    receiptRef: input.receipt.id,
+    safeSummary:
+      status === 'approved'
+        ? 'Approved-only export manifest generated for prototype policy.'
+        : 'Draft preview manifest; download/share remains governed by readiness gates.',
   };
 }

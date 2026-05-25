@@ -21,7 +21,7 @@ export function getReviewQueue(actor: ActorContext = fixtureActors.internalOpera
     .map((observation) => ({
       observation,
       canPromotePublic: isPublicProjectionEligible(observation),
-      safeStatus: `${observation.reviewState} - reviewer action required`,
+      safeStatus: `${observation.reviewState} - HITL reviewer decision required; queue completion is not promotion authority`,
     }));
 }
 

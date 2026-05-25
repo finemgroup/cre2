@@ -18,6 +18,12 @@ Clean-master UX validation reinforces that privacy state must be visible in work
 
 Aggregation and anonymization rules must be defined before marketplace launch. Aggregated outputs should prevent reconstruction of private facts, source-owner identity, or deal-specific sensitive values unless permission allows disclosure.
 
+## Spatial Source Rights
+
+Spatial data follows the same marketplace rule: maps are evidence-bearing claims, not decoration. Real parcel, traffic, demographic, zoning, drive-time, KML/GeoJSON, or user-uploaded polygon layers require approved source rights before public display, report inclusion, export/share, partner delivery, or indexing.
+
+Default MVP posture is documented in `SPATIAL_SOURCE_RIGHTS_DECISION_PACKET.md`: mock/sample only, explicit precision labels, no legal-boundary claims, no provider-specific claims, and non-map fallback lists for public map facts.
+
 ## Source Ownership
 
 Source owners may need controls for visibility, sharing, deletion requests, revocation, attribution, and marketplace participation. Exact rights are open questions until legal and product terms are defined.
@@ -40,6 +46,7 @@ Explicitly disabled until gates clear:
 - **No public terms ambiguity** for free-user uploads — contribution terms must be explicit before capture.
 - Content Engine syndication concepts apply to **operator-authored public reports** using public baseline or approved aggregates — not private uploads, comps, or user-derived facts.
 - Public market and property pages may be indexed only when they show public baseline or operator-approved aggregates.
+- Public map facts may be indexed only when provider/source rights and precision labels are approved.
 
 ## Send Automation Gate
 
@@ -62,6 +69,7 @@ This blocks email nurture, CRM-triggered sends, partner notifications, and queue
 
 - Export/download/share actions require consent copy where applicable and an audit trail (receipt, hash, or governed action record).
 - Gated PDF must not leak private fields into public templates.
+- Map sections must redact or block layers whose source rights do not allow the requested artifact scope.
 - Export actions require idempotency and operator-auditable receipts when implemented.
 - Share actions must log actor, artifact, visibility class, and consent posture.
 
