@@ -23,6 +23,7 @@ export type PublicPropertyView = {
   spatialContext: {
     layers: PublicMapLayerProjection[];
     evidence: PublicEvidenceDrawerItem[];
+    evidenceByLayer: Record<string, PublicEvidenceDrawerItem[]>;
   };
 };
 
@@ -62,6 +63,21 @@ export function getPublicPropertyView(
         authorityLabel: evidence.sourceLabel,
         safeExplanation: evidence.safeCaveat,
       })),
+      evidenceByLayer: spatialEvidence.reduce<Record<string, PublicEvidenceDrawerItem[]>>(
+        (groups, evidence) => {
+          const item = {
+            label: evidence.label,
+            value: `${precisionLabel(evidence.precisionClass)} · ${verificationLabel(
+              evidence.verificationState
+            )}`,
+            authorityLabel: evidence.sourceLabel,
+            safeExplanation: evidence.safeCaveat,
+          };
+          groups[evidence.layerId] = [...(groups[evidence.layerId] ?? []), item];
+          return groups;
+        },
+        {}
+      ),
     },
   };
 }

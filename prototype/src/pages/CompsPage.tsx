@@ -2,6 +2,7 @@ import { useState, type ReactElement } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
+import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { getPublicCompContextView } from '@/lib/runtime/public-comps';
 import { getPropertyRecord } from '@/lib/workflow-identity';
@@ -118,6 +119,12 @@ export function CompsPage(): ReactElement {
           ))}
         </ul>
       </section>
+
+      <MapLayerControlPanel
+        layers={compContext.mapLayers}
+        evidenceByLayer={compContext.evidenceByLayer}
+        heading="Comp map layer controls"
+      />
 
       <SophexSheet
         isOpen={Boolean(selected)}

@@ -16,6 +16,7 @@ import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceMod
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { ReviewPostureBanner } from '@/components/provenance/ProvenanceWidgets';
 import { StageRail } from '@/components/ui/StageRail';
+import { VALUATION_READINESS_STAGES } from '@/lib/readiness-stages';
 import {
   ExportReadinessCard,
   ReportProvenanceCard,
@@ -92,7 +93,7 @@ export function StudioReportBuilderPage(): ReactElement {
         }
       />
       <ReviewPostureBanner blocks={sourceBlocks} />
-      <StageRail stages={['Assumptions', 'Evidence', 'Scenarios', 'Review', 'Export']} activeIndex={3} />
+      <StageRail stages={[...VALUATION_READINESS_STAGES]} activeIndex={3} />
       <p className="sr-only" id="report-export-blocked">
         Export is disabled until section review and source-rights gates clear.
       </p>

@@ -2,6 +2,7 @@ import { useState, type ReactElement } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
+import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { usePrototypeAction } from '@/lib/prototype/usePrototypeAction';
 import { studioDealPath } from '@/data/studio';
@@ -82,7 +83,7 @@ export function PropertyPage(): ReactElement {
             <AuthorityBadge label="approximate-centroid" />
             <AuthorityBadge label="not-legal-boundary" />
           </div>
-          <ul className="map-layer-list" aria-label="Map layer details">
+          <ul className="map-layer-list" aria-label="Visible map layer summary">
             {propertyView?.spatialContext.layers.map((layer) => (
               <li key={layer.id}>
                 <strong>{layer.label}</strong>
@@ -95,6 +96,12 @@ export function PropertyPage(): ReactElement {
           </ul>
         </aside>
       </div>
+
+      <MapLayerControlPanel
+        layers={propertyView?.spatialContext.layers ?? []}
+        evidenceByLayer={propertyView?.spatialContext.evidenceByLayer ?? {}}
+        heading="Map layer controls"
+      />
 
       <section className="card" aria-labelledby="map-fallback-heading">
         <h2 id="map-fallback-heading">Map facts as list</h2>

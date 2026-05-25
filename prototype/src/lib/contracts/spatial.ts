@@ -286,6 +286,24 @@ export function getTradeAreasForActor(actor: ActorContext, propertyId: string): 
   });
 }
 
+export function evaluateSpatialSourceClear(actor: ActorContext, propertyId: string): boolean {
+  const hasVisibleConflict = getSpatialEvidenceForActor(actor, propertyId).some(
+    (evidence) => evidence.verificationState === 'conflict'
+  );
+  if (hasVisibleConflict) return false;
+
+  const hasRestrictedReportTradeArea = fixtureTradeAreas.some((tradeArea) => {
+    if (tradeArea.propertyId !== propertyId || !tradeArea.reportEligible) return false;
+    const decision = decideVisibility(actor, tradeArea);
+    return (
+      tradeArea.visibility === 'provider-restricted' &&
+      (decision.decision === 'allow' || decision.decision === 'aggregate-only')
+    );
+  });
+
+  return !hasRestrictedReportTradeArea;
+}
+
 export function precisionLabel(precisionClass: SpatialPrecisionClass): string {
   switch (precisionClass) {
     case 'parcel':

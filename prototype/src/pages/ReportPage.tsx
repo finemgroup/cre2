@@ -2,12 +2,15 @@ import { Link, useParams } from 'react-router-dom';
 import type { ReactElement } from 'react';
 
 import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
+import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { StageRail } from '@/components/ui/StageRail';
+import { VALUATION_READINESS_STAGES } from '@/lib/readiness-stages';
 import { getPublicReportView } from '@/lib/runtime/report-flow';
+import { getPublicPropertyView } from '@/lib/runtime/public-property';
 import { trackEvent } from '@/lib/analytics/collector';
 
-const STAGES = ['Overview', 'Sections', 'Review', 'Export intent'];
+const STAGES = [...VALUATION_READINESS_STAGES];
 
 export function ReportPage(): ReactElement {
   const { id } = useParams();
@@ -15,6 +18,7 @@ export function ReportPage(): ReactElement {
   const property = reportView?.property;
   const sections = reportView?.sections ?? [];
   const valuationVersion = reportView?.valuationVersion;
+  const spatialContext = getPublicPropertyView(property?.id)?.spatialContext;
 
   if (!property) {
     return (
@@ -41,7 +45,7 @@ export function ReportPage(): ReactElement {
         <p className="lede">Interactive evidence-first preview — export remains gated.</p>
       </header>
 
-      <StageRail stages={STAGES} activeIndex={1} />
+      <StageRail stages={STAGES} activeIndex={3} />
 
       {valuationVersion ? (
         <section className="card readiness-card" aria-labelledby="report-readiness-heading">
@@ -71,11 +75,18 @@ export function ReportPage(): ReactElement {
             <h2>{section.title}</h2>
             <p>{section.citation}</p>
             {section.id === 'map' ? (
-              <div className="provenance-labels" aria-label="Map provenance labels">
-                <AuthorityBadge label="sample-map-data" />
-                <AuthorityBadge label="approximate-centroid" />
-                <AuthorityBadge label="not-legal-boundary" />
-              </div>
+              <>
+                <div className="provenance-labels" aria-label="Map provenance labels">
+                  <AuthorityBadge label="sample-map-data" />
+                  <AuthorityBadge label="approximate-centroid" />
+                  <AuthorityBadge label="not-legal-boundary" />
+                </div>
+                <MapLayerControlPanel
+                  layers={spatialContext?.layers ?? []}
+                  evidenceByLayer={spatialContext?.evidenceByLayer ?? {}}
+                  heading="Report map layer controls"
+                />
+              </>
             ) : null}
             <AuthorityBadge
               label={

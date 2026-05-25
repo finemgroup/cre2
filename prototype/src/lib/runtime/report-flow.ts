@@ -6,6 +6,7 @@ import {
   getPublicReportSections,
   getSourceBlocksForProperty,
 } from '@/lib/workflow-identity';
+import { evaluateSpatialSourceClear } from '@/lib/contracts/spatial';
 import { getValuationVersionForActor } from '@/lib/contracts/valuation-version';
 import { evaluateExportPolicy, type ExportScope } from '@/lib/runtime/export-policy';
 
@@ -18,12 +19,13 @@ export function getPublicReportView(
   const sections = getPublicReportSections(propertyId);
   const sourceBlocks = getSourceBlocksForProperty(propertyId);
   const readiness = evaluateExportReadiness(sections, sourceBlocks);
+  const spatialSourceClear = evaluateSpatialSourceClear(actor, property.id);
   const valuationVersion = getValuationVersionForActor({
     actor,
     propertyId: property.id,
     reportId: `report-${property.id}`,
     sourceRightsClear: readiness.ready,
-    spatialSourceClear: true,
+    spatialSourceClear,
   });
   return { property, sections, sourceBlocks, readiness, valuationVersion };
 }

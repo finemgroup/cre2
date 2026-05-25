@@ -5,12 +5,13 @@ import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceMod
 import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
 import { StageRail } from '@/components/ui/StageRail';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
+import { EXPORT_FLOW_STAGES } from '@/lib/readiness-stages';
 import { getPublicExportDecision, getPublicReportView } from '@/lib/runtime/report-flow';
 import type { ExportScope } from '@/lib/runtime/export-policy';
 import type { GovernedReceipt } from '@/lib/contracts/receipts';
 import { trackEvent } from '@/lib/analytics/collector';
 
-const STAGES = ['Sections', 'Consent', 'Generate', 'Receipt'];
+const STAGES = [...EXPORT_FLOW_STAGES];
 
 export function ExportPage(): ReactElement {
   const { pushToast } = usePrototypeToast();

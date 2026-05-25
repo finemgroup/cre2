@@ -78,6 +78,7 @@ describe('public Sophex routes', () => {
     expect(screen.getAllByText(/Approximate centroid/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Not legal boundary/i).length).toBeGreaterThan(0);
     expect(screen.getByRole('heading', { name: /Map facts as list/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Map layer controls/i })).toBeInTheDocument();
   });
 
   it('shows prototype feedback when selecting a public upload file', async () => {
