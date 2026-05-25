@@ -1,0 +1,175 @@
+import { useMemo, type ReactElement } from 'react';
+
+import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
+import { MapPlaceholderPreview } from '@/components/spatial/MapPlaceholderPreview';
+import { AdvancedWorkflowNav } from '@/components/workstation/AdvancedWorkflowNav';
+import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
+import {
+  DataTable,
+  MaterialIcon,
+  MetricCard,
+  NonProductionCallout,
+  PageTitle,
+  StatusBadge,
+  StudioCard,
+  TrustBadge,
+  WorkflowContextHeader,
+} from '@/components/studio/StudioPrimitives';
+import { fixtureActors } from '@/lib/contracts/fixtures';
+import {
+  evaluateSourceRightsManifest,
+  getVerificationSummary,
+  listTradeAreasForReport,
+  summarizeGisManifest,
+} from '@/lib/gis';
+import { getMapLayerManifestsForActor } from '@/lib/contracts/spatial';
+import { getLinkedPropertyId } from '@/lib/workflow-identity';
+import { getPublicPropertyView } from '@/lib/runtime/public-property';
+import { studioDealPath } from '@/data/studio';
+import { DealWorkflowTabs, StudioDealNotFound, useStudioDeal } from '@/pages/studio/StudioShared';
+
+export function StudioSpatialWorkbenchPage(): ReactElement {
+  const deal = useStudioDeal();
+  const propertyId = getLinkedPropertyId(deal?.id) ?? 'demo-001';
+  const actor = fixtureActors.orgAdmin;
+  const context = 'report' as const;
+  const summary = useMemo(
+    () => summarizeGisManifest(actor, context, propertyId),
+    [actor, propertyId]
+  );
+  const sourceRights = useMemo(
+    () => evaluateSourceRightsManifest(actor, context),
+    [actor]
+  );
+  const verification = useMemo(
+    () => getVerificationSummary(actor, propertyId),
+    [actor, propertyId]
+  );
+  const tradeAreas = useMemo(
+    () => listTradeAreasForReport(actor, propertyId),
+    [actor, propertyId]
+  );
+  const layers = useMemo(() => getMapLayerManifestsForActor(actor, context), [actor]);
+  const spatialContext = getPublicPropertyView(propertyId)?.spatialContext;
+
+  if (!deal) return <StudioDealNotFound />;
+
+  return (
+    <div>
+      <WorkflowContextHeader
+        dealName={deal.name}
+        stage="Spatial workbench"
+        returnTo={studioDealPath(deal.id, 'underwriting')}
+        returnLabel="Return to cockpit"
+      />
+      <DealWorkflowTabs deal={deal} />
+      <AdvancedWorkflowNav dealId={deal.id} />
+      <PageTitle
+        eyebrow="GIS contract spine"
+        title="Spatial Manifest & Trade Area Workbench"
+        lede="Map layer manifest, source rights, verification posture, and trade areas — all mock-only."
+      />
+      <NonProductionCallout>
+        No live GeoJSON, provider keys, or external GIS services. Geometry remains deferred-heavy in
+        prototype manifests.
+      </NonProductionCallout>
+      <div className="metric-grid">
+        <MetricCard label="Visible layers" value={String(summary.layerCount)} detail="Report context" />
+        <MetricCard
+          label="Trade areas"
+          value={String(summary.reportEligibleTradeAreas)}
+          detail="Report eligible"
+        />
+        <MetricCard
+          label="Spatial source"
+          value={summary.spatialSourceClear ? 'Clear' : 'Blocked'}
+          detail={summary.spatialSourceClear ? 'No visible conflicts' : 'Conflict or rights issue'}
+        />
+        <MetricCard
+          label="Verification conflicts"
+          value={String(verification.conflicts)}
+          detail={`${verification.unverified} unverified`}
+        />
+      </div>
+      <div className="split-workstation-grid">
+        <StudioCard title="Map Layer Manifest" className="wide-card">
+          <MapPlaceholderPreview caption="Sample spatial workbench — metadata-first, geometry deferred.">
+            <div className="provenance-labels">
+              <AuthorityBadge label="sample-map-data" />
+              <AuthorityBadge label="not-legal-boundary" />
+            </div>
+          </MapPlaceholderPreview>
+          <MapLayerControlPanel
+            layers={layers}
+            evidenceByLayer={spatialContext?.evidenceByLayer ?? {}}
+            heading="Report-context layer controls"
+          />
+          <DataTable
+            caption="Source rights manifest"
+            headers={['Layer', 'Policy', 'Decision', 'Safe message']}
+            rows={sourceRights.map((entry) => [
+              entry.label,
+              entry.policy,
+              entry.decision,
+              entry.safeExplanation,
+            ])}
+          />
+        </StudioCard>
+        <StudioCard title="Trade Areas">
+          {tradeAreas.length > 0 ? (
+            <DataTable
+              caption="Report-eligible trade areas"
+              headers={['Label', 'Method', 'Parameters', 'Posture']}
+              rows={tradeAreas.map((area) => [
+                area.label,
+                area.method,
+                area.parametersLabel,
+                <TrustBadge
+                  key={area.id}
+                  state={
+                    area.visibility === 'organization-private'
+                      ? 'Reviewer required'
+                      : area.visibility === 'provider-restricted'
+                        ? 'Blocked'
+                        : 'Reviewed'
+                  }
+                />,
+              ])}
+            />
+          ) : (
+            <p className="muted">No report-eligible trade areas for this actor context.</p>
+          )}
+          {summary.warnings.length > 0 ? (
+            <ul className="governance-list">
+              {summary.warnings.map((warning) => (
+                <li key={warning}>{warning}</li>
+              ))}
+            </ul>
+          ) : null}
+        </StudioCard>
+        <StudioCard title="Location Verification">
+          <StatusBadge
+            status={verification.conflicts > 0 ? 'Coordinate conflict' : 'Sample verification'}
+          />
+          <DataTable
+            caption="Spatial evidence verification"
+            headers={['Label', 'State', 'Caveat']}
+            rows={verification.items.map((item) => [item.label, item.state, item.caveat])}
+          />
+          {summary.blockedLayers.length > 0 ? (
+            <>
+              <p className="studio-eyebrow">Blocked layers</p>
+              <ul className="governance-list">
+                {summary.blockedLayers.map((layer) => (
+                  <li key={layer}>
+                    <MaterialIcon name="block" /> {layer}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : null}
+        </StudioCard>
+      </div>
+    </div>
+  );
+}

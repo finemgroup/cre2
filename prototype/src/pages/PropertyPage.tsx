@@ -130,9 +130,14 @@ export function PropertyPage(): ReactElement {
           Preview report
         </Link>
         {linkedDealId ? (
-          <Link to={studioDealPath(linkedDealId)} className="btn btn-secondary">
-            Open linked Studio deal
-          </Link>
+          <>
+            <Link to={studioDealPath(linkedDealId)} className="btn btn-secondary">
+              Open linked Studio deal
+            </Link>
+            <Link to={studioDealPath(linkedDealId, 'spatial')} className="btn btn-secondary">
+              Open spatial workbench
+            </Link>
+          </>
         ) : null}
       </div>
 

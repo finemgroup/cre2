@@ -88,7 +88,11 @@ export type StudioDealSection =
   | 'underwriting-debt'
   | 'data-review'
   | 'scenarios'
-  | 'versions';
+  | 'versions'
+  | 'capital-stack'
+  | 'ic-packet'
+  | 'hitl-review'
+  | 'spatial';
 
 export function studioDealPath(
   dealId = DEFAULT_DEAL_ID,
@@ -98,6 +102,10 @@ export function studioDealPath(
   if (section === 'underwriting-sources') return `/studio/deals/${dealId}/underwriting/sources`;
   if (section === 'underwriting-debt') return `/studio/deals/${dealId}/underwriting/debt`;
   if (section === 'data-review') return `/studio/deals/${dealId}/data-review`;
+  if (section === 'capital-stack') return `/studio/deals/${dealId}/capital-stack`;
+  if (section === 'ic-packet') return `/studio/deals/${dealId}/ic-packet`;
+  if (section === 'hitl-review') return `/studio/deals/${dealId}/hitl-review`;
+  if (section === 'spatial') return `/studio/deals/${dealId}/spatial`;
   const suffix = section === 'overview' ? '' : `/${section}`;
   return `/studio/deals/${dealId}${suffix}`;
 }

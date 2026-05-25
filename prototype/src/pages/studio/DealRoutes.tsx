@@ -948,6 +948,26 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
             label="Compare scenarios"
             reason={`${activeScenario} metrics are formula-backed but still mock-only.`}
           />
+          <WorkflowHandoffLink
+            to={studioDealPath(deal.id, 'capital-stack')}
+            label="Review capital stack"
+            reason="Advisory stack and waterfall remain mock-only and export gated."
+          />
+          <WorkflowHandoffLink
+            to={studioDealPath(deal.id, 'ic-packet')}
+            label="Open IC packet"
+            reason="IC delivery simulated until section and evidence gates clear."
+          />
+          <WorkflowHandoffLink
+            to={studioDealPath(deal.id, 'hitl-review')}
+            label="Open HITL review queue"
+            reason="Internal reviewer assignments do not persist promotion authority."
+          />
+          <WorkflowHandoffLink
+            to={studioDealPath(deal.id, 'spatial')}
+            label="Open spatial workbench"
+            reason="Map manifest, trade areas, and source rights for report context."
+          />
         </StudioCard>
       </div>
       <GateOverrideModal

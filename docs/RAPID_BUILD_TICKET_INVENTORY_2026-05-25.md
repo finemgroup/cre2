@@ -65,8 +65,16 @@ The future schema-readiness ticket structure lives in `SISTER_SCHEMA_HARVEST_PAC
 
 These Stitch surfaces remain **design reference only** until explicitly promoted with mock-only boundaries:
 
-- Capital Stack / Waterfall View
-- Investment Committee / Approval Packet
-- Reviewer Assignment / HITL Drawer
+- ~~Capital Stack / Waterfall View~~ → **Promoted Wave 3** (`/studio/deals/:dealId/capital-stack`)
+- ~~Investment Committee / Approval Packet~~ → **Promoted Wave 3** (`/studio/deals/:dealId/ic-packet`)
+- ~~Reviewer Assignment / HITL Drawer~~ → **Promoted Wave 3** (`/studio/deals/:dealId/hitl-review`)
 
 See `STITCH_UNDERWRITING_WORKSTATION_TRIAGE.md` and `docs/design/stitch-underwriting-workstation/QUALITY_REVIEW.md`.
+
+## Wave 3 Complete (2026-05-25)
+
+| Track | Status | Notes |
+| --- | --- | --- |
+| Design reference promotion | Implemented | Capital stack, IC packet, HITL review routes with mock-only gates |
+| GIS contract spine | Implemented | `lib/gis`, spatial workbench route, manifest/source-rights/verification |
+| Phase 2 quality expansion | Implemented | Route titles, Lighthouse URLs, e2e + unit tests for Wave 3 |

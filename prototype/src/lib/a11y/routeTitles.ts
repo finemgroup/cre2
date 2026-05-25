@@ -63,6 +63,10 @@ export function getStudioRouteTitle(pathname: string): string {
   if (/\/underwriting$/.test(pathname)) return dealScopedTitle('Underwriting', dealId);
   if (/\/scenarios$/.test(pathname)) return dealScopedTitle('Scenario Comparison', dealId);
   if (/\/versions$/.test(pathname)) return dealScopedTitle('Valuation Versions', dealId);
+  if (/\/capital-stack$/.test(pathname)) return dealScopedTitle('Capital Stack', dealId);
+  if (/\/ic-packet$/.test(pathname)) return dealScopedTitle('IC Packet', dealId);
+  if (/\/hitl-review$/.test(pathname)) return dealScopedTitle('HITL Review', dealId);
+  if (/\/spatial$/.test(pathname)) return dealScopedTitle('Spatial Workbench', dealId);
   if (/^\/studio\/deals\/[^/]+$/.test(pathname)) {
     return `${getStudioDeal(dealId)?.name ?? 'Deal'} - Finem CRE Studio`;
   }

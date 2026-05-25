@@ -154,4 +154,25 @@ test.describe('Studio end-to-end flows', () => {
     await expect(page.getByRole('heading', { name: /Valuation version timeline/i })).toBeVisible();
     await expect(page.getByText(/EVID-SNAP-992/i)).toBeVisible();
   });
+
+  test('wave 3 design reference and spatial routes stay mock-only', async ({ page }) => {
+    await gotoRoute(page, '/studio/deals/riverside-flats/capital-stack');
+    await expect(page.getByRole('heading', { name: /Capital Stack & Waterfall/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Export Waterfall/i })).toBeDisabled();
+
+    await gotoRoute(page, '/studio/deals/riverside-flats/ic-packet');
+    await expect(page.getByRole('heading', { name: /Investment Committee Packet/i })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Send to IC/i })).toBeDisabled();
+
+    await gotoRoute(page, '/studio/deals/riverside-flats/hitl-review');
+    await page.getByRole('button', { name: /Open assignment/i }).first().click();
+    await expect(page.getByRole('dialog', { name: /Reviewer assignment detail/i })).toBeVisible();
+    await page.keyboard.press('Escape');
+
+    await gotoRoute(page, '/studio/deals/riverside-flats/spatial');
+    await expect(
+      page.getByRole('heading', { name: /Spatial Manifest & Trade Area Workbench/i })
+    ).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Map Layer Manifest/i })).toBeVisible();
+  });
 });

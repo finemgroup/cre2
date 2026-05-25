@@ -33,7 +33,11 @@ function isActiveMatch(path: string, match: string): boolean {
     return (
       /\/underwriting(\/sources|\/debt)?$/.test(path) ||
       /\/scenarios$/.test(path) ||
-      /\/data-review$/.test(path)
+      /\/data-review$/.test(path) ||
+      /\/capital-stack$/.test(path) ||
+      /\/ic-packet$/.test(path) ||
+      /\/hitl-review$/.test(path) ||
+      /\/spatial$/.test(path)
     );
   }
   if (match === 'versions') return /\/versions$/.test(path);

@@ -86,6 +86,26 @@ const StudioValuationVersionTimelinePage = lazy(() =>
     default: module.StudioValuationVersionTimelinePage,
   }))
 );
+const StudioCapitalStackPage = lazy(() =>
+  import('@/pages/studio/DesignReferenceRoutes').then((module) => ({
+    default: module.StudioCapitalStackPage,
+  }))
+);
+const StudioIcPacketPage = lazy(() =>
+  import('@/pages/studio/DesignReferenceRoutes').then((module) => ({
+    default: module.StudioIcPacketPage,
+  }))
+);
+const StudioHitlReviewPage = lazy(() =>
+  import('@/pages/studio/DesignReferenceRoutes').then((module) => ({
+    default: module.StudioHitlReviewPage,
+  }))
+);
+const StudioSpatialWorkbenchPage = lazy(() =>
+  import('@/pages/studio/GisRoutes').then((module) => ({
+    default: module.StudioSpatialWorkbenchPage,
+  }))
+);
 const StudioReportBuilderPage = lazy(() =>
   import('@/pages/studio/ReportRoutes').then((module) => ({
     default: module.StudioReportBuilderPage,
@@ -145,6 +165,19 @@ export default function App(): ReactElement {
           <Route
             path="deals/:dealId/versions"
             element={<LazyPage page={StudioValuationVersionTimelinePage} />}
+          />
+          <Route
+            path="deals/:dealId/capital-stack"
+            element={<LazyPage page={StudioCapitalStackPage} />}
+          />
+          <Route path="deals/:dealId/ic-packet" element={<LazyPage page={StudioIcPacketPage} />} />
+          <Route
+            path="deals/:dealId/hitl-review"
+            element={<LazyPage page={StudioHitlReviewPage} />}
+          />
+          <Route
+            path="deals/:dealId/spatial"
+            element={<LazyPage page={StudioSpatialWorkbenchPage} />}
           />
           <Route path="settings/billing" element={<LazyPage page={StudioPricingPage} />} />
           <Route path="settings/white-label" element={<LazyPage page={StudioWhiteLabelPage} />} />

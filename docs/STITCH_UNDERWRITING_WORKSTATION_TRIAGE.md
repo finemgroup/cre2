@@ -145,11 +145,15 @@ Recommended implementation order for mock-only prototype work:
 9. Debt / Lender Quote Panel
 10. Valuation Version Timeline
 
-Design-reference items should be preserved but not rushed into the prototype unless they clarify core workflow decisions:
+Design-reference items promoted in Wave 3 (mock-only, export gated):
 
-- Capital Stack / Waterfall View
-- Investment Committee / Approval Packet
-- Reviewer Assignment / HITL Drawer
+- Capital Stack / Waterfall View → `/studio/deals/:dealId/capital-stack`
+- Investment Committee / Approval Packet → `/studio/deals/:dealId/ic-packet`
+- Reviewer Assignment / HITL Drawer → `/studio/deals/:dealId/hitl-review`
+
+Additional Wave 3 surface:
+
+- Spatial manifest workbench → `/studio/deals/:dealId/spatial`
 
 ## Stitch Review Checklist
 

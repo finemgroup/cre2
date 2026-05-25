@@ -52,6 +52,10 @@ describe('public Sophex routes', () => {
       'href',
       '/report/demo-002'
     );
+    expect(screen.getByRole('link', { name: /Open spatial workbench/i })).toHaveAttribute(
+      'href',
+      '/studio/deals/1200-tech/spatial'
+    );
   });
 
   it('labels comps with the active subject property', async () => {

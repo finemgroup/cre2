@@ -35,5 +35,11 @@ describe('routeTitles', () => {
     expect(getStudioRouteTitle('/studio/reports/1200-tech/builder')).toBe(
       'Report Builder - 1200 Tech Boulevard - Finem CRE Studio'
     );
+    expect(getStudioRouteTitle('/studio/deals/riverside-flats/capital-stack')).toBe(
+      'Capital Stack - Riverside Flats - Finem CRE Studio'
+    );
+    expect(getStudioRouteTitle('/studio/deals/riverside-flats/spatial')).toBe(
+      'Spatial Workbench - Riverside Flats - Finem CRE Studio'
+    );
   });
 });

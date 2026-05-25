@@ -2730,6 +2730,52 @@ button.heatmap-cell:focus-visible {
   margin: 0.25rem 0 0;
 }
 
+.advanced-workflow-nav {
+  margin-block: 0.75rem 1rem;
+}
+
+.capital-stack-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 960px) {
+  .capital-stack-grid {
+    grid-template-columns: 1.2fr 1fr;
+  }
+}
+
+.capital-stack-chart {
+  display: flex;
+  min-height: 180px;
+  border: 1px solid var(--studio-line);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.capital-stack-segment {
+  display: grid;
+  place-content: center;
+  gap: 0.25rem;
+  padding: 0.75rem;
+  text-align: center;
+  color: #fff;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--studio-accent) 85%, #000),
+    color-mix(in srgb, var(--studio-accent) 55%, #000)
+  );
+  border-right: 1px solid color-mix(in srgb, #fff 20%, transparent);
+}
+
+.capital-stack-segment:nth-child(2) {
+  background: linear-gradient(180deg, #475569, #334155);
+}
+
+.capital-stack-segment:nth-child(3) {
+  background: linear-gradient(180deg, #0f766e, #115e59);
+}
+
 .evidence-trace-list,
 .conflict-option-grid {
   display: grid;
