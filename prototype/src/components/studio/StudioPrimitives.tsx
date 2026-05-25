@@ -5,6 +5,7 @@ import type { CSSProperties, ReactElement, ReactNode } from 'react';
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { getMotionProps, getMotionSpec, useReducedMotionPreference } from '@/lib/motion';
+import { formatTrustBadgeState } from '@/lib/authority/authority-vocabulary';
 import type { AuthorityState, JobStatusProjection } from '@/data/studio';
 
 type ChildrenProps = {
@@ -92,10 +93,11 @@ export function MetricCard({
 }
 
 export function TrustBadge({ state }: { state: AuthorityState | string }): ReactElement {
-  const normalized = state.toLowerCase().replace(/[^a-z]+/g, '-');
+  const { display, ariaLabel } = formatTrustBadgeState(state);
+  const normalized = display.toLowerCase().replace(/[^a-z]+/g, '-');
   return (
-    <span className={`trust-badge trust-${normalized}`} aria-label={`Authority state: ${state}`}>
-      {state}
+    <span className={`trust-badge trust-${normalized}`} aria-label={ariaLabel}>
+      {display}
     </span>
   );
 }

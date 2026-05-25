@@ -9,6 +9,7 @@ describe('authority vocabulary', () => {
   it('maps public authority labels to studio trust posture', () => {
     expect(toStudioTrustPosture('public-baseline')).toBe('Public baseline');
     expect(toStudioTrustPosture('candidate-evidence')).toBe('Candidate evidence');
+    expect(toStudioTrustPosture('sample-map-data')).toBe('Public baseline');
   });
 
   it('flags export-blocking postures consistently', () => {

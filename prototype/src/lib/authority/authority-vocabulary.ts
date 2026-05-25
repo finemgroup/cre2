@@ -1,12 +1,19 @@
 export type AuthorityPosture =
   | 'public-baseline'
+  | 'user-submission'
   | 'candidate-evidence'
   | 'reviewed'
   | 'unreviewed'
   | 'blocked'
   | 'model-inferred'
   | 'advisory'
-  | 'reviewer-required';
+  | 'source-pending'
+  | 'reviewer-required'
+  | 'approved-private-use'
+  | 'approved-public-projection'
+  | 'approximate-centroid'
+  | 'sample-map-data'
+  | 'not-legal-boundary';
 
 export type StudioTrustPosture =
   | 'Public baseline'
@@ -16,7 +23,38 @@ export type StudioTrustPosture =
   | 'Blocked'
   | 'Model inferred';
 
-const PUBLIC_TO_STUDIO: Record<AuthorityPosture, StudioTrustPosture> = {
+export const PUBLIC_AUTHORITY_LABELS: Record<AuthorityPosture, string> = {
+  'public-baseline': 'Public baseline',
+  'user-submission': 'User submission',
+  'candidate-evidence': 'Candidate evidence only',
+  reviewed: 'Reviewed',
+  unreviewed: 'Unreviewed',
+  blocked: 'Blocked',
+  'model-inferred': 'Model-inferred',
+  advisory: 'Advisory',
+  'source-pending': 'Source pending',
+  'reviewer-required': 'Reviewer required',
+  'approved-private-use': 'Approved private-use',
+  'approved-public-projection': 'Approved public projection',
+  'approximate-centroid': 'Approximate centroid',
+  'sample-map-data': 'Sample map data',
+  'not-legal-boundary': 'Not legal boundary',
+};
+
+const PUBLIC_TO_STUDIO: Record<
+  Extract<
+    AuthorityPosture,
+    | 'public-baseline'
+    | 'candidate-evidence'
+    | 'reviewed'
+    | 'unreviewed'
+    | 'blocked'
+    | 'model-inferred'
+    | 'advisory'
+    | 'reviewer-required'
+  >,
+  StudioTrustPosture
+> = {
   'public-baseline': 'Public baseline',
   'candidate-evidence': 'Candidate evidence',
   reviewed: 'Reviewed',
@@ -28,7 +66,28 @@ const PUBLIC_TO_STUDIO: Record<AuthorityPosture, StudioTrustPosture> = {
 };
 
 export function toStudioTrustPosture(label: AuthorityPosture): StudioTrustPosture {
-  return PUBLIC_TO_STUDIO[label];
+  if (label in PUBLIC_TO_STUDIO) {
+    return PUBLIC_TO_STUDIO[label as keyof typeof PUBLIC_TO_STUDIO];
+  }
+  if (label === 'source-pending' || label === 'user-submission') return 'Needs review';
+  if (label === 'approved-private-use' || label === 'approved-public-projection') return 'Reviewed';
+  if (label === 'approximate-centroid' || label === 'sample-map-data' || label === 'not-legal-boundary') {
+    return 'Public baseline';
+  }
+  return 'Needs review';
+}
+
+export function getPublicAuthorityLabel(label: AuthorityPosture): string {
+  return PUBLIC_AUTHORITY_LABELS[label];
+}
+
+export function formatTrustBadgeState(state: string): { display: string; ariaLabel: string } {
+  const normalizedKey = state.toLowerCase().replace(/[^a-z]+/g, '-') as AuthorityPosture;
+  if (normalizedKey in PUBLIC_AUTHORITY_LABELS) {
+    const display = toStudioTrustPosture(normalizedKey);
+    return { display, ariaLabel: `Authority state: ${display}` };
+  }
+  return { display: state, ariaLabel: `Authority state: ${state}` };
 }
 
 export function isExportBlockingPosture(label: AuthorityPosture | StudioTrustPosture): boolean {

@@ -84,6 +84,17 @@ test.describe('route shell visuals', () => {
     });
   });
 
+  test('public property map placeholder', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/property/demo-001');
+    await expect(page.getByRole('heading', { name: /1200 Commerce St/i })).toBeVisible();
+    await expect(page.getByRole('img', { name: /Sample map layer/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('public-property-map-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
   test('studio pricing', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await gotoRoute(page, '/studio/settings/billing');

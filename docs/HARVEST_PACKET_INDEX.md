@@ -30,6 +30,8 @@
 - [CROSS_PROJECT_HARVEST.md](CROSS_PROJECT_HARVEST.md)
 - [HARVEST_DOC_HIERARCHY.md](HARVEST_DOC_HIERARCHY.md)
 - [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_UNDERWRITING_GIS.md](COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_UNDERWRITING_GIS.md)
+- [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_FRONTEND_PHASE_2.md](COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_FRONTEND_PHASE_2.md)
+- [SOPHEX_GATED_LANES_APPROVAL_PACKET.md](SOPHEX_GATED_LANES_APPROVAL_PACKET.md)
 - Topic docs listed in hierarchy (alignment, trust, UX, agents, etc.)
 - Provisional CRE underwriting concepts belong in conceptual contracts, valuation/reporting, export, and open decision docs.
 - Provisional ICSC mapping concepts belong in frontend UX, motion/map interaction, evidence-permission contracts, and open decision docs.

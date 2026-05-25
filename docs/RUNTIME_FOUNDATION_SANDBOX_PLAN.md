@@ -29,6 +29,7 @@ Before any sandbox server code is started, the operator should confirm:
 - Observability taxonomy in `OBSERVABILITY_EVENT_TAXONOMY.md` is accepted.
 - Incident and privacy runbooks in `INCIDENT_RESPONSE_AND_PRIVACY_RUNBOOKS.md` are sufficient for sandbox rehearsal.
 - Sister schema gate remains closed unless a separate approved diff packet exists.
+- Operator signoff checklists: [SOPHEX_GATED_LANES_APPROVAL_PACKET.md](SOPHEX_GATED_LANES_APPROVAL_PACKET.md)
 
 ## Foundation Modules
 
