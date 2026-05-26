@@ -2,25 +2,35 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactElement } fr
 import { Link } from 'react-router-dom';
 
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
+import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { StageRail } from '@/components/ui/StageRail';
 import { usePrototypeAction } from '@/lib/prototype/usePrototypeAction';
-import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
+import { getPublicUploadGuideView } from '@/lib/runtime/public-upload';
+import { runtimeServices } from '@/lib/runtime/runtime-services';
+import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
+import { studioDealPath } from '@/data/studio';
 import { fixtureActors } from '@/lib/contracts/fixtures';
 import type { CandidateUploadResult } from '@/lib/runtime/upload-flow';
 import { createCandidateUpload } from '@/lib/runtime/upload-flow';
 import { trackEvent } from '@/lib/analytics/collector';
 
-const STAGES = ['Select files', 'Terms', 'Upload', 'Candidate'];
-
 export function UploadPage(): ReactElement {
   const notifyPrototype = usePrototypeAction();
+  const uploadGuideState = useRuntimeResource(
+    () => runtimeServices.public.getUploadGuide('demo-001'),
+    'public-upload-guide',
+    getPublicUploadGuideView('demo-001')
+  );
+  const uploadGuide = uploadGuideState.value;
   const [stage, setStage] = useState(0);
   const [consent, setConsent] = useState(false);
   const [progress, setProgress] = useState(0);
   const [fileName, setFileName] = useState('rent-roll.pdf');
   const [candidate, setCandidate] = useState<CandidateUploadResult | null>(null);
   const intervalRef = useRef<number | null>(null);
+  const stages = uploadGuide?.stages ?? ['Select files', 'Terms', 'Upload', 'Candidate'];
 
   useEffect(() => {
     return () => {
@@ -29,7 +39,7 @@ export function UploadPage(): ReactElement {
   }, []);
 
   function simulateUpload() {
-    if (!consent) return;
+    if (!consent || !uploadGuide) return;
     setStage(2);
     setProgress(0);
     if (intervalRef.current) window.clearInterval(intervalRef.current);
@@ -40,7 +50,7 @@ export function UploadPage(): ReactElement {
           intervalRef.current = null;
           const result = createCandidateUpload({
             actor: fixtureActors.sourceOwner,
-            propertyId: 'demo-001',
+            propertyId: uploadGuide.propertyId,
             fileName,
             idempotencyKey: `upload-${fileName}`,
           });
@@ -70,7 +80,33 @@ export function UploadPage(): ReactElement {
         </p>
       </header>
 
-      <StageRail stages={STAGES} activeIndex={stage} />
+      <MockBoundaryBanner variant="evidence" />
+      <RuntimeResourceStatus
+        loading={uploadGuideState.loading}
+        error={uploadGuideState.error}
+        variant="public"
+      />
+
+      {!uploadGuideState.loading && uploadGuide ? (
+        <>
+          <div className="proof-strip" aria-label="Upload contribution posture">
+            {[
+              [uploadGuide.supportedTypes.length, 'Supported doc types'],
+              [stages.length, 'Governed stages'],
+              [uploadGuide.linkedDealId, 'Linked Studio deal'],
+              ['Candidate', 'Default posture'],
+            ].map(([value, label]) => (
+              <article key={String(label)}>
+                <strong className="fin-value">{value}</strong>
+                <span>{label}</span>
+              </article>
+            ))}
+          </div>
+          <p className="muted">{uploadGuide.reviewPolicy}</p>
+        </>
+      ) : null}
+
+      <StageRail stages={stages} activeIndex={stage} />
 
       {stage === 0 ? (
         <EmptyStateCard
@@ -99,6 +135,13 @@ export function UploadPage(): ReactElement {
                   setStage(1);
                 }}
               />
+              {uploadGuide ? (
+                <ul className="evidence-list" aria-label="Supported document types">
+                  {uploadGuide.supportedTypes.map((type) => (
+                    <li key={type}>{type}</li>
+                  ))}
+                </ul>
+              ) : null}
               <p className="muted">Scanned documents may require review before extraction.</p>
             </>
           }
@@ -168,8 +211,17 @@ export function UploadPage(): ReactElement {
                   </p>
                 </div>
               ) : null}
-              <Link to={studioDealPath(DEFAULT_DEAL_ID, 'intake')} className="btn btn-primary">
+              <Link
+                to={studioDealPath(uploadGuide?.linkedDealId ?? 'riverside-flats', 'intake')}
+                className="btn btn-primary"
+              >
                 Review in Studio
+              </Link>
+              <Link
+                to={studioDealPath(uploadGuide?.linkedDealId ?? 'riverside-flats', 'data-review')}
+                className="btn btn-secondary"
+              >
+                Open data review
               </Link>
             </>
           }

@@ -2,7 +2,7 @@
 
 **Purpose:** Single checklist of every mock-only prototype location so operators can resolve them deliberately when gated lanes open. This is a **tracking doc**, not runtime authorization.
 
-**Last synced:** 2026-05-26 (after Wave 28 intake closeout)
+**Last synced:** 2026-05-26 (after Wave 29 public upload closeout)
 
 **Related docs:**
 
@@ -39,7 +39,7 @@
 | `/property/:id`       | `prototype/src/pages/PropertyPage.tsx` | `mock-data` from `lib/runtime/public-property.ts`; primary **Underwrite in Studio** CTA → deal intake via `lib/workflow-identity` | `sandbox-api`, `provider`, `billing-auth` | Wave 6 cross-entity entry |
 | `/property/:id/comps` | `prototype/src/pages/CompsPage.tsx`    | `mock-data` comps + blocked labels                                                                                                | `provider`, `sandbox-api`                 | Wave 4 readiness rail     |
 | `/comps`              | `prototype/src/pages/CompsPage.tsx`    | Route guard only                                                                                                                  | `keep-mock`                               | WORLD_CLASS spec          |
-| `/upload`             | `prototype/src/pages/UploadPage.tsx`   | `simulated-cta` upload stages; no bytes sent                                                                                      | `provider`, `hitl-legal`                  | WORLD_CLASS spec          |
+| `/upload`             | `prototype/src/pages/UploadPage.tsx`   | `simulated-cta` upload stages; `runtimeServices.public.getUploadGuide()` with fixture fallback; contribution proof strip                                              | `provider`, `hitl-legal`                  | WORLD_CLASS spec / Wave 29                                          |
 | `/report/:id`         | `prototype/src/pages/ReportPage.tsx`   | `mock-data` sections; `simulated-cta` section review                                                                              | `sandbox-api`, `hitl-legal`               | Wave 2/4                  |
 | `/export/:id`         | `prototype/src/pages/ExportPage.tsx`   | `disabled-gate` generate; evidence packet proof strip; simulated receipt; `MockBoundaryBanner` (`export` variant)                                              | `hitl-legal`, `schema-db`                 | Wave 2/4/6 / Wave 26                |
 | `*` (404)             | `prototype/src/pages/NotFoundPage.tsx` | Static guard                                                                                                                      | `keep-mock`                               | —                         |
@@ -76,7 +76,7 @@
 | `/studio/reports/:dealId/builder`            | `ReportRoutes.tsx`          | Report builder + export gates; section posture proof strip; deal breadcrumb; `MockBoundaryBanner` (`export`)                          | `hitl-legal`, `schema-db`               | Wave 2/4/6 / Wave 25                                                |
 | `/studio/settings/billing`                   | `MarketingRoutes.tsx`       | Mock plan tiers                                                                                          | `billing-auth`                          | Phase 2                                                   |
 | `/studio/settings/white-label`               | `ReportRoutes.tsx`          | Mock branding uploads; non-production evidence posture callout                                                                                    | `schema-db`, `billing-auth`             | Phase 2 / Wave 25                                                   |
-| `/studio/broker-os`                          | `OperatorRoutes.tsx`        | Sanitized job/agent projection + HITL queue                                                              | `sandbox-api`, `keep-mock` (projection) | Wave 5 HITL card                                          |
+| `/studio/broker-os`                          | `OperatorRoutes.tsx`        | Sanitized job/agent projection; `runtimeServices.studio.getBrokerOs()` with fixture fallback                                                              | `sandbox-api`, `keep-mock` (projection) | Wave 5 HITL card / Wave 29                                          |
 | `/studio/design-system`                      | `DesignSystemRoutes.tsx`    | Reference-only token/badge/table showcase; no product state                                              | `keep-mock`                               | Wave 13-16 visual design system                           |
 
 **Studio mock data sources:** `prototype/src/data/studio.ts`, `lib/runtime/studio-workspace.ts`, `lib/source-bundle/index.ts`, `lib/staged-import/index.ts`, `lib/underwriting/*`, `lib/gis/*`, `lib/workflow/deal-stage-model.ts`

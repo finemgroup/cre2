@@ -76,6 +76,21 @@ export function StudioDashboardPage(): ReactElement {
         error={dashboardState.error}
         variant="studio"
       />
+      {!dashboardState.loading && dashboardView ? (
+        <div className="proof-strip" aria-label="Workspace pipeline posture">
+          {[
+            [dashboardView.deals.length, 'Tracked deals'],
+            [dashboardView.planUsage.used, 'Deals used'],
+            [dashboardView.planUsage.available, 'Plan quota'],
+            [`${dashboardView.planUsage.percentage}%`, 'Quota used'],
+          ].map(([value, label]) => (
+            <article key={String(label)}>
+              <strong className="fin-value">{value}</strong>
+              <span>{label}</span>
+            </article>
+          ))}
+        </div>
+      ) : null}
       <div className="metric-grid four">
         <MetricCard
           label="Active pipeline"

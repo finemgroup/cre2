@@ -26,6 +26,7 @@ import {
 } from '@/lib/gis';
 import { buildGisPerformanceBudgets, summarizeGisPerformance } from '@/lib/gis/performance';
 import { fixtureMapLayerManifests, getMapLayerManifestsForActor } from '@/lib/contracts/spatial';
+import { getReviewQueue } from '@/lib/runtime/review-queue';
 import {
   ASSUMPTION_TRACE_ITEMS,
   UNIT_CONFLICT_OPTIONS,
@@ -290,5 +291,12 @@ export function getBrokerOsProjection() {
     rawLogsExposed: false,
     safeProjectionLabel: 'Sanitized Broker OS projection',
     taxonomy: BROKER_OS_OPERATOR_TAXONOMY,
+  };
+}
+
+export function getBrokerOsView() {
+  return {
+    ...getBrokerOsProjection(),
+    reviewQueuePreview: getReviewQueue().slice(0, 5),
   };
 }

@@ -14,6 +14,7 @@ import {
   getStudioDataReviewView,
   getStudioDebtPanelView,
   getStudioDealIntakeView,
+  getBrokerOsView,
 } from '@/lib/runtime/studio-workspace';
 
 describe('studio runtime adapters', () => {
@@ -109,6 +110,14 @@ describe('studio runtime adapters', () => {
     expect(view?.candidateFields.length).toBeGreaterThan(0);
     expect(view?.sourceBlocks.length).toBeGreaterThan(0);
     expect(view?.filesNeedingReview).toBeGreaterThan(0);
+  });
+
+  it('returns broker os projection with review queue preview', () => {
+    const view = getBrokerOsView();
+
+    expect(view.rawLogsExposed).toBe(false);
+    expect(view.jobStreams.length).toBeGreaterThan(0);
+    expect(view.reviewQueuePreview.length).toBeGreaterThan(0);
   });
 
   it('keeps Broker OS as a sanitized projection', () => {

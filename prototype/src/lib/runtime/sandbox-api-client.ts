@@ -5,7 +5,9 @@ import type { PublicPropertyView } from '@/lib/runtime/public-property';
 import type { PublicCompContextView } from '@/lib/runtime/public-comps';
 import type {
   PublicReportView,
+  PublicUploadGuideView,
   RuntimeServices,
+  StudioBrokerOsView,
   StudioCompView,
   StudioDashboardView,
   StudioDealView,
@@ -65,6 +67,11 @@ export function createSandboxApiRuntimeServices(
             consent: input.consent,
             idempotencyKey: input.idempotencyKey,
           },
+        });
+      },
+      async getUploadGuide(propertyId) {
+        return client.get<PublicUploadGuideView>('/upload/guide', {
+          query: { propertyId: propertyId ?? 'demo-001' },
         });
       },
     },
@@ -138,6 +145,9 @@ export function createSandboxApiRuntimeServices(
       },
       async getCockpitProjection(dealId, actor) {
         return client.get<DealCockpitProjection>(`/studio/deals/${dealId}/cockpit`, { actor });
+      },
+      async getBrokerOs() {
+        return client.get<StudioBrokerOsView>('/studio/broker-os');
       },
     },
   };

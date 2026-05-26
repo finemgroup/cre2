@@ -10,6 +10,7 @@ import {
   WorkflowContextHeader,
 } from '@/components/studio/StudioPrimitives';
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
+import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
 import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
 import { ReviewPostureBanner } from '@/components/provenance/ProvenanceWidgets';
 import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
@@ -102,6 +103,29 @@ export function StudioAssumptionSourceTracePage(): ReactElement {
             resolveTo={studioDealPath(deal.id, 'data-review')}
             resolveLabel="Open normalization workbench"
           />
+          <div className="studio-actions" aria-label="Evidence workflow handoffs">
+            <PrototypeActionLink
+              to={studioDealPath(deal.id, 'intake')}
+              className="btn btn-secondary"
+              feature="Return to deal intake"
+            >
+              Return to intake
+            </PrototypeActionLink>
+            <PrototypeActionLink
+              to={studioDealPath(deal.id, 'data-review')}
+              className="btn btn-secondary"
+              feature="Open normalization workbench"
+            >
+              Open data review
+            </PrototypeActionLink>
+            <PrototypeActionLink
+              to={studioDealPath(deal.id, 'underwriting-debt')}
+              className="btn btn-secondary"
+              feature="Open debt quote panel"
+            >
+              Open debt panel
+            </PrototypeActionLink>
+          </div>
           {traceItems.length === 0 ? (
             <EmptyStateCard
               icon="account_tree"

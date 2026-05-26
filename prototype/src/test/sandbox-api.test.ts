@@ -140,6 +140,16 @@ describe('sandbox API shell', () => {
       candidateFields: unknown[];
       filesNeedingReview: number;
     }>(await request('/studio/deals/riverside-flats/intake', { actor: fixtureActors.orgAdmin }));
+    const brokerOs = await readJson<{
+      jobStreams: unknown[];
+      reviewQueuePreview: unknown[];
+      rawLogsExposed: boolean;
+    }>(await request('/studio/broker-os', { actor: fixtureActors.orgAdmin }));
+    const uploadGuide = await readJson<{
+      propertyId: string;
+      linkedDealId: string;
+      supportedTypes: unknown[];
+    }>(await request('/upload/guide?propertyId=demo-001'));
 
     expect(dashboard.deals.length).toBeGreaterThan(0);
     expect(deal.deal.id).toBe('riverside-flats');
@@ -172,6 +182,12 @@ describe('sandbox API shell', () => {
     expect(intake.uploadFiles.length).toBeGreaterThan(0);
     expect(intake.candidateFields.length).toBeGreaterThan(0);
     expect(intake.filesNeedingReview).toBeGreaterThan(0);
+    expect(brokerOs.jobStreams.length).toBeGreaterThan(0);
+    expect(brokerOs.reviewQueuePreview.length).toBeGreaterThan(0);
+    expect(brokerOs.rawLogsExposed).toBe(false);
+    expect(uploadGuide.propertyId).toBe('demo-001');
+    expect(uploadGuide.linkedDealId).toBe('riverside-flats');
+    expect(uploadGuide.supportedTypes.length).toBeGreaterThan(0);
   });
 
   it('hides review summary from public actors in cockpit projection', async () => {
