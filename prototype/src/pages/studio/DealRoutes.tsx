@@ -107,8 +107,8 @@ import {
 } from '@/lib/runtime/studio-workspace';
 import { formatOnboardingSummary, getOnboardingProfile } from '@/lib/studio/onboarding-profile';
 import {
-  DealWorkflowTabs,
   SegmentedControl,
+  TabPanelSwitch,
   StudioDealNotFound,
   useStudioDeal,
 } from '@/pages/studio/StudioShared';
@@ -377,7 +377,6 @@ export function StudioDealOverviewPage(): ReactElement {
       <NonProductionCallout>
         Deal metrics are mock projections with candidate/review state labels.
       </NonProductionCallout>
-      <DealWorkflowTabs deal={deal} />
       <div className="deal-cockpit-stack">
       <DealCockpitPanel
         dealId={deal.id}
@@ -484,6 +483,7 @@ export function StudioDealOverviewPage(): ReactElement {
           </div>
         </StudioCard>
       </div>
+      <ContextualSurfaceTriggers dealId={deal.id} route="overview" />
       <DetailDrawer
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
@@ -653,7 +653,6 @@ export function StudioCompsPage(): ReactElement {
         returnTo={studioDealPath(deal.id)}
         returnLabel="Return to deal"
       />
-      <DealWorkflowTabs deal={deal} />
       <PageTitle
         eyebrow="Comparable sales"
         title="Comparable Sales Review"
@@ -690,44 +689,47 @@ export function StudioCompsPage(): ReactElement {
             />
           }
         >
-          {view === 'map' ? (
-            <div className="mock-map">
-              <MaterialIcon name="map" />
-              Sample map view. No precise public markers in MVP0.
-            </div>
-          ) : (
-            <DataTable
-              caption="Sales comparables"
-              headers={['Comp', 'Distance', 'Units', 'Sale Price', 'Authority']}
-              getRowKey={(_row, index) => compViews[index].id}
-              rows={compViews.map((comp) => [
-                <button
-                  type="button"
-                  className="table-link"
-                  onClick={() => {
-                    setSelectedId(comp.id);
-                    setDrawerOpen(true);
-                  }}
-                  aria-describedby={!comp.visible ? `${comp.id}-visibility` : undefined}
-                >
-                  {comp.name}
-                  {!comp.visible ? (
-                    <span id={`${comp.id}-visibility`} className="sr-only">
-                      {comp.safeExplanation}
-                    </span>
-                  ) : null}
-                </button>,
-                comp.distance,
-                comp.units,
-                <ProvenanceCell
-                  value={comp.salePrice}
-                  citation={sourceBlocks[2]?.citations[0]}
-                  state={comp.authority}
-                />,
-                <TrustBadge state={comp.authority} />,
-              ])}
-            />
-          )}
+          <TabPanelSwitch panelKey={view}>
+            {view === 'map' ? (
+              <div className="mock-map map-hud-panel">
+                <MaterialIcon name="map" />
+                Sample map view. No precise public markers in MVP0.
+              </div>
+            ) : (
+              <DataTable
+                dense
+                caption="Sales comparables"
+                headers={['Comp', 'Distance', 'Units', 'Sale Price', 'Authority']}
+                getRowKey={(_row, index) => compViews[index].id}
+                rows={compViews.map((comp) => [
+                  <button
+                    type="button"
+                    className="table-link"
+                    onClick={() => {
+                      setSelectedId(comp.id);
+                      setDrawerOpen(true);
+                    }}
+                    aria-describedby={!comp.visible ? `${comp.id}-visibility` : undefined}
+                  >
+                    {comp.name}
+                    {!comp.visible ? (
+                      <span id={`${comp.id}-visibility`} className="sr-only">
+                        {comp.safeExplanation}
+                      </span>
+                    ) : null}
+                  </button>,
+                  comp.distance,
+                  comp.units,
+                  <ProvenanceCell
+                    value={comp.salePrice}
+                    citation={sourceBlocks[2]?.citations[0]}
+                    state={comp.authority}
+                  />,
+                  <TrustBadge state={comp.authority} />,
+                ])}
+              />
+            )}
+          </TabPanelSwitch>
           <div className="paywall-zone">
             <PaywallOverlay>
               <h3>Premium comp set locked</h3>
@@ -857,7 +859,6 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
         returnTo={studioDealPath(deal.id)}
         returnLabel="Return to deal"
       />
-      <DealWorkflowTabs deal={deal} />
       <SyntheticDataBanner />
       {!gates.every((gate) => gate.status === 'PASS' || gate.status === 'OVERRIDDEN') ? (
         <GateResolutionCallout
@@ -922,6 +923,7 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
           Compare Scenarios
         </Link>
       </div>
+      <TabPanelSwitch panelKey={activeScenario}>
       <div className="workstation-hero-grid">
         <StudioCard title="Valuation Range & Model Output" eyebrow="Stitch rollout surface">
           <div className="valuation-range">
@@ -1047,6 +1049,8 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
           />
         </StudioCard>
       </div>
+      </TabPanelSwitch>
+      <ContextualSurfaceTriggers dealId={deal.id} route="underwriting" />
       <GateOverrideModal
         isOpen={overrideTarget !== null}
         onClose={() => setOverrideTarget(null)}
@@ -1118,7 +1122,6 @@ export function StudioScenarioComparisonPage(): ReactElement {
         returnTo={studioDealPath(deal.id, 'underwriting')}
         returnLabel="Return to underwriting"
       />
-      <DealWorkflowTabs deal={deal} />
       <PageTitle
         eyebrow="Scenario governance"
         title="Scenario Comparison & Sensitivity"
@@ -1333,7 +1336,6 @@ export function StudioAssumptionSourceTracePage(): ReactElement {
         returnTo={studioDealPath(deal.id, 'underwriting')}
         returnLabel="Return to cockpit"
       />
-      <DealWorkflowTabs deal={deal} />
       <IntakeWorkflowNav dealId={deal.id} activeStep="source-trace" />
       <PageTitle
         eyebrow="Source trace"
@@ -1454,7 +1456,6 @@ export function StudioDataReviewPage(): ReactElement {
         returnTo={studioDealPath(deal.id, 'intake')}
         returnLabel="Return to intake"
       />
-      <DealWorkflowTabs deal={deal} />
       <IntakeWorkflowNav dealId={deal.id} activeStep="data-review" />
       <PageTitle
         eyebrow="Evidence review"
@@ -1638,7 +1639,6 @@ export function StudioDebtPanelPage(): ReactElement {
         returnTo={studioDealPath(deal.id, 'underwriting')}
         returnLabel="Return to cockpit"
       />
-      <DealWorkflowTabs deal={deal} />
       <PageTitle
         eyebrow="Debt posture"
         title="Debt / lender quote panel"
@@ -1767,7 +1767,6 @@ export function StudioValuationVersionTimelinePage(): ReactElement {
         returnTo={studioDealPath(deal.id, 'underwriting')}
         returnLabel="Return to cockpit"
       />
-      <DealWorkflowTabs deal={deal} />
       <PageTitle
         eyebrow="Snapshot governance"
         title="Valuation snapshots"

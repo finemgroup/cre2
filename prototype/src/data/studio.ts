@@ -160,6 +160,12 @@ export function getStudioNavItems(dealId = DEFAULT_DEAL_ID) {
       match: 'white-label',
     },
     {
+      label: 'Design System',
+      href: '/studio/design-system',
+      icon: 'palette',
+      match: 'design-system',
+    },
+    {
       label: 'Broker OS',
       href: '/studio/broker-os',
       icon: 'precision_manufacturing',

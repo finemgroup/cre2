@@ -1,6 +1,8 @@
 import { useId, useState, type ReactElement } from 'react';
+import { AnimatePresence } from 'framer-motion';
 
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
+import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
 import type { PublicMapLayerProjection } from '@/lib/contracts/spatial';
 
 export type MapLayerDetailItem = {
@@ -82,31 +84,35 @@ export function MapLayerControlPanel({
       </fieldset>
 
       {selectedLayer ? (
-        <div
-          className="map-layer-detail"
-          role="region"
-          aria-label={`Selected layer details for ${selectedLayer.label}`}
-          tabIndex={-1}
-        >
-          <h3>{selectedLayer.label}</h3>
-          <div className="provenance-labels" aria-label="Selected layer provenance">
-            <AuthorityBadge label="sample-map-data" />
-            <AuthorityBadge label="approximate-centroid" />
-            <AuthorityBadge label="not-legal-boundary" />
-          </div>
-          <p>{selectedLayer.safeCaveat}</p>
-          {selectedEvidence.length > 0 ? (
-            <ul className="evidence-list">
-              {selectedEvidence.map((item) => (
-                <li key={item.label}>
-                  <strong>{item.label}:</strong> {item.value} — {item.safeExplanation}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="muted">No additional spatial evidence is visible for this layer.</p>
-          )}
-        </div>
+        <AnimatePresence mode="sync" initial={false}>
+          <SophexMotionSurface
+            key={selectedLayer.id}
+            motionName="mapSelection"
+            className="map-layer-detail map-hud-detail"
+            role="region"
+            aria-label={`Selected layer details for ${selectedLayer.label}`}
+            tabIndex={-1}
+          >
+            <h3>{selectedLayer.label}</h3>
+            <div className="provenance-labels" aria-label="Selected layer provenance">
+              <AuthorityBadge label="sample-map-data" />
+              <AuthorityBadge label="approximate-centroid" />
+              <AuthorityBadge label="not-legal-boundary" />
+            </div>
+            <p>{selectedLayer.safeCaveat}</p>
+            {selectedEvidence.length > 0 ? (
+              <ul className="evidence-list">
+                {selectedEvidence.map((item) => (
+                  <li key={item.label}>
+                    <strong>{item.label}:</strong> {item.value} — {item.safeExplanation}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="muted">No additional spatial evidence is visible for this layer.</p>
+            )}
+          </SophexMotionSurface>
+        </AnimatePresence>
       ) : null}
     </section>
   );

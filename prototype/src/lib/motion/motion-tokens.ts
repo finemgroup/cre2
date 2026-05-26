@@ -13,6 +13,7 @@ export type SophexMotionSpecName =
   | 'listStagger'
   | 'railEnter'
   | 'navRail'
+  | 'tabPanel'
   | 'workbenchPanel'
   | 'mapSelection'
   | 'collapse'
@@ -86,6 +87,15 @@ export const SOPHEX_MOTION_SPECS: Record<SophexMotionSpecName, MotionSpec> = {
     transition: {
       duration: msToSeconds(MOTION_DURATION_MS.review),
       ease: MOTION_EASING.emphasize,
+    },
+  },
+  tabPanel: {
+    initial: { opacity: 0, y: 8 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -4 },
+    transition: {
+      duration: msToSeconds(MOTION_DURATION_MS.standardReveal),
+      ease: MOTION_EASING.standard,
     },
   },
   workbenchPanel: {
@@ -176,6 +186,7 @@ export const WORKFLOW_TRANSITION_PRESETS = {
   list: SOPHEX_MOTION_SPECS.listStagger,
   rail: SOPHEX_MOTION_SPECS.railEnter,
   navRail: SOPHEX_MOTION_SPECS.navRail,
+  tabPanel: SOPHEX_MOTION_SPECS.tabPanel,
   workbenchPanel: SOPHEX_MOTION_SPECS.workbenchPanel,
   mapSelection: SOPHEX_MOTION_SPECS.mapSelection,
   drawerRight: SOPHEX_MOTION_SPECS.drawerRight,

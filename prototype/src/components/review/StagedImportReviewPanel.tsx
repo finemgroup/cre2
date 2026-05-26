@@ -8,6 +8,7 @@ import {
   StudioCard,
   TrustBadge,
 } from '@/components/studio/StudioPrimitives';
+import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
 import type { CandidateField, MockUploadFile } from '@/lib/staged-import';
 import { fixtureActors } from '@/lib/contracts/fixtures';
 import { applyReviewAction, getReviewQueue } from '@/lib/runtime/review-queue';
@@ -100,7 +101,14 @@ export function StagedImportReviewPanel({
           Promote after review
         </button>
       </div>
-      <p className="muted" id="promote-blocked-reason">
+      <GateResolutionCallout
+        action="Promote after review"
+        prerequisite="Candidate field issues must be cleared before evidence promotion."
+        owner="An analyst"
+        resolveTo="/studio/deals/riverside-flats/data-review"
+        resolveLabel="Open data review"
+      />
+      <p className="sr-only" id="promote-blocked-reason">
         Promotion is disabled until candidate field issues are cleared by review.
       </p>
       <SophexModal

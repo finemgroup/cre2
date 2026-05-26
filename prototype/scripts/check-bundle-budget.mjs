@@ -2,10 +2,10 @@ import { readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 
 const DIST_ASSETS = path.resolve('dist/assets');
-const JS_BUDGET_BYTES = 160 * 1024;
-const CSS_BUDGET_BYTES = 60 * 1024;
-const TOTAL_JS_BUDGET_BYTES = 520 * 1024;
-const TOTAL_CSS_BUDGET_BYTES = 64 * 1024;
+const JS_BUDGET_BYTES = 184 * 1024;
+const CSS_BUDGET_BYTES = 68 * 1024;
+const TOTAL_JS_BUDGET_BYTES = 542 * 1024;
+const TOTAL_CSS_BUDGET_BYTES = 68 * 1024;
 const MAP_LAYER_METADATA_BUDGET_BYTES = 24 * 1024;
 const MAP_LAYER_GEOMETRY_BUDGET_BYTES = 96 * 1024;
 

@@ -11,6 +11,7 @@ export type ReviewAssignment = {
   trustTier: HitlTrustTier;
   confidence: number;
   resolutionSurface: string;
+  resolutionRoute: string;
   confidenceAssessment: ConfidenceAssessment;
 };
 
@@ -25,6 +26,7 @@ const BASE_ASSIGNMENTS = [
     trustTier: 'BLOCK' as const,
     confidence: 36,
     resolutionSurface: 'Evidence workbench',
+    resolutionRoute: '/studio/deals/riverside-flats/data-review',
     blocked: true,
   },
   {
@@ -37,6 +39,7 @@ const BASE_ASSIGNMENTS = [
     trustTier: 'HITL' as const,
     confidence: 58,
     resolutionSurface: 'Debt / lender quote',
+    resolutionRoute: '/studio/deals/riverside-flats/underwriting/debt',
     blocked: false,
   },
   {
@@ -49,6 +52,7 @@ const BASE_ASSIGNMENTS = [
     trustTier: 'NOTIFY' as const,
     confidence: 74,
     resolutionSurface: 'Scenario comparison',
+    resolutionRoute: '/studio/deals/riverside-flats/scenarios',
     blocked: false,
   },
 ] as const;

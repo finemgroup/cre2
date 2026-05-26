@@ -18,7 +18,7 @@ export function EmptyStateCard({
   tone = 'neutral',
 }: EmptyStateCardProps): ReactElement {
   return (
-    <div className={`empty-state-card empty-state-${tone}`}>
+    <div className={`empty-state empty-state-card empty-state-${tone}`}>
       <MaterialIcon name={icon} />
       <div>
         <h2>{title}</h2>

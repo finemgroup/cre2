@@ -15,6 +15,7 @@ import {
   WorkflowContextHeader,
 } from '@/components/studio/StudioPrimitives';
 import { DataWorkbenchShell } from '@/components/workflow/DataWorkbenchShell';
+import { ContextualSurfaceTriggers } from '@/components/workflow/ContextualSurfaceTriggers';
 import { fixtureActors } from '@/lib/contracts/fixtures';
 import {
   evaluateSourceRightsManifest,
@@ -27,7 +28,7 @@ import { fixtureMapLayerManifests, getMapLayerManifestsForActor } from '@/lib/co
 import { getLinkedPropertyId } from '@/lib/workflow-identity';
 import { getPublicPropertyView } from '@/lib/runtime/public-property';
 import { studioDealPath } from '@/data/studio';
-import { DealWorkflowTabs, StudioDealNotFound, useStudioDeal } from '@/pages/studio/StudioShared';
+import { StudioDealNotFound, useStudioDeal } from '@/pages/studio/StudioShared';
 
 export function StudioSpatialWorkbenchPage(): ReactElement {
   const deal = useStudioDeal();
@@ -176,7 +177,6 @@ export function StudioSpatialWorkbenchPage(): ReactElement {
         returnTo={studioDealPath(deal.id, 'underwriting')}
         returnLabel="Return to cockpit"
       />
-      <DealWorkflowTabs deal={deal} />
       <PageTitle
         eyebrow="GIS contract spine"
         title="Spatial Manifest & Trade Area Workbench"
@@ -274,6 +274,7 @@ export function StudioSpatialWorkbenchPage(): ReactElement {
           ),
         }}
       />
+      <ContextualSurfaceTriggers dealId={deal.id} route="spatial" />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { motion, type HTMLMotionProps, type Transition } from 'framer-motion';
 import type { ReactElement, ReactNode } from 'react';
 
 import {
+  LIST_STAGGER_CHILD_DELAY_S,
   getMotionProps,
   getMotionSpec,
   useReducedMotionPreference,
@@ -20,7 +21,7 @@ export function SophexMotionSurface({
   className,
   children,
   staggerIndex,
-  staggerStepS = 0.04,
+  staggerStepS = LIST_STAGGER_CHILD_DELAY_S,
   ...props
 }: SophexMotionSurfaceProps): ReactElement {
   const reducedMotion = useReducedMotionPreference();

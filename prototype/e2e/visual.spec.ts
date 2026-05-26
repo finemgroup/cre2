@@ -250,6 +250,16 @@ test.describe('route shell visuals', () => {
     });
   });
 
+  test('studio design system reference', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/studio/design-system');
+    await expect(page.getByRole('heading', { name: /Sophex Visual Language/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('studio-design-system-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
   test('studio version timeline with readiness rail', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await gotoRoute(page, '/studio/deals/riverside-flats/versions');

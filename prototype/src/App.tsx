@@ -7,6 +7,7 @@ import { PrototypeToastProvider } from '@/components/overlays/PrototypeToast';
 import { PublicShell } from '@/components/layout/PublicShell';
 import { StudioAppShell } from '@/components/layout/StudioAppShell';
 import { StudioStandaloneShell } from '@/components/layout/StudioStandaloneShell';
+import { DealWorkflowLayout } from '@/components/layout/DealWorkflowLayout';
 
 const LandingPage = lazy(() =>
   import('@/pages/LandingPage').then((module) => ({ default: module.LandingPage }))
@@ -119,6 +120,11 @@ const StudioWhiteLabelPage = lazy(() =>
 const StudioBrokerOsPage = lazy(() =>
   import('@/pages/studio/OperatorRoutes').then((module) => ({ default: module.StudioBrokerOsPage }))
 );
+const StudioDesignSystemPage = lazy(() =>
+  import('@/pages/studio/DesignSystemRoutes').then((module) => ({
+    default: module.StudioDesignSystemPage,
+  }))
+);
 
 export default function App(): ReactElement {
   return (
@@ -139,48 +145,30 @@ export default function App(): ReactElement {
           <Route path="dashboard" element={<LazyPage page={StudioDashboardPage} />} />
           <Route path="onboarding" element={<LazyPage page={StudioOnboardingPage} />} />
           <Route path="deal-intake" element={<LazyPage page={StudioDealIntakeRedirect} />} />
-          <Route path="deals/:dealId/intake" element={<LazyPage page={StudioDealIntakePage} />} />
-          <Route
-            path="deals/:dealId/data-review"
-            element={<LazyPage page={StudioDataReviewPage} />}
-          />
-          <Route path="deals/:dealId" element={<LazyPage page={StudioDealOverviewPage} />} />
-          <Route path="deals/:dealId/comps" element={<LazyPage page={StudioCompsPage} />} />
-          <Route
-            path="deals/:dealId/underwriting"
-            element={<LazyPage page={StudioUnderwritingPage} />}
-          />
-          <Route
-            path="deals/:dealId/underwriting/sources"
-            element={<LazyPage page={StudioAssumptionSourceTracePage} />}
-          />
-          <Route
-            path="deals/:dealId/underwriting/debt"
-            element={<LazyPage page={StudioDebtPanelPage} />}
-          />
-          <Route
-            path="deals/:dealId/scenarios"
-            element={<LazyPage page={StudioScenarioComparisonPage} />}
-          />
-          <Route
-            path="deals/:dealId/versions"
-            element={<LazyPage page={StudioValuationVersionTimelinePage} />}
-          />
-          <Route
-            path="deals/:dealId/capital-stack"
-            element={<LazyPage page={StudioCapitalStackPage} />}
-          />
-          <Route path="deals/:dealId/ic-packet" element={<LazyPage page={StudioIcPacketPage} />} />
-          <Route
-            path="deals/:dealId/hitl-review"
-            element={<LazyPage page={StudioHitlReviewPage} />}
-          />
-          <Route
-            path="deals/:dealId/spatial"
-            element={<LazyPage page={StudioSpatialWorkbenchPage} />}
-          />
+          <Route path="deals/:dealId" element={<DealWorkflowLayout />}>
+            <Route index element={<LazyPage page={StudioDealOverviewPage} />} />
+            <Route path="intake" element={<LazyPage page={StudioDealIntakePage} />} />
+            <Route path="data-review" element={<LazyPage page={StudioDataReviewPage} />} />
+            <Route path="comps" element={<LazyPage page={StudioCompsPage} />} />
+            <Route path="underwriting" element={<LazyPage page={StudioUnderwritingPage} />} />
+            <Route
+              path="underwriting/sources"
+              element={<LazyPage page={StudioAssumptionSourceTracePage} />}
+            />
+            <Route path="underwriting/debt" element={<LazyPage page={StudioDebtPanelPage} />} />
+            <Route path="scenarios" element={<LazyPage page={StudioScenarioComparisonPage} />} />
+            <Route
+              path="versions"
+              element={<LazyPage page={StudioValuationVersionTimelinePage} />}
+            />
+            <Route path="capital-stack" element={<LazyPage page={StudioCapitalStackPage} />} />
+            <Route path="ic-packet" element={<LazyPage page={StudioIcPacketPage} />} />
+            <Route path="hitl-review" element={<LazyPage page={StudioHitlReviewPage} />} />
+            <Route path="spatial" element={<LazyPage page={StudioSpatialWorkbenchPage} />} />
+          </Route>
           <Route path="settings/billing" element={<LazyPage page={StudioPricingPage} />} />
           <Route path="settings/white-label" element={<LazyPage page={StudioWhiteLabelPage} />} />
+          <Route path="design-system" element={<LazyPage page={StudioDesignSystemPage} />} />
           <Route path="broker-os" element={<LazyPage page={StudioBrokerOsPage} />} />
         </Route>
         <Route path="studio/reports" element={<StudioStandaloneShell />}>

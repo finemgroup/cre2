@@ -39,6 +39,7 @@ Future implementation should preserve the behaviors documented here unless a lat
 | `/studio/deals/:dealId/spatial`              | Studio workflow   | Review location intelligence, source rights, verification, trade areas, and layer budgets in workbench views.      | Mock GIS manifest; no provider keys, live tiles, KML, or GeoJSON.            | Prototype-ready; production needs provider/source-rights approval, lazy geometry contracts, and permission filtering.            |
 | `/studio/reports/:dealId/builder`            | Studio standalone | Review sections, source bundles, snapshot breadcrumb, export blockers, PDF preview, branding, and governed receipt. | Mock report sections and source blocks.                                      | Prototype-ready; production needs section approval, source-rights filtering, and artifact receipts.                              |
 | `/studio/broker-os`                          | Studio operator   | View sanitized job streams, agent inventory, and planning context.                                                 | Mock operational projections only.                                           | Prototype-ready; production must keep raw logs, worker IDs, secrets, and PII out of public/operator-lite views.                  |
+| `/studio/design-system`                      | Studio reference  | Live token swatches, typography, badges, bento, tables, and presentation-mode toggle for institutional polish.     | Reference-only; no runtime product state.                                    | Prototype-ready; keep in sync with `design-tokens.css` and `visual-utilities.css`.                                               |
 
 ## Cross-Route Product Invariants
 
@@ -67,9 +68,9 @@ These gates lock UX truth after Phase 2 waves without implying production readin
 
 - **Config:** `prototype/lighthouserc.cjs`
 - **CI job:** `.github/workflows/prototype-ci.yml` → `npm run test:lighthouse` against the Vite preview server.
-- **Representative routes measured (20):**
+- **Representative routes measured (21):**
   - Public: `/`, `/upload`, `/property/demo-001`, `/property/demo-001/comps`, `/report/demo-001`, `/export/demo-001`
-  - Studio: `/studio/dashboard`, `/studio/deals/riverside-flats`, `/studio/deals/riverside-flats/underwriting`, `/studio/deals/riverside-flats/underwriting/sources`, `/studio/deals/riverside-flats/underwriting/debt`, `/studio/deals/riverside-flats/data-review`, `/studio/deals/riverside-flats/scenarios`, `/studio/deals/riverside-flats/versions`, `/studio/deals/riverside-flats/capital-stack`, `/studio/deals/riverside-flats/ic-packet`, `/studio/deals/riverside-flats/hitl-review`, `/studio/deals/riverside-flats/spatial`, `/studio/settings/billing`, `/studio/reports/riverside-flats/builder`
+  - Studio: `/studio/dashboard`, `/studio/deals/riverside-flats`, `/studio/deals/riverside-flats/underwriting`, `/studio/deals/riverside-flats/underwriting/sources`, `/studio/deals/riverside-flats/underwriting/debt`, `/studio/deals/riverside-flats/data-review`, `/studio/deals/riverside-flats/scenarios`, `/studio/deals/riverside-flats/versions`, `/studio/deals/riverside-flats/capital-stack`, `/studio/deals/riverside-flats/ic-packet`, `/studio/deals/riverside-flats/hitl-review`, `/studio/deals/riverside-flats/spatial`, `/studio/settings/billing`, `/studio/design-system`, `/studio/reports/riverside-flats/builder`
 
 | Category       | CI posture           | Minimum score | Notes                                                                     |
 | -------------- | -------------------- | ------------- | ------------------------------------------------------------------------- |

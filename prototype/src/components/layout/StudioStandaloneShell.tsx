@@ -10,15 +10,18 @@ import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitiv
 import { useStudioSurfaceFonts } from '@/lib/fonts/useStudioSurfaceFonts';
 import { getStudioRouteTitle } from '@/lib/a11y/routeTitles';
 import { useRouteAnnouncement } from '@/lib/a11y/useRouteAnnouncement';
+import { PresentationModeToggle } from '@/components/layout/PresentationModeToggle';
+import { usePresentationMode } from '@/lib/studio/usePresentationMode';
 
 export function StudioStandaloneShell(): ReactElement {
   const location = useLocation();
   const routeAnnouncement = useRouteAnnouncement(getStudioRouteTitle(location.pathname));
   useStudioSurfaceFonts();
+  const { enabled: presentationMode } = usePresentationMode();
   const dealId = getDealIdFromPath(location.pathname);
 
   return (
-    <div className="studio-standalone">
+    <div className={presentationMode ? 'studio-standalone presentation-mode' : 'studio-standalone'}>
       <ScreenReaderAnnouncement message={routeAnnouncement} />
       <a href="#page-content" className="skip-link">
         Skip to content
@@ -34,6 +37,7 @@ export function StudioStandaloneShell(): ReactElement {
           <Link to="/studio/settings/white-label">White Label</Link>
         </nav>
         <div className="studio-topbar-actions">
+          <PresentationModeToggle />
           <PrototypeActionButton
             feature="Report export"
             className="btn btn-primary"

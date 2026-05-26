@@ -33,8 +33,14 @@ P51 CRE adds explicit duration bands:
 - **scaleIn** — subtle modal/drawer enter (scale 0.96 → 1).
 - **tooltip** — small y-offset fade for helper text.
 - **listStagger** — 0.03–0.04s stagger for evidence citation lists only.
+- **navRail** — restrained enter for grouped deal tabs, stage rails, and workflow nav groups.
+- **tabPanel** — opacity/position crossfade for route-linked deal tabs and in-page segmented controls (`TabPanelTransition` / `TabPanelSwitch`).
+- **workbenchPanel** — opacity/position crossfade for Evidence Workbench table/list/grid switches.
+- **mapSelection** — short opacity/scale transition for selected map layer detail panels.
 
-Always honor **reduced motion**: collapse animations to instant or near-instant opacity when user prefers reduced motion (`getMotionProps` / `useReducedMotionPreference` pattern).
+Always honor **reduced motion**: collapse animations to instant or near-instant opacity when user prefers reduced motion (`getMotionProps` / `useReducedMotionPreference` pattern). `PageTransition`, `TabPanelTransition`, and `DataWorkbenchShell` skip animated remounts entirely when reduced motion is enabled.
+
+Deal workflow route tabs use a two-layer pattern: `PageTransition` keeps a stable key per deal (`/studio/deals/:id`) so tab chrome does not remount, while `DealWorkflowLayout` animates only the outlet panel on pathname changes.
 
 CRE `OSMotion` also confirms that drawers/sheets should restore focus, trap focus while open, support Escape, and use `aria-modal` for modal surfaces.
 

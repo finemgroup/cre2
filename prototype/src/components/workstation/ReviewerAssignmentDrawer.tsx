@@ -3,6 +3,7 @@ import { useState, type ReactElement } from 'react';
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { DataTable, StatusBadge, TrustBadge } from '@/components/studio/StudioPrimitives';
+import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
 import { HitlTrustTierBadge } from '@/components/workflow/HitlTrustTierBadge';
 import type { ReviewAssignment } from '@/lib/workflow/review-assignments';
 
@@ -71,6 +72,13 @@ export function ReviewerAssignmentDrawer({
               Approval is disabled in prototype. HITL actions do not persist truth.
             </span>
           </div>
+          <GateResolutionCallout
+            action="Approve for export"
+            prerequisite="Reviewer identity, persisted decisions, and export gates remain unresolved."
+            owner="A senior reviewer"
+            resolveTo={assignment.resolutionRoute}
+            resolveLabel={`Open ${assignment.resolutionSurface}`}
+          />
         </>
       ) : (
         <StatusBadge status="No assignment selected" />

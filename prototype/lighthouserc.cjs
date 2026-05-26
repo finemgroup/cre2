@@ -34,6 +34,7 @@ module.exports = {
         'http://127.0.0.1:4173/studio/deals/riverside-flats/hitl-review',
         'http://127.0.0.1:4173/studio/deals/riverside-flats/spatial',
         'http://127.0.0.1:4173/studio/settings/billing',
+        'http://127.0.0.1:4173/studio/design-system',
         'http://127.0.0.1:4173/studio/reports/riverside-flats/builder',
       ],
       numberOfRuns: 1,

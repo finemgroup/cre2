@@ -20,6 +20,8 @@ import {
   reviewStateToHitlTier,
 } from '@/components/workflow/HitlTrustTierBadge';
 import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
+import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
+import { ContextualSurfaceTriggers } from '@/components/workflow/ContextualSurfaceTriggers';
 import { fixtureActors } from '@/lib/contracts/fixtures';
 import { getReviewQueue } from '@/lib/runtime/review-queue';
 import {
@@ -27,7 +29,7 @@ import {
   type ReviewAssignment,
 } from '@/lib/workflow/review-assignments';
 import { studioDealPath, studioReportPath } from '@/data/studio';
-import { DealWorkflowTabs, StudioDealNotFound, useStudioDeal } from '@/pages/studio/StudioShared';
+import { StudioDealNotFound, useStudioDeal } from '@/pages/studio/StudioShared';
 
 const CAPITAL_STACK = [
   {
@@ -80,7 +82,6 @@ export function StudioCapitalStackPage(): ReactElement {
         returnTo={studioDealPath(deal.id, 'underwriting')}
         returnLabel="Return to cockpit"
       />
-      <DealWorkflowTabs deal={deal} />
       <PageTitle
         eyebrow="Design reference promoted"
         title="Capital Stack & Waterfall"
@@ -90,6 +91,13 @@ export function StudioCapitalStackPage(): ReactElement {
         Waterfall math is simplified prototype output. Export, LP reporting, and legal review remain
         gated.
       </NonProductionCallout>
+      <GateResolutionCallout
+        action="Export waterfall"
+        prerequisite="LP reporting, legal review, and source-rights gates remain open."
+        owner="A reviewer"
+        resolveTo={studioDealPath(deal.id, 'underwriting')}
+        resolveLabel="Review underwriting gates"
+      />
       <div className="capital-stack-grid">
         <StudioCard title="Visual Capital Stack" eyebrow="Mock-only">
           <div className="capital-stack-chart" role="img" aria-label="Capital stack proportions">
@@ -105,6 +113,7 @@ export function StudioCapitalStackPage(): ReactElement {
             ))}
           </div>
           <DataTable
+            dense
             caption="Capital stack tiers"
             headers={['Tier', 'Amount', 'Share', 'Rate', 'Posture']}
             rows={CAPITAL_STACK.map((tier) => [
@@ -118,6 +127,7 @@ export function StudioCapitalStackPage(): ReactElement {
         </StudioCard>
         <StudioCard title="Waterfall Structure" eyebrow="Advisory">
           <DataTable
+            dense
             caption="Mock waterfall tiers"
             headers={['Tier', 'Target', 'Recipient', 'Notes']}
             rows={WATERFALL_ROWS}
@@ -139,6 +149,7 @@ export function StudioCapitalStackPage(): ReactElement {
           </p>
         </StudioCard>
       </div>
+      <ContextualSurfaceTriggers dealId={deal.id} route="capital-stack" />
     </div>
   );
 }
@@ -155,7 +166,6 @@ export function StudioIcPacketPage(): ReactElement {
         returnTo={studioDealPath(deal.id, 'underwriting')}
         returnLabel="Return to cockpit"
       />
-      <DealWorkflowTabs deal={deal} />
       <PageTitle
         eyebrow="Design reference promoted"
         title="Investment Committee Packet"
@@ -166,6 +176,13 @@ export function StudioIcPacketPage(): ReactElement {
         remain runtime gated.
       </NonProductionCallout>
       <MockBoundaryBanner variant="ic" />
+      <GateResolutionCallout
+        action="Send IC packet"
+        prerequisite="Capital stack appendix and market sections remain blocked pending review."
+        owner="An IC reviewer"
+        resolveTo={studioReportPath(deal.id)}
+        resolveLabel="Open report builder"
+      />
       <div className="dashboard-grid">
         <StudioCard title="Packet Readiness">
           <ReadinessRailMock />
@@ -203,6 +220,7 @@ export function StudioIcPacketPage(): ReactElement {
         </StudioCard>
       </div>
       <StickyActionBarMock dealId={deal.id} />
+      <ContextualSurfaceTriggers dealId={deal.id} route="ic-packet" />
     </div>
   );
 }
@@ -223,7 +241,6 @@ export function StudioHitlReviewPage(): ReactElement {
         returnTo={studioDealPath(deal.id, 'underwriting')}
         returnLabel="Return to cockpit"
       />
-      <DealWorkflowTabs deal={deal} />
       <PageTitle
         eyebrow="Internal-only projection"
         title="Reviewer Assignment Queue"
@@ -237,6 +254,7 @@ export function StudioHitlReviewPage(): ReactElement {
       <div className="split-workstation-grid">
         <StudioCard title="Assigned Reviews" className="wide-card">
           <DataTable
+            dense
             caption="HITL reviewer assignments"
             headers={['Field', 'Assignee', 'Queue state', 'Posture', 'Trust tier', 'Action']}
             rows={assignments.map((assignment) => [
@@ -285,6 +303,7 @@ export function StudioHitlReviewPage(): ReactElement {
         onClose={() => setDrawerOpen(false)}
         assignment={selected}
       />
+      <ContextualSurfaceTriggers dealId={deal.id} route="hitl-review" />
     </div>
   );
 }

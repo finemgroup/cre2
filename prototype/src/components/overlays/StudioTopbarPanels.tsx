@@ -1,18 +1,44 @@
-import { useEffect, useRef, type ReactElement } from 'react';
+import { useEffect, useId, useRef, type ReactElement } from 'react';
 
 import { PrototypeActionAnchor } from '@/components/overlays/PrototypeActionAnchor';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
 
+const FOCUSABLE =
+  'a[href],button:not([disabled]),textarea:not([disabled]),input:not([disabled]),select:not([disabled]),[tabindex]:not([tabindex="-1"])';
+
 type PanelProps = {
   isOpen: boolean;
   onClose: () => void;
   label: string;
+  panelId?: string;
   children: React.ReactNode;
 };
 
-function TopbarPanel({ isOpen, onClose, label, children }: PanelProps): ReactElement | null {
+function TopbarPanel({
+  isOpen,
+  onClose,
+  label,
+  panelId,
+  children,
+}: PanelProps): ReactElement | null {
+  const generatedId = useId();
+  const resolvedPanelId = panelId ?? generatedId;
   const panelRef = useRef<HTMLDivElement>(null);
+  const invokerRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    invokerRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const first = panelRef.current?.querySelector<HTMLElement>(FOCUSABLE);
+    first?.focus();
+
+    return () => {
+      invokerRef.current?.focus();
+    };
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -22,7 +48,30 @@ function TopbarPanel({ isOpen, onClose, label, children }: PanelProps): ReactEle
     }
 
     function onKeyDown(event: KeyboardEvent) {
-      if (event.key === 'Escape') onClose();
+      if (event.key === 'Escape') {
+        onClose();
+        return;
+      }
+
+      if (event.key !== 'Tab' || !panelRef.current) return;
+
+      const focusable = Array.from(panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE));
+      if (focusable.length === 0) {
+        event.preventDefault();
+        panelRef.current.focus();
+        return;
+      }
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     }
 
     document.addEventListener('mousedown', onPointerDown);
@@ -36,7 +85,15 @@ function TopbarPanel({ isOpen, onClose, label, children }: PanelProps): ReactEle
   if (!isOpen) return null;
 
   return (
-    <div ref={panelRef} className="topbar-panel" role="dialog" aria-label={label}>
+    <div
+      ref={panelRef}
+      id={resolvedPanelId}
+      className="topbar-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-label={label}
+      tabIndex={-1}
+    >
       <header>
         <strong>{label}</strong>
         <button type="button" className="btn btn-ghost" onClick={onClose} aria-label="Close panel">
@@ -51,12 +108,14 @@ function TopbarPanel({ isOpen, onClose, label, children }: PanelProps): ReactEle
 export function HelpPanel({
   isOpen,
   onClose,
+  panelId,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  panelId?: string;
 }): ReactElement | null {
   return (
-    <TopbarPanel isOpen={isOpen} onClose={onClose} label="Help">
+    <TopbarPanel isOpen={isOpen} onClose={onClose} label="Help" panelId={panelId}>
       <ul className="panel-link-list">
         <li>
           <PrototypeActionAnchor href="#workflow-guide" feature="Deal workflow guide">
@@ -103,12 +162,14 @@ const NOTIFICATIONS = [
 export function NotificationsPanel({
   isOpen,
   onClose,
+  panelId,
 }: {
   isOpen: boolean;
   onClose: () => void;
+  panelId?: string;
 }): ReactElement | null {
   return (
-    <TopbarPanel isOpen={isOpen} onClose={onClose} label="Notifications">
+    <TopbarPanel isOpen={isOpen} onClose={onClose} label="Notifications" panelId={panelId}>
       <ul className="notification-list">
         {NOTIFICATIONS.map((item) => (
           <li key={item.id}>
@@ -127,16 +188,19 @@ export function SupportSignOutPanel({
   isOpen,
   onClose,
   mode,
+  panelId,
 }: {
   isOpen: boolean;
   onClose: () => void;
   mode: 'support' | 'sign-out';
+  panelId?: string;
 }): ReactElement | null {
   return (
     <TopbarPanel
       isOpen={isOpen}
       onClose={onClose}
       label={mode === 'support' ? 'Support' : 'Sign out'}
+      panelId={panelId}
     >
       {mode === 'support' ? (
         <>

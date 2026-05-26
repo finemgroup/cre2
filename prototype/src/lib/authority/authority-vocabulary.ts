@@ -110,6 +110,52 @@ export function formatTrustBadgeState(state: string): { display: string; ariaLab
   return { display: state, ariaLabel: `Authority state: ${state}` };
 }
 
+const STATUS_BADGE_VOCABULARY: Record<string, { display: string; classSuffix: string }> = {
+  'policy-clear': { display: 'Policy clear', classSuffix: 'reviewed' },
+  'policy-blocked': { display: 'Policy blocked', classSuffix: 'blocked' },
+  'export-gated': { display: 'Export gated', classSuffix: 'blocked' },
+  approved: { display: 'Approved', classSuffix: 'approved' },
+  'needs-review': { display: 'Needs review', classSuffix: 'needs-review' },
+  draft: { display: 'Draft', classSuffix: 'draft' },
+  blocked: { display: 'Blocked', classSuffix: 'blocked' },
+  reviewed: { display: 'Reviewed', classSuffix: 'reviewed' },
+  'candidate-evidence': { display: 'Candidate evidence', classSuffix: 'candidate-evidence' },
+  'source-pending': { display: 'Source pending', classSuffix: 'source-pending' },
+};
+
+export function formatStatusBadge(status: string): {
+  display: string;
+  ariaLabel: string;
+  classSuffix: string;
+} {
+  const normalized = status.toLowerCase().replace(/[^a-z]+/g, '-').replace(/^-|-$/g, '');
+  const mapped = STATUS_BADGE_VOCABULARY[normalized];
+  if (mapped) {
+    return {
+      display: mapped.display,
+      ariaLabel: `Status: ${mapped.display}`,
+      classSuffix: mapped.classSuffix,
+    };
+  }
+
+  const authority = normalizeAuthorityPosture(status);
+  if (authority) {
+    const display = getPublicAuthorityLabel(authority);
+    return {
+      display,
+      ariaLabel: `Status: ${display}`,
+      classSuffix: authority,
+    };
+  }
+
+  const fallbackSuffix = status.toLowerCase().replace(/[^a-z]+/g, '-');
+  return {
+    display: status,
+    ariaLabel: `Status: ${status}`,
+    classSuffix: fallbackSuffix,
+  };
+}
+
 export function isExportBlockingPosture(label: AuthorityPosture | StudioTrustPosture): boolean {
   if (label === 'blocked' || label === 'Blocked') return true;
   if (label === 'candidate-evidence' || label === 'Candidate evidence') return true;

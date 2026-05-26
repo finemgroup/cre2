@@ -5,6 +5,12 @@ import { MaterialIcon } from '@/components/studio/StudioPrimitives';
 import { studioDealPath, studioReportPath, type StudioDealSection } from '@/data/studio';
 
 export type ContextualSurfaceRoute =
+  | 'overview'
+  | 'underwriting'
+  | 'capital-stack'
+  | 'ic-packet'
+  | 'hitl-review'
+  | 'spatial'
   | 'data-review'
   | 'scenarios'
   | 'versions'
@@ -21,6 +27,108 @@ type SurfaceTrigger = {
 };
 
 const TRIGGERS: Record<ContextualSurfaceRoute, SurfaceTrigger[]> = {
+  overview: [
+    {
+      section: 'intake',
+      label: 'Deal intake',
+      reason: 'Review uploads and staged imports before assumption promotion.',
+    },
+    {
+      section: 'comps',
+      label: 'Comparable sales',
+      reason: 'Apply comp authority to screening posture and model inputs.',
+    },
+    {
+      section: 'underwriting',
+      label: 'Underwriting cockpit',
+      reason: 'Open executive metrics, gates, and scenario controls.',
+    },
+  ],
+  underwriting: [
+    {
+      section: 'scenarios',
+      label: 'Scenario comparison',
+      reason: 'Stress exit cap and rent growth before snapshot lock.',
+    },
+    {
+      section: 'underwriting-sources',
+      label: 'Assumption source trace',
+      reason: 'Resolve citation gaps before export posture clears.',
+    },
+    {
+      section: 'underwriting-debt',
+      label: 'Debt / lender quote',
+      reason: 'DSCR warnings need term sheet citation.',
+    },
+  ],
+  'capital-stack': [
+    {
+      section: 'scenarios',
+      label: 'Scenario comparison',
+      reason: 'Trace which assumptions feed advisory stack tiers.',
+    },
+    {
+      section: 'ic-packet',
+      label: 'IC packet reference',
+      reason: 'Stack appendix stays blocked until evidence clears.',
+    },
+    {
+      section: 'underwriting',
+      label: 'Underwriting cockpit',
+      reason: 'Return to headline gates before waterfall export.',
+    },
+  ],
+  'ic-packet': [
+    {
+      section: 'versions',
+      label: 'Valuation snapshots',
+      reason: 'IC sections follow snapshot lock and evidence refs.',
+    },
+    {
+      section: 'report-builder',
+      label: 'Report builder',
+      reason: 'Section review and export gates follow IC posture.',
+    },
+    {
+      section: 'hitl-review',
+      label: 'Analyst review queue',
+      reason: 'Section approval does not equal IC delivery authority.',
+    },
+  ],
+  'hitl-review': [
+    {
+      section: 'underwriting-sources',
+      label: 'Assumption source trace',
+      reason: 'Escalate blocked assumptions back to cited sources.',
+    },
+    {
+      section: 'data-review',
+      label: 'Normalization workbench',
+      reason: 'Resolve candidate conflicts before reviewer signoff.',
+    },
+    {
+      section: 'report-builder',
+      label: 'Report builder',
+      reason: 'Reviewer completion does not authorize export.',
+    },
+  ],
+  spatial: [
+    {
+      section: 'data-review',
+      label: 'Normalization workbench',
+      reason: 'Align spatial evidence with rent roll and T12 review.',
+    },
+    {
+      section: 'versions',
+      label: 'Valuation snapshots',
+      reason: 'Source rights affect snapshot export eligibility.',
+    },
+    {
+      section: 'report-builder',
+      label: 'Report builder',
+      reason: 'Map manifest feeds report-context layer posture.',
+    },
+  ],
   'data-review': [
     {
       section: 'underwriting-sources',

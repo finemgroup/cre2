@@ -1,7 +1,8 @@
 import { Link, useLocation, useParams } from 'react-router-dom';
-import type { ReactElement } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 
-import { StudioCard } from '@/components/studio/StudioPrimitives';
+import { TabPanelTransition } from '@/components/motion/TabPanelTransition';
+import { MotionBlock, StudioCard } from '@/components/studio/StudioPrimitives';
 import { AdvancedWorkflowNav } from '@/components/workstation/AdvancedWorkflowNav';
 import { DealContextStrip } from '@/components/workflow/DealContextStrip';
 import { DealStageStepper } from '@/components/workflow/DealStageStepper';
@@ -67,7 +68,7 @@ export function DealWorkflowTabs({ deal }: { deal: Deal }): ReactElement {
       <DealStageStepper dealId={deal.id} />
       <div className="deal-workflow-nav-groups" aria-label="Deal workflow sections">
         {tabGroups.map((group) => (
-          <section key={group.label} className="deal-workflow-nav-group">
+          <MotionBlock key={group.label} motionName="navRail" className="deal-workflow-nav-group">
             <p className="studio-eyebrow">{group.label}</p>
             <nav className="tabs-row" aria-label={`${group.label} workflow links`}>
               {group.tabs.map(([tab, href, matcher]) => {
@@ -84,7 +85,7 @@ export function DealWorkflowTabs({ deal }: { deal: Deal }): ReactElement {
                 );
               })}
             </nav>
-          </section>
+          </MotionBlock>
         ))}
       </div>
       <AdvancedWorkflowNav dealId={deal.id} />
@@ -147,5 +148,21 @@ export function SegmentedControl<T extends string>({
         </button>
       ))}
     </div>
+  );
+}
+
+export function TabPanelSwitch({
+  panelKey,
+  children,
+  className,
+}: {
+  panelKey: string;
+  children: ReactNode;
+  className?: string;
+}): ReactElement {
+  return (
+    <TabPanelTransition panelKey={panelKey} className={className}>
+      {children}
+    </TabPanelTransition>
   );
 }

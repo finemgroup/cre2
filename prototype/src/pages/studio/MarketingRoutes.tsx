@@ -18,7 +18,7 @@ import { useA11yAnnouncement } from '@/lib/a11y/useA11yAnnouncement';
 import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
 import { getStudioDashboardView } from '@/lib/runtime/studio-workspace';
 import { saveOnboardingProfile } from '@/lib/studio/onboarding-profile';
-import { SegmentedControl } from '@/pages/studio/StudioShared';
+import { SegmentedControl, TabPanelSwitch } from '@/pages/studio/StudioShared';
 
 export function StudioLandingPage(): ReactElement {
   const dashboardView = getStudioDashboardView();
@@ -175,7 +175,7 @@ export function StudioOnboardingPage(): ReactElement {
       <ScreenReaderAnnouncement message={message} />
       <StudioCard title="Set up Finem CRE Studio" eyebrow="Step-guided onboarding">
         <StageStepper stages={steps} activeIndex={step} />
-        <div className="onboarding-panel">
+        <TabPanelSwitch panelKey={String(step)} className="onboarding-panel">
           {step === 0 ? (
             <div className="choice-grid">
               <button
@@ -287,7 +287,7 @@ export function StudioOnboardingPage(): ReactElement {
               </PrototypeActionLink>
             </div>
           ) : null}
-        </div>
+        </TabPanelSwitch>
         <div className="wizard-actions">
           <button
             className="btn btn-secondary"
@@ -335,6 +335,7 @@ export function StudioPricingPage(): ReactElement {
           />
         }
       />
+      <TabPanelSwitch panelKey={annual ? 'annual' : 'monthly'}>
       <div className="pricing-grid">
         {plans.map(([name, price, copy]) => (
           <StudioCard key={name} title={name} className={name === 'Premium' ? 'featured-card' : ''}>
@@ -352,6 +353,7 @@ export function StudioPricingPage(): ReactElement {
           </StudioCard>
         ))}
       </div>
+      </TabPanelSwitch>
       <StudioCard title="Feature comparison">
         <DataTable
           caption="Plan feature comparison"

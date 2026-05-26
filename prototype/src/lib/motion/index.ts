@@ -9,4 +9,5 @@ export {
   WORKFLOW_TRANSITION_PRESETS,
 } from './motion-tokens';
 export type { MotionSpec, SophexMotionSpecName, WorkflowTransitionPreset } from './motion-tokens';
+export { getPageTransitionKey } from './page-transition-key';
 export { useReducedMotionPreference } from './useReducedMotion';

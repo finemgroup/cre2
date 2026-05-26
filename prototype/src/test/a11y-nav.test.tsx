@@ -44,5 +44,8 @@ describe('accessibility navigation', () => {
 
     const upload = await renderRoute('/upload');
     expect(await axe(upload.container)).toHaveNoViolations();
+
+    const comps = await renderRoute('/property/demo-001/comps');
+    expect(await axe(comps.container)).toHaveNoViolations();
   });
 });

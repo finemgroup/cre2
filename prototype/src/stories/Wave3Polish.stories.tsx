@@ -17,6 +17,7 @@ const SAMPLE_ASSIGNMENT: ReviewAssignment = {
   trustTier: 'BLOCK',
   confidence: 36,
   resolutionSurface: 'Evidence workbench',
+  resolutionRoute: '/studio/deals/riverside-flats/data-review',
   confidenceAssessment: assessConfidence(36, true),
 };
 

@@ -17,6 +17,7 @@ import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButt
 import { ReviewPostureBanner } from '@/components/provenance/ProvenanceWidgets';
 import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
 import { ContextualSurfaceTriggers } from '@/components/workflow/ContextualSurfaceTriggers';
+import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
 import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
 import { StageRail } from '@/components/ui/StageRail';
 import { VALUATION_READINESS_STAGES } from '@/lib/readiness-stages';
@@ -32,7 +33,7 @@ import type { GovernedReceipt } from '@/lib/contracts/receipts';
 import { getLinkedPropertyId } from '@/lib/workflow-identity';
 import { evaluateExportPolicy } from '@/lib/runtime/export-policy';
 import { getStudioReportBuilderView } from '@/lib/runtime/studio-workspace';
-import { SegmentedControl, StudioDealNotFound } from '@/pages/studio/StudioShared';
+import { SegmentedControl, StudioDealNotFound, TabPanelSwitch } from '@/pages/studio/StudioShared';
 
 export function StudioReportBuilderPage(): ReactElement {
   const { dealId } = useParams();
@@ -111,6 +112,13 @@ export function StudioReportBuilderPage(): ReactElement {
       />
       <ReviewPostureBanner blocks={sourceBlocks} />
       <MockBoundaryBanner variant="export" />
+      <GateResolutionCallout
+        action="Generate governed receipt"
+        prerequisite="Section review and source-rights gates remain open for this report."
+        owner="A report reviewer"
+        resolveTo={studioDealPath(deal.id, 'versions')}
+        resolveLabel="Review valuation snapshots"
+      />
       <StageRail stages={[...VALUATION_READINESS_STAGES]} activeIndex={3} />
       <p className="sr-only" id="report-export-blocked">
         Export is disabled until section review and source-rights gates clear.
@@ -353,6 +361,7 @@ export function StudioWhiteLabelPage(): ReactElement {
           </div>
           <h3>{company}</h3>
           <div className="preview-accent" />
+          <TabPanelSwitch panelKey={preview}>
           {preview === 'portal' ? (
             <>
               <div className="pdf-block" />
@@ -369,6 +378,7 @@ export function StudioWhiteLabelPage(): ReactElement {
               <small>{brandConfig.footer}</small>
             </>
           )}
+          </TabPanelSwitch>
         </div>
       </StudioCard>
     </div>

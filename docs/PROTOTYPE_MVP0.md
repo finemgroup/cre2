@@ -1,5 +1,7 @@
 # Sophex MVP0 Prototype Lane
 
+> **Canonical spec:** Use [WORLD_CLASS_PROTOTYPE_SPEC.md](WORLD_CLASS_PROTOTYPE_SPEC.md) for the current route matrix, quality gates, and launch-readiness labels. This file retains the original Phase 1 lane snapshot for historical context.
+
 Phase 1 clickable concept implementation. **Mock data only.** No schema, API, deploy, provider/send, queue, CRM, or sister-project runtime coupling.
 
 ## Location

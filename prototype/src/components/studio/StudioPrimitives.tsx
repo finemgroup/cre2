@@ -18,7 +18,7 @@ import {
   LIST_STAGGER_CHILD_DELAY_S,
   useReducedMotionPreference,
 } from '@/lib/motion';
-import { formatTrustBadgeState } from '@/lib/authority/authority-vocabulary';
+import { formatTrustBadgeState, formatStatusBadge } from '@/lib/authority/authority-vocabulary';
 import type { AuthorityState, JobStatusProjection } from '@/data/studio';
 
 type ChildrenProps = {
@@ -104,7 +104,7 @@ export function MetricCard({
   const content = (
     <>
       <span>{label}</span>
-      <strong>{value}</strong>
+      <strong className="fin-value">{value}</strong>
       <small>{detail ?? 'Mock projection'}</small>
       <MaterialIcon name={icon} />
     </>
@@ -137,10 +137,10 @@ export function TrustBadge({ state }: { state: AuthorityState | string }): React
 }
 
 export function StatusBadge({ status }: { status: string }): ReactElement {
-  const normalized = status.toLowerCase().replace(/[^a-z]+/g, '-');
+  const { display, ariaLabel, classSuffix } = formatStatusBadge(status);
   return (
-    <span className={`status-badge status-${normalized}`} aria-label={`Status: ${status}`}>
-      {status}
+    <span className={`status-badge status-${classSuffix}`} aria-label={ariaLabel}>
+      {display}
     </span>
   );
 }
@@ -269,6 +269,7 @@ export function MotionBlock({
     | 'listStagger'
     | 'railEnter'
     | 'navRail'
+    | 'tabPanel'
     | 'workbenchPanel'
     | 'mapSelection'
     | 'collapse';
@@ -305,15 +306,17 @@ export function DataTable({
   rows,
   caption,
   getRowKey,
+  dense = true,
 }: {
   headers: string[];
   rows: Array<ReactNode[]>;
   caption?: string;
   getRowKey?: (row: ReactNode[], index: number) => string;
+  dense?: boolean;
 }): ReactElement {
   return (
     <div className="studio-table-wrap">
-      <table className="studio-table">
+      <table className={dense ? 'studio-table inst-table' : 'studio-table'}>
         {caption ? <caption>{caption}</caption> : null}
         <thead>
           <tr>

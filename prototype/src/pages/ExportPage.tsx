@@ -5,6 +5,7 @@ import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceMod
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
 import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
+import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
 import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
 import { StageRail } from '@/components/ui/StageRail';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
@@ -128,6 +129,16 @@ export function ExportPage(): ReactElement {
       ) : null}
 
       <StageRail stages={STAGES} activeIndex={stage} />
+
+      {exportBlocked ? (
+        <GateResolutionCallout
+          action="Generate export receipt"
+          prerequisite="Consent, section review, and source-use terms must clear before export."
+          owner="A report reviewer"
+          resolveTo={`/report/${propertyId}`}
+          resolveLabel="Review report sections"
+        />
+      ) : null}
 
       <div className="card">
         <AuthorityBadge label={exportBlocked ? 'blocked' : 'reviewed'} />

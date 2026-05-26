@@ -51,6 +51,7 @@ export function getStudioRouteTitle(pathname: string): string {
   if (pathname === '/studio/settings/billing') return 'Billing & Plans - Finem CRE Studio';
   if (pathname === '/studio/settings/white-label') return 'White Label Settings - Finem CRE Studio';
   if (pathname === '/studio/broker-os') return 'Broker OS - Finem CRE Studio';
+  if (pathname === '/studio/design-system') return 'Design System - Finem CRE Studio';
 
   const dealId = getDealIdFromPath(pathname);
 

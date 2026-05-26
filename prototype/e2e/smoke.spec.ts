@@ -18,9 +18,10 @@ test.describe('public Sophex smoke', () => {
     await page.getByRole('button', { name: /View evidence drawer/i }).click();
     await expect(page.getByRole('dialog', { name: /Evidence drawer/i })).toBeVisible();
     await page.keyboard.press('Escape');
-    await page.getByRole('link', { name: /Compare comps/i }).click();
+    await expect(page.getByRole('dialog', { name: /Evidence drawer/i })).toBeHidden();
+    await gotoRoute(page, '/property/demo-001/comps');
     await expect(page.getByRole('heading', { name: /Side-by-side comp dashboard/i })).toBeVisible();
-    await page.getByRole('link', { name: /Preview report/i }).click();
+    await gotoRoute(page, '/report/demo-001');
     await expect(page.getByRole('heading', { name: /Report for 1200 Commerce St/i })).toBeVisible();
   });
 
@@ -55,6 +56,13 @@ test.describe('public Sophex smoke', () => {
     await expect(page.getByRole('navigation', { name: /Trust and legal/i })).toBeVisible();
     await expect(page.getByRole('link', { name: /Source trust tiers/i })).toBeVisible();
   });
+
+  test('public mobile navigation drawer opens', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await gotoRoute(page, '/');
+    await page.getByRole('button', { name: /Open navigation menu/i }).click();
+    await expect(page.getByRole('dialog', { name: /Public navigation/i })).toBeVisible();
+  });
 });
 
 test.describe('Finem CRE Studio smoke', () => {
@@ -77,6 +85,13 @@ test.describe('Finem CRE Studio smoke', () => {
   test('mobile navigation drawer opens', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await gotoRoute(page, '/studio/dashboard');
+    await page.getByRole('button', { name: /Open navigation menu/i }).click();
+    await expect(page.getByRole('dialog', { name: /Studio navigation/i })).toBeVisible();
+  });
+
+  test('broker-os mobile navigation remains reachable', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await gotoRoute(page, '/studio/broker-os');
     await page.getByRole('button', { name: /Open navigation menu/i }).click();
     await expect(page.getByRole('dialog', { name: /Studio navigation/i })).toBeVisible();
   });

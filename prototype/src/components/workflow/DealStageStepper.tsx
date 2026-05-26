@@ -7,6 +7,7 @@ import {
   resolveDealStageFromPath,
   type DealStageStatus,
 } from '@/lib/workflow/deal-stage-model';
+import { MotionBlock } from '@/components/studio/StudioPrimitives';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 
@@ -29,26 +30,28 @@ export function DealStageStepper({ dealId }: { dealId: string }): ReactElement {
   const progress = progressState.value;
 
   return (
-    <nav className="deal-stage-stepper" aria-label="Deal workflow stages">
-      <p className="studio-eyebrow">Deal workflow</p>
-      <ol className="deal-stage-list">
-        {DEAL_STAGE_DEFINITIONS.map((stage) => {
-          const status = progress[stage.id];
-          const isActive = stage.id === activeStage;
-          return (
-            <li
-              key={stage.id}
-              className={`deal-stage-item deal-stage-${status}${isActive ? ' active' : ''}`}
-              aria-current={isActive ? 'step' : undefined}
-            >
-              <Link to={stage.primaryRoute(dealId)} className="deal-stage-link">
-                <span className="deal-stage-name">{stage.label}</span>
-                <span className="deal-stage-status">{STATUS_LABEL[status]}</span>
-              </Link>
-            </li>
-          );
-        })}
-      </ol>
-    </nav>
+    <MotionBlock motionName="navRail">
+      <nav className="deal-stage-stepper" aria-label="Deal workflow stages">
+        <p className="studio-eyebrow">Deal workflow</p>
+        <ol className="deal-stage-list">
+          {DEAL_STAGE_DEFINITIONS.map((stage) => {
+            const status = progress[stage.id];
+            const isActive = stage.id === activeStage;
+            return (
+              <li
+                key={stage.id}
+                className={`deal-stage-item deal-stage-${status}${isActive ? ' active' : ''}`}
+                aria-current={isActive ? 'step' : undefined}
+              >
+                <Link to={stage.primaryRoute(dealId)} className="deal-stage-link">
+                  <span className="deal-stage-name">{stage.label}</span>
+                  <span className="deal-stage-status">{STATUS_LABEL[status]}</span>
+                </Link>
+              </li>
+            );
+          })}
+        </ol>
+      </nav>
+    </MotionBlock>
   );
 }

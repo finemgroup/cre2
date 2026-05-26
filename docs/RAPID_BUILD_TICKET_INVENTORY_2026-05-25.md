@@ -220,3 +220,38 @@ Canonical ticket pack: [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPI
 | `SOPHEX-FE-UW-WAR-ROOM-CONTEXT-STRIP` | Implemented | Advisory cockpit context strip on all deal tab routes |
 | `SOPHEX-FE-UW-EXTENDED-SURFACE-TRIGGERS` | Implemented | Contextual handoffs on intake, comps, debt, source-trace |
 | `SOPHEX-FE-WAVE-11-STORYBOOK-AND-TESTS` | Implemented | Storybook + Vitest + API-mode e2e selector updates |
+
+## Wave 12 Shell Motion Closeout (2026-05-25)
+
+| Track | Status | Notes |
+| --- | --- | --- |
+| Shell nav motion wiring | Implemented | `navRail` on grouped deal tabs and stage stepper |
+| Workbench motion policy | Implemented | `sync` crossfade; static render under reduced motion; view-change SR announcement |
+| Spatial map selection motion | Implemented | `mapSelection` on `MapLayerControlPanel` selected detail |
+| Broker/public mobile nav | Implemented | Broker OS keeps mobile menu; public shell adds drawer nav |
+| Topbar panel accessibility | Implemented | Focus trap, Escape, focus restore, `aria-modal`, `aria-controls` |
+| Gate resolution expansion | Implemented | Callouts on export, report, capital stack, IC, HITL, staged import |
+| Authority/status vocabulary | Implemented | `StatusBadge` routes recognized states through shared vocabulary |
+| Motion/a11y test hardening | Implemented | Reduced-motion component tests, comps axe, upload progress RTL, broker/public mobile e2e |
+| Tab panel continuity | Implemented | Stable deal tab chrome; `tabPanel` crossfade on route and segmented-control switches |
+| Visual design system | Implemented | Wave 13 token harvest, institutional green/gold, CSS split, `/studio/design-system` reference |
+| `SOPHEX-VIS-TOKEN-HARVEST` | Implemented on master | design-tokens.css + visual-utilities.css; CRE green/gold replaces legacy studio blue |
+| `SOPHEX-VIS-DESIGN-ROUTE` | Implemented on master | `/studio/design-system` live token/badge/table/bento reference |
+| `SOPHEX-VIS-PRESENTATION-MODE` | Implemented on master | Topbar toggle + localStorage; `.presentation-mode` demo polish |
+| `SOPHEX-VIS-ROUTE-LOADING` | Implemented on master | Branded route-family loading panels; legacy SR fallback preserved |
+| `SOPHEX-VIS-INST-TABLE-DEFAULT` | Implemented on master | `DataTable` dense institutional mode on by default |
+
+### Wave 12 Ticket Ledger
+
+| Ticket | Status | Notes |
+| --- | --- | --- |
+| `SOPHEX-SHELL-MOTION-TOKENS` | Implemented on master | Extended navRail, workbenchPanel, mapSelection token definitions |
+| `SOPHEX-SHELL-NAV-MOTION` | Implemented on master | Grouped tabs, stage stepper, sidebar aria-current |
+| `SOPHEX-WORKBENCH-PANEL-MOTION` | Implemented on master | Lighter sync transitions + reduced-motion bypass |
+| `SOPHEX-SPATIAL-MOTION-A11Y` | Implemented on master | Map layer detail uses mapSelection with list/drawer fallback preserved |
+| `SOPHEX-MOTION-DOC-SYNC` | Implemented on master | Wave 12 ledger, motion guidelines, PROTOTYPE_MVP0 banner |
+| `SOPHEX-FE-UW-GATE-RESOLUTION-COPY` | Implemented on master | Gate callouts expanded across blocked export/IC/HITL/import surfaces |
+| `SOPHEX-FE-A11Y-NAV` | Implemented on master | Comps route added to axe coverage |
+| `SOPHEX-FE-A11Y-PROGRESS` | Implemented on master | Full upload flow progress semantics test |
+| `SOPHEX-FE-AUTHORITY-WIRE` | Implemented on master | Shared status badge vocabulary helper |
+| `SOPHEX-FE-TAB-PANEL-MOTION` | Implemented on master | `tabPanel` preset, `DealWorkflowLayout`, stable page transition key, in-page `TabPanelSwitch` on comps/scenario/preview/onboarding/billing |

@@ -38,6 +38,30 @@ describe('Wave 10 UX polish', () => {
     );
   });
 
+  it('renders overview and spatial contextual handoffs', () => {
+    const { rerender } = render(
+      <MemoryRouter>
+        <ContextualSurfaceTriggers dealId="riverside-flats" route="overview" />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByRole('link', { name: /Underwriting cockpit/i })).toHaveAttribute(
+      'href',
+      '/studio/deals/riverside-flats/underwriting'
+    );
+
+    rerender(
+      <MemoryRouter>
+        <ContextualSurfaceTriggers dealId="riverside-flats" route="spatial" />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByRole('link', { name: /Report builder/i })).toHaveAttribute(
+      'href',
+      '/studio/reports/riverside-flats/builder'
+    );
+  });
+
   it('renders evidence and scenario mock boundary banners', () => {
     const { rerender } = render(<MockBoundaryBanner variant="evidence" />);
     expect(screen.getByText(/CANDIDATE EVIDENCE/i)).toBeInTheDocument();

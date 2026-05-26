@@ -3,6 +3,8 @@ import { AnimatePresence } from 'framer-motion';
 
 import { StatusBadge } from '@/components/studio/StudioPrimitives';
 import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
+import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitives';
+import { useReducedMotionPreference } from '@/lib/motion';
 
 export type DataWorkbenchViewMode = 'table' | 'list' | 'grid';
 export type DataWorkbenchViews = Partial<Record<DataWorkbenchViewMode, ReactNode>>;
@@ -35,10 +37,13 @@ export function DataWorkbenchShell({
     const candidate = (persisted as DataWorkbenchViewMode | null) ?? defaultView;
     return availableModes.includes(candidate) ? candidate : (availableModes[0] ?? 'table');
   });
+  const [viewAnnouncement, setViewAnnouncement] = useState('');
+  const reducedMotion = useReducedMotionPreference();
   const selectedMode = availableModes.includes(mode) ? mode : (availableModes[0] ?? 'table');
 
   function chooseMode(nextMode: DataWorkbenchViewMode) {
     setMode(nextMode);
+    setViewAnnouncement(`${nextMode} view selected`);
     if (storageKey) safeWrite(storageKey, nextMode);
   }
 
@@ -65,15 +70,22 @@ export function DataWorkbenchShell({
         <StatusBadge status={`${selectedMode} view`} />
         <span>View state is local and mock-only; it does not change evidence authority.</span>
       </div>
-      <AnimatePresence mode="wait" initial={false}>
-        <SophexMotionSurface
-          key={selectedMode}
-          motionName="workbenchPanel"
-          className={`data-workbench-content data-workbench-${selectedMode}`}
-        >
+      <ScreenReaderAnnouncement message={viewAnnouncement} />
+      {reducedMotion ? (
+        <div className={`data-workbench-content data-workbench-${selectedMode}`}>
           {views[selectedMode]}
-        </SophexMotionSurface>
-      </AnimatePresence>
+        </div>
+      ) : (
+        <AnimatePresence mode="sync" initial={false}>
+          <SophexMotionSurface
+            key={selectedMode}
+            motionName="workbenchPanel"
+            className={`data-workbench-content data-workbench-${selectedMode}`}
+          >
+            {views[selectedMode]}
+          </SophexMotionSurface>
+        </AnimatePresence>
+      )}
     </section>
   );
 }

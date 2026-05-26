@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   ALL_AUTHORITY_POSTURES,
+  formatStatusBadge,
   formatTrustBadgeState,
   getPublicAuthorityLabel,
   isExportBlockingPosture,
@@ -41,5 +42,14 @@ describe('authority vocabulary', () => {
     expect(isExportBlockingPosture('reviewed')).toBe(false);
     expect(isExportBlockingPosture('Public baseline')).toBe(false);
     expect(isExportBlockingPosture('sample-map-data')).toBe(false);
+  });
+
+  it('formats status badges through shared vocabulary when recognized', () => {
+    expect(formatStatusBadge('Policy blocked')).toEqual({
+      display: 'Policy blocked',
+      ariaLabel: 'Status: Policy blocked',
+      classSuffix: 'blocked',
+    });
+    expect(formatStatusBadge('table view').display).toBe('table view');
   });
 });

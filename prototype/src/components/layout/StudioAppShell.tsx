@@ -1,5 +1,5 @@
-import { useState, type ReactElement } from 'react';
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { useId, useState, type ReactElement } from 'react';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 
 import {
   HelpPanel,
@@ -23,6 +23,10 @@ import { useStudioSurfaceFonts } from '@/lib/fonts/useStudioSurfaceFonts';
 import { useRouteAnnouncement } from '@/lib/a11y/useRouteAnnouncement';
 import { getStudioRouteTitle } from '@/lib/a11y/routeTitles';
 import { getOnboardingProfile } from '@/lib/studio/onboarding-profile';
+import {
+  PresentationModeToggle,
+} from '@/components/layout/PresentationModeToggle';
+import { usePresentationMode } from '@/lib/studio/usePresentationMode';
 
 function isActiveMatch(path: string, match: string): boolean {
   if (match === 'dashboard') return path === '/studio/dashboard' || path === '/studio';
@@ -45,6 +49,7 @@ function isActiveMatch(path: string, match: string): boolean {
   if (match === 'billing') return path === '/studio/settings/billing';
   if (match === 'white-label') return path === '/studio/settings/white-label';
   if (match === 'broker-os') return path === '/studio/broker-os';
+  if (match === 'design-system') return path === '/studio/design-system';
   return path.startsWith(match);
 }
 
@@ -58,7 +63,10 @@ export function StudioAppShell(): ReactElement {
   const routeAnnouncement = useRouteAnnouncement(getStudioRouteTitle(location.pathname));
   const onboardingProfile = getOnboardingProfile();
   useStudioSurfaceFonts();
+  const { enabled: presentationMode } = usePresentationMode();
 
+  const helpPanelId = useId();
+  const notificationsPanelId = useId();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
@@ -67,12 +75,26 @@ export function StudioAppShell(): ReactElement {
 
   if (isStandaloneMarketing) {
     return (
-      <div className="studio-standalone studio-marketing-shell">
+      <div
+        className={
+          presentationMode
+            ? 'studio-standalone studio-marketing-shell presentation-mode'
+            : 'studio-standalone studio-marketing-shell'
+        }
+      >
         <ScreenReaderAnnouncement message={routeAnnouncement} />
         <a href="#page-content" className="skip-link">
           Skip to content
         </a>
         <RouteProgress />
+        <header className="studio-report-nav studio-marketing-topbar">
+          <Link to="/studio/dashboard" className="studio-topbar-brand">
+            Finem CRE Studio
+          </Link>
+          <div className="studio-topbar-actions">
+            <PresentationModeToggle />
+          </div>
+        </header>
         <main className="studio-standalone-content">
           <PageTransition>
             <Outlet />
@@ -82,8 +104,16 @@ export function StudioAppShell(): ReactElement {
     );
   }
 
+  const shellClass = [
+    'studio-shell',
+    isBrokerOs ? 'broker-os-shell' : '',
+    presentationMode ? 'presentation-mode' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return (
-    <div className={isBrokerOs ? 'studio-shell broker-os-shell' : 'studio-shell'}>
+    <div className={shellClass}>
       <ScreenReaderAnnouncement message={routeAnnouncement} />
       <a href="#page-content" className="skip-link">
         Skip to content
@@ -108,18 +138,20 @@ export function StudioAppShell(): ReactElement {
         </Link>
         <div className="studio-nav-scroll-wrap">
           <nav className="studio-nav" aria-label="Finem Studio navigation">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.href}
-                to={item.href}
-                className={({ isActive }) =>
-                  isActive || isActiveMatch(location.pathname, item.match) ? 'active' : undefined
-                }
-              >
-                <MaterialIcon name={item.icon} />
-                {item.label}
-              </NavLink>
-            ))}
+            {navItems.map((item) => {
+              const routeActive = isActiveMatch(location.pathname, item.match);
+              return (
+                <Link
+                  key={item.href}
+                  to={item.href}
+                  className={routeActive ? 'active' : undefined}
+                  aria-current={routeActive ? 'page' : undefined}
+                >
+                  <MaterialIcon name={item.icon} />
+                  {item.label}
+                </Link>
+              );
+            })}
           </nav>
           <p className="studio-nav-scroll-hint">Scroll for more sections</p>
         </div>
@@ -135,31 +167,39 @@ export function StudioAppShell(): ReactElement {
         </div>
       </aside>
       <div className="studio-main">
-        {isBrokerOs ? null : (
-          <header className="studio-topbar">
-            <button
-              type="button"
-              className="studio-mobile-menu btn btn-ghost"
-              aria-label="Open navigation menu"
-              onClick={() => setMobileNavOpen(true)}
-            >
-              <MaterialIcon name="menu" />
-            </button>
-            <Link to="/studio" className="studio-topbar-brand">
-              Finem CRE Studio
-            </Link>
+        <header className={isBrokerOs ? 'studio-topbar broker-os-topbar' : 'studio-topbar'}>
+          <button
+            type="button"
+            className="studio-mobile-menu btn btn-ghost"
+            aria-label="Open navigation menu"
+            onClick={() => setMobileNavOpen(true)}
+          >
+            <MaterialIcon name="menu" />
+          </button>
+          <Link to="/studio" className="studio-topbar-brand">
+            Finem CRE Studio
+          </Link>
+          {isBrokerOs ? (
+            <nav className="broker-os-topbar-links" aria-label="Broker OS quick links">
+              <Link to="/studio/dashboard">Dashboard</Link>
+            </nav>
+          ) : (
             <nav aria-label="Studio quick links">
               <Link to="/studio/dashboard">Dashboard</Link>
               <Link to={studioDealPath(activeDealId)}>Deals</Link>
               <Link to={studioReportPath(activeDealId)}>Reports</Link>
               <Link to="/">Sophex</Link>
             </nav>
+          )}
+          {!isBrokerOs ? (
             <div className="studio-topbar-actions">
+              <PresentationModeToggle />
               <ActorDemoSelector />
               <button
                 type="button"
                 aria-label="Notifications"
                 aria-expanded={notificationsOpen}
+                aria-controls={notificationsPanelId}
                 onClick={() => {
                   setNotificationsOpen((open) => !open);
                   setHelpOpen(false);
@@ -171,6 +211,7 @@ export function StudioAppShell(): ReactElement {
                 type="button"
                 aria-label="Help"
                 aria-expanded={helpOpen}
+                aria-controls={helpPanelId}
                 onClick={() => {
                   setHelpOpen((open) => !open);
                   setNotificationsOpen(false);
@@ -179,14 +220,19 @@ export function StudioAppShell(): ReactElement {
                 <MaterialIcon name="help" />
               </button>
               <span className="avatar" role="img" aria-label="User avatar" />
-              <HelpPanel isOpen={helpOpen} onClose={() => setHelpOpen(false)} />
+              <HelpPanel
+                isOpen={helpOpen}
+                onClose={() => setHelpOpen(false)}
+                panelId={helpPanelId}
+              />
               <NotificationsPanel
                 isOpen={notificationsOpen}
                 onClose={() => setNotificationsOpen(false)}
+                panelId={notificationsPanelId}
               />
             </div>
-          </header>
-        )}
+          ) : null}
+        </header>
         <main className="studio-content">
           <PageTransition>
             <Outlet />

@@ -19,6 +19,7 @@ describe('Finem CRE Studio routes', () => {
     ['/studio/deals/riverside-flats/scenarios', 'Riverside Flats', 1],
     ['/studio/reports/riverside-flats/builder', 'Report Builder', 1],
     ['/studio/settings/white-label', 'White Label Settings', 1],
+    ['/studio/design-system', 'Sophex Visual Language', 1],
     ['/studio/broker-os', 'Broker OS Control Panel', 1],
   ])('renders %s', async (path, text, level) => {
     await renderRoute(path);
@@ -167,6 +168,10 @@ describe('Finem CRE Studio routes', () => {
     await renderRoute('/studio/deals/1200-tech/scenarios');
     const sidebar = screen.getByRole('navigation', { name: /Finem Studio navigation/i });
     expect(within(sidebar).getByRole('link', { name: /Underwriting/i })).toHaveClass('active');
+    expect(within(sidebar).getByRole('link', { name: /Underwriting/i })).toHaveAttribute(
+      'aria-current',
+      'page'
+    );
   });
 
   it('switches billing cadence with pressed state', async () => {
@@ -189,18 +194,13 @@ describe('Finem CRE Studio routes', () => {
     const user = userEvent.setup();
     await renderRoute('/studio/deals/riverside-flats/underwriting');
 
-    const readIrrFromMetricCard = () =>
-      screen
-        .getAllByText('IRR')
-        .find((node) => node.closest('.metric-card'))
-        ?.closest('.metric-card')
-        ?.querySelector('strong')?.textContent;
+    const initialAnnouncement = screen.getByText(/Base Case scenario: IRR/i).textContent;
+    await user.click(screen.getByRole('button', { name: /^Upside$/i }));
 
-    const initialIrr = readIrrFromMetricCard();
-    await user.click(screen.getByRole('button', { name: /Upside/i }));
-    const upsideIrr = readIrrFromMetricCard();
-
-    expect(upsideIrr).not.toBe(initialIrr);
+    await waitFor(() => {
+      expect(screen.getByText(/Upside scenario: IRR/i)).toBeInTheDocument();
+    });
+    expect(screen.getByText(/Upside scenario: IRR/i).textContent).not.toBe(initialAnnouncement);
   });
 
   it('renders explicit route guard for unknown deal ids', async () => {

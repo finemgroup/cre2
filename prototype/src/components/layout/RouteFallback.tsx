@@ -1,9 +1,7 @@
 import type { ReactElement } from 'react';
 
+import { RouteLoadingPanel } from '@/components/layout/RouteLoadingPanel';
+
 export function RouteFallback(): ReactElement {
-  return (
-    <div className="route-fallback" role="status" aria-live="polite">
-      Loading view…
-    </div>
-  );
+  return <RouteLoadingPanel />;
 }
