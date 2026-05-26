@@ -22,7 +22,9 @@ test.describe('public end-to-end flows', () => {
     await compareCompsLink.press('Enter');
     await expect(page.getByRole('heading', { name: /Side-by-side comp dashboard/i })).toBeVisible();
 
-    await page.getByRole('link', { name: /Preview report/i }).click();
+    const previewReportLink = page.getByRole('link', { name: /Preview report/i });
+    await expect(previewReportLink).toBeVisible();
+    await previewReportLink.press('Enter');
     await expect(page.getByRole('heading', { name: /Report for 1200 Commerce St/i })).toBeVisible();
     await page.getByRole('link', { name: /Continue to export gate/i }).click();
 
@@ -237,7 +239,9 @@ test.describe('Studio end-to-end flows', () => {
     await expect(researchCompareCompsLink).toBeVisible();
     await researchCompareCompsLink.press('Enter');
     await expect(page).toHaveURL(/\/property\/demo-002\/comps$/);
-    await page.getByRole('link', { name: /Preview report/i }).click();
+    const researchPreviewReportLink = page.getByRole('link', { name: /Preview report/i });
+    await expect(researchPreviewReportLink).toBeVisible();
+    await researchPreviewReportLink.press('Enter');
     await expect(page).toHaveURL(/\/report\/demo-002$/);
     await page.getByRole('link', { name: /Continue to export gate/i }).click();
     await expect(page).toHaveURL(/\/export\/demo-002$/);
