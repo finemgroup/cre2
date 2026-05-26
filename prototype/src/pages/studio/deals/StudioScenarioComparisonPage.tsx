@@ -55,6 +55,7 @@ export function StudioScenarioComparisonPage(): ReactElement {
   );
   const irrValues = scenarioMetrics.map((scenario) => scenario.metrics.irr);
   const maxIrr = Math.max(...irrValues);
+  const openGateCount = 2;
   if (!deal) return <StudioDealNotFound />;
 
   return (
@@ -79,6 +80,18 @@ export function StudioScenarioComparisonPage(): ReactElement {
         disabled until source and lender gates clear.
       </NonProductionCallout>
       <MockBoundaryBanner variant="scenario" />
+      <div className="proof-strip scenario-posture-strip" aria-label="Scenario posture">
+        {[
+          [scenarioMetrics.length, 'Scenario presets'],
+          [formatPercent(maxIrr), 'Best IRR'],
+          [openGateCount, 'Open gates'],
+        ].map(([value, label]) => (
+          <article key={String(label)}>
+            <strong className="fin-value">{value}</strong>
+            <span>{label}</span>
+          </article>
+        ))}
+      </div>
       <GateResolutionCallout
         action="Promote scenario to valuation snapshot"
         prerequisite="Upside rent growth remains candidate evidence and lender quote is still missing."

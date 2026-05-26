@@ -40,12 +40,18 @@ import {
 
 export function StudioCompsPage(): ReactElement {
   const deal = useStudioDeal();
+  const dealState = useRuntimeResource(
+    () => runtimeServices.studio.getDeal(deal?.id),
+    `studio-comps-deal-${deal?.id ?? 'missing'}`,
+    getStudioDealView(deal?.id)
+  );
   const compState = useRuntimeResource(
     () => runtimeServices.studio.getComps(),
     `studio-comps-${deal?.id ?? 'missing'}`,
     getStudioCompViews()
   );
   const compViews = compState.value;
+  const sourceBlocks = dealState.value?.sourceBlocks ?? [];
   const [savedView, setSavedView] = useState<CompSavedViewId>('all');
   const filteredComps = useMemo(
     () => filterStudioComps(compViews, savedView),
@@ -65,8 +71,9 @@ export function StudioCompsPage(): ReactElement {
   const [upgradeOpen, setUpgradeOpen] = useState(false);
   const [trustOpen, setTrustOpen] = useState(false);
   if (!deal) return <StudioDealNotFound />;
-  const sourceBlocks = getStudioDealView(deal.id)?.sourceBlocks ?? [];
   const activeView = STUDIO_COMP_SAVED_VIEWS.find((entry) => entry.id === savedView);
+  const runtimeLoading = compState.loading || dealState.loading;
+  const runtimeError = compState.error ?? dealState.error;
 
   return (
     <div>
@@ -86,8 +93,8 @@ export function StudioCompsPage(): ReactElement {
       </NonProductionCallout>
       <MockBoundaryBanner variant="evidence" />
       <RuntimeResourceStatus
-        loading={compState.loading}
-        error={compState.error}
+        loading={runtimeLoading}
+        error={runtimeError}
         variant="studio-deal"
       />
       <GateResolutionCallout
@@ -98,7 +105,7 @@ export function StudioCompsPage(): ReactElement {
         resolveLabel="Review comp source trace"
       />
       <ReviewPostureBanner blocks={sourceBlocks} />
-      {!compState.loading && compViews.length > 0 ? (
+      {!runtimeLoading && compViews.length > 0 ? (
         <div className="proof-strip" aria-label="Comp provider rights">
           {[
             [rightsSummary.visible, 'Visible comps'],
@@ -128,7 +135,7 @@ export function StudioCompsPage(): ReactElement {
         </div>
         {activeView ? <p className="muted">{activeView.description}</p> : null}
       </StudioCard>
-      {!compState.loading && compViews.length === 0 ? (
+      {!runtimeLoading && compViews.length === 0 ? (
         <EmptyStateCard
           icon="analytics"
           title="No comps returned"

@@ -60,6 +60,8 @@ export function StudioReportBuilderPage(): ReactElement {
   } = reportView;
   const propertyId = getLinkedPropertyId(deal.id) ?? 'demo-001';
   const approvedCount = sections.filter((section) => section.status === 'Approved').length;
+  const needsReviewCount = sections.filter((section) => section.status === 'Needs review').length;
+  const draftCount = sections.filter((section) => section.status === 'Draft').length;
   const studioExportDecision = evaluateExportPolicy({
     actor: fixtureActors.orgAdmin,
     reportId: `studio-report-${deal.id}`,
@@ -126,6 +128,21 @@ export function StudioReportBuilderPage(): ReactElement {
         error={reportState.error}
         variant="studio-report"
       />
+      {!reportState.loading && sections.length > 0 ? (
+        <div className="proof-strip" aria-label="Report section posture">
+          {[
+            [approvedCount, 'Approved sections'],
+            [needsReviewCount, 'Need review'],
+            [draftCount, 'Draft sections'],
+            [sections.length, 'Total sections'],
+          ].map(([value, label]) => (
+            <article key={String(label)}>
+              <strong className="fin-value">{value}</strong>
+              <span>{label}</span>
+            </article>
+          ))}
+        </div>
+      ) : null}
       <GateResolutionCallout
         action="Generate governed receipt"
         prerequisite="Section review and source-rights gates remain open for this report."
@@ -268,6 +285,10 @@ export function StudioWhiteLabelPage(): ReactElement {
   return (
     <div className="split-layout">
       <div>
+        <NonProductionCallout>
+          Branding previews are mock-only. Evidence posture and source limits remain visible in
+          reports regardless of accent color or logo.
+        </NonProductionCallout>
         <PageTitle
           title="White Label Settings"
           lede="Customize platform appearance for clients and reports without hiding source limits."
