@@ -32,6 +32,7 @@
 .route-loading-heading{display:flex;align-items:center;gap:.55rem}
 .route-loading-shimmer{display:grid;gap:.4rem;margin-top:.25rem}
 .route-loading-shimmer span{display:block;height:.55rem;border-radius:999px;background:linear-gradient(90deg,var(--surface-muted),color-mix(in srgb,var(--cre-gold-soft) 55%,var(--surface-muted)),var(--surface-muted));background-size:200% 100%;animation:sophex-shimmer 1.4s ease-in-out infinite}
+.runtime-resource-status{margin:.75rem 0 1rem;padding:0;display:block;place-items:stretch}
 @keyframes sophex-shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 @media (prefers-reduced-motion:reduce){.route-loading-shimmer span{animation:none}}
 .route-loading-public .route-loading-card{border-color:color-mix(in srgb,var(--cre-green) 24%,var(--border-warm))}

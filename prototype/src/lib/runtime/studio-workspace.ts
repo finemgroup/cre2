@@ -6,6 +6,8 @@ import {
   getStudioDeal,
   jobStreams,
   scenarios,
+  underwritingAssumptionsByDeal,
+  underwritingProvenanceByDeal,
   type AuthorityState,
 } from '@/data/studio';
 import { fixtureActors } from '@/lib/contracts/fixtures';
@@ -85,6 +87,26 @@ export function getStudioReportBuilderView(
 
 export function getStudioScenarioView() {
   return { scenarios };
+}
+
+export function getStudioUnderwritingView(
+  dealId: string | undefined,
+  actor: ActorContext = fixtureActors.orgAdmin
+) {
+  const deal = getStudioDeal(dealId);
+  if (!deal) return undefined;
+  const assumptions =
+    underwritingAssumptionsByDeal[deal.id] ?? underwritingAssumptionsByDeal['riverside-flats'];
+  const reviewedCompCount = getStudioCompViews(actor).filter(
+    (comp) => comp.authority === 'Reviewed' && comp.visible
+  ).length;
+  return {
+    deal,
+    actorId: actor.id,
+    assumptions,
+    provenance: underwritingProvenanceByDeal[deal.id],
+    reviewedCompCount,
+  };
 }
 
 export const BROKER_OS_OPERATOR_TAXONOMY = {

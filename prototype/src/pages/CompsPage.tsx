@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
@@ -73,12 +74,11 @@ export function CompsPage(): ReactElement {
       </header>
 
       <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="property" />
-      {compState.loading ? (
-        <p className="muted" role="status">
-          Refreshing comp data from {runtimeServices.mode} runtime.
-        </p>
-      ) : null}
-      {compState.error ? <p className="warning">{compState.error}</p> : null}
+      <RuntimeResourceStatus
+        loading={compState.loading}
+        error={compState.error}
+        variant="public"
+      />
 
       <section className="card readiness-card">
         <ValuationReadinessRail

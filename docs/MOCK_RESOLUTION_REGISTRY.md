@@ -2,7 +2,7 @@
 
 **Purpose:** Single checklist of every mock-only prototype location so operators can resolve them deliberately when gated lanes open. This is a **tracking doc**, not runtime authorization.
 
-**Last synced:** 2026-05-26 (after Wave 17 visual/runtime matrix)
+**Last synced:** 2026-05-26 (after Wave 21 runtime adapter prep)
 
 **Related docs:**
 
@@ -58,17 +58,17 @@
 | -------------------------------------------- | --------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------- | --------------------------------------------------------- |
 | `/studio`                                    | `MarketingRoutes.tsx`       | Marketing shell; `simulated-cta` nav                                                                     | `billing-auth`, `keep-mock`             | PROTOTYPE_MVP0 (stale)                                    |
 | `/studio/onboarding`                         | `MarketingRoutes.tsx`       | Mock tier/workspace wizard                                                                               | `billing-auth`                          | PROTOTYPE_MVP0                                            |
-| `/studio/dashboard`                          | `DealRoutes.tsx`            | Mock pipeline metrics                                                                                    | `sandbox-api`, `schema-db`              | Wave 1                                                    |
+| `/studio/dashboard`                          | `deals/StudioDashboardPage.tsx`            | Mock pipeline metrics; `runtimeServices.studio.getDashboard()` with fixture fallback | `sandbox-api`, `schema-db`              | Wave 1 / Wave 21                                        |
 | `/studio/deal-intake`                        | redirect → deal intake      | Route alias                                                                                              | `keep-mock`                             | —                                                         |
-| `/studio/deals/:dealId/intake`               | `DealRoutes.tsx`            | Staged import mock                                                                                       | `provider`, `hitl-legal`                | Wave 2                                                    |
-| `/studio/deals/:dealId/data-review`          | `DealRoutes.tsx`            | **Evidence review** — rent roll/T12 normalization mock inside `DataWorkbenchShell` table/list/grid views | `provider`, `hitl-legal`                | Phase 2 / Stitch W1 / Wave 6 nav label / Wave 8 workbench |
-| `/studio/deals/:dealId`                      | `DealRoutes.tsx`            | Deal overview + evidence drawer; `DealCockpitPanel` bento next-action, stage posture, AI task pulse      | `sandbox-api`, `schema-db`              | Wave 1/6/8                                                |
-| `/studio/deals/:dealId/comps`                | `DealRoutes.tsx`            | Studio comps + premium lock labels                                                                       | `provider`                              | Wave 4 readiness                                          |
-| `/studio/deals/:dealId/underwriting`         | `DealRoutes.tsx`            | Executive cockpit; bento `DealCockpitPanel`; AI task pulse; gates; handoffs                              | `sandbox-api`, `hitl-legal`             | Stitch W1, Wave 2 / Wave 8 cockpit                        |
-| `/studio/deals/:dealId/underwriting/sources` | `DealRoutes.tsx`            | Assumption source trace inside `DataWorkbenchShell` table/list/grid views                                | `schema-db`, `hitl-legal`               | Stitch W1 / Wave 8 workbench                              |
-| `/studio/deals/:dealId/underwriting/debt`    | `DealRoutes.tsx`            | Lender quote panel mock; `GateResolutionCallout` on debt blockers                                        | `provider`, `hitl-legal`                | Stitch W1 / Wave 6                                        |
-| `/studio/deals/:dealId/scenarios`            | `DealRoutes.tsx`            | Scenario diff + sensitivity                                                                              | `sandbox-api`                           | Stitch W2, Wave 2                                         |
-| `/studio/deals/:dealId/versions`             | `DealRoutes.tsx`            | **Valuation snapshots** timeline + export linkage; `MockBoundaryBanner` (`snapshot`)                     | `schema-db`, `hitl-legal`               | Stitch W2, Wave 4/6                                       |
+| `/studio/deals/:dealId/intake`               | `deals/StudioDealIntakePage.tsx`            | Staged import mock                                                                                       | `provider`, `hitl-legal`                | Wave 2                                                    |
+| `/studio/deals/:dealId/data-review`          | `deals/StudioDataReviewPage.tsx`            | **Evidence review** — rent roll/T12 normalization mock inside `DataWorkbenchShell` table/list/grid views | `provider`, `hitl-legal`                | Phase 2 / Stitch W1 / Wave 6 nav label / Wave 8 workbench |
+| `/studio/deals/:dealId`                      | `deals/StudioDealOverviewPage.tsx`            | Deal overview + evidence drawer; `DealCockpitPanel` bento next-action, stage posture, AI task pulse      | `sandbox-api`, `schema-db`              | Wave 1/6/8                                                |
+| `/studio/deals/:dealId/comps`                | `deals/StudioCompsPage.tsx`            | Studio comps + premium lock labels; `runtimeServices.studio.getComps()` with fixture fallback                                                                       | `provider`                              | Wave 4 readiness / Wave 21                                          |
+| `/studio/deals/:dealId/underwriting`         | `deals/StudioUnderwritingPage.tsx`            | Executive cockpit; bento `DealCockpitPanel`; gates; handoffs; `runtimeServices.studio.getUnderwriting()` with fixture fallback                              | `sandbox-api`, `hitl-legal`             | Stitch W1, Wave 2 / Wave 8 cockpit / Wave 21                        |
+| `/studio/deals/:dealId/underwriting/sources` | `deals/StudioAssumptionSourceTracePage.tsx`            | Assumption source trace inside `DataWorkbenchShell` table/list/grid views                                | `schema-db`, `hitl-legal`               | Stitch W1 / Wave 8 workbench                              |
+| `/studio/deals/:dealId/underwriting/debt`    | `deals/StudioDebtPanelPage.tsx`            | Lender quote panel mock; `GateResolutionCallout` on debt blockers                                        | `provider`, `hitl-legal`                | Stitch W1 / Wave 6                                        |
+| `/studio/deals/:dealId/scenarios`            | `deals/StudioScenarioComparisonPage.tsx`            | Scenario diff + sensitivity                                                                              | `sandbox-api`                           | Stitch W2, Wave 2                                         |
+| `/studio/deals/:dealId/versions`             | `deals/StudioValuationVersionTimelinePage.tsx`            | **Valuation snapshots** timeline + export linkage; `MockBoundaryBanner` (`snapshot`)                     | `schema-db`, `hitl-legal`               | Stitch W2, Wave 4/6                                       |
 | `/studio/deals/:dealId/capital-stack`        | `DesignReferenceRoutes.tsx` | `design-ref`; `disabled-gate` Export Waterfall; advanced nav gate hint                                   | `hitl-legal`, `provider`                | Wave 3/6, Stitch design-ref                               |
 | `/studio/deals/:dealId/ic-packet`            | `DesignReferenceRoutes.tsx` | `design-ref`; `disabled-gate` Send to IC; `MockBoundaryBanner` (`ic`)                                    | `hitl-legal`                            | Wave 3/6, Stitch design-ref                               |
 | `/studio/deals/:dealId/hitl-review`          | `DesignReferenceRoutes.tsx` | **Analyst review** — shared mock assignments + confidence tiers; `MockBoundaryBanner` (`review`)         | `hitl-legal`, `schema-db`               | Wave 3/5/6/8                                              |
@@ -89,6 +89,8 @@
 
 **Wave 9 cockpit projection:** `GET /sandbox/v0/studio/deals/:dealId/cockpit` returns unified advisory progress, next action, blocked stages, AI task pulse, and actor-filtered review summary. `DealCockpitPanel` consumes this port in fixture and API modes; KPI tiles remain page-local props.
 
+**Wave 21 runtime adapter prep:** `GET /sandbox/v0/studio/deals/:dealId/underwriting` exposes assumptions, provenance, and comp-readiness counts. Dashboard, studio comps, and underwriting pages use `useRuntimeResource` + `RuntimeResourceStatus` for branded loading/error shells with fixture fallback.
+
 ---
 
 ## Modals, drawers, and overlays (mock-only)
@@ -96,9 +98,9 @@
 | Surface                    | Component file                          | Mock posture                       | Resolution lane             | Logged in         |
 | -------------------------- | --------------------------------------- | ---------------------------------- | --------------------------- | ----------------- |
 | Calculation breakdown      | `UnderwritingWorkstationPrimitives.tsx` | Formula trace mock                 | `sandbox-api`               | Stitch W2         |
-| DSCR / gate override       | `DealRoutes.tsx`                        | Disabled lock / mock override      | `hitl-legal`, `schema-db`   | Phase 2           |
+| DSCR / gate override       | `deals/StudioUnderwritingPage.tsx`                        | Disabled lock / mock override      | `hitl-legal`, `schema-db`   | Phase 2           |
 | Evidence conflict resolver | `UnderwritingWorkstationPrimitives.tsx` | `disabled-gate` Confirm Decision   | `hitl-legal`, `schema-db`   | Stitch W2         |
-| Version lock confirmation  | `DealRoutes.tsx`                        | `disabled-gate` Lock Version       | `schema-db`, `hitl-legal`   | Stitch W2, Wave 4 |
+| Version lock confirmation  | `deals/StudioUnderwritingPage.tsx`                        | `disabled-gate` Lock Version       | `schema-db`, `hitl-legal`   | Stitch W2, Wave 4 |
 | Export manifest preview    | `ExportGovernanceModal.tsx`             | Checksum placeholder; gated export | `hitl-legal`, `schema-db`   | Wave 2            |
 | Sensitivity cell drilldown | `UnderwritingWorkstationPrimitives.tsx` | Advisory metrics mock              | `sandbox-api`               | Stitch W2         |
 | Reviewer assignment drawer | `ReviewerAssignmentDrawer.tsx`          | `disabled-gate` Approve for export | `hitl-legal`                | Wave 3/5          |
@@ -130,13 +132,13 @@ Persistent workflow chrome added in Wave 6. **Does not authorize export, IC deli
 | `export`   | Demo export — not for distribution               | `/export/:id`, `/studio/reports/:dealId/builder` | `ExportPage.tsx`, `ReportRoutes.tsx` |
 | `ic`       | Prototype IC assembly — no transmission          | `/studio/deals/:dealId/ic-packet`                | `DesignReferenceRoutes.tsx`          |
 | `review`   | Advisory analyst review — no authority promotion | `/studio/deals/:dealId/hitl-review`              | `DesignReferenceRoutes.tsx`          |
-| `snapshot` | Simulated snapshot lock — no production records  | `/studio/deals/:dealId/versions`                 | `DealRoutes.tsx`                     |
+| `snapshot` | Simulated snapshot lock — no production records  | `/studio/deals/:dealId/versions`                 | `deals/StudioValuationVersionTimelinePage.tsx`                     |
 
 ### `GateResolutionCallout` placements
 
 | Blocked action   | Prerequisite (mock)                       | Resolve route                        | Page file                     |
 | ---------------- | ----------------------------------------- | ------------------------------------ | ----------------------------- |
-| Lock assumptions | Missing lender quote; DSCR source pending | `/studio/deals/:dealId/underwriting` | `DealRoutes.tsx` (debt panel) |
+| Lock assumptions | Missing lender quote; DSCR source pending | `/studio/deals/:dealId/underwriting` | `deals/StudioDebtPanelPage.tsx` |
 
 **When resolving:** replace `deal-stage-model.ts` hardcoded progress with server workflow state; keep stepper/cockpit UI but wire reads to sandbox API. Retain or tighten mock-boundary banners until real consent/receipt flows exist.
 
@@ -155,8 +157,8 @@ These actions show **“is simulated”** toasts and do not persist state. Repla
 | Broker OS job refresh / agent inventory        | `OperatorRoutes.tsx`                                      | `sandbox-api`                            |
 | Recommend / Hold review                        | `ReviewerAssignmentDrawer.tsx`                            | `hitl-legal`                             |
 | Export waterfall / Send IC packet              | `DesignReferenceRoutes.tsx`                               | `hitl-legal` (buttons also **disabled**) |
-| Plan upgrade / Premium comp set                | `DealRoutes.tsx`                                          | `billing-auth`, `provider`               |
-| Scenario / sensitivity / normalization actions | `DealRoutes.tsx`, `UnderwritingWorkstationPrimitives.tsx` | `sandbox-api`, `hitl-legal`              |
+| Plan upgrade / Premium comp set                | `deals/StudioCompsPage.tsx`                                          | `billing-auth`, `provider`               |
+| Scenario / sensitivity / normalization actions | `deals/StudioScenarioComparisonPage.tsx`, `deals/StudioDataReviewPage.tsx`, `UnderwritingWorkstationPrimitives.tsx` | `sandbox-api`, `hitl-legal`              |
 | Marketing nav / onboarding CTAs                | `MarketingRoutes.tsx`                                     | `billing-auth`                           |
 | Support chat / sign out                        | `StudioTopbarPanels.tsx`                                  | `billing-auth`                           |
 | Studio file dropzone                           | `UploadDropzone.tsx`                                      | `provider`                               |
@@ -174,11 +176,11 @@ These remain **disabled** with `aria-describedby` or blocker copy until runtime 
 | Export Waterfall              | `DesignReferenceRoutes.tsx`                | LP/legal/reporting gated            | `hitl-legal`               |
 | Send to IC                    | `DesignReferenceRoutes.tsx`                | Section + evidence gates            | `hitl-legal`               |
 | Approve for export (HITL)     | `ReviewerAssignmentDrawer.tsx`             | No promotion authority in prototype | `hitl-legal`, `schema-db`  |
-| Lock Version                  | `DealRoutes.tsx`                           | Gate summary blockers               | `schema-db`, `hitl-legal`  |
+| Lock Version                  | `deals/StudioValuationVersionTimelinePage.tsx`                           | Gate summary blockers               | `schema-db`, `hitl-legal`  |
 | Confirm Decision (conflict)   | `UnderwritingWorkstationPrimitives.tsx`    | Reviewer rationale required         | `hitl-legal`, `schema-db`  |
-| Scenario lock                 | `DealRoutes.tsx`                           | Gate implications                   | `hitl-legal`               |
-| Promote assumption            | `DealRoutes.tsx`                           | Evidence posture                    | `hitl-legal`, `schema-db`  |
-| Premium comp / heatmap unlock | `DealRoutes.tsx`, `SensitivityHeatmap.tsx` | Plan entitlements                   | `billing-auth`, `provider` |
+| Scenario lock                 | `deals/StudioScenarioComparisonPage.tsx`                           | Gate implications                   | `hitl-legal`               |
+| Promote assumption            | `deals/StudioDataReviewPage.tsx`                           | Evidence posture                    | `hitl-legal`, `schema-db`  |
+| Premium comp / heatmap unlock | `deals/StudioCompsPage.tsx`, `deals/StudioScenarioComparisonPage.tsx`, `SensitivityHeatmap.tsx` | Plan entitlements                   | `billing-auth`, `provider` |
 
 ---
 

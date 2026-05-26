@@ -104,6 +104,11 @@ describe('sandbox API shell', () => {
       tasks: unknown[];
       reviewSummary: { visible: boolean; pendingCount: number };
     }>(await request('/studio/deals/riverside-flats/cockpit', { actor: fixtureActors.orgAdmin }));
+    const underwriting = await readJson<{
+      deal: { id: string };
+      assumptions: { purchasePrice: number };
+      reviewedCompCount: number;
+    }>(await request('/studio/deals/riverside-flats/underwriting', { actor: fixtureActors.orgAdmin }));
 
     expect(dashboard.deals.length).toBeGreaterThan(0);
     expect(deal.deal.id).toBe('riverside-flats');
@@ -114,6 +119,9 @@ describe('sandbox API shell', () => {
     expect(cockpit.tasks.length).toBeGreaterThan(0);
     expect(cockpit.reviewSummary.visible).toBe(true);
     expect(cockpit.reviewSummary.pendingCount).toBeGreaterThan(0);
+    expect(underwriting.deal.id).toBe('riverside-flats');
+    expect(underwriting.assumptions.purchasePrice).toBeGreaterThan(0);
+    expect(underwriting.reviewedCompCount).toBeGreaterThanOrEqual(0);
   });
 
   it('hides review summary from public actors in cockpit projection', async () => {

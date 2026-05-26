@@ -14,6 +14,7 @@ import {
 } from '@/components/studio/StudioPrimitives';
 import { ProvenanceCell, ReviewPostureBanner, SourceEvidenceBlockCard } from '@/components/provenance/ProvenanceWidgets';
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { UpgradePlanModal } from '@/components/overlays/UpgradePlanModal';
 import { TrustExplainerDrawer } from '@/components/overlays/TrustExplainerDrawer';
 import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
@@ -25,6 +26,8 @@ import {
   type CompSavedViewId,
 } from '@/lib/comps/comp-saved-views';
 import { getStudioCompViews, getStudioDealView } from '@/lib/runtime/studio-workspace';
+import { runtimeServices } from '@/lib/runtime/runtime-services';
+import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import { studioDealPath } from '@/data/studio';
 import {
   SegmentedControl,
@@ -35,7 +38,12 @@ import {
 
 export function StudioCompsPage(): ReactElement {
   const deal = useStudioDeal();
-  const compViews = getStudioCompViews();
+  const compState = useRuntimeResource(
+    () => runtimeServices.studio.getComps(),
+    `studio-comps-${deal?.id ?? 'missing'}`,
+    getStudioCompViews()
+  );
+  const compViews = compState.value;
   const [savedView, setSavedView] = useState<CompSavedViewId>('all');
   const filteredComps = useMemo(
     () => filterStudioComps(compViews, savedView),
@@ -68,6 +76,11 @@ export function StudioCompsPage(): ReactElement {
         Comparable sales are sample rows with mixed authority states.
       </NonProductionCallout>
       <MockBoundaryBanner variant="evidence" />
+      <RuntimeResourceStatus
+        loading={compState.loading}
+        error={compState.error}
+        variant="studio-deal"
+      />
       <GateResolutionCallout
         action="Apply comp set to underwriting"
         prerequisite="Premium-private comp visibility and exit cap citation remain blocked."

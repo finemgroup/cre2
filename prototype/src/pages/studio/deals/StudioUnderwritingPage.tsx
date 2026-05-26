@@ -15,6 +15,7 @@ import {
 } from '@/components/underwriting/UnderwritingPanels';
 import { GateOverrideModal } from '@/components/overlays/GateOverrideModal';
 import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { WorkflowContinuityContainer, WorkflowHandoffLink } from '@/components/workflow/WorkflowPrimitives';
 import { DealCockpitPanel } from '@/components/workflow/DealCockpitPanel';
 import { ContextualSurfaceTriggers } from '@/components/workflow/ContextualSurfaceTriggers';
@@ -37,12 +38,13 @@ import {
   formatPercent,
 } from '@/lib/underwriting';
 import { buildScenarioPresets, type ScenarioName } from '@/lib/underwriting/scenarios';
-import { getStudioCompViews } from '@/lib/runtime/studio-workspace';
+import { getStudioUnderwritingView } from '@/lib/runtime/studio-workspace';
+import { runtimeServices } from '@/lib/runtime/runtime-services';
+import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
+import type { StudioUnderwritingView } from '@/lib/runtime/service-ports';
 import {
   studioDealPath,
   studioReportPath,
-  underwritingAssumptionsByDeal,
-  underwritingProvenanceByDeal,
   type Deal,
 } from '@/data/studio';
 import { TabPanelSwitch, StudioDealNotFound, useStudioDeal } from '@/pages/studio/StudioShared';
@@ -51,13 +53,35 @@ import { READINESS_ITEMS } from './deal-route-shared';
 
 export function StudioUnderwritingPage(): ReactElement {
   const deal = useStudioDeal();
+  const underwritingState = useRuntimeResource(
+    () => runtimeServices.studio.getUnderwriting(deal?.id),
+    `underwriting-${deal?.id ?? 'missing'}`,
+    getStudioUnderwritingView(deal?.id)
+  );
   if (!deal) return <StudioDealNotFound />;
-  return <StudioUnderwritingWorkspace key={deal.id} deal={deal} />;
+  const view = underwritingState.value;
+  if (!view) return <StudioDealNotFound />;
+
+  return (
+    <>
+      <RuntimeResourceStatus
+        loading={underwritingState.loading}
+        error={underwritingState.error}
+        variant="studio-deal"
+      />
+      <StudioUnderwritingWorkspace key={deal.id} deal={deal} view={view} />
+    </>
+  );
 }
 
-function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
-  const baseAssumptions =
-    underwritingAssumptionsByDeal[deal.id] ?? underwritingAssumptionsByDeal['riverside-flats'];
+function StudioUnderwritingWorkspace({
+  deal,
+  view,
+}: {
+  deal: Deal;
+  view: StudioUnderwritingView;
+}): ReactElement {
+  const baseAssumptions = view.assumptions;
   const scenarioAssumptions = useMemo(
     () => buildScenarioPresets(baseAssumptions),
     [baseAssumptions]
@@ -81,9 +105,7 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
   const [assumptions, setAssumptions] = useState(() => baseAssumptions);
 
   const metrics = useMemo(() => calculateUnderwritingMetrics(assumptions), [assumptions]);
-  const reviewedCompCount = getStudioCompViews().filter(
-    (comp) => comp.authority === 'Reviewed' && comp.visible
-  ).length;
+  const reviewedCompCount = view.reviewedCompCount;
   const gates = useMemo(
     () =>
       evaluateUnderwritingGates(assumptions, metrics, reviewedCompCount).map((gate) =>
@@ -206,7 +228,7 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
         <div className="cockpit-grid">
           <AssumptionsPanel
             assumptions={assumptions}
-            provenance={underwritingProvenanceByDeal[deal.id]}
+            provenance={view.provenance}
             sourceTracePath={studioDealPath(deal.id, 'underwriting-sources')}
             onChange={setAssumptions}
           />

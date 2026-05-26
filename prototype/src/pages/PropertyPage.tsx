@@ -6,6 +6,7 @@ import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel'
 import { MapPlaceholderPreview } from '@/components/spatial/MapPlaceholderPreview';
 import { EvidenceMetadataList } from '@/components/evidence/EvidenceMetadataList';
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { usePrototypeAction } from '@/lib/prototype/usePrototypeAction';
 import { studioDealPath } from '@/data/studio';
@@ -68,12 +69,11 @@ export function PropertyPage(): ReactElement {
       </header>
 
       <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="property" />
-      {propertyState.loading ? (
-        <p className="muted" role="status">
-          Refreshing property evidence from {runtimeServices.mode} runtime.
-        </p>
-      ) : null}
-      {propertyState.error ? <p className="warning">{propertyState.error}</p> : null}
+      <RuntimeResourceStatus
+        loading={propertyState.loading}
+        error={propertyState.error}
+        variant="public"
+      />
 
       <div className="proof-strip" aria-label="Property snapshot">
         {[

@@ -297,3 +297,12 @@ Canonical ticket pack: [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPI
 | --- | --- | --- |
 | `SOPHEX-CRE-006` | Done | Import cleanup completed for intake, data-review, sources, debt, versions, underwriting (all 10 deal modules) |
 | Matrix route paths | Done | Intake, data-review, sources, debt, versions now point at `deals/*` modules |
+
+### Wave 21 Ticket Ledger
+
+| Ticket | Status | Notes |
+| --- | --- | --- |
+| `SOPHEX-CRE-003` | Partial | Studio comps wired to `runtimeServices.studio.getComps()` + branded loading/error shells |
+| `SOPHEX-CRE-004` | Partial | Underwriting view adapter + sandbox endpoint + page wiring |
+| `RuntimeResourceStatus` | Done | Shared loading/error component for public + studio partial routes |
+| Registry + split script | Done | MOCK_RESOLUTION_REGISTRY paths synced; split script deprecated with guard |

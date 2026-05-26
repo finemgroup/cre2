@@ -7,6 +7,7 @@ import {
   getStudioDashboardView,
   getStudioDealView,
   getStudioReportBuilderView,
+  getStudioUnderwritingView,
 } from '@/lib/runtime/studio-workspace';
 
 describe('studio runtime adapters', () => {
@@ -37,6 +38,15 @@ describe('studio runtime adapters', () => {
 
     expect(view?.readiness.ready).toBe(false);
     expect(view?.sections.length).toBeGreaterThan(0);
+  });
+
+  it('returns underwriting assumptions and comp readiness through the studio adapter', () => {
+    const view = getStudioUnderwritingView('riverside-flats', fixtureActors.orgAdmin);
+
+    expect(view?.deal.id).toBe('riverside-flats');
+    expect(view?.assumptions.purchasePrice).toBeGreaterThan(0);
+    expect(view?.reviewedCompCount).toBeGreaterThanOrEqual(0);
+    expect(view?.provenance).toBeDefined();
   });
 
   it('keeps Broker OS as a sanitized projection', () => {

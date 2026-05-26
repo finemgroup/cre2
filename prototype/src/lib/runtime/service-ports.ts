@@ -9,6 +9,7 @@ import {
   getStudioDealView,
   getStudioReportBuilderView,
   getStudioScenarioView,
+  getStudioUnderwritingView,
 } from '@/lib/runtime/studio-workspace';
 import { getPublicSearchProperties } from '@/lib/runtime/public-search';
 import type { ExportPolicyDecision, ExportScope } from '@/lib/runtime/export-policy';
@@ -32,6 +33,7 @@ export type StudioDealView = NonNullable<ReturnType<typeof getStudioDealView>>;
 export type StudioCompView = ReturnType<typeof getStudioCompViews>[number];
 export type StudioReportBuilderView = NonNullable<ReturnType<typeof getStudioReportBuilderView>>;
 export type StudioScenarioView = ReturnType<typeof getStudioScenarioView>;
+export type StudioUnderwritingView = NonNullable<ReturnType<typeof getStudioUnderwritingView>>;
 
 export type PublicRuntimeServices = {
   searchProperties(query?: string): Promise<PropertyRecord[]>;
@@ -62,6 +64,10 @@ export type StudioRuntimeServices = {
     actor?: ActorContext
   ): Promise<StudioReportBuilderView | undefined>;
   getScenarios(): Promise<StudioScenarioView>;
+  getUnderwriting(
+    dealId: string | undefined,
+    actor?: ActorContext
+  ): Promise<StudioUnderwritingView | undefined>;
   getWorkflowProgress(dealId: string): Promise<Record<DealWorkflowStage, DealStageStatus>>;
   getNextAction(dealId: string): Promise<DealNextAction>;
   getCockpitProjection(
@@ -110,6 +116,9 @@ export const fixtureRuntimeServices: RuntimeServices = {
     },
     async getScenarios() {
       return getStudioScenarioView();
+    },
+    async getUnderwriting(dealId, actor) {
+      return getStudioUnderwritingView(dealId, actor);
     },
     async getWorkflowProgress(dealId) {
       return getDealStageProgress(dealId);

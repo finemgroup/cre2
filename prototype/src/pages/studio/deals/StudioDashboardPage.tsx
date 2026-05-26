@@ -13,12 +13,21 @@ import {
 } from '@/components/studio/StudioPrimitives';
 import { ActivityTimelinePanel } from '@/components/workflow/WorkflowPrimitives';
 import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
+import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { activity, DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
 import { getStudioDashboardView } from '@/lib/runtime/studio-workspace';
+import { runtimeServices } from '@/lib/runtime/runtime-services';
+import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import { formatOnboardingSummary, getOnboardingProfile } from '@/lib/studio/onboarding-profile';
 
 export function StudioDashboardPage(): ReactElement {
-  const dashboardView = getStudioDashboardView();
+  const dashboardState = useRuntimeResource(
+    () => runtimeServices.studio.getDashboard(),
+    'studio-dashboard',
+    getStudioDashboardView()
+  );
+  const dashboardView = dashboardState.value;
   const onboardingProfile = getOnboardingProfile();
 
   return (
@@ -62,6 +71,11 @@ export function StudioDashboardPage(): ReactElement {
       <NonProductionCallout>
         Dashboard KPIs are synthetic projections for product validation.
       </NonProductionCallout>
+      <RuntimeResourceStatus
+        loading={dashboardState.loading}
+        error={dashboardState.error}
+        variant="studio"
+      />
       <div className="metric-grid four">
         <MetricCard label="Active pipeline" value="$193.5M" detail="3 tracked deals" />
         <MetricCard label="Reports drafted" value="12" detail="4 need review" icon="description" />
@@ -71,9 +85,21 @@ export function StudioDashboardPage(): ReactElement {
       <div className="dashboard-grid">
         <StudioCard title="Deal Pipeline" className="wide-card">
           {dashboardView.deals.length === 0 ? (
-            <p className="muted" role="status">
-              No active deals in this mock workspace. Start with Import OM or New Deal.
-            </p>
+            <EmptyStateCard
+              icon="folder_open"
+              title="No active deals"
+              description="This mock workspace has no tracked deals yet. Start with Import OM or New Deal."
+              actions={
+                <>
+                  <Link to={studioDealPath(DEFAULT_DEAL_ID, 'intake')} className="btn btn-primary">
+                    Import OM
+                  </Link>
+                  <Link to={studioDealPath(DEFAULT_DEAL_ID, 'intake')} className="btn btn-secondary">
+                    New Deal
+                  </Link>
+                </>
+              }
+            />
           ) : (
             <DataTable
               caption="Deal pipeline"

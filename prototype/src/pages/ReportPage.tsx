@@ -13,6 +13,7 @@ import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import { getLinkedDealId } from '@/lib/workflow-identity';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
 import { trackEvent } from '@/lib/analytics/collector';
 
@@ -67,14 +68,11 @@ export function ReportPage(): ReactElement {
       </header>
 
       <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="report" />
-      {reportState.loading || spatialState.loading ? (
-        <p className="muted" role="status">
-          Refreshing report data from {runtimeServices.mode} runtime.
-        </p>
-      ) : null}
-      {reportState.error || spatialState.error ? (
-        <p className="warning">{reportState.error ?? spatialState.error}</p>
-      ) : null}
+      <RuntimeResourceStatus
+        loading={reportState.loading || spatialState.loading}
+        error={reportState.error ?? spatialState.error}
+        variant="public"
+      />
 
       <StageRail stages={STAGES} activeIndex={3} />
 
