@@ -1,6 +1,10 @@
 import { expect, test } from '@playwright/test';
 
-import { gotoRoute } from './helpers';
+import { gotoRoute, stabilizePage } from './helpers';
+
+test.beforeEach(async ({ page }) => {
+  await stabilizePage(page);
+});
 
 test.describe('public end-to-end flows', () => {
   test('search to export receipt across property context', async ({ page }) => {
@@ -13,7 +17,9 @@ test.describe('public end-to-end flows', () => {
       .click();
 
     await expect(page.getByRole('heading', { name: /1200 Commerce St/i })).toBeVisible();
-    await page.getByRole('link', { name: /Compare comps/i }).click();
+    const compareCompsLink = page.getByRole('link', { name: /Compare comps/i });
+    await expect(compareCompsLink).toBeVisible();
+    await compareCompsLink.press('Enter');
     await expect(page.getByRole('heading', { name: /Side-by-side comp dashboard/i })).toBeVisible();
 
     await page.getByRole('link', { name: /Preview report/i }).click();
@@ -51,7 +57,7 @@ test.describe('Studio end-to-end flows', () => {
 
     await page.locator('a.tab-link', { hasText: 'Comps' }).click();
     await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/comps$/);
-    await expect(page.getByText('Comparable sales review', { exact: true })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Comparable Sales Review/i })).toBeVisible();
 
     await page.locator('a.tab-link', { hasText: 'Underwriting' }).click();
     await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/underwriting$/);
@@ -121,10 +127,11 @@ test.describe('Studio end-to-end flows', () => {
     const hitlDrawer = page.getByRole('dialog', { name: /Analyst review queue/i });
     await expect(hitlDrawer).toBeVisible();
     await expect(hitlDrawer.getByText(/Internal-only HITL projection/i)).toBeVisible();
-    await page
+    const openAssignmentButton = hitlDrawer
       .getByRole('button', { name: /Open assignment/i })
-      .first()
-      .click();
+      .first();
+    await expect(openAssignmentButton).toBeVisible();
+    await openAssignmentButton.press('Enter');
     const detailDrawer = page.getByRole('dialog', { name: /Reviewer assignment detail/i });
     await expect(detailDrawer).toBeVisible();
     await expect(detailDrawer.getByText(/Reviewer decision required/i)).toBeVisible();
@@ -152,7 +159,9 @@ test.describe('Studio end-to-end flows', () => {
       .getByRole('link', { name: /Review Source Trace/i })
       .first()
       .click();
-    await expect(page.getByRole('heading', { name: /Assumption Source Trace/i })).toBeVisible();
+    await expect(
+      page.locator('.studio-page-title').getByRole('heading', { name: /^Assumption Source Trace$/ })
+    ).toBeVisible();
 
     await gotoRoute(page, '/studio/deals/riverside-flats/underwriting/debt');
     await expect(page.getByRole('heading', { name: /Debt \/ lender quote panel/i })).toBeVisible();
@@ -205,19 +214,28 @@ test.describe('Studio end-to-end flows', () => {
   test('cross-entity demo paths link public properties to studio deals', async ({ page }) => {
     await gotoRoute(page, '/property/demo-001');
     await expect(page.getByRole('heading', { name: /1200 Commerce St/i })).toBeVisible();
-    await page.getByRole('link', { name: /Underwrite in Studio/i }).click();
+    const underwriteInStudioLink = page.getByRole('link', { name: /Underwrite in Studio/i });
+    await expect(underwriteInStudioLink).toBeVisible();
+    await underwriteInStudioLink.press('Enter');
     await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/intake$/);
     await gotoRoute(page, '/studio/deals/riverside-flats');
     await page.locator('a.tab-link', { hasText: 'Underwriting' }).click();
     await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/underwriting$/);
-    await page.getByRole('link', { name: /Open spatial workbench/i }).click();
+    await page
+      .locator('.studio-card', {
+        has: page.getByRole('heading', { name: /^Next Handoff$/ }),
+      })
+      .getByRole('link', { name: /Open spatial workbench/i })
+      .click();
     await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/spatial$/);
     await page.getByRole('link', { name: /Return to cockpit/i }).click();
     await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/underwriting$/);
 
     await gotoRoute(page, '/property/demo-002');
     await expect(page.getByRole('heading', { name: /4400 Research Blvd/i })).toBeVisible();
-    await page.getByRole('link', { name: /Compare comps/i }).click();
+    const researchCompareCompsLink = page.getByRole('link', { name: /Compare comps/i });
+    await expect(researchCompareCompsLink).toBeVisible();
+    await researchCompareCompsLink.press('Enter');
     await expect(page).toHaveURL(/\/property\/demo-002\/comps$/);
     await page.getByRole('link', { name: /Preview report/i }).click();
     await expect(page).toHaveURL(/\/report\/demo-002$/);
