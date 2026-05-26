@@ -64,6 +64,18 @@ export function StudioLandingPage(): ReactElement {
               View dashboard
             </PrototypeActionLink>
           </div>
+          <div className="marketing-proof-strip" aria-label="Product proof points">
+            {[
+              ['3', 'Active mock deals'],
+              ['12', 'Review gates enforced'],
+              ['100%', 'Evidence posture visible'],
+            ].map(([value, label]) => (
+              <article key={label}>
+                <strong className="fin-value">{value}</strong>
+                <span>{label}</span>
+              </article>
+            ))}
+          </div>
         </MotionBlock>
         <MotionBlock className="hero-product-card" motionName="railEnter">
           <div className="mini-browser-bar">
@@ -93,6 +105,19 @@ export function StudioLandingPage(): ReactElement {
         investment advice.
       </NonProductionCallout>
 
+      <section className="studio-marketing-proof" aria-label="Workflow outcomes">
+        {[
+          ['Governed intake', 'Every packet keeps candidate evidence separate from reviewed output.'],
+          ['Visible comps posture', 'Public, reviewed, and restricted tiers stay labeled in the UI.'],
+          ['Export discipline', 'Reports stay gated until review, consent, and source rights clear.'],
+        ].map(([title, copy]) => (
+          <div key={title}>
+            <strong>{title}</strong>
+            <p>{copy}</p>
+          </div>
+        ))}
+      </section>
+
       <section id="how-it-works" className="how-it-works">
         {['Import OM', 'Extract candidates', 'Review comps', 'Publish report'].map(
           (step, index) => (
@@ -121,8 +146,8 @@ export function StudioLandingPage(): ReactElement {
             'Preview investor portal and PDF branding without hiding source limits.',
           ],
           [
-            'Broker OS',
-            'Monitor sanitized job projections and capability inventory in read-only mode.',
+            'Operator monitoring',
+            'Track sanitized job projections and capability inventory in read-only mode.',
           ],
         ].map(([title, copy]) => (
           <StudioCard key={title} title={title}>

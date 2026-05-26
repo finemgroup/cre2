@@ -44,5 +44,7 @@ describe('studio runtime adapters', () => {
 
     expect(projection.rawLogsExposed).toBe(false);
     expect(projection.jobStreams.length).toBeGreaterThan(0);
+    expect(projection.taxonomy.externalSurfaces.length).toBeGreaterThan(0);
+    expect(projection.taxonomy.internalOnly.length).toBeGreaterThan(0);
   });
 });

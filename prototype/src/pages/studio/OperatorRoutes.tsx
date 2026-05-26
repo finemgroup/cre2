@@ -31,7 +31,7 @@ export function StudioBrokerOsPage(): ReactElement {
     <div>
       <PageTitle
         title="Broker OS Control Panel"
-        lede="Read-only monitoring interface for system health, agent inventory, and operational context."
+        lede="Read-only operator-lite monitoring for system health, agent inventory, and sanitized job projections."
         actions={
           <>
             <StatusBadge status="System Operational" />
@@ -39,6 +39,32 @@ export function StudioBrokerOsPage(): ReactElement {
           </>
         }
       />
+      <StudioCard title="Operator-lite taxonomy" eyebrow="Projection boundary">
+        <p className="muted">
+          Broker OS exposes only sanitized summaries. Internal Fabricator logs, worker queues, and
+          PII-bearing context stay off this surface.
+        </p>
+        <div className="broker-taxonomy-grid">
+          <div className="broker-taxonomy-section">
+            <strong>External surfaces</strong>
+            <ul>
+              {brokerProjection.taxonomy.externalSurfaces.map((surface) => (
+                <li key={surface.id}>
+                  {surface.label} — {surface.scope}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="broker-taxonomy-section">
+            <strong>Internal-only (never projected)</strong>
+            <ul>
+              {brokerProjection.taxonomy.internalOnly.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </StudioCard>
       <div className="broker-grid">
         <StudioCard
           title="Readiness Summary"
@@ -55,7 +81,7 @@ export function StudioBrokerOsPage(): ReactElement {
             <MetricCard label="DB Pool" value="45%" detail="Projection only" icon="water_drop" />
             <MetricCard label="Error Rate" value="0.01%" detail="Sanitized" icon="trending_down" />
           </div>
-          <h3>Active Job Streams (GET /api/v1/jobs)</h3>
+          <h3>Active Job Streams</h3>
           <p className="muted">{brokerProjection.safeProjectionLabel}</p>
           <JobStreamsTable jobs={brokerProjection.jobStreams} />
         </StudioCard>
@@ -82,9 +108,10 @@ export function StudioBrokerOsPage(): ReactElement {
             ))}
           </div>
         </StudioCard>
-        <StudioCard title="HITL Queue Projection" eyebrow="Internal-only">
+        <StudioCard title="Review Queue Projection" eyebrow="Advisory only">
           <p className="muted">
-            Trust-tier labels are advisory. Queue completion does not promote evidence or unlock export.
+            Trust-tier labels are advisory. Queue completion does not promote evidence or unlock
+            export.
           </p>
           <ul className="governance-list">
             {hitlQueue.map((item) => (
@@ -99,6 +126,7 @@ export function StudioBrokerOsPage(): ReactElement {
       <StudioCard
         title="Planning Context Builder"
         className="dark-card"
+        eyebrow="Mock reference"
         actions={
           <button
             type="button"

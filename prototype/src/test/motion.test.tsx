@@ -28,6 +28,16 @@ vi.mock('framer-motion', async () => {
         </button>
       ),
     },
+    m: {
+      div: ({ children, ...props }: React.ComponentProps<'div'>) => (
+        <div {...props}>{children}</div>
+      ),
+      button: ({ children, ...props }: React.ComponentProps<'button'>) => (
+        <button type="button" {...props}>
+          {children}
+        </button>
+      ),
+    },
   };
 });
 

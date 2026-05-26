@@ -1,4 +1,4 @@
-import { motion, type HTMLMotionProps, type Transition } from 'framer-motion';
+import { m, type HTMLMotionProps, type Transition } from 'framer-motion';
 import type { ReactElement, ReactNode } from 'react';
 
 import {
@@ -34,7 +34,7 @@ export function SophexMotionSurface({
       : motionProps.transition;
 
   return (
-    <motion.div
+    <m.div
       {...props}
       {...motionProps}
       transition={transition}
@@ -44,6 +44,6 @@ export function SophexMotionSurface({
       data-stagger-index={staggerIndex != null ? String(staggerIndex) : undefined}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }

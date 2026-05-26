@@ -38,8 +38,10 @@ export default defineConfig({
             return 'vendor-router';
           }
           if (id.includes('node_modules/react-dom')) return 'vendor-react-dom';
-          // Keep the heaviest studio route isolated; other lazy routes split per dynamic import.
-          if (id.includes('/src/pages/studio/DealRoutes')) return 'studio-deal-routes';
+          // Keep the heaviest studio route isolated; other deal routes split per dynamic import.
+          if (id.includes('/src/pages/studio/deals/StudioUnderwritingPage')) {
+            return 'studio-underwriting-page';
+          }
         },
       },
     },

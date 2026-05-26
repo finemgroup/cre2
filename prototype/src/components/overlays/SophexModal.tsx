@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { useEffect, useId, useRef, type ReactElement, type ReactNode } from 'react';
 
 import { getMotionProps, getMotionSpec, useReducedMotionPreference } from '@/lib/motion';
@@ -91,14 +91,14 @@ export function SophexModal({
     <AnimatePresence>
       {isOpen ? (
         <div className="modal-root" role="presentation">
-          <motion.button
+          <m.button
             type="button"
             className="modal-backdrop"
             aria-label="Close dialog"
             onClick={onClose}
             {...backdropProps}
           />
-          <motion.div
+          <m.div
             ref={panelRef}
             className={`modal-panel modal-panel-${size}`}
             role="dialog"
@@ -115,7 +115,7 @@ export function SophexModal({
               </button>
             </header>
             <div className="modal-body">{children}</div>
-          </motion.div>
+          </m.div>
         </div>
       ) : null}
     </AnimatePresence>

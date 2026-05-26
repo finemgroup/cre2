@@ -127,15 +127,15 @@ Customer-facing Sophex language should avoid: `Fabricator`, `MCP`, `Taskmaster`,
 | `SOPHEX-VIS-001` | P0 | Shared design system | Institutional CRE token layer inspired by ICSC and cre-platform. | `design-tokens.css`, `visual-utilities.css`, `VISUAL_DESIGN_SYSTEM.md` | Wave 13 | Green/gold palette, elevation, micro-labels, map HUD, dense table, budget posture. | Done |
 | `SOPHEX-VIS-002` | P0 | Shared primitives | Refresh primitives so polish improves most routes automatically. | `StudioPrimitives.tsx`, `BentoTile.tsx`, `DataWorkbenchShell.tsx` | `SOPHEX-VIS-001` | Cards, badges, buttons, bento, tables, workbench use shared tokens. | Done |
 | `SOPHEX-VIS-003` | P0 | Cross-route states | Loading, empty, skeleton, and disabled-state system. | `RouteLoadingPanel.tsx`, `EmptyStateCard.tsx`, `visual-utilities.css` | `SOPHEX-VIS-001` | Branded route loaders, `.empty-state`, reduced-motion-safe shimmer. | Done |
-| `SOPHEX-VIS-004` | P1 | Marketing and public proof | Push `/studio` and public marketing proof blocks closer to premium SaaS quality. | `MarketingRoutes.tsx`, `LandingPage.tsx`, `PublicShell.tsx` | `SOPHEX-VIS-001` | Stronger hero, proof blocks, mobile composition, no internal language leakage. | Ready |
-| `SOPHEX-VIS-005` | P1 | CSS budget | Trim `index.css` while preserving visual baselines. | `index.css`, `visual-utilities.css` | Visual review | Total CSS remains under 68 KB with room for future states. | Ready |
+| `SOPHEX-VIS-004` | P1 | Marketing and public proof | Push `/studio` and public marketing proof blocks closer to premium SaaS quality. | `MarketingRoutes.tsx`, `LandingPage.tsx`, `PublicShell.tsx` | `SOPHEX-VIS-001` | Stronger hero, proof blocks, mobile composition, no internal language leakage. | Done |
+| `SOPHEX-VIS-005` | P1 | CSS budget | Trim `index.css` while preserving visual baselines. | `index.css`, `visual-utilities.css` | Visual review | Total CSS remains under 68 KB with room for future states. | Done |
 
 ### Workflow And CRE Studio
 
 | Ticket | Priority | Surface | Goal | Primary paths | Dependencies | Acceptance criteria | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `SOPHEX-CRE-001` | P0 | Deal workflow | Premium CRE cockpit and tab workflow. | `DealWorkflowLayout.tsx`, `DealRoutes.tsx`, `StudioShared.tsx` | Waves 8-12 | Stable tab chrome, bento cockpit, stage context, contextual handoffs. | Done |
-| `SOPHEX-CRE-002` | P1 | Deal route modules | Split heavy `DealRoutes.tsx` into per-route modules after current async chunk optimization. | `prototype/src/pages/studio/DealRoutes.tsx` | `SOPHEX-OPT-001` | Smaller route chunks, same visual snapshots, no circular chunk warning. | Ready |
+| `SOPHEX-CRE-002` | P1 | Deal route modules | Split heavy `DealRoutes.tsx` into per-route modules after current async chunk optimization. | `prototype/src/pages/studio/deals/*` | `SOPHEX-OPT-001` | Smaller route chunks, same visual snapshots, no circular chunk warning. | Done |
 | `SOPHEX-CRE-003` | P1 | Comps adapter | Prepare comps surface for approved sandbox/core analysis route with fixture fallback. | `CompsPage.tsx`, `DealRoutes.tsx`, runtime adapters | Approval for adapter lane | Styled loading/failure/empty/result states, provider rights visible. | Blocked |
 | `SOPHEX-CRE-004` | P1 | Underwriting adapter | Prepare underwriting cockpit for approved sandbox/core output adapter. | `DealRoutes.tsx`, `lib/underwriting/*`, runtime adapters | Approval for adapter lane | Assumptions, metrics, gates map to shared authority vocabulary. | Blocked |
 | `SOPHEX-CRE-005` | P1 | Spatial provider readiness | Keep map UX ready for approved metadata/geometry lanes. | `GisRoutes.tsx`, `lib/gis/*`, spatial components | Provider/source-rights decisions | Lazy layer states, source-rights visible, payload budgets enforced. | Partial |
@@ -154,8 +154,8 @@ Customer-facing Sophex language should avoid: `Fabricator`, `MCP`, `Taskmaster`,
 
 | Ticket | Priority | Surface | Goal | Primary paths | Dependencies | Acceptance criteria | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `SOPHEX-OPS-001` | P2 | Broker OS lite | Define operator-lite taxonomy and what remains internal. | `OperatorRoutes.tsx`, boundary docs | `SOPHEX-AUD-001` | Broker OS projection avoids raw Fabricator, queue, worker, log, or PII leakage. | Ready |
-| `SOPHEX-OPS-002` | P2 | Broker OS UI | Polish sanitized operator panels without mimicking public Studio. | `OperatorRoutes.tsx`, topbar/shell components | `SOPHEX-OPS-001` | Better dense cards, status panels, and mobile shell behavior. | Ready |
+| `SOPHEX-OPS-001` | P2 | Broker OS lite | Define operator-lite taxonomy and what remains internal. | `OperatorRoutes.tsx`, `studio-workspace.ts` | `SOPHEX-AUD-001` | Broker OS projection avoids raw Fabricator, queue, worker, log, or PII leakage. | Done |
+| `SOPHEX-OPS-002` | P2 | Broker OS UI | Polish sanitized operator panels without mimicking public Studio. | `OperatorRoutes.tsx`, topbar/shell components | `SOPHEX-OPS-001` | Better dense cards, status panels, and mobile shell behavior. | Done |
 | `SOPHEX-REF-001` | P1 | Design references | Keep capital-stack, IC packet, HITL, and design-system routes labeled as reference/mock. | `DesignReferenceRoutes.tsx`, `DesignSystemRoutes.tsx` | None | Reference routes never imply legal, IC, export, or production authority. | Done |
 
 ### Quality And Optimization
@@ -165,7 +165,7 @@ Customer-facing Sophex language should avoid: `Fabricator`, `MCP`, `Taskmaster`,
 | `SOPHEX-QA-001` | P0 | Visual regression | Maintain route snapshots for public and Studio surfaces. | `prototype/e2e/visual.spec.ts`, snapshots | UI changes | Expected visual changes are intentionally rebaselined and reviewed. | Done |
 | `SOPHEX-QA-002` | P0 | Lighthouse and budget | Keep route list, JS/CSS budgets, and Lighthouse posture current. | `lighthouserc.cjs`, `check-bundle-budget.mjs` | Route changes | Budget passes; design-system route included; performance remains warn-only. | Done |
 | `SOPHEX-OPT-001` | P0 | Route chunks | Remove circular page chunking and reduce initial public route payload. | `vite.config.ts`, `index.html`, `StudioPrimitives.tsx` | Wave 16 visual closeout | Per-route async chunks, `studio-deal-routes` isolated, circular warning gone, Inter preloaded. | Done |
-| `SOPHEX-OPT-002` | P1 | Motion bundle | Evaluate lazy-motion usage and framer-motion route cost. | Motion components, `MotionRoot.tsx` | `SOPHEX-OPT-001` | No visual regression; reduced-motion behavior preserved. | Ready |
+| `SOPHEX-OPT-002` | P1 | Motion bundle | Evaluate lazy-motion usage and framer-motion route cost. | Motion components, `MotionRoot.tsx` | `SOPHEX-OPT-001` | No visual regression; reduced-motion behavior preserved; `m` components under LazyMotion (~73 KB chunk). | Done |
 
 ## Dependency Map
 

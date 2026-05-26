@@ -34,13 +34,25 @@ export function LandingPage(): ReactElement {
 
   return (
     <section className="page">
-      <header className="page-header">
+      <header className="page-header marketing-hero">
         <p className="eyebrow">CRE intelligence marketplace</p>
         <h1>Evidence-first property intelligence</h1>
         <p className="lede">
           Search public baseline properties, compare comps, and preview valuation reports with
           visible source and review state.
         </p>
+        <div className="marketing-proof-strip" aria-label="Marketplace proof points">
+          {[
+            ['2', 'Featured markets'],
+            ['4', 'Trust tiers labeled'],
+            ['0', 'Hidden source limits'],
+          ].map(([value, label]) => (
+            <article key={label}>
+              <strong className="fin-value">{value}</strong>
+              <span>{label}</span>
+            </article>
+          ))}
+        </div>
       </header>
 
       <PublicStudioContinuityBanner surface="landing" />
@@ -148,6 +160,26 @@ export function LandingPage(): ReactElement {
           )}
         </div>
       ) : null}
+
+      <section id="source-trust" className="landing-trust-panel" aria-labelledby="source-trust-heading">
+        <h2 id="source-trust-heading">Source trust tiers</h2>
+        <p className="muted">
+          Every property card, comp, and report preview shows how far evidence has progressed from
+          candidate extraction to reviewed output.
+        </p>
+        <ul className="trust-explainer-list">
+          {[
+            ['Public baseline', 'Sample listings safe for marketplace discovery and search.'],
+            ['Reviewed output', 'Fields promoted after analyst review with visible provenance.'],
+            ['Restricted / premium', 'Provider-gated comps and exports stay labeled, never implied as public.'],
+          ].map(([title, copy]) => (
+            <li key={title}>
+              <strong>{title}</strong>
+              <span>{copy}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
     </section>
   );
 }

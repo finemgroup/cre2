@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence, m } from 'framer-motion';
 import { useEffect, useId, useRef, type ReactElement, type ReactNode } from 'react';
 
 import { getMotionProps, getMotionSpec, useReducedMotionPreference } from '@/lib/motion';
@@ -84,14 +84,14 @@ export function SophexSheet({ isOpen, label, children, onClose }: SophexSheetPro
     <AnimatePresence>
       {isOpen ? (
         <div className="sheet-root" role="presentation">
-          <motion.button
+          <m.button
             type="button"
             className="sheet-backdrop"
             aria-label="Close panel"
             onClick={onClose}
             {...backdropProps}
           />
-          <motion.div
+          <m.div
             ref={panelRef}
             className="sheet-panel"
             role="dialog"
@@ -108,7 +108,7 @@ export function SophexSheet({ isOpen, label, children, onClose }: SophexSheetPro
               </button>
             </header>
             <div className="sheet-body">{children}</div>
-          </motion.div>
+          </m.div>
         </div>
       ) : null}
     </AnimatePresence>

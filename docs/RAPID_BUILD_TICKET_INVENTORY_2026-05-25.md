@@ -272,10 +272,10 @@ Canonical ticket pack: [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPI
 | --- | --- | --- |
 | `SOPHEX-AUD-001` | Done | Initial route/component scorecard and tracker structure |
 | `SOPHEX-OPT-001` | Done | Route-level code splitting and font loading optimization |
-| `SOPHEX-VIS-004` | Ready | Marketing/public proof polish |
-| `SOPHEX-VIS-005` | Ready | CSS budget trim headroom |
-| `SOPHEX-CRE-002` | Ready | Split `DealRoutes.tsx` into per-route modules |
-| `SOPHEX-OPS-001` | Ready | Broker OS lite taxonomy |
-| `SOPHEX-OPS-002` | Ready | Broker OS UI polish |
-| `SOPHEX-OPT-002` | Ready | Motion bundle evaluation |
+| `SOPHEX-VIS-004` | Done | Marketing/public proof polish |
+| `SOPHEX-VIS-005` | Done | CSS budget trim headroom |
+| `SOPHEX-CRE-002` | Done | Split `DealRoutes.tsx` into per-route modules |
+| `SOPHEX-OPS-001` | Done | Broker OS lite taxonomy |
+| `SOPHEX-OPS-002` | Done | Broker OS UI polish |
+| `SOPHEX-OPT-002` | Done | Motion bundle evaluation (`m` + LazyMotion) |
 | Gated runtime tickets | Blocked | Schema, provider, HITL/legal, billing/auth per approval packet |

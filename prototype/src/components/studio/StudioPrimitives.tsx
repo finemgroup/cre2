@@ -1,4 +1,4 @@
-import { motion, type Variants } from 'framer-motion';
+import { m, type Variants } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import {
   Children,
@@ -221,7 +221,7 @@ export function AnimatedList({
   };
 
   return (
-    <motion.div
+    <m.div
       id={id}
       className={className}
       data-sophex-motion="listStagger"
@@ -239,16 +239,16 @@ export function AnimatedList({
       }}
     >
       {childItems.map((child, index) => (
-        <motion.div
+        <m.div
           key={child.key ?? `list-item-${index}`}
           data-sophex-motion="listStaggerChild"
           variants={childVariants}
           transition={itemSpec.transition}
         >
           {child}
-        </motion.div>
+        </m.div>
       ))}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -272,9 +272,9 @@ export function MotionBlock({
   const props = getMotionProps(getMotionSpec(motionName), reducedMotion);
 
   return (
-    <motion.div className={className} data-sophex-motion={motionName} {...props}>
+    <m.div className={className} data-sophex-motion={motionName} {...props}>
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 

@@ -87,11 +87,38 @@ export function getStudioScenarioView() {
   return { scenarios };
 }
 
+export const BROKER_OS_OPERATOR_TAXONOMY = {
+  externalSurfaces: [
+    {
+      id: 'readiness',
+      label: 'Readiness summary',
+      scope: 'Sanitized job stream counts, latency posture, and error rate bands.',
+    },
+    {
+      id: 'agents',
+      label: 'Agent inventory',
+      scope: 'Capability tags and online status without raw worker identifiers.',
+    },
+    {
+      id: 'review-queue',
+      label: 'Review queue projection',
+      scope: 'Field keys and advisory trust tiers only — no promotion authority.',
+    },
+  ],
+  internalOnly: [
+    'Raw Fabricator execution logs',
+    'Worker queue depth and retry counters',
+    'PII-bearing execution context',
+    'Unsanitized planning payloads',
+  ],
+} as const;
+
 export function getBrokerOsProjection() {
   return {
     jobStreams,
     agentCapabilities,
     rawLogsExposed: false,
     safeProjectionLabel: 'Sanitized Broker OS projection',
+    taxonomy: BROKER_OS_OPERATOR_TAXONOMY,
   };
 }

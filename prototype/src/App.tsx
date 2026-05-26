@@ -43,7 +43,9 @@ const StudioPricingPage = lazy(() =>
   import('@/pages/studio/MarketingRoutes').then((module) => ({ default: module.StudioPricingPage }))
 );
 const StudioDashboardPage = lazy(() =>
-  import('@/pages/studio/DealRoutes').then((module) => ({ default: module.StudioDashboardPage }))
+  import('@/pages/studio/deals/StudioDashboardPage').then((module) => ({
+    default: module.StudioDashboardPage,
+  }))
 );
 const StudioDealIntakeRedirect = lazy(() =>
   import('@/pages/studio/StudioDealIntakeRedirect').then((module) => ({
@@ -51,39 +53,47 @@ const StudioDealIntakeRedirect = lazy(() =>
   }))
 );
 const StudioDealIntakePage = lazy(() =>
-  import('@/pages/studio/DealRoutes').then((module) => ({ default: module.StudioDealIntakePage }))
+  import('@/pages/studio/deals/StudioDealIntakePage').then((module) => ({
+    default: module.StudioDealIntakePage,
+  }))
 );
 const StudioDataReviewPage = lazy(() =>
-  import('@/pages/studio/DealRoutes').then((module) => ({ default: module.StudioDataReviewPage }))
+  import('@/pages/studio/deals/StudioDataReviewPage').then((module) => ({
+    default: module.StudioDataReviewPage,
+  }))
 );
 const StudioDealOverviewPage = lazy(() =>
-  import('@/pages/studio/DealRoutes').then((module) => ({
+  import('@/pages/studio/deals/StudioDealOverviewPage').then((module) => ({
     default: module.StudioDealOverviewPage,
   }))
 );
 const StudioCompsPage = lazy(() =>
-  import('@/pages/studio/DealRoutes').then((module) => ({ default: module.StudioCompsPage }))
+  import('@/pages/studio/deals/StudioCompsPage').then((module) => ({
+    default: module.StudioCompsPage,
+  }))
 );
 const StudioUnderwritingPage = lazy(() =>
-  import('@/pages/studio/DealRoutes').then((module) => ({
+  import('@/pages/studio/deals/StudioUnderwritingPage').then((module) => ({
     default: module.StudioUnderwritingPage,
   }))
 );
 const StudioAssumptionSourceTracePage = lazy(() =>
-  import('@/pages/studio/DealRoutes').then((module) => ({
+  import('@/pages/studio/deals/StudioAssumptionSourceTracePage').then((module) => ({
     default: module.StudioAssumptionSourceTracePage,
   }))
 );
 const StudioDebtPanelPage = lazy(() =>
-  import('@/pages/studio/DealRoutes').then((module) => ({ default: module.StudioDebtPanelPage }))
+  import('@/pages/studio/deals/StudioDebtPanelPage').then((module) => ({
+    default: module.StudioDebtPanelPage,
+  }))
 );
 const StudioScenarioComparisonPage = lazy(() =>
-  import('@/pages/studio/DealRoutes').then((module) => ({
+  import('@/pages/studio/deals/StudioScenarioComparisonPage').then((module) => ({
     default: module.StudioScenarioComparisonPage,
   }))
 );
 const StudioValuationVersionTimelinePage = lazy(() =>
-  import('@/pages/studio/DealRoutes').then((module) => ({
+  import('@/pages/studio/deals/StudioValuationVersionTimelinePage').then((module) => ({
     default: module.StudioValuationVersionTimelinePage,
   }))
 );

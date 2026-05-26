@@ -1308,7 +1308,7 @@ td {
 }
 
 .studio-hero {
-  min-height: 520px;
+  min-height: 480px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 460px;
   gap: 2rem;
