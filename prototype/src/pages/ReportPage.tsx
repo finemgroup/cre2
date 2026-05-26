@@ -113,9 +113,7 @@ export function ReportPage(): ReactElement {
           <header className="reporting-golden-heading-block">
             <p className="eyebrow">SOPHEX-REPORT-001</p>
             <h1 id="reporting-golden-heading">Intelligence Dashboard</h1>
-            <p>
-              Not an appraisal. Data is synthesized from public records and candidate evidence.
-            </p>
+            <p>Not an appraisal. Data is synthesized from public records and candidate evidence.</p>
             <small>{routePropertyLabel}</small>
           </header>
 
