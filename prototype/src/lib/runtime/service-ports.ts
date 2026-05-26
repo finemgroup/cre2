@@ -10,7 +10,9 @@ import {
   getStudioReportBuilderView,
   getStudioScenarioView,
   getStudioSpatialWorkbenchView,
+  getStudioSourceTraceView,
   getStudioUnderwritingView,
+  getStudioValuationVersionsView,
 } from '@/lib/runtime/studio-workspace';
 import { getPublicSearchProperties } from '@/lib/runtime/public-search';
 import type { ExportPolicyDecision, ExportScope } from '@/lib/runtime/export-policy';
@@ -38,6 +40,10 @@ export type StudioUnderwritingView = NonNullable<ReturnType<typeof getStudioUnde
 export type StudioSpatialWorkbenchView = NonNullable<
   ReturnType<typeof getStudioSpatialWorkbenchView>
 >;
+export type StudioValuationVersionsView = NonNullable<
+  ReturnType<typeof getStudioValuationVersionsView>
+>;
+export type StudioSourceTraceView = NonNullable<ReturnType<typeof getStudioSourceTraceView>>;
 
 export type PublicRuntimeServices = {
   searchProperties(query?: string): Promise<PropertyRecord[]>;
@@ -76,6 +82,14 @@ export type StudioRuntimeServices = {
     dealId: string | undefined,
     actor?: ActorContext
   ): Promise<StudioSpatialWorkbenchView | undefined>;
+  getValuationVersions(
+    dealId: string | undefined,
+    actor?: ActorContext
+  ): Promise<StudioValuationVersionsView | undefined>;
+  getSourceTrace(
+    dealId: string | undefined,
+    actor?: ActorContext
+  ): Promise<StudioSourceTraceView | undefined>;
   getWorkflowProgress(dealId: string): Promise<Record<DealWorkflowStage, DealStageStatus>>;
   getNextAction(dealId: string): Promise<DealNextAction>;
   getCockpitProjection(
@@ -130,6 +144,12 @@ export const fixtureRuntimeServices: RuntimeServices = {
     },
     async getSpatialWorkbench(dealId, actor) {
       return getStudioSpatialWorkbenchView(dealId, actor);
+    },
+    async getValuationVersions(dealId, actor) {
+      return getStudioValuationVersionsView(dealId, actor);
+    },
+    async getSourceTrace(dealId, actor) {
+      return getStudioSourceTraceView(dealId, actor);
     },
     async getWorkflowProgress(dealId) {
       return getDealStageProgress(dealId);

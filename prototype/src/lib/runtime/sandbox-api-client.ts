@@ -13,6 +13,8 @@ import type {
   StudioScenarioView,
   StudioUnderwritingView,
   StudioSpatialWorkbenchView,
+  StudioSourceTraceView,
+  StudioValuationVersionsView,
 } from '@/lib/runtime/service-ports';
 import type { DealCockpitProjection } from '@/lib/workflow/cockpit-projection';
 import type { DealNextAction, DealStageStatus, DealWorkflowStage } from '@/lib/workflow/deal-stage-model';
@@ -93,6 +95,18 @@ export function createSandboxApiRuntimeServices(
       async getSpatialWorkbench(dealId, actor) {
         if (!dealId) return undefined;
         return client.get<StudioSpatialWorkbenchView>(`/studio/deals/${dealId}/spatial`, {
+          actor,
+        });
+      },
+      async getValuationVersions(dealId, actor) {
+        if (!dealId) return undefined;
+        return client.get<StudioValuationVersionsView>(`/studio/deals/${dealId}/versions`, {
+          actor,
+        });
+      },
+      async getSourceTrace(dealId, actor) {
+        if (!dealId) return undefined;
+        return client.get<StudioSourceTraceView>(`/studio/deals/${dealId}/source-trace`, {
           actor,
         });
       },

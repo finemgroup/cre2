@@ -114,6 +114,16 @@ describe('sandbox API shell', () => {
       summary: { layerCount: number };
       layers: unknown[];
     }>(await request('/studio/deals/riverside-flats/spatial', { actor: fixtureActors.orgAdmin }));
+    const versions = await readJson<{
+      deal: { id: string };
+      snapshots: unknown[];
+      valuationVersion: { evidenceSnapshot: { id: string } };
+    }>(await request('/studio/deals/riverside-flats/versions', { actor: fixtureActors.orgAdmin }));
+    const sourceTrace = await readJson<{
+      deal: { id: string };
+      traceItems: unknown[];
+      conflictOptions: unknown[];
+    }>(await request('/studio/deals/riverside-flats/source-trace', { actor: fixtureActors.orgAdmin }));
 
     expect(dashboard.deals.length).toBeGreaterThan(0);
     expect(deal.deal.id).toBe('riverside-flats');
@@ -130,6 +140,12 @@ describe('sandbox API shell', () => {
     expect(spatial.deal.id).toBe('riverside-flats');
     expect(spatial.summary.layerCount).toBeGreaterThan(0);
     expect(spatial.layers.length).toBeGreaterThan(0);
+    expect(versions.deal.id).toBe('riverside-flats');
+    expect(versions.snapshots.length).toBeGreaterThan(0);
+    expect(versions.valuationVersion.evidenceSnapshot.id).toBeTruthy();
+    expect(sourceTrace.deal.id).toBe('riverside-flats');
+    expect(sourceTrace.traceItems.length).toBeGreaterThan(0);
+    expect(sourceTrace.conflictOptions.length).toBeGreaterThan(0);
   });
 
   it('hides review summary from public actors in cockpit projection', async () => {

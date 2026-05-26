@@ -9,6 +9,8 @@ import {
   getStudioReportBuilderView,
   getStudioUnderwritingView,
   getStudioSpatialWorkbenchView,
+  getStudioSourceTraceView,
+  getStudioValuationVersionsView,
 } from '@/lib/runtime/studio-workspace';
 
 describe('studio runtime adapters', () => {
@@ -57,6 +59,24 @@ describe('studio runtime adapters', () => {
     expect(view?.summary.layerCount).toBeGreaterThan(0);
     expect(view?.layers.length).toBeGreaterThan(0);
     expect(view?.sourceRights.length).toBeGreaterThan(0);
+  });
+
+  it('returns valuation snapshots and export posture through the studio adapter', () => {
+    const view = getStudioValuationVersionsView('riverside-flats', fixtureActors.orgAdmin);
+
+    expect(view?.deal.id).toBe('riverside-flats');
+    expect(view?.snapshots.length).toBeGreaterThan(0);
+    expect(view?.valuationVersion.evidenceSnapshot.id).toBeTruthy();
+    expect(view?.sourceBlocks.length).toBeGreaterThan(0);
+  });
+
+  it('returns assumption source trace rows through the studio adapter', () => {
+    const view = getStudioSourceTraceView('riverside-flats', fixtureActors.orgAdmin);
+
+    expect(view?.deal.id).toBe('riverside-flats');
+    expect(view?.traceItems.length).toBeGreaterThan(0);
+    expect(view?.conflictOptions.length).toBeGreaterThan(0);
+    expect(view?.sourceBlocks.length).toBeGreaterThan(0);
   });
 
   it('keeps Broker OS as a sanitized projection', () => {

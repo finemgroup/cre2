@@ -126,6 +126,22 @@ export function ExportPage(): ReactElement {
         variant="public"
       />
 
+      {!reportState.loading ? (
+        <div className="proof-strip" aria-label="Evidence packet posture">
+          {[
+            [valuationVersion.evidenceSnapshot.id, 'Evidence snapshot'],
+            [valuationVersion.evidenceSnapshot.manifestHash.slice(0, 12), 'Manifest prefix'],
+            [readiness.ready ? 'Clear' : 'Blocked', 'Export posture'],
+            [readiness.blockedReasons.length, 'Open blockers'],
+          ].map(([value, label]) => (
+            <article key={String(label)}>
+              <strong className="fin-value">{value}</strong>
+              <span>{label}</span>
+            </article>
+          ))}
+        </div>
+      ) : null}
+
       <StageRail stages={STAGES} activeIndex={stage} />
 
       {exportBlocked ? (
@@ -220,6 +236,10 @@ export function ExportPage(): ReactElement {
               Receipt <code>{receipt.id}</code> · {receipt.kind} · {receipt.policyDecision}
             </p>
             <p>{receipt.safeMessage}</p>
+            <p>
+              Evidence snapshot: {valuationVersion.evidenceSnapshot.id} ·{' '}
+              {valuationVersion.evidenceSnapshot.manifestHash}
+            </p>
             <p>
               Redacted evidence refs:{' '}
               {receipt.redactedEvidenceRefs.length > 0

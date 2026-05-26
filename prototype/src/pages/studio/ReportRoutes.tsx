@@ -157,6 +157,10 @@ export function StudioReportBuilderPage(): ReactElement {
       <div className="report-builder-grid">
         <StudioCard title="Readiness Gates">
           <p>{valuationVersion.resultSummary}</p>
+          <p className="muted">
+            Evidence snapshot {valuationVersion.evidenceSnapshot.id} ·{' '}
+            {valuationVersion.evidenceSnapshot.manifestHash}
+          </p>
           <ValuationReadinessRail evaluation={valuationVersion.readiness} orientation="vertical" />
           <StatusBadge status={valuationVersion.readiness.safeNextAction} />
         </StudioCard>

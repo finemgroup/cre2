@@ -14,7 +14,9 @@ import {
   getStudioReportBuilderView,
   getStudioScenarioView,
   getStudioSpatialWorkbenchView,
+  getStudioSourceTraceView,
   getStudioUnderwritingView,
+  getStudioValuationVersionsView,
 } from '@/lib/runtime/studio-workspace';
 import { getDealCockpitProjection } from '@/lib/workflow/cockpit-projection';
 import { getDealNextAction, getDealStageProgress } from '@/lib/workflow/deal-stage-model';
@@ -156,6 +158,18 @@ export async function routeSandboxRequest(request: Request): Promise<SandboxApiR
   if (request.method === 'GET' && spatialMatch) {
     const view = getStudioSpatialWorkbenchView(spatialMatch[1], actor);
     return view ? ok(view) : safeError(404, 'not_found', 'Spatial workbench view was not found.');
+  }
+
+  const versionsMatch = path.match(/^\/studio\/deals\/([^/]+)\/versions$/);
+  if (request.method === 'GET' && versionsMatch) {
+    const view = getStudioValuationVersionsView(versionsMatch[1], actor);
+    return view ? ok(view) : safeError(404, 'not_found', 'Valuation versions view was not found.');
+  }
+
+  const sourceTraceMatch = path.match(/^\/studio\/deals\/([^/]+)\/source-trace$/);
+  if (request.method === 'GET' && sourceTraceMatch) {
+    const view = getStudioSourceTraceView(sourceTraceMatch[1], actor);
+    return view ? ok(view) : safeError(404, 'not_found', 'Source trace view was not found.');
   }
 
   const workflowProgressMatch = path.match(/^\/studio\/deals\/([^/]+)\/workflow\/progress$/);

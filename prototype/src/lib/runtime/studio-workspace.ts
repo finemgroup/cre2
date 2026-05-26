@@ -26,6 +26,11 @@ import {
 } from '@/lib/gis';
 import { buildGisPerformanceBudgets, summarizeGisPerformance } from '@/lib/gis/performance';
 import { fixtureMapLayerManifests, getMapLayerManifestsForActor } from '@/lib/contracts/spatial';
+import {
+  ASSUMPTION_TRACE_ITEMS,
+  UNIT_CONFLICT_OPTIONS,
+  VERSION_SNAPSHOTS,
+} from '@/pages/studio/deals/deal-route-shared';
 
 function authorityToVisibility(authority: AuthorityState) {
   if (authority === 'Premium-private') return 'provider-restricted' as const;
@@ -140,6 +145,44 @@ export function getStudioSpatialWorkbenchView(
     performanceBudgets,
     performanceSummary: summarizeGisPerformance(performanceBudgets),
     spatialContext: propertyView?.spatialContext,
+  };
+}
+
+export function getStudioValuationVersionsView(
+  dealId: string | undefined,
+  actor: ActorContext = fixtureActors.orgAdmin
+) {
+  const deal = getStudioDeal(dealId);
+  if (!deal) return undefined;
+  const propertyId = getLinkedPropertyId(deal.id) ?? deal.id;
+  return {
+    deal,
+    actorId: actor.id,
+    snapshots: VERSION_SNAPSHOTS,
+    sourceBlocks: getSourceBlocksForDeal(deal.id),
+    valuationVersion: getValuationVersionForActor({
+      actor,
+      propertyId,
+      reportId: `studio-report-${deal.id}`,
+      exportConsent: false,
+      sourceRightsClear: false,
+      spatialSourceClear: true,
+    }),
+  };
+}
+
+export function getStudioSourceTraceView(
+  dealId: string | undefined,
+  actor: ActorContext = fixtureActors.orgAdmin
+) {
+  const deal = getStudioDeal(dealId);
+  if (!deal) return undefined;
+  return {
+    deal,
+    actorId: actor.id,
+    traceItems: ASSUMPTION_TRACE_ITEMS,
+    conflictOptions: UNIT_CONFLICT_OPTIONS,
+    sourceBlocks: getSourceBlocksForDeal(deal.id),
   };
 }
 
