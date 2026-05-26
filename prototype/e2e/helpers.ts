@@ -6,6 +6,10 @@ const STABILIZATION_CSS = `
     transition-duration: 0s !important;
     font-family: Arial, Helvetica, sans-serif !important;
   }
+  html, body, #root {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
   .material-symbols-outlined {
     font-family: 'Material Symbols Outlined' !important;
   }
