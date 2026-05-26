@@ -13,6 +13,7 @@ import {
   getStudioDealView,
   getStudioReportBuilderView,
   getStudioScenarioView,
+  getStudioSpatialWorkbenchView,
   getStudioUnderwritingView,
 } from '@/lib/runtime/studio-workspace';
 import { getDealCockpitProjection } from '@/lib/workflow/cockpit-projection';
@@ -149,6 +150,12 @@ export async function routeSandboxRequest(request: Request): Promise<SandboxApiR
   if (request.method === 'GET' && underwritingMatch) {
     const view = getStudioUnderwritingView(underwritingMatch[1], actor);
     return view ? ok(view) : safeError(404, 'not_found', 'Underwriting view was not found.');
+  }
+
+  const spatialMatch = path.match(/^\/studio\/deals\/([^/]+)\/spatial$/);
+  if (request.method === 'GET' && spatialMatch) {
+    const view = getStudioSpatialWorkbenchView(spatialMatch[1], actor);
+    return view ? ok(view) : safeError(404, 'not_found', 'Spatial workbench view was not found.');
   }
 
   const workflowProgressMatch = path.match(/^\/studio\/deals\/([^/]+)\/workflow\/progress$/);

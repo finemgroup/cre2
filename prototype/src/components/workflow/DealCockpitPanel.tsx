@@ -4,6 +4,7 @@ import type { ReactElement, ReactNode } from 'react';
 import { BentoSection, BentoTile } from '@/components/studio/BentoTile';
 import { StatusBadge, TrustBadge } from '@/components/studio/StudioPrimitives';
 import { AiTaskPulse } from '@/components/workflow/AiTaskPulse';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { HitlTrustTierBadge } from '@/components/workflow/HitlTrustTierBadge';
 import {
   DEAL_STAGE_DEFINITIONS,
@@ -58,7 +59,12 @@ export function DealCockpitPanel({
   const taskRail = rail ?? <AiTaskPulse tasks={projection.tasks} />;
 
   return (
-    <BentoSection
+    <>
+      <RuntimeResourceStatus
+        error={cockpitState.error}
+        variant="studio-deal"
+      />
+      <BentoSection
       title={title}
       eyebrow={eyebrow}
       className="deal-cockpit-panel"
@@ -153,5 +159,6 @@ export function DealCockpitPanel({
         </BentoTile>
       ) : null}
     </BentoSection>
+    </>
   );
 }

@@ -72,7 +72,7 @@
 | `/studio/deals/:dealId/capital-stack`        | `DesignReferenceRoutes.tsx` | `design-ref`; `disabled-gate` Export Waterfall; advanced nav gate hint                                   | `hitl-legal`, `provider`                | Wave 3/6, Stitch design-ref                               |
 | `/studio/deals/:dealId/ic-packet`            | `DesignReferenceRoutes.tsx` | `design-ref`; `disabled-gate` Send to IC; `MockBoundaryBanner` (`ic`)                                    | `hitl-legal`                            | Wave 3/6, Stitch design-ref                               |
 | `/studio/deals/:dealId/hitl-review`          | `DesignReferenceRoutes.tsx` | **Analyst review** — shared mock assignments + confidence tiers; `MockBoundaryBanner` (`review`)         | `hitl-legal`, `schema-db`               | Wave 3/5/6/8                                              |
-| `/studio/deals/:dealId/spatial`              | `GisRoutes.tsx`             | **Location intelligence** — GIS manifest + `DataWorkbenchShell` table/list/grid; source-rights badges   | `provider`, `sandbox-api`               | Wave 3/4/6 nav label, Wave 9 spatial workbench integration |
+| `/studio/deals/:dealId/spatial`              | `GisRoutes.tsx`             | **Location intelligence** — GIS manifest + `DataWorkbenchShell`; `runtimeServices.studio.getSpatialWorkbench()` with fixture fallback   | `provider`, `sandbox-api`               | Wave 3/4/6 nav label, Wave 9 spatial workbench / Wave 22 integration |
 | `/studio/reports/:dealId/builder`            | `ReportRoutes.tsx`          | Report builder + export gates; deal breadcrumb; `MockBoundaryBanner` (`export`)                          | `hitl-legal`, `schema-db`               | Wave 2/4/6                                                |
 | `/studio/settings/billing`                   | `MarketingRoutes.tsx`       | Mock plan tiers                                                                                          | `billing-auth`                          | Phase 2                                                   |
 | `/studio/settings/white-label`               | `ReportRoutes.tsx`          | Mock branding uploads                                                                                    | `schema-db`, `billing-auth`             | Phase 2                                                   |
@@ -90,6 +90,8 @@
 **Wave 9 cockpit projection:** `GET /sandbox/v0/studio/deals/:dealId/cockpit` returns unified advisory progress, next action, blocked stages, AI task pulse, and actor-filtered review summary. `DealCockpitPanel` consumes this port in fixture and API modes; KPI tiles remain page-local props.
 
 **Wave 21 runtime adapter prep:** `GET /sandbox/v0/studio/deals/:dealId/underwriting` exposes assumptions, provenance, and comp-readiness counts. Dashboard, studio comps, and underwriting pages use `useRuntimeResource` + `RuntimeResourceStatus` for branded loading/error shells with fixture fallback.
+
+**Wave 22 runtime surface closeout:** `GET /sandbox/v0/studio/deals/:dealId/spatial` exposes GIS manifest, source rights, verification, trade areas, and layer budgets. Landing, export, spatial workbench, and deal cockpit surfaces share `RuntimeResourceStatus` loading/error posture.
 
 ---
 

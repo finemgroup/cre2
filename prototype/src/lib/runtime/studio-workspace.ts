@@ -15,8 +15,17 @@ import type { ActorContext } from '@/lib/contracts/actor-context';
 import { decideVisibility } from '@/lib/contracts/visibility';
 import { getValuationVersionForActor } from '@/lib/contracts/valuation-version';
 import { getSourceBlocksForDeal } from '@/lib/source-bundle';
-import { getStudioReportSections, resolvePropertyIdForDeal } from '@/lib/workflow-identity';
+import { getStudioReportSections, getLinkedPropertyId, resolvePropertyIdForDeal } from '@/lib/workflow-identity';
 import { evaluateExportReadiness } from '@/lib/report-governance';
+import { getPublicPropertyView } from '@/lib/runtime/public-property';
+import {
+  evaluateSourceRightsManifest,
+  getVerificationSummary,
+  listTradeAreasForReport,
+  summarizeGisManifest,
+} from '@/lib/gis';
+import { buildGisPerformanceBudgets, summarizeGisPerformance } from '@/lib/gis/performance';
+import { fixtureMapLayerManifests, getMapLayerManifestsForActor } from '@/lib/contracts/spatial';
 
 function authorityToVisibility(authority: AuthorityState) {
   if (authority === 'Premium-private') return 'provider-restricted' as const;
@@ -106,6 +115,31 @@ export function getStudioUnderwritingView(
     assumptions,
     provenance: underwritingProvenanceByDeal[deal.id],
     reviewedCompCount,
+  };
+}
+
+export function getStudioSpatialWorkbenchView(
+  dealId: string | undefined,
+  actor: ActorContext = fixtureActors.orgAdmin
+) {
+  const deal = getStudioDeal(dealId);
+  if (!deal) return undefined;
+  const propertyId = getLinkedPropertyId(deal.id) ?? 'demo-001';
+  const context = 'report' as const;
+  const performanceBudgets = buildGisPerformanceBudgets(fixtureMapLayerManifests);
+  const propertyView = getPublicPropertyView(propertyId, actor);
+  return {
+    deal,
+    propertyId,
+    actorId: actor.id,
+    summary: summarizeGisManifest(actor, context, propertyId),
+    sourceRights: evaluateSourceRightsManifest(actor, context),
+    verification: getVerificationSummary(actor, propertyId),
+    tradeAreas: listTradeAreasForReport(actor, propertyId),
+    layers: getMapLayerManifestsForActor(actor, context),
+    performanceBudgets,
+    performanceSummary: summarizeGisPerformance(performanceBudgets),
+    spatialContext: propertyView?.spatialContext,
   };
 }
 

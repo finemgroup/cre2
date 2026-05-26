@@ -5,6 +5,7 @@ import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceMod
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
 import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
 import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
 import { StageRail } from '@/components/ui/StageRail';
@@ -119,14 +120,11 @@ export function ExportPage(): ReactElement {
 
       <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="export" />
       <MockBoundaryBanner variant="export" />
-      {reportState.loading || policyState.loading ? (
-        <p className="muted" role="status">
-          Refreshing export policy from {runtimeServices.mode} runtime.
-        </p>
-      ) : null}
-      {reportState.error || policyState.error ? (
-        <p className="warning">{reportState.error ?? policyState.error}</p>
-      ) : null}
+      <RuntimeResourceStatus
+        loading={reportState.loading || policyState.loading}
+        error={reportState.error ?? policyState.error}
+        variant="public"
+      />
 
       <StageRail stages={STAGES} activeIndex={stage} />
 

@@ -8,6 +8,7 @@ import {
   getStudioDealView,
   getStudioReportBuilderView,
   getStudioUnderwritingView,
+  getStudioSpatialWorkbenchView,
 } from '@/lib/runtime/studio-workspace';
 
 describe('studio runtime adapters', () => {
@@ -47,6 +48,15 @@ describe('studio runtime adapters', () => {
     expect(view?.assumptions.purchasePrice).toBeGreaterThan(0);
     expect(view?.reviewedCompCount).toBeGreaterThanOrEqual(0);
     expect(view?.provenance).toBeDefined();
+  });
+
+  it('returns spatial workbench manifest through the studio adapter', () => {
+    const view = getStudioSpatialWorkbenchView('riverside-flats', fixtureActors.orgAdmin);
+
+    expect(view?.deal.id).toBe('riverside-flats');
+    expect(view?.summary.layerCount).toBeGreaterThan(0);
+    expect(view?.layers.length).toBeGreaterThan(0);
+    expect(view?.sourceRights.length).toBeGreaterThan(0);
   });
 
   it('keeps Broker OS as a sanitized projection', () => {

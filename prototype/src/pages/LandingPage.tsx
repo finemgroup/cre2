@@ -2,6 +2,7 @@ import { useState, type ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
 import { getPublicSearchProperties } from '@/lib/runtime/public-search';
@@ -56,12 +57,11 @@ export function LandingPage(): ReactElement {
       </header>
 
       <PublicStudioContinuityBanner surface="landing" />
-      {searchState.loading || featuredState.loading ? (
-        <p className="muted" role="status">
-          Refreshing property data from {runtimeServices.mode} runtime.
-        </p>
-      ) : null}
-      {searchState.error ? <p className="warning">{searchState.error}</p> : null}
+      <RuntimeResourceStatus
+        loading={featuredState.loading || searchState.loading}
+        error={searchState.error ?? featuredState.error}
+        variant="public"
+      />
 
       <form
         className="search-form"

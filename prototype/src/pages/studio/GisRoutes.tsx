@@ -1,8 +1,9 @@
-import { useMemo, type ReactElement } from 'react';
+import type { ReactElement } from 'react';
 
 import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
 import { MapPlaceholderPreview } from '@/components/spatial/MapPlaceholderPreview';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import {
   DataTable,
   MaterialIcon,
@@ -16,53 +17,33 @@ import {
 } from '@/components/studio/StudioPrimitives';
 import { DataWorkbenchShell } from '@/components/workflow/DataWorkbenchShell';
 import { ContextualSurfaceTriggers } from '@/components/workflow/ContextualSurfaceTriggers';
-import { fixtureActors } from '@/lib/contracts/fixtures';
-import {
-  evaluateSourceRightsManifest,
-  getVerificationSummary,
-  listTradeAreasForReport,
-  summarizeGisManifest,
-} from '@/lib/gis';
-import { buildGisPerformanceBudgets, summarizeGisPerformance } from '@/lib/gis/performance';
-import { fixtureMapLayerManifests, getMapLayerManifestsForActor } from '@/lib/contracts/spatial';
-import { getLinkedPropertyId } from '@/lib/workflow-identity';
-import { getPublicPropertyView } from '@/lib/runtime/public-property';
+import { getStudioSpatialWorkbenchView } from '@/lib/runtime/studio-workspace';
+import { runtimeServices } from '@/lib/runtime/runtime-services';
+import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import { studioDealPath } from '@/data/studio';
 import { StudioDealNotFound, useStudioDeal } from '@/pages/studio/StudioShared';
 
 export function StudioSpatialWorkbenchPage(): ReactElement {
   const deal = useStudioDeal();
-  const propertyId = getLinkedPropertyId(deal?.id) ?? 'demo-001';
-  const actor = fixtureActors.orgAdmin;
-  const context = 'report' as const;
-  const summary = useMemo(
-    () => summarizeGisManifest(actor, context, propertyId),
-    [actor, propertyId]
+  const spatialState = useRuntimeResource(
+    () => runtimeServices.studio.getSpatialWorkbench(deal?.id),
+    `spatial-${deal?.id ?? 'missing'}`,
+    getStudioSpatialWorkbenchView(deal?.id)
   );
-  const sourceRights = useMemo(
-    () => evaluateSourceRightsManifest(actor, context),
-    [actor]
-  );
-  const verification = useMemo(
-    () => getVerificationSummary(actor, propertyId),
-    [actor, propertyId]
-  );
-  const tradeAreas = useMemo(
-    () => listTradeAreasForReport(actor, propertyId),
-    [actor, propertyId]
-  );
-  const layers = useMemo(() => getMapLayerManifestsForActor(actor, context), [actor]);
-  const performanceBudgets = useMemo(
-    () => buildGisPerformanceBudgets(fixtureMapLayerManifests),
-    []
-  );
-  const performanceSummary = useMemo(
-    () => summarizeGisPerformance(performanceBudgets),
-    [performanceBudgets]
-  );
-  const spatialContext = getPublicPropertyView(propertyId)?.spatialContext;
-
   if (!deal) return <StudioDealNotFound />;
+  const view = spatialState.value;
+  if (!view) return <StudioDealNotFound />;
+
+  const {
+    summary,
+    sourceRights,
+    verification,
+    tradeAreas,
+    layers,
+    performanceBudgets,
+    performanceSummary,
+    spatialContext,
+  } = view;
 
   const manifestPanel = (
     <StudioCard title="Map Layer Manifest" className="wide-card">
@@ -186,6 +167,11 @@ export function StudioSpatialWorkbenchPage(): ReactElement {
         No live GeoJSON, provider keys, or external GIS services. Geometry remains deferred-heavy in
         prototype manifests.
       </NonProductionCallout>
+      <RuntimeResourceStatus
+        loading={spatialState.loading}
+        error={spatialState.error}
+        variant="studio-deal"
+      />
       <div className="metric-grid spatial-workbench-metrics">
         <MetricCard label="Visible layers" value={String(summary.layerCount)} detail="Report context" />
         <MetricCard

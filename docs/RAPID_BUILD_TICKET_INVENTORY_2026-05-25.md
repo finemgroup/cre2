@@ -306,3 +306,11 @@ Canonical ticket pack: [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPI
 | `SOPHEX-CRE-004` | Partial | Underwriting view adapter + sandbox endpoint + page wiring |
 | `RuntimeResourceStatus` | Done | Shared loading/error component for public + studio partial routes |
 | Registry + split script | Done | MOCK_RESOLUTION_REGISTRY paths synced; split script deprecated with guard |
+
+### Wave 22 Ticket Ledger
+
+| Ticket | Status | Notes |
+| --- | --- | --- |
+| `SOPHEX-CRE-005` | Mostly done | Spatial workbench wired to `runtimeServices.studio.getSpatialWorkbench()` + sandbox endpoint |
+| Public runtime shells | Done | Landing + export routes use `RuntimeResourceStatus` |
+| Cockpit error shell | Done | `DealCockpitPanel` surfaces runtime read failures |
