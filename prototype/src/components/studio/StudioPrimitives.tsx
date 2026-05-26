@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import {
   Children,
   isValidElement,
-  useEffect,
   type CSSProperties,
   type ReactElement,
   type ReactNode,
@@ -11,7 +10,6 @@ import {
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
-import { ensureMaterialSymbolsFont } from '@/lib/fonts/font-loader';
 import {
   getMotionProps,
   getMotionSpec,
@@ -26,10 +24,6 @@ type ChildrenProps = {
 };
 
 export function MaterialIcon({ name }: { name: string }): ReactElement {
-  useEffect(() => {
-    ensureMaterialSymbolsFont();
-  }, []);
-
   return (
     <span className="material-symbols-outlined" aria-hidden="true">
       {name}
