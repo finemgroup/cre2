@@ -31,6 +31,13 @@ import {
   UNIT_CONFLICT_OPTIONS,
   VERSION_SNAPSHOTS,
 } from '@/pages/studio/deals/deal-route-shared';
+import {
+  calculateUnderwritingMetrics,
+} from '@/lib/underwriting';
+import {
+  mockNormalizationCandidates,
+  mockUploadFiles,
+} from '@/lib/staged-import';
 
 function authorityToVisibility(authority: AuthorityState) {
   if (authority === 'Premium-private') return 'provider-restricted' as const;
@@ -182,6 +189,44 @@ export function getStudioSourceTraceView(
     actorId: actor.id,
     traceItems: ASSUMPTION_TRACE_ITEMS,
     conflictOptions: UNIT_CONFLICT_OPTIONS,
+    sourceBlocks: getSourceBlocksForDeal(deal.id),
+  };
+}
+
+export function getStudioDataReviewView(
+  dealId: string | undefined,
+  actor: ActorContext = fixtureActors.orgAdmin
+) {
+  const deal = getStudioDeal(dealId);
+  if (!deal) return undefined;
+  return {
+    deal,
+    actorId: actor.id,
+    uploadFiles: mockUploadFiles,
+    normalizationRows: mockNormalizationCandidates,
+    conflictOptions: UNIT_CONFLICT_OPTIONS,
+    sourceBlocks: getSourceBlocksForDeal(deal.id),
+  };
+}
+
+export function getStudioDebtPanelView(
+  dealId: string | undefined,
+  actor: ActorContext = fixtureActors.orgAdmin
+) {
+  const deal = getStudioDeal(dealId);
+  if (!deal) return undefined;
+  const assumptions =
+    underwritingAssumptionsByDeal[deal.id] ?? underwritingAssumptionsByDeal['riverside-flats'];
+  const metrics = calculateUnderwritingMetrics(assumptions);
+  const debtTraceItem =
+    ASSUMPTION_TRACE_ITEMS.find((item) => item.id === 'debt-service') ?? null;
+  return {
+    deal,
+    actorId: actor.id,
+    assumptions,
+    metrics,
+    debtTraceItem,
+    quotePending: debtTraceItem?.posture === 'Source pending',
     sourceBlocks: getSourceBlocksForDeal(deal.id),
   };
 }

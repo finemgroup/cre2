@@ -124,6 +124,16 @@ describe('sandbox API shell', () => {
       traceItems: unknown[];
       conflictOptions: unknown[];
     }>(await request('/studio/deals/riverside-flats/source-trace', { actor: fixtureActors.orgAdmin }));
+    const dataReview = await readJson<{
+      deal: { id: string };
+      uploadFiles: unknown[];
+      normalizationRows: unknown[];
+    }>(await request('/studio/deals/riverside-flats/data-review', { actor: fixtureActors.orgAdmin }));
+    const debt = await readJson<{
+      deal: { id: string };
+      metrics: { dscr: number };
+      quotePending: boolean;
+    }>(await request('/studio/deals/riverside-flats/debt', { actor: fixtureActors.orgAdmin }));
 
     expect(dashboard.deals.length).toBeGreaterThan(0);
     expect(deal.deal.id).toBe('riverside-flats');
@@ -146,6 +156,12 @@ describe('sandbox API shell', () => {
     expect(sourceTrace.deal.id).toBe('riverside-flats');
     expect(sourceTrace.traceItems.length).toBeGreaterThan(0);
     expect(sourceTrace.conflictOptions.length).toBeGreaterThan(0);
+    expect(dataReview.deal.id).toBe('riverside-flats');
+    expect(dataReview.uploadFiles.length).toBeGreaterThan(0);
+    expect(dataReview.normalizationRows.length).toBeGreaterThan(0);
+    expect(debt.deal.id).toBe('riverside-flats');
+    expect(debt.metrics.dscr).toBeGreaterThan(0);
+    expect(debt.quotePending).toBe(true);
   });
 
   it('hides review summary from public actors in cockpit projection', async () => {

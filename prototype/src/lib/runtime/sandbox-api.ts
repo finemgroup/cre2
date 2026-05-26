@@ -17,6 +17,8 @@ import {
   getStudioSourceTraceView,
   getStudioUnderwritingView,
   getStudioValuationVersionsView,
+  getStudioDataReviewView,
+  getStudioDebtPanelView,
 } from '@/lib/runtime/studio-workspace';
 import { getDealCockpitProjection } from '@/lib/workflow/cockpit-projection';
 import { getDealNextAction, getDealStageProgress } from '@/lib/workflow/deal-stage-model';
@@ -170,6 +172,18 @@ export async function routeSandboxRequest(request: Request): Promise<SandboxApiR
   if (request.method === 'GET' && sourceTraceMatch) {
     const view = getStudioSourceTraceView(sourceTraceMatch[1], actor);
     return view ? ok(view) : safeError(404, 'not_found', 'Source trace view was not found.');
+  }
+
+  const dataReviewMatch = path.match(/^\/studio\/deals\/([^/]+)\/data-review$/);
+  if (request.method === 'GET' && dataReviewMatch) {
+    const view = getStudioDataReviewView(dataReviewMatch[1], actor);
+    return view ? ok(view) : safeError(404, 'not_found', 'Data review view was not found.');
+  }
+
+  const debtMatch = path.match(/^\/studio\/deals\/([^/]+)\/debt$/);
+  if (request.method === 'GET' && debtMatch) {
+    const view = getStudioDebtPanelView(debtMatch[1], actor);
+    return view ? ok(view) : safeError(404, 'not_found', 'Debt panel view was not found.');
   }
 
   const workflowProgressMatch = path.match(/^\/studio\/deals\/([^/]+)\/workflow\/progress$/);

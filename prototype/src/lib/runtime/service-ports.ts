@@ -13,6 +13,8 @@ import {
   getStudioSourceTraceView,
   getStudioUnderwritingView,
   getStudioValuationVersionsView,
+  getStudioDataReviewView,
+  getStudioDebtPanelView,
 } from '@/lib/runtime/studio-workspace';
 import { getPublicSearchProperties } from '@/lib/runtime/public-search';
 import type { ExportPolicyDecision, ExportScope } from '@/lib/runtime/export-policy';
@@ -44,6 +46,8 @@ export type StudioValuationVersionsView = NonNullable<
   ReturnType<typeof getStudioValuationVersionsView>
 >;
 export type StudioSourceTraceView = NonNullable<ReturnType<typeof getStudioSourceTraceView>>;
+export type StudioDataReviewView = NonNullable<ReturnType<typeof getStudioDataReviewView>>;
+export type StudioDebtPanelView = NonNullable<ReturnType<typeof getStudioDebtPanelView>>;
 
 export type PublicRuntimeServices = {
   searchProperties(query?: string): Promise<PropertyRecord[]>;
@@ -90,6 +94,14 @@ export type StudioRuntimeServices = {
     dealId: string | undefined,
     actor?: ActorContext
   ): Promise<StudioSourceTraceView | undefined>;
+  getDataReview(
+    dealId: string | undefined,
+    actor?: ActorContext
+  ): Promise<StudioDataReviewView | undefined>;
+  getDebtPanel(
+    dealId: string | undefined,
+    actor?: ActorContext
+  ): Promise<StudioDebtPanelView | undefined>;
   getWorkflowProgress(dealId: string): Promise<Record<DealWorkflowStage, DealStageStatus>>;
   getNextAction(dealId: string): Promise<DealNextAction>;
   getCockpitProjection(
@@ -150,6 +162,12 @@ export const fixtureRuntimeServices: RuntimeServices = {
     },
     async getSourceTrace(dealId, actor) {
       return getStudioSourceTraceView(dealId, actor);
+    },
+    async getDataReview(dealId, actor) {
+      return getStudioDataReviewView(dealId, actor);
+    },
+    async getDebtPanel(dealId, actor) {
+      return getStudioDebtPanelView(dealId, actor);
     },
     async getWorkflowProgress(dealId) {
       return getDealStageProgress(dealId);

@@ -11,6 +11,8 @@ import {
   getStudioSpatialWorkbenchView,
   getStudioSourceTraceView,
   getStudioValuationVersionsView,
+  getStudioDataReviewView,
+  getStudioDebtPanelView,
 } from '@/lib/runtime/studio-workspace';
 
 describe('studio runtime adapters', () => {
@@ -77,6 +79,24 @@ describe('studio runtime adapters', () => {
     expect(view?.traceItems.length).toBeGreaterThan(0);
     expect(view?.conflictOptions.length).toBeGreaterThan(0);
     expect(view?.sourceBlocks.length).toBeGreaterThan(0);
+  });
+
+  it('returns data review normalization rows through the studio adapter', () => {
+    const view = getStudioDataReviewView('riverside-flats', fixtureActors.orgAdmin);
+
+    expect(view?.deal.id).toBe('riverside-flats');
+    expect(view?.uploadFiles.length).toBeGreaterThan(0);
+    expect(view?.normalizationRows.length).toBeGreaterThan(0);
+    expect(view?.sourceBlocks.length).toBeGreaterThan(0);
+  });
+
+  it('returns debt panel metrics and trace linkage through the studio adapter', () => {
+    const view = getStudioDebtPanelView('riverside-flats', fixtureActors.orgAdmin);
+
+    expect(view?.deal.id).toBe('riverside-flats');
+    expect(view?.metrics.dscr).toBeGreaterThan(0);
+    expect(view?.debtTraceItem?.id).toBe('debt-service');
+    expect(view?.quotePending).toBe(true);
   });
 
   it('keeps Broker OS as a sanitized projection', () => {
