@@ -16,6 +16,7 @@ import {
 import { GateOverrideModal } from '@/components/overlays/GateOverrideModal';
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
+import { ReviewPostureBanner } from '@/components/provenance/ProvenanceWidgets';
 import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { WorkflowContinuityContainer, WorkflowHandoffLink } from '@/components/workflow/WorkflowPrimitives';
 import { DealCockpitPanel } from '@/components/workflow/DealCockpitPanel';
@@ -138,6 +139,23 @@ function StudioUnderwritingWorkspace({
         returnLabel="Return to deal"
       />
       <SyntheticDataBanner />
+      <ReviewPostureBanner blocks={view.sourceBlocks} />
+      <div className="proof-strip" aria-label="Underwriting cockpit posture">
+        {[
+          [reviewedCompCount, 'Reviewed comps'],
+          [gates.filter((gate) => gate.status === 'PASS').length, 'Clear gates'],
+          [
+            gates.filter((gate) => gate.status !== 'PASS' && gate.status !== 'OVERRIDDEN').length,
+            'Open gates',
+          ],
+          [formatPercent(metrics.irr), 'Base IRR'],
+        ].map(([value, label]) => (
+          <article key={String(label)}>
+            <strong className="fin-value">{value}</strong>
+            <span>{label}</span>
+          </article>
+        ))}
+      </div>
       {!gates.every((gate) => gate.status === 'PASS' || gate.status === 'OVERRIDDEN') ? (
         <GateResolutionCallout
           action="Lock valuation snapshot"
@@ -221,6 +239,12 @@ function StudioUnderwritingWorkspace({
                 className="btn btn-secondary"
               >
                 Open Source Trace
+              </Link>
+              <Link to={studioDealPath(deal.id, 'data-review')} className="btn btn-secondary">
+                Open Data Review
+              </Link>
+              <Link to={studioDealPath(deal.id, 'underwriting-debt')} className="btn btn-secondary">
+                Open Debt Panel
               </Link>
               <Link to={studioReportPath(deal.id)} className="btn btn-primary">
                 Review Report Gates

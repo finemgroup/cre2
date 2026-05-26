@@ -35,6 +35,7 @@ import {
   calculateUnderwritingMetrics,
 } from '@/lib/underwriting';
 import {
+  mockCandidateFields,
   mockNormalizationCandidates,
   mockUploadFiles,
 } from '@/lib/staged-import';
@@ -127,6 +128,7 @@ export function getStudioUnderwritingView(
     assumptions,
     provenance: underwritingProvenanceByDeal[deal.id],
     reviewedCompCount,
+    sourceBlocks: getSourceBlocksForDeal(deal.id),
   };
 }
 
@@ -228,6 +230,30 @@ export function getStudioDebtPanelView(
     debtTraceItem,
     quotePending: debtTraceItem?.posture === 'Source pending',
     sourceBlocks: getSourceBlocksForDeal(deal.id),
+  };
+}
+
+export function getStudioDealIntakeView(
+  dealId: string | undefined,
+  actor: ActorContext = fixtureActors.orgAdmin
+) {
+  const deal = getStudioDeal(dealId);
+  if (!deal) return undefined;
+  const uploadFiles = mockUploadFiles;
+  const candidateFields = mockCandidateFields;
+  return {
+    deal,
+    actorId: actor.id,
+    uploadFiles,
+    candidateFields,
+    sourceBlocks: getSourceBlocksForDeal(deal.id),
+    activeStageIndex: 2,
+    filesNeedingReview: uploadFiles.filter(
+      (file) =>
+        file.status === 'needs review' ||
+        file.status === 'blocked' ||
+        Boolean(file.issue)
+    ).length,
   };
 }
 

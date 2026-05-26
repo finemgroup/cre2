@@ -134,6 +134,12 @@ describe('sandbox API shell', () => {
       metrics: { dscr: number };
       quotePending: boolean;
     }>(await request('/studio/deals/riverside-flats/debt', { actor: fixtureActors.orgAdmin }));
+    const intake = await readJson<{
+      deal: { id: string };
+      uploadFiles: unknown[];
+      candidateFields: unknown[];
+      filesNeedingReview: number;
+    }>(await request('/studio/deals/riverside-flats/intake', { actor: fixtureActors.orgAdmin }));
 
     expect(dashboard.deals.length).toBeGreaterThan(0);
     expect(deal.deal.id).toBe('riverside-flats');
@@ -162,6 +168,10 @@ describe('sandbox API shell', () => {
     expect(debt.deal.id).toBe('riverside-flats');
     expect(debt.metrics.dscr).toBeGreaterThan(0);
     expect(debt.quotePending).toBe(true);
+    expect(intake.deal.id).toBe('riverside-flats');
+    expect(intake.uploadFiles.length).toBeGreaterThan(0);
+    expect(intake.candidateFields.length).toBeGreaterThan(0);
+    expect(intake.filesNeedingReview).toBeGreaterThan(0);
   });
 
   it('hides review summary from public actors in cockpit projection', async () => {

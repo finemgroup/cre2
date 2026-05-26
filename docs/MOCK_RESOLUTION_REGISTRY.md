@@ -2,7 +2,7 @@
 
 **Purpose:** Single checklist of every mock-only prototype location so operators can resolve them deliberately when gated lanes open. This is a **tracking doc**, not runtime authorization.
 
-**Last synced:** 2026-05-26 (after Wave 27 evidence lane closeout)
+**Last synced:** 2026-05-26 (after Wave 28 intake closeout)
 
 **Related docs:**
 
@@ -60,7 +60,7 @@
 | `/studio/onboarding`                         | `MarketingRoutes.tsx`       | Mock tier/workspace wizard                                                                               | `billing-auth`                          | PROTOTYPE_MVP0                                            |
 | `/studio/dashboard`                          | `deals/StudioDashboardPage.tsx`            | Mock pipeline metrics; `runtimeServices.studio.getDashboard()` with fixture fallback | `sandbox-api`, `schema-db`              | Wave 1 / Wave 21                                        |
 | `/studio/deal-intake`                        | redirect → deal intake      | Route alias                                                                                              | `keep-mock`                             | —                                                         |
-| `/studio/deals/:dealId/intake`               | `deals/StudioDealIntakePage.tsx`            | Staged import mock                                                                                       | `provider`, `hitl-legal`                | Wave 2                                                    |
+| `/studio/deals/:dealId/intake`               | `deals/StudioDealIntakePage.tsx`            | Staged import mock; `runtimeServices.studio.getDealIntake()` with fixture fallback; data-review handoffs | `provider`, `hitl-legal`                | Wave 2 / Wave 28                                        |
 | `/studio/deals/:dealId/data-review`          | `deals/StudioDataReviewPage.tsx`            | **Evidence review** — normalization workbench; `runtimeServices.studio.getDataReview()` with fixture fallback | `provider`, `hitl-legal`                | Phase 2 / Stitch W1 / Wave 8 / Wave 27                              |
 | `/studio/deals/:dealId`                      | `deals/StudioDealOverviewPage.tsx`            | Deal overview + evidence drawer; `runtimeServices.studio.getDeal()` with fixture fallback; `DealCockpitPanel` bento next-action | `sandbox-api`, `schema-db`              | Wave 1/6/8 / Wave 25                                                |
 | `/studio/deals/:dealId/comps`                | `deals/StudioCompsPage.tsx`            | Studio comps + premium lock labels; `runtimeServices.studio.getComps()` + `getDeal()` source blocks with fixture fallback                                                                       | `provider`                              | Wave 4 readiness / Wave 21 / Wave 25                                          |

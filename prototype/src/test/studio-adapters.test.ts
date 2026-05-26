@@ -13,6 +13,7 @@ import {
   getStudioValuationVersionsView,
   getStudioDataReviewView,
   getStudioDebtPanelView,
+  getStudioDealIntakeView,
 } from '@/lib/runtime/studio-workspace';
 
 describe('studio runtime adapters', () => {
@@ -52,6 +53,7 @@ describe('studio runtime adapters', () => {
     expect(view?.assumptions.purchasePrice).toBeGreaterThan(0);
     expect(view?.reviewedCompCount).toBeGreaterThanOrEqual(0);
     expect(view?.provenance).toBeDefined();
+    expect(view?.sourceBlocks.length).toBeGreaterThan(0);
   });
 
   it('returns spatial workbench manifest through the studio adapter', () => {
@@ -97,6 +99,16 @@ describe('studio runtime adapters', () => {
     expect(view?.metrics.dscr).toBeGreaterThan(0);
     expect(view?.debtTraceItem?.id).toBe('debt-service');
     expect(view?.quotePending).toBe(true);
+  });
+
+  it('returns deal intake staged files through the studio adapter', () => {
+    const view = getStudioDealIntakeView('riverside-flats', fixtureActors.orgAdmin);
+
+    expect(view?.deal.id).toBe('riverside-flats');
+    expect(view?.uploadFiles.length).toBeGreaterThan(0);
+    expect(view?.candidateFields.length).toBeGreaterThan(0);
+    expect(view?.sourceBlocks.length).toBeGreaterThan(0);
+    expect(view?.filesNeedingReview).toBeGreaterThan(0);
   });
 
   it('keeps Broker OS as a sanitized projection', () => {

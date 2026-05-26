@@ -17,6 +17,7 @@ import type {
   StudioValuationVersionsView,
   StudioDataReviewView,
   StudioDebtPanelView,
+  StudioDealIntakeView,
 } from '@/lib/runtime/service-ports';
 import type { DealCockpitProjection } from '@/lib/workflow/cockpit-projection';
 import type { DealNextAction, DealStageStatus, DealWorkflowStage } from '@/lib/workflow/deal-stage-model';
@@ -121,6 +122,10 @@ export function createSandboxApiRuntimeServices(
       async getDebtPanel(dealId, actor) {
         if (!dealId) return undefined;
         return client.get<StudioDebtPanelView>(`/studio/deals/${dealId}/debt`, { actor });
+      },
+      async getDealIntake(dealId, actor) {
+        if (!dealId) return undefined;
+        return client.get<StudioDealIntakeView>(`/studio/deals/${dealId}/intake`, { actor });
       },
       async getWorkflowProgress(dealId) {
         const response = await client.get<{ progress: Record<DealWorkflowStage, DealStageStatus> }>(

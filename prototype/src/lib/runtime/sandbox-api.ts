@@ -19,6 +19,7 @@ import {
   getStudioValuationVersionsView,
   getStudioDataReviewView,
   getStudioDebtPanelView,
+  getStudioDealIntakeView,
 } from '@/lib/runtime/studio-workspace';
 import { getDealCockpitProjection } from '@/lib/workflow/cockpit-projection';
 import { getDealNextAction, getDealStageProgress } from '@/lib/workflow/deal-stage-model';
@@ -184,6 +185,12 @@ export async function routeSandboxRequest(request: Request): Promise<SandboxApiR
   if (request.method === 'GET' && debtMatch) {
     const view = getStudioDebtPanelView(debtMatch[1], actor);
     return view ? ok(view) : safeError(404, 'not_found', 'Debt panel view was not found.');
+  }
+
+  const intakeMatch = path.match(/^\/studio\/deals\/([^/]+)\/intake$/);
+  if (request.method === 'GET' && intakeMatch) {
+    const view = getStudioDealIntakeView(intakeMatch[1], actor);
+    return view ? ok(view) : safeError(404, 'not_found', 'Deal intake view was not found.');
   }
 
   const workflowProgressMatch = path.match(/^\/studio\/deals\/([^/]+)\/workflow\/progress$/);
