@@ -2,7 +2,7 @@
 
 **Purpose:** Single checklist of every mock-only prototype location so operators can resolve them deliberately when gated lanes open. This is a **tracking doc**, not runtime authorization.
 
-**Last synced:** 2026-05-26 (after Wave 31 governance prep closeout)
+**Last synced:** 2026-05-26 (after SOPHEX-REPORT-001 PR #3 addendum)
 
 **Related docs:**
 
@@ -40,7 +40,7 @@
 | `/property/:id/comps` | `prototype/src/pages/CompsPage.tsx`    | `mock-data` comps + blocked labels                                                                                                | `provider`, `sandbox-api`                 | Wave 4 readiness rail     |
 | `/comps`              | `prototype/src/pages/CompsPage.tsx`    | Route guard only                                                                                                                  | `keep-mock`                               | WORLD_CLASS spec          |
 | `/upload`             | `prototype/src/pages/UploadPage.tsx`   | `simulated-cta` upload stages; `runtimeServices.public.getUploadGuide()` with fixture fallback; contribution proof strip                                              | `provider`, `hitl-legal`                  | WORLD_CLASS spec / Wave 29                                          |
-| `/report/:id`         | `prototype/src/pages/ReportPage.tsx`   | `mock-data` sections; `simulated-cta` section review                                                                              | `sandbox-api`, `hitl-legal`               | Wave 2/4                  |
+| `/report/:id`         | `prototype/src/pages/ReportPage.tsx`   | `mock-data` Stitch-inspired reporting cockpit; Public Intelligence posture; advisory/model-inferred valuation; source coverage; warning/gap register; authority labels; draft report sections; gated/disabled export rail; prototype-only footer | `sandbox-api`, `hitl-legal`               | Wave 2/4 / SOPHEX-REPORT-001 PR #3                  |
 | `/export/:id`         | `prototype/src/pages/ExportPage.tsx`   | `disabled-gate` generate; export gate adapter shell; evidence packet proof strip; report/studio cross-links; simulated receipt; `MockBoundaryBanner` (`export` variant)                                              | `hitl-legal`, `schema-db`                 | Wave 2/4/6 / Wave 26 / Wave 31                |
 | `*` (404)             | `prototype/src/pages/NotFoundPage.tsx` | Static guard                                                                                                                      | `keep-mock`                               | —                         |
 
@@ -152,7 +152,7 @@ These actions show **“is simulated”** toasts and do not persist state. Repla
 
 | Feature label                                  | Location                                                  | Resolution lane                          |
 | ---------------------------------------------- | --------------------------------------------------------- | ---------------------------------------- |
-| Mark section reviewed                          | `ReportPage.tsx`                                          | `hitl-legal`                             |
+| Report section state changes                   | `ReportPage.tsx`                                          | `hitl-legal`                             |
 | Source trust tiers / Privacy                   | `PublicShell.tsx`                                         | `keep-mock` or legal pages               |
 | Export Excel / Logo upload / Save branding     | `ReportRoutes.tsx`                                        | `schema-db`, `provider`                  |
 | Report export / Report help                    | `StudioStandaloneShell.tsx`                               | `hitl-legal`                             |
@@ -175,6 +175,7 @@ These remain **disabled** with `aria-describedby` or blocker copy until runtime 
 | Control                       | Location                                   | Blocker theme                       | Resolution lane            |
 | ----------------------------- | ------------------------------------------ | ----------------------------------- | -------------------------- |
 | Generate export (full)        | `ExportPage.tsx`                           | Consent + section review            | `hitl-legal`, `schema-db`  |
+| Export gated rail             | `ReportPage.tsx`                           | Source rights and section review    | `hitl-legal`, `schema-db`  |
 | Export Waterfall              | `DesignReferenceRoutes.tsx`                | LP/legal/reporting gated            | `hitl-legal`               |
 | Send to IC                    | `DesignReferenceRoutes.tsx`                | Section + evidence gates            | `hitl-legal`               |
 | Approve for export (HITL)     | `ReviewerAssignmentDrawer.tsx`             | No promotion authority in prototype | `hitl-legal`, `schema-db`  |

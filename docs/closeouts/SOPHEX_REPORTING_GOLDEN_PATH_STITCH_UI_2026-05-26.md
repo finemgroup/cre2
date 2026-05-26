@@ -16,6 +16,8 @@ Changed files:
 
 - `prototype/src/pages/ReportPage.tsx`
 - `prototype/src/index.css`
+- `docs/SOPHEX_VISUAL_AND_RUNTIME_INTEGRATION_MATRIX.md`
+- `docs/MOCK_RESOLUTION_REGISTRY.md`
 - `docs/closeouts/SOPHEX_REPORTING_GOLDEN_PATH_STITCH_UI_2026-05-26.md`
 
 ## Product Posture
@@ -45,4 +47,9 @@ The page presents Sophex as a public CRE intelligence marketplace with an eviden
 
 ## Follow-Up
 
-After review, the next safe refinement is to reconcile this visual route with the existing public property/report fixture naming so demo navigation can choose between the current sample fixtures and the Riverside Flats reporting concept without implying production data authority.
+After review, the next safe refinements are:
+
+- Trust/copy pass: make "Not an appraisal," advisory valuation, source posture, and export blockers impossible to miss.
+- Fixture depth pass: add clean, blocked, low-evidence, provider-restricted, and ready-for-review report states.
+- UX coherence pass: tighten public property → comps → report → export and Studio report-builder handoffs.
+- Sandbox contract gate later: only after the UI/product flow is reviewed and still mock/sandbox-safe.
