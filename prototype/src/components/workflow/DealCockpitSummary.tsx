@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import type { ReactElement } from 'react';
 
 import { StatusBadge, StudioCard } from '@/components/studio/StudioPrimitives';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import {
   countOpenBlockers,
   getDealNextAction,
@@ -27,16 +28,16 @@ export function DealCockpitSummary({ dealId }: { dealId: string }): ReactElement
 
   return (
     <StudioCard title="Deal cockpit" eyebrow="Next best action">
+      <RuntimeResourceStatus
+        loading={progressState.loading || nextActionState.loading}
+        error={progressState.error ?? nextActionState.error}
+        variant="studio-deal"
+      />
       <div className="deal-cockpit-grid">
         <div>
           <p className="muted">
             Stage posture is mock-only and advisory. It does not authorize export.
           </p>
-          {progressState.loading || nextActionState.loading ? (
-            <p className="muted" role="status">
-              Refreshing workflow state from {runtimeServices.mode} runtime.
-            </p>
-          ) : null}
           <StatusBadge status={`${blockerCount} open blockers`} />
         </div>
         <div className="deal-cockpit-action">

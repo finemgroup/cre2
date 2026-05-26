@@ -5,6 +5,7 @@ import { SophexSheet } from '@/components/motion/SophexSheet';
 import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
 import { MapPlaceholderPreview } from '@/components/spatial/MapPlaceholderPreview';
 import { EvidenceMetadataList } from '@/components/evidence/EvidenceMetadataList';
+import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
@@ -103,6 +104,13 @@ export function PropertyPage(): ReactElement {
           <button type="button" className="btn btn-secondary" onClick={openEvidenceDrawer}>
             View evidence drawer
           </button>
+          {(propertyView?.evidenceDrawer.length ?? 0) === 0 && !propertyState.loading ? (
+            <EmptyStateCard
+              icon="fact_check"
+              title="No field evidence visible"
+              description="This public actor context has no promoted field evidence yet. Contributor observations remain hidden until review clears."
+            />
+          ) : null}
         </div>
 
         <div className="card">
@@ -114,15 +122,19 @@ export function PropertyPage(): ReactElement {
               <AuthorityBadge label="not-legal-boundary" />
             </div>
             <ul className="map-layer-list" aria-label="Visible map layer summary">
-              {propertyView?.spatialContext.layers.map((layer) => (
-                <li key={layer.id}>
-                  <strong>{layer.label}</strong>
-                  <span>
-                    {layer.precisionLabel} · {layer.refreshedLabel}
-                  </span>
-                  <small>{layer.safeCaveat}</small>
-                </li>
-              ))}
+              {(propertyView?.spatialContext.layers.length ?? 0) === 0 ? (
+                <li className="muted">No map layers are visible in this actor context.</li>
+              ) : (
+                propertyView?.spatialContext.layers.map((layer) => (
+                  <li key={layer.id}>
+                    <strong>{layer.label}</strong>
+                    <span>
+                      {layer.precisionLabel} · {layer.refreshedLabel}
+                    </span>
+                    <small>{layer.safeCaveat}</small>
+                  </li>
+                ))
+              )}
             </ul>
           </MapPlaceholderPreview>
         </div>
@@ -140,11 +152,15 @@ export function PropertyPage(): ReactElement {
           Non-map fallback for the same sample spatial facts shown in the regional map.
         </p>
         <ul className="evidence-list">
-          {propertyView?.spatialContext.evidence.map((item) => (
-            <li key={item.label}>
-              <strong>{item.label}:</strong> {item.value} — {item.safeExplanation}
-            </li>
-          ))}
+          {(propertyView?.spatialContext.evidence.length ?? 0) === 0 ? (
+            <li className="muted">No spatial facts are available for this property view.</li>
+          ) : (
+            propertyView?.spatialContext.evidence.map((item) => (
+              <li key={item.label}>
+                <strong>{item.label}:</strong> {item.value} — {item.safeExplanation}
+              </li>
+            ))
+          )}
         </ul>
       </section>
 

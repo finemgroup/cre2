@@ -77,10 +77,19 @@ export function StudioDashboardPage(): ReactElement {
         variant="studio"
       />
       <div className="metric-grid four">
-        <MetricCard label="Active pipeline" value="$193.5M" detail="3 tracked deals" />
+        <MetricCard
+          label="Active pipeline"
+          value="$193.5M"
+          detail={`${dashboardView.deals.length} tracked deals`}
+        />
         <MetricCard label="Reports drafted" value="12" detail="4 need review" icon="description" />
         <MetricCard label="Comp sets" value="28" detail="7 premium-private" icon="analytics" />
-        <MetricCard label="Plan usage" value="72%" detail="Premium mock tier" icon="speed" />
+        <MetricCard
+          label="Plan usage"
+          value={`${dashboardView.planUsage.percentage}%`}
+          detail={`${dashboardView.planUsage.used} of ${dashboardView.planUsage.available} deals`}
+          icon="speed"
+        />
       </div>
       <div className="dashboard-grid">
         <StudioCard title="Deal Pipeline" className="wide-card">

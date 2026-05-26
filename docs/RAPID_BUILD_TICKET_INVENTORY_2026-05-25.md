@@ -322,3 +322,12 @@ Canonical ticket pack: [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPI
 | `SOPHEX-CRE-003` | Mostly done | Provider-rights summary strip, runtime-empty comp states, saved-view empty preserved |
 | `SOPHEX-CRE-004` | Mostly done | Gate status vocabulary (PASS/WARN/BLOCKED/OVERRIDDEN), comp-readiness callout |
 | Workflow chrome errors | Done | `DealContextStrip` + `DealStageStepper` surface runtime failures |
+
+### Wave 24 Ticket Ledger
+
+| Ticket | Status | Notes |
+| --- | --- | --- |
+| Public property/report polish | Mostly done | Empty evidence/spatial states, report section posture strip, empty-section handling |
+| Studio dashboard | Mostly done | Pipeline/plan metrics read from dashboard adapter view |
+| Studio report builder | Partial | Wired to `runtimeServices.studio.getReportBuilder()` + loading/error shells |
+| `DealCockpitSummary` | Done | Shared runtime loading/error posture |

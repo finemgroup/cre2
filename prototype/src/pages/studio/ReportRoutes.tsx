@@ -13,6 +13,7 @@ import {
   WorkflowContextHeader,
 } from '@/components/studio/StudioPrimitives';
 import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceModal';
+import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { ReviewPostureBanner } from '@/components/provenance/ProvenanceWidgets';
 import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
@@ -33,13 +34,21 @@ import type { GovernedReceipt } from '@/lib/contracts/receipts';
 import { getLinkedPropertyId } from '@/lib/workflow-identity';
 import { evaluateExportPolicy } from '@/lib/runtime/export-policy';
 import { getStudioReportBuilderView } from '@/lib/runtime/studio-workspace';
+import { runtimeServices } from '@/lib/runtime/runtime-services';
+import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { SegmentedControl, StudioDealNotFound, TabPanelSwitch } from '@/pages/studio/StudioShared';
 
 export function StudioReportBuilderPage(): ReactElement {
   const { dealId } = useParams();
-  const reportView = getStudioReportBuilderView(dealId);
+  const reportState = useRuntimeResource(
+    () => runtimeServices.studio.getReportBuilder(dealId),
+    `report-builder-${dealId ?? 'missing'}`,
+    getStudioReportBuilderView(dealId)
+  );
   const [receipt, setReceipt] = useState<GovernedReceipt | null>(null);
   const [exportModalOpen, setExportModalOpen] = useState(false);
+  const reportView = reportState.value;
   if (!reportView) return <StudioDealNotFound />;
   const {
     deal,
@@ -112,6 +121,11 @@ export function StudioReportBuilderPage(): ReactElement {
       />
       <ReviewPostureBanner blocks={sourceBlocks} />
       <MockBoundaryBanner variant="export" />
+      <RuntimeResourceStatus
+        loading={reportState.loading}
+        error={reportState.error}
+        variant="studio-report"
+      />
       <GateResolutionCallout
         action="Generate governed receipt"
         prerequisite="Section review and source-rights gates remain open for this report."
@@ -138,9 +152,18 @@ export function StudioReportBuilderPage(): ReactElement {
               <option>IC Memo</option>
             </select>
           </label>
-          {sections.map((section) => (
-            <ReportSectionReviewCard key={section.id} section={section} />
-          ))}
+          {sections.length === 0 ? (
+            <EmptyStateCard
+              icon="description"
+              title="No report sections returned"
+              description="The studio report builder adapter returned an empty section list. Export remains blocked until sections and source-rights gates clear."
+              tone="warning"
+            />
+          ) : (
+            sections.map((section) => (
+              <ReportSectionReviewCard key={section.id} section={section} />
+            ))
+          )}
           <div className="studio-actions">
             <PrototypeActionButton feature="Export Excel" className="btn btn-secondary">
               Export Excel

@@ -12,6 +12,7 @@ import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import { getLinkedDealId } from '@/lib/workflow-identity';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
+import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
@@ -58,6 +59,9 @@ export function ReportPage(): ReactElement {
   }
 
   const linkedDealId = getLinkedDealId(property.id);
+  const reviewedCount = sections.filter((section) => section.status === 'ready').length;
+  const reviewRequiredCount = sections.filter((section) => section.status === 'review-required').length;
+  const blockedCount = sections.filter((section) => section.status === 'blocked').length;
 
   return (
     <section className="page">
@@ -96,23 +100,36 @@ export function ReportPage(): ReactElement {
             Sections below show review posture and source limits before any export or syndication.
           </p>
         </div>
-        <div className="chip-row report-advisor-metrics">
-          <span>
-            <strong className="fin-value">{sections.filter((s) => s.status === 'ready').length}</strong>{' '}
-            reviewed
-          </span>
-          <span>
-            <strong className="fin-value">
-              {sections.filter((s) => s.status === 'review-required').length}
-            </strong>{' '}
-            need review
-          </span>
-          <span>
-            <strong className="fin-value">{sections.length}</strong> total sections
-          </span>
-        </div>
+        {!reportState.loading && sections.length > 0 ? (
+          <div className="proof-strip" aria-label="Report section posture">
+            {[
+              [reviewedCount, 'Reviewed sections'],
+              [reviewRequiredCount, 'Need review'],
+              [blockedCount, 'Blocked sections'],
+              [sections.length, 'Total sections'],
+            ].map(([value, label]) => (
+              <article key={String(label)}>
+                <strong className="fin-value">{value}</strong>
+                <span>{label}</span>
+              </article>
+            ))}
+          </div>
+        ) : null}
       </section>
 
+      {sections.length === 0 && !reportState.loading ? (
+        <EmptyStateCard
+          icon="description"
+          title="No report sections available"
+          description="The runtime adapter returned an empty section list for this property. Section review and export gates remain blocked."
+          tone="warning"
+          actions={
+            <Link to={`/property/${property.id}`} className="btn btn-secondary">
+              Return to property
+            </Link>
+          }
+        />
+      ) : (
       <div className="card-grid">
         {sections.map((section, index) => (
           <SophexMotionSurface
@@ -167,6 +184,7 @@ export function ReportPage(): ReactElement {
           </SophexMotionSurface>
         ))}
       </div>
+      )}
 
       <div className="action-row">
         <Link to={`/export/${property.id}`} className="btn btn-primary">
