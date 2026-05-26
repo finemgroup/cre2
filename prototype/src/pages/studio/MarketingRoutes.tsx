@@ -18,6 +18,12 @@ import { useA11yAnnouncement } from '@/lib/a11y/useA11yAnnouncement';
 import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
 import { getStudioDashboardView } from '@/lib/runtime/studio-workspace';
 import { getStudioBillingView } from '@/lib/studio/billing-plans';
+import {
+  getStudioOnboardingView,
+  type StudioOnboardingView,
+} from '@/lib/studio/onboarding-flow';
+
+type OnboardingTierOption = StudioOnboardingView['tierOptions'][number];
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
@@ -188,7 +194,13 @@ export function StudioOnboardingPage(): ReactElement {
   const [assetClasses, setAssetClasses] = useState(['Multifamily']);
   const [companyName, setCompanyName] = useState('Acme Real Estate Partners');
   const { message, announce } = useA11yAnnouncement();
-  const steps = ['Tier', 'Account', 'Workspace', 'First deal'];
+  const onboardingState = useRuntimeResource(
+    () => runtimeServices.studio.getOnboardingView(),
+    'studio-onboarding',
+    getStudioOnboardingView()
+  );
+  const onboardingView = onboardingState.value;
+  const steps = onboardingView?.steps ?? ['Tier', 'Account', 'Workspace', 'First deal'];
   const goToStep = (nextStep: number) => {
     setStep(nextStep);
     announce(`Onboarding step ${nextStep + 1}: ${steps[nextStep]}`);
@@ -203,32 +215,51 @@ export function StudioOnboardingPage(): ReactElement {
     <div className="onboarding-wrap">
       <ScreenReaderAnnouncement message={message} />
       <StudioCard title="Set up Finem CRE Studio" eyebrow="Step-guided onboarding">
+        <NonProductionCallout>
+          {onboardingView?.accountCreationNote ??
+            'Account creation remains operator gated in this prototype.'}
+        </NonProductionCallout>
+        <RuntimeResourceStatus
+          loading={onboardingState.loading}
+          error={onboardingState.error}
+          variant="studio"
+        />
+        {onboardingView && !onboardingState.loading ? (
+          <div className="proof-strip" aria-label="Onboarding posture">
+            {[
+              [onboardingView.steps.length, 'Wizard steps'],
+              [onboardingView.tierOptions.length, 'Plan tiers'],
+              ['Local', 'Profile storage'],
+              ['Blocked', 'Live signup'],
+            ].map(([value, label]) => (
+              <article key={String(label)}>
+                <strong className="fin-value">{value}</strong>
+                <span>{label}</span>
+              </article>
+            ))}
+          </div>
+        ) : null}
         <StageStepper stages={steps} activeIndex={step} />
         <TabPanelSwitch panelKey={String(step)} className="onboarding-panel">
           {step === 0 ? (
             <div className="choice-grid">
-              <button
-                type="button"
-                className={tier === 'Boutique' ? 'choice-card active' : 'choice-card'}
-                aria-pressed={tier === 'Boutique'}
-                onClick={() => setTier('Boutique')}
-              >
-                <strong>Boutique</strong>
-                <span>$149/mo</span>
-                <span>Lean broker teams managing focused mandates.</span>
-                <small>3 active deals, draft reports, sample comps.</small>
-              </button>
-              <button
-                type="button"
-                className={tier === 'Institutional' ? 'choice-card active' : 'choice-card'}
-                aria-pressed={tier === 'Institutional'}
-                onClick={() => setTier('Institutional')}
-              >
-                <strong>Institutional</strong>
-                <span>Popular - $399/mo</span>
-                <span>Multi-market teams requiring advanced controls.</span>
-                <small>Unlimited deals, premium comps, white-label portal.</small>
-              </button>
+              {onboardingView?.tierOptions.map((option: OnboardingTierOption) => {
+                const selectedTier = option.label as 'Boutique' | 'Institutional';
+                return (
+                  <button
+                    type="button"
+                    key={option.id}
+                    className={tier === selectedTier ? 'choice-card active' : 'choice-card'}
+                    aria-pressed={tier === selectedTier}
+                    onClick={() => setTier(selectedTier)}
+                  >
+                    <strong>{option.label}</strong>
+                    <span>{option.price}</span>
+                    <span>{option.copy}</span>
+                    <small>{option.detail}</small>
+                  </button>
+                );
+              })}
             </div>
           ) : null}
           {step === 1 ? (
@@ -265,7 +296,8 @@ export function StudioOnboardingPage(): ReactElement {
                 </select>
               </label>
               <div className="chip-group" aria-label="Asset classes">
-                {['Multifamily', 'Office', 'Industrial', 'Retail'].map((asset) => {
+                {(onboardingView?.assetClassOptions ?? ['Multifamily', 'Office', 'Industrial', 'Retail']).map(
+                  (asset: string) => {
                   const selected = assetClasses.includes(asset);
                   return (
                     <button
@@ -284,8 +316,19 @@ export function StudioOnboardingPage(): ReactElement {
                       {asset}
                     </button>
                   );
-                })}
+                }
+                )}
               </div>
+              {onboardingView?.linkedBillingPath ? (
+                <p className="contextual-handoffs">
+                  <PrototypeActionLink
+                    to={onboardingView.linkedBillingPath}
+                    feature="Compare billing plans during onboarding"
+                  >
+                    Compare full plan matrix
+                  </PrototypeActionLink>
+                </p>
+              ) : null}
             </div>
           ) : null}
           {step === 3 ? (

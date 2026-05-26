@@ -1,5 +1,5 @@
 import { useState, type ReactElement } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceModal';
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
@@ -12,6 +12,7 @@ import { StageRail } from '@/components/ui/StageRail';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { EXPORT_FLOW_STAGES } from '@/lib/readiness-stages';
 import { getPublicExportDecision, getPublicReportView } from '@/lib/runtime/report-flow';
+import { getPublicExportGateView } from '@/lib/runtime/public-export-gate';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import type { ExportScope } from '@/lib/runtime/export-policy';
@@ -37,6 +38,12 @@ export function ExportPage(): ReactElement {
   );
   const reportView = reportState.value;
   const propertyId = reportView?.property.id ?? id ?? '';
+  const gateState = useRuntimeResource(
+    () => runtimeServices.public.getExportGateView(id),
+    `export-gate-${id ?? 'missing'}`,
+    getPublicExportGateView(id)
+  );
+  const gateView = gateState.value;
   const policyState = useRuntimeResource(
     () =>
       propertyId
@@ -59,6 +66,23 @@ export function ExportPage(): ReactElement {
   );
   const policyDecision = policyState.value;
   const exportBlocked = !policyDecision?.allowed;
+
+  if (!reportView && reportState.loading) {
+    return (
+      <section className="page">
+        <header className="page-header">
+          <p className="eyebrow">Report export gate</p>
+          <h1>Loading export gate</h1>
+          <p className="lede">Fetching export governance posture from the runtime adapter.</p>
+        </header>
+        <RuntimeResourceStatus
+          loading={reportState.loading || gateState.loading}
+          error={reportState.error ?? gateState.error}
+          variant="public"
+        />
+      </section>
+    );
+  }
 
   if (!reportView) {
     return (
@@ -121,18 +145,19 @@ export function ExportPage(): ReactElement {
       <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="export" />
       <MockBoundaryBanner variant="export" />
       <RuntimeResourceStatus
-        loading={reportState.loading || policyState.loading}
-        error={reportState.error ?? policyState.error}
+        loading={reportState.loading || policyState.loading || gateState.loading}
+        error={reportState.error ?? policyState.error ?? gateState.error}
         variant="public"
       />
 
-      {!reportState.loading ? (
-        <div className="proof-strip" aria-label="Evidence packet posture">
+      {gateView && !reportState.loading ? (
+        <div className="proof-strip" aria-label="Export governance posture">
           {[
-            [valuationVersion.evidenceSnapshot.id, 'Evidence snapshot'],
-            [valuationVersion.evidenceSnapshot.manifestHash.slice(0, 12), 'Manifest prefix'],
-            [readiness.ready ? 'Clear' : 'Blocked', 'Export posture'],
-            [readiness.blockedReasons.length, 'Open blockers'],
+            [gateView.evidenceSnapshotId, 'Evidence snapshot'],
+            [gateView.manifestPrefix, 'Manifest prefix'],
+            [`${gateView.readySections}/${gateView.totalSections}`, 'Sections ready'],
+            [gateView.exportReady ? 'Clear' : 'Blocked', 'Export posture'],
+            [gateView.blockerCount, 'Open blockers'],
           ].map(([value, label]) => (
             <article key={String(label)}>
               <strong className="fin-value">{value}</strong>
@@ -140,6 +165,18 @@ export function ExportPage(): ReactElement {
             </article>
           ))}
         </div>
+      ) : null}
+
+      {gateView ? (
+        <p className="contextual-handoffs">
+          <Link to={gateView.reportPath}>Review public report sections</Link>
+          {gateView.studioReportPath ? (
+            <>
+              {' · '}
+              <Link to={gateView.studioReportPath}>Open Studio report builder</Link>
+            </>
+          ) : null}
+        </p>
       ) : null}
 
       <StageRail stages={STAGES} activeIndex={stage} />

@@ -2,7 +2,7 @@
 
 **Purpose:** Single checklist of every mock-only prototype location so operators can resolve them deliberately when gated lanes open. This is a **tracking doc**, not runtime authorization.
 
-**Last synced:** 2026-05-26 (after Wave 30 marketplace settings closeout)
+**Last synced:** 2026-05-26 (after Wave 31 governance prep closeout)
 
 **Related docs:**
 
@@ -41,7 +41,7 @@
 | `/comps`              | `prototype/src/pages/CompsPage.tsx`    | Route guard only                                                                                                                  | `keep-mock`                               | WORLD_CLASS spec          |
 | `/upload`             | `prototype/src/pages/UploadPage.tsx`   | `simulated-cta` upload stages; `runtimeServices.public.getUploadGuide()` with fixture fallback; contribution proof strip                                              | `provider`, `hitl-legal`                  | WORLD_CLASS spec / Wave 29                                          |
 | `/report/:id`         | `prototype/src/pages/ReportPage.tsx`   | `mock-data` sections; `simulated-cta` section review                                                                              | `sandbox-api`, `hitl-legal`               | Wave 2/4                  |
-| `/export/:id`         | `prototype/src/pages/ExportPage.tsx`   | `disabled-gate` generate; evidence packet proof strip; simulated receipt; `MockBoundaryBanner` (`export` variant)                                              | `hitl-legal`, `schema-db`                 | Wave 2/4/6 / Wave 26                |
+| `/export/:id`         | `prototype/src/pages/ExportPage.tsx`   | `disabled-gate` generate; export gate adapter shell; evidence packet proof strip; report/studio cross-links; simulated receipt; `MockBoundaryBanner` (`export` variant)                                              | `hitl-legal`, `schema-db`                 | Wave 2/4/6 / Wave 26 / Wave 31                |
 | `*` (404)             | `prototype/src/pages/NotFoundPage.tsx` | Static guard                                                                                                                      | `keep-mock`                               | —                         |
 
 **Public mock data sources:** `prototype/src/data/mock.ts`, `lib/runtime/public-search.ts`, `lib/runtime/public-comps.ts`, `lib/runtime/report-flow.ts`, `lib/runtime/upload-flow.ts`
@@ -57,7 +57,7 @@
 | Route                                        | Page file                   | Mock posture                                                                                             | Resolution lane                         | Logged in                                                 |
 | -------------------------------------------- | --------------------------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------- | --------------------------------------------------------- |
 | `/studio`                                    | `MarketingRoutes.tsx`       | Marketing shell; `simulated-cta` nav                                                                     | `billing-auth`, `keep-mock`             | PROTOTYPE_MVP0 (stale)                                    |
-| `/studio/onboarding`                         | `MarketingRoutes.tsx`       | Mock tier/workspace wizard                                                                               | `billing-auth`                          | PROTOTYPE_MVP0                                            |
+| `/studio/onboarding`                         | `MarketingRoutes.tsx`       | Mock tier/workspace wizard; `runtimeServices.studio.getOnboardingView()` with fixture fallback; billing handoff                                                                               | `billing-auth`                          | PROTOTYPE_MVP0 / Wave 31                                            |
 | `/studio/dashboard`                          | `deals/StudioDashboardPage.tsx`            | Mock pipeline metrics; `runtimeServices.studio.getDashboard()` with fixture fallback | `sandbox-api`, `schema-db`              | Wave 1 / Wave 21                                        |
 | `/studio/deal-intake`                        | redirect → deal intake      | Route alias                                                                                              | `keep-mock`                             | —                                                         |
 | `/studio/deals/:dealId/intake`               | `deals/StudioDealIntakePage.tsx`            | Staged import mock; `runtimeServices.studio.getDealIntake()` with fixture fallback; data-review handoffs | `provider`, `hitl-legal`                | Wave 2 / Wave 28                                        |

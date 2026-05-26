@@ -7,8 +7,10 @@ import type {
   PublicReportView,
   PublicUploadGuideView,
   PublicLandingView,
+  PublicExportGateView,
   RuntimeServices,
   StudioBillingView,
+  StudioOnboardingView,
   StudioBrokerOsView,
   StudioCompView,
   StudioDashboardView,
@@ -78,6 +80,10 @@ export function createSandboxApiRuntimeServices(
       },
       async getLandingView() {
         return client.get<PublicLandingView>('/landing');
+      },
+      async getExportGateView(propertyId, actor) {
+        if (!propertyId) return undefined;
+        return client.get<PublicExportGateView>(`/export-gate/${propertyId}`, { actor });
       },
     },
     studio: {
@@ -156,6 +162,9 @@ export function createSandboxApiRuntimeServices(
       },
       async getBillingPlans() {
         return client.get<StudioBillingView>('/studio/billing');
+      },
+      async getOnboardingView() {
+        return client.get<StudioOnboardingView>('/studio/onboarding');
       },
     },
   };

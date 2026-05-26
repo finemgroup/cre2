@@ -21,7 +21,9 @@ import {
 import { getPublicSearchProperties } from '@/lib/runtime/public-search';
 import { getPublicUploadGuideView } from '@/lib/runtime/public-upload';
 import { getPublicLandingView } from '@/lib/runtime/public-landing';
+import { getPublicExportGateView } from '@/lib/runtime/public-export-gate';
 import { getStudioBillingView } from '@/lib/studio/billing-plans';
+import { getStudioOnboardingView } from '@/lib/studio/onboarding-flow';
 import type { ExportPolicyDecision, ExportScope } from '@/lib/runtime/export-policy';
 import {
   getDealCockpitProjection,
@@ -40,6 +42,7 @@ export type RuntimeMode = 'fixture' | 'api';
 export type PublicReportView = NonNullable<ReturnType<typeof getPublicReportView>>;
 export type PublicUploadGuideView = ReturnType<typeof getPublicUploadGuideView>;
 export type PublicLandingView = ReturnType<typeof getPublicLandingView>;
+export type PublicExportGateView = NonNullable<ReturnType<typeof getPublicExportGateView>>;
 export type StudioDashboardView = ReturnType<typeof getStudioDashboardView>;
 export type StudioDealView = NonNullable<ReturnType<typeof getStudioDealView>>;
 export type StudioCompView = ReturnType<typeof getStudioCompViews>[number];
@@ -58,6 +61,7 @@ export type StudioDebtPanelView = NonNullable<ReturnType<typeof getStudioDebtPan
 export type StudioDealIntakeView = NonNullable<ReturnType<typeof getStudioDealIntakeView>>;
 export type StudioBrokerOsView = ReturnType<typeof getBrokerOsView>;
 export type StudioBillingView = ReturnType<typeof getStudioBillingView>;
+export type StudioOnboardingView = ReturnType<typeof getStudioOnboardingView>;
 
 export type PublicRuntimeServices = {
   searchProperties(query?: string): Promise<PropertyRecord[]>;
@@ -79,6 +83,10 @@ export type PublicRuntimeServices = {
   }): Promise<ExportPolicyDecision | undefined>;
   getUploadGuide(propertyId?: string): Promise<PublicUploadGuideView>;
   getLandingView(): Promise<PublicLandingView>;
+  getExportGateView(
+    propertyId: string | undefined,
+    actor?: ActorContext
+  ): Promise<PublicExportGateView | undefined>;
 };
 
 export type StudioRuntimeServices = {
@@ -126,6 +134,7 @@ export type StudioRuntimeServices = {
   ): Promise<DealCockpitProjection>;
   getBrokerOs(): Promise<StudioBrokerOsView>;
   getBillingPlans(): Promise<StudioBillingView>;
+  getOnboardingView(): Promise<StudioOnboardingView>;
 };
 
 export type RuntimeServices = {
@@ -157,6 +166,9 @@ export const fixtureRuntimeServices: RuntimeServices = {
     },
     async getLandingView() {
       return getPublicLandingView();
+    },
+    async getExportGateView(propertyId, actor) {
+      return getPublicExportGateView(propertyId, actor);
     },
   },
   studio: {
@@ -210,6 +222,9 @@ export const fixtureRuntimeServices: RuntimeServices = {
     },
     async getBillingPlans() {
       return getStudioBillingView();
+    },
+    async getOnboardingView() {
+      return getStudioOnboardingView();
     },
   },
 };

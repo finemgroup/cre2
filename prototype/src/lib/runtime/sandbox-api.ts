@@ -8,6 +8,7 @@ import { getPublicCompContextView } from '@/lib/runtime/public-comps';
 import { getPublicReportView, getPublicExportDecision } from '@/lib/runtime/report-flow';
 import { getPublicUploadGuideView } from '@/lib/runtime/public-upload';
 import { getPublicLandingView } from '@/lib/runtime/public-landing';
+import { getPublicExportGateView } from '@/lib/runtime/public-export-gate';
 import type { ExportScope } from '@/lib/runtime/export-policy';
 import {
   getStudioCompViews,
@@ -25,6 +26,7 @@ import {
   getBrokerOsView,
 } from '@/lib/runtime/studio-workspace';
 import { getStudioBillingView } from '@/lib/studio/billing-plans';
+import { getStudioOnboardingView } from '@/lib/studio/onboarding-flow';
 import { getDealCockpitProjection } from '@/lib/workflow/cockpit-projection';
 import { getDealNextAction, getDealStageProgress } from '@/lib/workflow/deal-stage-model';
 
@@ -93,6 +95,12 @@ export async function routeSandboxRequest(request: Request): Promise<SandboxApiR
     return ok(getPublicLandingView());
   }
 
+  const exportGateMatch = path.match(/^\/export-gate\/([^/]+)$/);
+  if (request.method === 'GET' && exportGateMatch) {
+    const view = getPublicExportGateView(exportGateMatch[1], actor);
+    return view ? ok(view) : safeError(404, 'not_found', 'Export gate was not found.');
+  }
+
   if (request.method === 'POST' && path === '/uploads/candidates') {
     const body = await readJson<{
       actorContext?: ActorContext;
@@ -149,6 +157,10 @@ export async function routeSandboxRequest(request: Request): Promise<SandboxApiR
 
   if (request.method === 'GET' && path === '/studio/billing') {
     return ok(getStudioBillingView());
+  }
+
+  if (request.method === 'GET' && path === '/studio/onboarding') {
+    return ok(getStudioOnboardingView());
   }
 
   const studioDealMatch = path.match(/^\/studio\/deals\/([^/]+)$/);
