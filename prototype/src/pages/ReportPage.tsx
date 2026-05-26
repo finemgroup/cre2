@@ -1,25 +1,16 @@
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import type { ReactElement } from 'react';
 
-import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
-import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import type { AuthorityPosture } from '@/lib/authority/authority-vocabulary';
-import { StageRail } from '@/components/ui/StageRail';
-import { VALUATION_READINESS_STAGES } from '@/lib/readiness-stages';
 import { getPublicReportView } from '@/lib/runtime/report-flow';
-import { getPublicPropertyView } from '@/lib/runtime/public-property';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import { getLinkedDealId } from '@/lib/workflow-identity';
 import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
-import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
-import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
 import { trackEvent } from '@/lib/analytics/collector';
-
-const STAGES = [...VALUATION_READINESS_STAGES];
 
 type ReportFixtureStateId =
   | 'clean'
@@ -28,118 +19,98 @@ type ReportFixtureStateId =
   | 'provider-restricted'
   | 'ready-for-review';
 
-type ReportFixtureState = {
-  id: ReportFixtureStateId;
-  label: string;
-  eyebrow: string;
-  valuationRange: string;
-  confidence: string;
-  coverage: string;
-  freshness: string;
-  authority: string;
-  exportPosture: string;
-  summary: string;
-  warnings: string[];
-  authorityBadges: AuthorityPosture[];
-};
+type ReportFixtureState = readonly [
+  ReportFixtureStateId,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  readonly string[],
+  readonly AuthorityPosture[],
+];
 
 const REPORT_FIXTURE_STATES: ReportFixtureState[] = [
-  {
-    id: 'clean',
-    label: 'Clean',
-    eyebrow: 'High source coverage',
-    valuationRange: '$18.4M - $19.2M',
-    confidence: 'High',
-    coverage: '94%',
-    freshness: 'Refreshed 5 days ago',
-    authority: 'Reviewed public baseline',
-    exportPosture: 'Still gated for consent and receipt generation.',
-    summary:
-      'Most public baseline fields are reviewed. This remains advisory until a governed export receipt exists.',
-    warnings: ['Export consent and receipt generation are not enabled in the prototype.'],
-    authorityBadges: ['advisory', 'model-inferred', 'reviewed'],
-  },
-  {
-    id: 'blocked',
-    label: 'Blocked',
-    eyebrow: 'Review blockers present',
-    valuationRange: '$17.8M - $19.6M',
-    confidence: 'Medium',
-    coverage: '72%',
-    freshness: 'Mixed source dates',
-    authority: 'Reviewer required',
-    exportPosture: 'Blocked: section review, consent, and source-rights gates are open.',
-    summary:
-      'The report can be previewed, but it is not distributable. Review gaps and source limits remain visible.',
-    warnings: [
-      'Comparable sales review is incomplete.',
-      'Source-rights posture blocks client-facing export.',
-      'Reviewer approval is required before any governed receipt.',
-    ],
-    authorityBadges: ['advisory', 'reviewer-required', 'source-pending', 'blocked'],
-  },
-  {
-    id: 'low-evidence',
-    label: 'Low evidence',
-    eyebrow: 'Thin citation pack',
-    valuationRange: '$16.9M - $20.1M',
-    confidence: 'Low',
-    coverage: '48%',
-    freshness: 'Needs refresh',
-    authority: 'Candidate evidence only',
-    exportPosture: 'Blocked: evidence coverage is below review threshold.',
-    summary:
-      'The valuation range widens because source coverage is thin. Treat every figure as model-inferred.',
-    warnings: [
-      'Public assessor and candidate upload data disagree.',
-      'Fresh rent roll support is missing.',
-      'Map context is approximate and not a legal boundary.',
-    ],
-    authorityBadges: ['advisory', 'candidate-evidence', 'source-pending'],
-  },
-  {
-    id: 'provider-restricted',
-    label: 'Provider restricted',
-    eyebrow: 'Source rights constrained',
-    valuationRange: '$18.1M - $19.7M',
-    confidence: 'Medium',
-    coverage: '81%',
-    freshness: 'Current, restricted',
-    authority: 'Provider-limited summary',
-    exportPosture: 'Blocked: provider-restricted comps must be removed or summarized.',
-    summary:
-      'Some comps can inform the advisory range but cannot be copied into a public export package.',
-    warnings: [
-      'Premium-private comp data is summarized only.',
-      'Provider-restricted source rows are excluded from draft delivery.',
-      'Source-use policy must clear before export review.',
-    ],
-    authorityBadges: ['advisory', 'source-pending', 'blocked'],
-  },
-  {
-    id: 'ready-for-review',
-    label: 'Ready for review',
-    eyebrow: 'Analyst queue ready',
-    valuationRange: '$18.3M - $19.4M',
-    confidence: 'High pending reviewer',
-    coverage: '89%',
-    freshness: 'Reviewed this week',
-    authority: 'Reviewer required',
-    exportPosture: 'Gated: ready for analyst review, not ready for export.',
-    summary:
-      'The evidence pack is assembled for reviewer signoff. It is still not an appraisal or export authority.',
-    warnings: [
-      'Analyst review has not been recorded.',
-      'Export receipt is not generated in this prototype.',
-    ],
-    authorityBadges: ['advisory', 'reviewer-required', 'reviewed'],
-  },
+  [
+    'clean',
+    'Clean',
+    'High source coverage',
+    '$18.4M - $19.2M',
+    'High',
+    '94%',
+    'Refreshed 5 days ago',
+    'Reviewed public baseline',
+    'Gated for consent and receipt generation.',
+    'Reviewed baseline fields; still advisory.',
+    ['Export consent and receipt generation are disabled.'],
+    ['advisory', 'model-inferred', 'reviewed'],
+  ],
+  [
+    'blocked',
+    'Blocked',
+    'Review blockers present',
+    '$17.8M - $19.6M',
+    'Medium',
+    '72%',
+    'Mixed source dates',
+    'Reviewer required',
+    'Blocked: section review, consent, and source-rights gates are open.',
+    'Preview only; review gaps remain visible.',
+    ['Comparable sales review, source rights, and reviewer approval are incomplete.'],
+    ['advisory', 'reviewer-required', 'source-pending', 'blocked'],
+  ],
+  [
+    'low-evidence',
+    'Low evidence',
+    'Thin citation pack',
+    '$16.9M - $20.1M',
+    'Low',
+    '48%',
+    'Needs refresh',
+    'Candidate evidence only',
+    'Blocked: evidence coverage is below review threshold.',
+    'Thin sources widen the model-inferred range.',
+    ['Assessor, rent roll, and map support need review.'],
+    ['advisory', 'candidate-evidence', 'source-pending'],
+  ],
+  [
+    'provider-restricted',
+    'Provider restricted',
+    'Source rights constrained',
+    '$18.1M - $19.7M',
+    'Medium',
+    '81%',
+    'Current, restricted',
+    'Provider-limited summary',
+    'Blocked: restricted comps must be removed or summarized.',
+    'Restricted comps inform the range but cannot ship.',
+    ['Premium-private comp rows are summary-only.'],
+    ['advisory', 'source-pending', 'blocked'],
+  ],
+  [
+    'ready-for-review',
+    'Ready for review',
+    'Analyst queue ready',
+    '$18.3M - $19.4M',
+    'High pending reviewer',
+    '89%',
+    'Reviewed this week',
+    'Reviewer required',
+    'Gated: ready for analyst review, not export.',
+    'Evidence is assembled for reviewer signoff.',
+    ['Analyst approval and export receipt are not recorded.'],
+    ['advisory', 'reviewer-required', 'reviewed'],
+  ],
 ];
 
 function resolveFixtureState(value: string | null): ReportFixtureState {
   return (
-    REPORT_FIXTURE_STATES.find((state) => state.id === value) ??
-    REPORT_FIXTURE_STATES.find((state) => state.id === 'blocked') ??
+    REPORT_FIXTURE_STATES.find(([stateId]) => stateId === value) ??
+    REPORT_FIXTURE_STATES.find(([stateId]) => stateId === 'blocked') ??
     REPORT_FIXTURE_STATES[0]
   );
 }
@@ -166,15 +137,20 @@ export function ReportPage(): ReactElement {
   const sections = reportView?.sections ?? [];
   const valuationVersion = reportView?.valuationVersion;
   const activeFixtureState = resolveFixtureState(searchParams.get('state'));
-  const spatialState = useRuntimeResource(
-    () =>
-      property?.id
-        ? runtimeServices.public.getPropertyView(property.id).then((view) => view?.spatialContext)
-        : Promise.resolve(undefined),
-    `report-spatial-${property?.id ?? 'missing'}`,
-    getPublicPropertyView(property?.id)?.spatialContext
-  );
-  const spatialContext = spatialState.value;
+  const [
+    fixtureStateId,
+    fixtureStateLabel,
+    fixtureEyebrow,
+    fixtureRange,
+    fixtureConfidence,
+    fixtureCoverage,
+    fixtureFreshness,
+    fixtureAuthority,
+    fixtureExportPosture,
+    fixtureSummary,
+    fixtureWarnings,
+    fixtureBadges,
+  ] = activeFixtureState;
 
   if (!property) {
     return (
@@ -202,7 +178,7 @@ export function ReportPage(): ReactElement {
   const sourceBlocks = reportView?.sourceBlocks ?? [];
   const citationCount = sourceBlocks.reduce((total, block) => total + block.citations.length, 0);
   const gapRegister = [
-    ...activeFixtureState.warnings,
+    ...fixtureWarnings,
     ...(reportView?.readiness.warnings ?? []),
     ...(reportView?.readiness.blockedReasons ?? []),
   ];
@@ -219,16 +195,25 @@ export function ReportPage(): ReactElement {
         </p>
       </header>
 
-      <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="report" />
+      {linkedDealId ? (
+        <section className="card" aria-label="Studio continuity">
+          <p className="eyebrow">Studio handoff</p>
+          <p>
+            Analyst workspace handoff remains mock/sandbox-only; it does not promote this advisory
+            report or enable export.
+          </p>
+          <Link to={`/studio/deals/${linkedDealId}/underwriting`} className="btn btn-secondary">
+            Open linked Studio deal
+          </Link>
+        </section>
+      ) : null}
       <RuntimeResourceStatus
-        loading={reportState.loading || spatialState.loading}
-        error={reportState.error ?? spatialState.error}
+        loading={reportState.loading}
+        error={reportState.error}
         variant="public"
       />
 
-      <StageRail stages={STAGES} activeIndex={3} />
-
-      <section className="report-trust-alert" aria-labelledby="report-not-appraisal-heading">
+      <section className="card report-trust-alert" aria-labelledby="report-not-appraisal-heading">
         <div>
           <p className="eyebrow">Required trust posture</p>
           <h2 id="report-not-appraisal-heading">Not an appraisal</h2>
@@ -238,7 +223,7 @@ export function ReportPage(): ReactElement {
           </p>
         </div>
         <div className="report-trust-alert-badges" aria-label="Report authority labels">
-          {activeFixtureState.authorityBadges.map((badge) => (
+          {fixtureBadges.map((badge) => (
             <AuthorityBadge key={badge} label={badge} />
           ))}
         </div>
@@ -246,18 +231,18 @@ export function ReportPage(): ReactElement {
 
       <section className="report-trust-hero card" aria-labelledby="report-advisory-heading">
         <div>
-          <p className="eyebrow">{activeFixtureState.eyebrow}</p>
+          <p className="eyebrow">{fixtureEyebrow}</p>
           <h2 id="report-advisory-heading">Advisory model-inferred valuation range</h2>
-          <strong className="report-trust-range">{activeFixtureState.valuationRange}</strong>
+          <strong className="report-trust-range">{fixtureRange}</strong>
           <p>
-            {activeFixtureState.summary} Figures are derived from deterministic fixture data and
-            public/source-limited evidence posture.
+            {fixtureSummary} Figures are derived from deterministic fixture data and public/source
+            limits.
           </p>
         </div>
         <div className="report-trust-export-card" aria-label="Export gate posture">
           <span>Export gate</span>
           <strong>Disabled in prototype</strong>
-          <p>{activeFixtureState.exportPosture}</p>
+          <p>{fixtureExportPosture}</p>
           <button type="button" className="btn btn-primary" disabled>
             Generate export disabled
           </button>
@@ -267,25 +252,28 @@ export function ReportPage(): ReactElement {
         </div>
       </section>
 
-      <nav className="report-state-switcher" aria-label="Report fixture states">
+      <nav className="proof-strip report-state-switcher" aria-label="Report fixture states">
         {REPORT_FIXTURE_STATES.map((state) => (
           <Link
-            key={state.id}
-            to={`/report/${property.id}?state=${state.id}`}
-            className={state.id === activeFixtureState.id ? 'active' : undefined}
-            aria-current={state.id === activeFixtureState.id ? 'page' : undefined}
+            key={state[0]}
+            to={`/report/${property.id}?state=${state[0]}`}
+            className={state[0] === fixtureStateId ? 'active' : undefined}
+            aria-current={state[0] === fixtureStateId ? 'page' : undefined}
           >
-            <span>{state.label}</span>
-            <small>{state.eyebrow}</small>
+            <span>{state[1]}</span>
+            <small>{state[2]}</small>
           </Link>
         ))}
       </nav>
 
-      <section className="report-trust-metrics" aria-label="Source coverage and confidence">
+      <section
+        className="proof-strip report-trust-metrics"
+        aria-label="Source coverage and confidence"
+      >
         {[
-          ['Source coverage', activeFixtureState.coverage, `${citationCount} visible citations`],
-          ['Confidence', activeFixtureState.confidence, activeFixtureState.authority],
-          ['Freshness', activeFixtureState.freshness, `Snapshot ${snapshotDate}`],
+          ['Source coverage', fixtureCoverage, `${citationCount} visible citations`],
+          ['Confidence', fixtureConfidence, fixtureAuthority],
+          ['Freshness', fixtureFreshness, `Snapshot ${snapshotDate}`],
           [
             'Authority',
             'Advisory only',
@@ -313,7 +301,6 @@ export function ReportPage(): ReactElement {
             <AuthorityBadge label="reviewer-required" />
             <AuthorityBadge label="source-pending" />
           </div>
-          <ValuationReadinessRail evaluation={valuationVersion.readiness} />
         </section>
       ) : null}
 
@@ -355,40 +342,6 @@ export function ReportPage(): ReactElement {
         ) : null}
       </section>
 
-      <section className="report-source-grid" aria-label="Source posture detail">
-        {sourceBlocks.length > 0 ? (
-          sourceBlocks.map((block) => (
-            <article key={block.id} className="card report-source-card">
-              <span className={`report-source-posture report-source-${block.posture}`}>
-                {block.posture}
-              </span>
-              <h2>{block.title}</h2>
-              <p>{block.notes}</p>
-              <dl>
-                <div>
-                  <dt>Citations</dt>
-                  <dd>{block.citations.length}</dd>
-                </div>
-                <div>
-                  <dt>Confidence</dt>
-                  <dd>{block.citations[0]?.confidence ?? 'Pending'}</dd>
-                </div>
-                <div>
-                  <dt>Visibility</dt>
-                  <dd>{block.citations[0]?.visibility ?? 'Restricted'}</dd>
-                </div>
-              </dl>
-            </article>
-          ))
-        ) : (
-          <article className="card report-source-card">
-            <span className="report-source-posture report-source-blocked">blocked</span>
-            <h2>No source bundle attached</h2>
-            <p>Public report preview remains blocked until a source bundle is available.</p>
-          </article>
-        )}
-      </section>
-
       {sections.length === 0 && !reportState.loading ? (
         <EmptyStateCard
           icon="description"
@@ -403,33 +356,14 @@ export function ReportPage(): ReactElement {
         />
       ) : (
         <div className="card-grid">
-          {sections.map((section, index) => (
-            <SophexMotionSurface
-              key={section.id}
-              motionName="stageItem"
-              className="card"
-              staggerIndex={index}
-            >
+          {sections.map((section) => (
+            <article key={section.id} className="card">
               <h2>{section.title}</h2>
               <p>{section.citation}</p>
               <p className="muted">
                 Draft section only. Copy remains review-gated and cannot be exported from this
                 prototype.
               </p>
-              {section.id === 'map' ? (
-                <>
-                  <div className="provenance-labels" aria-label="Map provenance labels">
-                    <AuthorityBadge label="sample-map-data" />
-                    <AuthorityBadge label="approximate-centroid" />
-                    <AuthorityBadge label="not-legal-boundary" />
-                  </div>
-                  <MapLayerControlPanel
-                    layers={spatialContext?.layers ?? []}
-                    evidenceByLayer={spatialContext?.evidenceByLayer ?? {}}
-                    heading="Report map layer controls"
-                  />
-                </>
-              ) : null}
               <AuthorityBadge
                 label={
                   section.status === 'ready'
@@ -457,7 +391,7 @@ export function ReportPage(): ReactElement {
               >
                 Mark section reviewed (prototype)
               </PrototypeActionButton>
-            </SophexMotionSurface>
+            </article>
           ))}
         </div>
       )}
@@ -471,9 +405,9 @@ export function ReportPage(): ReactElement {
         </Link>
       </div>
 
-      <footer className="report-prototype-footer">
-        Prototype-only report state: {activeFixtureState.label}. No live valuation, provider send,
-        billing, CRE bridge, or export authority is enabled.
+      <footer className="card report-prototype-footer">
+        Prototype-only report state: {fixtureStateLabel}. No live valuation, provider send, billing,
+        CRE bridge, or export authority is enabled.
       </footer>
     </section>
   );
