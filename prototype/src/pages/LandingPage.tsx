@@ -6,19 +6,27 @@ import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatu
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
 import { getPublicSearchProperties } from '@/lib/runtime/public-search';
+import { getPublicLandingView } from '@/lib/runtime/public-landing';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
-
-const SAMPLE_QUERIES = ['Austin', 'Commerce', 'Research Blvd', 'Retail'];
 
 export function LandingPage(): ReactElement {
   const [query, setQuery] = useState('');
   const [searched, setSearched] = useState(false);
 
+  const landingState = useRuntimeResource(
+    () => runtimeServices.public.getLandingView(),
+    'landing-guide',
+    getPublicLandingView()
+  );
+  const landingView = landingState.value;
   const featuredState = useRuntimeResource(
-    () => runtimeServices.public.searchProperties().then((properties) => properties.slice(0, 2)),
+    () =>
+      runtimeServices.public
+        .getLandingView()
+        .then((view) => view.featuredProperties),
     'landing-featured',
-    getPublicSearchProperties().slice(0, 2)
+    getPublicLandingView().featuredProperties
   );
   const searchState = useRuntimeResource(
     () => (searched ? runtimeServices.public.searchProperties(query) : Promise.resolve([])),
@@ -27,6 +35,7 @@ export function LandingPage(): ReactElement {
   );
   const featuredProperties = featuredState.value;
   const results = searchState.value;
+  const sampleQueries = landingView?.sampleQueries ?? [];
 
   function runSearch(nextQuery = query) {
     setQuery(nextQuery);
@@ -44,11 +53,11 @@ export function LandingPage(): ReactElement {
         </p>
         <div className="proof-strip" aria-label="Marketplace proof points">
           {[
-            ['2', 'Featured markets'],
-            ['4', 'Trust tiers labeled'],
-            ['0', 'Hidden source limits'],
+            [landingView?.marketCount ?? '—', 'Featured markets'],
+            [landingView?.trustTierLabels ?? '—', 'Trust tiers labeled'],
+            [landingView?.totalListings ?? '—', 'Sample listings'],
           ].map(([value, label]) => (
-            <article key={label}>
+            <article key={String(label)}>
               <strong className="fin-value">{value}</strong>
               <span>{label}</span>
             </article>
@@ -58,8 +67,8 @@ export function LandingPage(): ReactElement {
 
       <PublicStudioContinuityBanner surface="landing" />
       <RuntimeResourceStatus
-        loading={featuredState.loading || searchState.loading}
-        error={searchState.error ?? featuredState.error}
+        loading={landingState.loading || featuredState.loading || searchState.loading}
+        error={searchState.error ?? featuredState.error ?? landingState.error}
         variant="public"
       />
 
@@ -92,7 +101,7 @@ export function LandingPage(): ReactElement {
           actions={
             <>
               <div className="chip-row">
-                {SAMPLE_QUERIES.map((sample) => (
+                {sampleQueries.map((sample) => (
                   <button
                     key={sample}
                     type="button"

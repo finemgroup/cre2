@@ -7,6 +7,7 @@ import { getPublicPropertyView } from '@/lib/runtime/public-property';
 import { getPublicCompContextView } from '@/lib/runtime/public-comps';
 import { getPublicReportView, getPublicExportDecision } from '@/lib/runtime/report-flow';
 import { getPublicUploadGuideView } from '@/lib/runtime/public-upload';
+import { getPublicLandingView } from '@/lib/runtime/public-landing';
 import type { ExportScope } from '@/lib/runtime/export-policy';
 import {
   getStudioCompViews,
@@ -23,6 +24,7 @@ import {
   getStudioDealIntakeView,
   getBrokerOsView,
 } from '@/lib/runtime/studio-workspace';
+import { getStudioBillingView } from '@/lib/studio/billing-plans';
 import { getDealCockpitProjection } from '@/lib/workflow/cockpit-projection';
 import { getDealNextAction, getDealStageProgress } from '@/lib/workflow/deal-stage-model';
 
@@ -87,6 +89,10 @@ export async function routeSandboxRequest(request: Request): Promise<SandboxApiR
     return ok(getPublicUploadGuideView(url.searchParams.get('propertyId') ?? 'demo-001'));
   }
 
+  if (request.method === 'GET' && path === '/landing') {
+    return ok(getPublicLandingView());
+  }
+
   if (request.method === 'POST' && path === '/uploads/candidates') {
     const body = await readJson<{
       actorContext?: ActorContext;
@@ -139,6 +145,10 @@ export async function routeSandboxRequest(request: Request): Promise<SandboxApiR
 
   if (request.method === 'GET' && path === '/studio/broker-os') {
     return ok(getBrokerOsView());
+  }
+
+  if (request.method === 'GET' && path === '/studio/billing') {
+    return ok(getStudioBillingView());
   }
 
   const studioDealMatch = path.match(/^\/studio\/deals\/([^/]+)$/);

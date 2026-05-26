@@ -17,6 +17,10 @@ import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitiv
 import { useA11yAnnouncement } from '@/lib/a11y/useA11yAnnouncement';
 import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
 import { getStudioDashboardView } from '@/lib/runtime/studio-workspace';
+import { getStudioBillingView } from '@/lib/studio/billing-plans';
+import { runtimeServices } from '@/lib/runtime/runtime-services';
+import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { saveOnboardingProfile } from '@/lib/studio/onboarding-profile';
 import { SegmentedControl, TabPanelSwitch } from '@/pages/studio/StudioShared';
 
@@ -339,11 +343,12 @@ export function StudioOnboardingPage(): ReactElement {
 
 export function StudioPricingPage(): ReactElement {
   const [annual, setAnnual] = useState(true);
-  const plans = [
-    ['Free', '$0', 'Starter comps and one draft report'],
-    ['Premium', annual ? '$149/mo' : '$199/mo', 'Pipeline, comps, underwriting, report builder'],
-    ['Enterprise', 'Custom', 'White-label portal, team governance, Broker OS'],
-  ];
+  const billingState = useRuntimeResource(
+    () => runtimeServices.studio.getBillingPlans(),
+    'studio-billing',
+    getStudioBillingView()
+  );
+  const billingView = billingState.value;
 
   return (
     <div>
@@ -360,60 +365,74 @@ export function StudioPricingPage(): ReactElement {
           />
         }
       />
-      <TabPanelSwitch panelKey={annual ? 'annual' : 'monthly'}>
-      <div className="pricing-grid">
-        {plans.map(([name, price, copy]) => (
-          <StudioCard key={name} title={name} className={name === 'Premium' ? 'featured-card' : ''}>
-            <p className="plan-price">{price}</p>
-            <p>{copy}</p>
-            <PrototypeActionLink
-              to="/studio/dashboard"
-              className="btn btn-primary"
-              feature={
-                name === 'Enterprise' ? 'Enterprise sales contact' : `${name} plan selection`
-              }
-            >
-              {name === 'Enterprise' ? 'Contact sales' : 'Select plan'}
-            </PrototypeActionLink>
-          </StudioCard>
-        ))}
-      </div>
-      </TabPanelSwitch>
-      <StudioCard title="Feature comparison">
-        <DataTable
-          caption="Plan feature comparison"
-          headers={['Feature', 'Free', 'Premium', 'Enterprise']}
-          rows={[
-            ['Deal pipeline', '1 active', 'Unlimited', 'Team controls'],
-            ['Comps', 'Sample only', 'Reviewed + candidate', 'Premium/private tiers'],
-            ['Reports', 'Draft preview', 'Export gate', 'White-label portal'],
-            ['Broker OS', 'No', 'Read-only summary', 'Full operator inventory'],
-          ]}
-        />
-      </StudioCard>
-      <StudioCard title="FAQ">
-        <div className="faq-list faq-card-list">
-          {[
-            [
-              'Can I upgrade later?',
-              'Yes. Upgrade paths are mocked here and route through the same governed workspace.',
-            ],
-            [
-              'Do reports export automatically?',
-              'No. Exports remain gated by review, consent, and source-rights posture.',
-            ],
-            [
-              'Does white-label change source limits?',
-              'No. Branding never hides evidence posture, consent state, or non-production labels.',
-            ],
-          ].map(([question, answer]) => (
-            <div className="faq-card" key={question}>
-              <strong>{question}</strong>
-              <p>{answer}</p>
+      <NonProductionCallout>
+        {billingView?.entitlementsNote ??
+          'Plan entitlements are fixture-only until billing provider approval.'}
+      </NonProductionCallout>
+      <RuntimeResourceStatus
+        loading={billingState.loading}
+        error={billingState.error}
+        variant="studio"
+      />
+      {billingView && !billingState.loading ? (
+        <>
+          <div className="proof-strip" aria-label="Billing plan posture">
+            {[
+              [billingView.plans.length, 'Plan tiers'],
+              [annual ? 'Annual' : 'Monthly', 'Selected cadence'],
+              ['Mock', 'Checkout posture'],
+              ['Blocked', 'Live billing'],
+            ].map(([value, label]) => (
+              <article key={String(label)}>
+                <strong className="fin-value">{value}</strong>
+                <span>{label}</span>
+              </article>
+            ))}
+          </div>
+          <TabPanelSwitch panelKey={annual ? 'annual' : 'monthly'}>
+            <div className="pricing-grid">
+              {billingView.plans.map((plan) => (
+                <StudioCard
+                  key={plan.id}
+                  title={plan.name}
+                  className={plan.featured ? 'featured-card' : ''}
+                >
+                  <p className="plan-price">{annual ? plan.annualPrice : plan.monthlyPrice}</p>
+                  <p>{plan.copy}</p>
+                  <PrototypeActionLink
+                    to="/studio/dashboard"
+                    className="btn btn-primary"
+                    feature={
+                      plan.id === 'enterprise'
+                        ? 'Enterprise sales contact'
+                        : `${plan.name} plan selection`
+                    }
+                  >
+                    {plan.id === 'enterprise' ? 'Contact sales' : 'Select plan'}
+                  </PrototypeActionLink>
+                </StudioCard>
+              ))}
             </div>
-          ))}
-        </div>
-      </StudioCard>
+          </TabPanelSwitch>
+          <StudioCard title="Feature comparison">
+            <DataTable
+              caption="Plan feature comparison"
+              headers={['Feature', 'Free', 'Premium', 'Enterprise']}
+              rows={billingView.featureComparison}
+            />
+          </StudioCard>
+          <StudioCard title="FAQ">
+            <div className="faq-list faq-card-list">
+              {billingView.faq.map(([question, answer]) => (
+                <div className="faq-card" key={question}>
+                  <strong>{question}</strong>
+                  <p>{answer}</p>
+                </div>
+              ))}
+            </div>
+          </StudioCard>
+        </>
+      ) : null}
       <footer className="studio-footer">
         Billing prototype - no live Stripe or provider calls.
       </footer>

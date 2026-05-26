@@ -42,6 +42,23 @@ export function PropertyPage(): ReactElement {
     setDrawerOpen(true);
   }
 
+  if (!property && propertyState.loading) {
+    return (
+      <section className="page">
+        <header className="page-header">
+          <p className="eyebrow">Property intelligence</p>
+          <h1>Loading property</h1>
+          <p className="lede">Fetching sample property posture from the runtime adapter.</p>
+        </header>
+        <RuntimeResourceStatus
+          loading={propertyState.loading}
+          error={propertyState.error}
+          variant="public"
+        />
+      </section>
+    );
+  }
+
   if (!property) {
     return (
       <section className="page">
@@ -81,6 +98,7 @@ export function PropertyPage(): ReactElement {
           [property.capRate, 'Cap rate'],
           [propertyView?.evidenceDrawer.length ?? 0, 'Evidence fields'],
           [propertyView?.spatialContext.layers.length ?? 0, 'Map layers'],
+          [property.authority, 'Authority'],
         ].map(([value, label]) => (
           <article key={String(label)}>
             <strong className="fin-value">{value}</strong>

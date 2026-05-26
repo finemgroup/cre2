@@ -6,7 +6,9 @@ import type { PublicCompContextView } from '@/lib/runtime/public-comps';
 import type {
   PublicReportView,
   PublicUploadGuideView,
+  PublicLandingView,
   RuntimeServices,
+  StudioBillingView,
   StudioBrokerOsView,
   StudioCompView,
   StudioDashboardView,
@@ -73,6 +75,9 @@ export function createSandboxApiRuntimeServices(
         return client.get<PublicUploadGuideView>('/upload/guide', {
           query: { propertyId: propertyId ?? 'demo-001' },
         });
+      },
+      async getLandingView() {
+        return client.get<PublicLandingView>('/landing');
       },
     },
     studio: {
@@ -148,6 +153,9 @@ export function createSandboxApiRuntimeServices(
       },
       async getBrokerOs() {
         return client.get<StudioBrokerOsView>('/studio/broker-os');
+      },
+      async getBillingPlans() {
+        return client.get<StudioBillingView>('/studio/billing');
       },
     },
   };

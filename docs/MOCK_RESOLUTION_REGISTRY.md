@@ -2,7 +2,7 @@
 
 **Purpose:** Single checklist of every mock-only prototype location so operators can resolve them deliberately when gated lanes open. This is a **tracking doc**, not runtime authorization.
 
-**Last synced:** 2026-05-26 (after Wave 29 public upload closeout)
+**Last synced:** 2026-05-26 (after Wave 30 marketplace settings closeout)
 
 **Related docs:**
 
@@ -35,7 +35,7 @@
 
 | Route                 | Page file                              | Mock posture                                                                                                                      | Resolution lane                           | Logged in                 |
 | --------------------- | -------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------- | ------------------------- |
-| `/`                   | `prototype/src/pages/LandingPage.tsx`  | `mock-ui` search + sample properties                                                                                              | `sandbox-api`, `provider`                 | Wave 2 continuity banner  |
+| `/`                   | `prototype/src/pages/LandingPage.tsx`  | `mock-ui` search + sample properties; `runtimeServices.public.getLandingView()` with fixture fallback                                                                                              | `sandbox-api`, `provider`                 | Wave 2 / Wave 30                                          |
 | `/property/:id`       | `prototype/src/pages/PropertyPage.tsx` | `mock-data` from `lib/runtime/public-property.ts`; primary **Underwrite in Studio** CTA → deal intake via `lib/workflow-identity` | `sandbox-api`, `provider`, `billing-auth` | Wave 6 cross-entity entry |
 | `/property/:id/comps` | `prototype/src/pages/CompsPage.tsx`    | `mock-data` comps + blocked labels                                                                                                | `provider`, `sandbox-api`                 | Wave 4 readiness rail     |
 | `/comps`              | `prototype/src/pages/CompsPage.tsx`    | Route guard only                                                                                                                  | `keep-mock`                               | WORLD_CLASS spec          |
@@ -74,7 +74,7 @@
 | `/studio/deals/:dealId/hitl-review`          | `DesignReferenceRoutes.tsx` | **Analyst review** — shared mock assignments + confidence tiers; `MockBoundaryBanner` (`review`)         | `hitl-legal`, `schema-db`               | Wave 3/5/6/8                                              |
 | `/studio/deals/:dealId/spatial`              | `GisRoutes.tsx`             | **Location intelligence** — GIS manifest + `DataWorkbenchShell`; `runtimeServices.studio.getSpatialWorkbench()` with fixture fallback   | `provider`, `sandbox-api`               | Wave 3/4/6 nav label, Wave 9 spatial workbench / Wave 22 integration |
 | `/studio/reports/:dealId/builder`            | `ReportRoutes.tsx`          | Report builder + export gates; section posture proof strip; deal breadcrumb; `MockBoundaryBanner` (`export`)                          | `hitl-legal`, `schema-db`               | Wave 2/4/6 / Wave 25                                                |
-| `/studio/settings/billing`                   | `MarketingRoutes.tsx`       | Mock plan tiers                                                                                          | `billing-auth`                          | Phase 2                                                   |
+| `/studio/settings/billing`                   | `MarketingRoutes.tsx`       | Mock plan tiers; `runtimeServices.studio.getBillingPlans()` with fixture fallback                                                                                          | `billing-auth`                          | Phase 2 / Wave 30                                         |
 | `/studio/settings/white-label`               | `ReportRoutes.tsx`          | Mock branding uploads; non-production evidence posture callout                                                                                    | `schema-db`, `billing-auth`             | Phase 2 / Wave 25                                                   |
 | `/studio/broker-os`                          | `OperatorRoutes.tsx`        | Sanitized job/agent projection; `runtimeServices.studio.getBrokerOs()` with fixture fallback                                                              | `sandbox-api`, `keep-mock` (projection) | Wave 5 HITL card / Wave 29                                          |
 | `/studio/design-system`                      | `DesignSystemRoutes.tsx`    | Reference-only token/badge/table showcase; no product state                                              | `keep-mock`                               | Wave 13-16 visual design system                           |
