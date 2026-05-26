@@ -2,6 +2,7 @@ import { useLocation } from 'react-router-dom';
 import type { ReactElement } from 'react';
 
 import { StatusBadge } from '@/components/studio/StudioPrimitives';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { HitlTrustTierBadge } from '@/components/workflow/HitlTrustTierBadge';
 import { getDealCockpitProjection } from '@/lib/workflow/cockpit-projection';
 import { resolveDealStageFromPath } from '@/lib/workflow/deal-stage-model';
@@ -26,7 +27,9 @@ export function DealContextStrip({
   const projection = cockpitState.value ?? fallback;
 
   return (
-    <div className="deal-context-strip" aria-label="Deal cockpit context">
+    <>
+      <RuntimeResourceStatus error={cockpitState.error} variant="studio-deal" />
+      <div className="deal-context-strip" aria-label="Deal cockpit context">
       <div>
         <p className="studio-eyebrow">Deal context</p>
         <strong>{dealName}</strong>
@@ -43,5 +46,6 @@ export function DealContextStrip({
         Advisory cockpit context only. UI posture never authorizes export or evidence promotion.
       </p>
     </div>
+    </>
   );
 }

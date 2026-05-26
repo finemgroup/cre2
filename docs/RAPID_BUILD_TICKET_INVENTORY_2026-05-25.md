@@ -314,3 +314,11 @@ Canonical ticket pack: [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPI
 | `SOPHEX-CRE-005` | Mostly done | Spatial workbench wired to `runtimeServices.studio.getSpatialWorkbench()` + sandbox endpoint |
 | Public runtime shells | Done | Landing + export routes use `RuntimeResourceStatus` |
 | Cockpit error shell | Done | `DealCockpitPanel` surfaces runtime read failures |
+
+### Wave 23 Ticket Ledger
+
+| Ticket | Status | Notes |
+| --- | --- | --- |
+| `SOPHEX-CRE-003` | Mostly done | Provider-rights summary strip, runtime-empty comp states, saved-view empty preserved |
+| `SOPHEX-CRE-004` | Mostly done | Gate status vocabulary (PASS/WARN/BLOCKED/OVERRIDDEN), comp-readiness callout |
+| Workflow chrome errors | Done | `DealContextStrip` + `DealStageStepper` surface runtime failures |

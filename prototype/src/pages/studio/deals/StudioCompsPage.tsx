@@ -1,4 +1,5 @@
 import { useMemo, useState, type ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   DataTable,
@@ -25,6 +26,7 @@ import {
   STUDIO_COMP_SAVED_VIEWS,
   type CompSavedViewId,
 } from '@/lib/comps/comp-saved-views';
+import { summarizeCompProviderRights } from '@/lib/comps/comp-provider-rights';
 import { getStudioCompViews, getStudioDealView } from '@/lib/runtime/studio-workspace';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
@@ -48,6 +50,13 @@ export function StudioCompsPage(): ReactElement {
   const filteredComps = useMemo(
     () => filterStudioComps(compViews, savedView),
     [compViews, savedView]
+  );
+  const rightsSummary = useMemo(
+    () =>
+      summarizeCompProviderRights(
+        compViews.map((comp) => ({ visible: comp.visible, authority: comp.authority }))
+      ),
+    [compViews]
   );
   const [selectedId, setSelectedId] = useState(compViews[0]?.id ?? '');
   const selected = compViews.find((comp) => comp.id === selectedId) ?? null;
@@ -89,6 +98,20 @@ export function StudioCompsPage(): ReactElement {
         resolveLabel="Review comp source trace"
       />
       <ReviewPostureBanner blocks={sourceBlocks} />
+      {!compState.loading && compViews.length > 0 ? (
+        <div className="proof-strip" aria-label="Comp provider rights">
+          {[
+            [rightsSummary.visible, 'Visible comps'],
+            [rightsSummary.restricted, 'Provider-restricted'],
+            [rightsSummary.total, 'Total in adapter set'],
+          ].map(([value, label]) => (
+            <article key={String(label)}>
+              <strong className="fin-value">{value}</strong>
+              <span>{label}</span>
+            </article>
+          ))}
+        </div>
+      ) : null}
       <StudioCard title="Saved comp views" eyebrow="Filter preset">
         <div className="chip-row" role="group" aria-label="Saved comp view">
           {STUDIO_COMP_SAVED_VIEWS.map((entry) => (
@@ -105,6 +128,19 @@ export function StudioCompsPage(): ReactElement {
         </div>
         {activeView ? <p className="muted">{activeView.description}</p> : null}
       </StudioCard>
+      {!compState.loading && compViews.length === 0 ? (
+        <EmptyStateCard
+          icon="analytics"
+          title="No comps returned"
+          description="The studio runtime adapter returned an empty comp set. Provider entitlements or sandbox filtering may be blocking every row."
+          tone="warning"
+          actions={
+            <Link to={studioDealPath(deal.id, 'underwriting-sources')} className="btn btn-secondary">
+              Review comp source trace
+            </Link>
+          }
+        />
+      ) : (
       <div className="comps-grid">
         <StudioCard title="Subject Property">
           <div className="property-image small" aria-label="Mock subject property image" />
@@ -214,6 +250,7 @@ export function StudioCompsPage(): ReactElement {
           )}
         </StudioCard>
       </div>
+      )}
       <DetailDrawer
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}

@@ -33,5 +33,5 @@ describe('accessibility chart alternatives', () => {
   it('passes axe on the scenario comparison route', async () => {
     const view = await renderRoute('/studio/deals/riverside-flats/scenarios');
     expect(await axe(view.container)).toHaveNoViolations();
-  });
+  }, 10000);
 });

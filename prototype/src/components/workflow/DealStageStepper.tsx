@@ -8,6 +8,7 @@ import {
   type DealStageStatus,
 } from '@/lib/workflow/deal-stage-model';
 import { MotionBlock } from '@/components/studio/StudioPrimitives';
+import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 
@@ -30,7 +31,9 @@ export function DealStageStepper({ dealId }: { dealId: string }): ReactElement {
   const progress = progressState.value;
 
   return (
-    <MotionBlock motionName="navRail">
+    <>
+      <RuntimeResourceStatus error={progressState.error} variant="studio-deal" />
+      <MotionBlock motionName="navRail">
       <nav className="deal-stage-stepper" aria-label="Deal workflow stages">
         <p className="studio-eyebrow">Deal workflow</p>
         <ol className="deal-stage-list">
@@ -53,5 +56,6 @@ export function DealStageStepper({ dealId }: { dealId: string }): ReactElement {
         </ol>
       </nav>
     </MotionBlock>
+    </>
   );
 }

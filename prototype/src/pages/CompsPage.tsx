@@ -13,6 +13,7 @@ import {
   PUBLIC_COMP_SAVED_VIEWS,
   type CompSavedViewId,
 } from '@/lib/comps/comp-saved-views';
+import { summarizeCompProviderRights } from '@/lib/comps/comp-provider-rights';
 import { getPublicCompContextView } from '@/lib/runtime/public-comps';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
@@ -35,6 +36,13 @@ export function CompsPage(): ReactElement {
   const filteredComps = useMemo(
     () => filterPublicComps(compViews, savedView),
     [compViews, savedView]
+  );
+  const rightsSummary = useMemo(
+    () =>
+      summarizeCompProviderRights(
+        compViews.map((comp) => ({ visible: comp.canInspect, authority: comp.authority }))
+      ),
+    [compViews]
   );
   const selected = compViews.find((comp) => comp.id === selectedId);
   const activeView = PUBLIC_COMP_SAVED_VIEWS.find((entry) => entry.id === savedView);
@@ -80,6 +88,21 @@ export function CompsPage(): ReactElement {
         variant="public"
       />
 
+      {!compState.loading && compViews.length > 0 ? (
+        <div className="proof-strip" aria-label="Comp provider rights">
+          {[
+            [rightsSummary.visible, 'Visible comps'],
+            [rightsSummary.restricted, 'Provider-restricted'],
+            [rightsSummary.total, 'Total in adapter set'],
+          ].map(([value, label]) => (
+            <article key={String(label)}>
+              <strong className="fin-value">{value}</strong>
+              <span>{label}</span>
+            </article>
+          ))}
+        </div>
+      ) : null}
+
       <section className="card readiness-card">
         <ValuationReadinessRail
           evaluation={valuationVersion.readiness}
@@ -105,7 +128,14 @@ export function CompsPage(): ReactElement {
         {activeView ? <p className="muted">{activeView.description}</p> : null}
       </section>
 
-      {filteredComps.length === 0 ? (
+      {!compState.loading && compViews.length === 0 ? (
+        <EmptyStateCard
+          icon="analytics"
+          title="No comps returned"
+          description="The runtime adapter returned an empty comp set for this property. Provider rights or sandbox filtering may be blocking every row."
+          tone="warning"
+        />
+      ) : filteredComps.length === 0 ? (
         <EmptyStateCard
           icon="filter_alt_off"
           title="No comps match this saved view"

@@ -50,6 +50,21 @@ describe('authority vocabulary', () => {
       ariaLabel: 'Status: Policy blocked',
       classSuffix: 'blocked',
     });
+    expect(formatStatusBadge('PASS')).toEqual({
+      display: 'Pass',
+      ariaLabel: 'Status: Pass',
+      classSuffix: 'reviewed',
+    });
+    expect(formatStatusBadge('WARN')).toEqual({
+      display: 'Needs review',
+      ariaLabel: 'Status: Needs review',
+      classSuffix: 'needs-review',
+    });
+    expect(formatStatusBadge('OVERRIDDEN')).toEqual({
+      display: 'Overridden',
+      ariaLabel: 'Status: Overridden',
+      classSuffix: 'needs-review',
+    });
     expect(formatStatusBadge('table view').display).toBe('table view');
   });
 });

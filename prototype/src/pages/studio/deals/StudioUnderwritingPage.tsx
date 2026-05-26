@@ -14,6 +14,7 @@ import {
   VersionLockCard,
 } from '@/components/underwriting/UnderwritingPanels';
 import { GateOverrideModal } from '@/components/overlays/GateOverrideModal';
+import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
 import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { WorkflowContinuityContainer, WorkflowHandoffLink } from '@/components/workflow/WorkflowPrimitives';
@@ -69,6 +70,19 @@ export function StudioUnderwritingPage(): ReactElement {
         error={underwritingState.error}
         variant="studio-deal"
       />
+      {!underwritingState.loading && view.reviewedCompCount < 2 ? (
+        <EmptyStateCard
+          icon="compare"
+          title="Comp set not ready for underwriting"
+          description={`Only ${view.reviewedCompCount} reviewed comp${view.reviewedCompCount === 1 ? '' : 's'} are visible to this workspace. Underwriting gates stay in review posture until at least two reviewed comps clear.`}
+          tone="warning"
+          actions={
+            <Link to={studioDealPath(deal.id, 'comps')} className="btn btn-secondary">
+              Review comp set
+            </Link>
+          }
+        />
+      ) : null}
       <StudioUnderwritingWorkspace key={deal.id} deal={deal} view={view} />
     </>
   );
