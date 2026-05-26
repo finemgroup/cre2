@@ -267,7 +267,9 @@ describe('TabPanelTransition', () => {
     );
 
     expect(screen.getByText('Static preview').closest('.tab-panel-transition')).toBeInTheDocument();
-    expect(screen.getByText('Static preview').closest('[data-sophex-motion]')).not.toBeInTheDocument();
+    expect(
+      screen.getByText('Static preview').closest('[data-sophex-motion]')
+    ).not.toBeInTheDocument();
   });
 });
 

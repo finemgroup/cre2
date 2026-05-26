@@ -59,7 +59,9 @@ describe('Finem CRE Studio routes', () => {
 
     expect(screen.getByRole('heading', { name: /Readiness Gates/i })).toBeInTheDocument();
     expect(screen.getAllByText(/Assumptions/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/Export is disabled until section review/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Export is disabled until section review/i).length).toBeGreaterThan(
+      0
+    );
   });
 
   it('renders representative studio routes without basic accessibility violations', async () => {

@@ -28,11 +28,7 @@ export function AccessibleBarChart({
   return (
     <figure aria-labelledby={captionId}>
       <figcaption id={captionId}>{caption}</figcaption>
-      <div
-        className="bar-chart vertical-bars"
-        role="img"
-        aria-label={`${title}: ${summary}`}
-      >
+      <div className="bar-chart vertical-bars" role="img" aria-label={`${title}: ${summary}`}>
         {items.map((item) => (
           <div key={item.id}>
             <span>{item.label}</span>

@@ -1,11 +1,7 @@
 import { useMemo, useState, type ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
-import {
-  DataTable,
-  StudioCard,
-  WorkflowContextHeader,
-} from '@/components/studio/StudioPrimitives';
+import { DataTable, StudioCard, WorkflowContextHeader } from '@/components/studio/StudioPrimitives';
 import {
   AssumptionsPanel,
   GatesPanel,
@@ -18,7 +14,10 @@ import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
 import { ReviewPostureBanner } from '@/components/provenance/ProvenanceWidgets';
 import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
-import { WorkflowContinuityContainer, WorkflowHandoffLink } from '@/components/workflow/WorkflowPrimitives';
+import {
+  WorkflowContinuityContainer,
+  WorkflowHandoffLink,
+} from '@/components/workflow/WorkflowPrimitives';
 import { DealCockpitPanel } from '@/components/workflow/DealCockpitPanel';
 import { ContextualSurfaceTriggers } from '@/components/workflow/ContextualSurfaceTriggers';
 import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
@@ -44,11 +43,7 @@ import { getStudioUnderwritingView } from '@/lib/runtime/studio-workspace';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import type { StudioUnderwritingView } from '@/lib/runtime/service-ports';
-import {
-  studioDealPath,
-  studioReportPath,
-  type Deal,
-} from '@/data/studio';
+import { studioDealPath, studioReportPath, type Deal } from '@/data/studio';
 import { TabPanelSwitch, StudioDealNotFound, useStudioDeal } from '@/pages/studio/StudioShared';
 
 import { READINESS_ITEMS } from './deal-route-shared';

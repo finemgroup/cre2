@@ -16,7 +16,12 @@ export type VisibilityClass =
   | 'internal-only'
   | 'provider-restricted';
 
-export type VisibilityDecisionKind = 'allow' | 'deny' | 'redact' | 'aggregate-only' | 'hold-for-review';
+export type VisibilityDecisionKind =
+  | 'allow'
+  | 'deny'
+  | 'redact'
+  | 'aggregate-only'
+  | 'hold-for-review';
 
 export type VisibilitySubject = {
   visibility: VisibilityClass;
@@ -45,7 +50,10 @@ export function decideVisibility(
 
   switch (subject.visibility) {
     case 'public-baseline':
-      return allow('Public baseline', 'Visible because it is public baseline or approved aggregate.');
+      return allow(
+        'Public baseline',
+        'Visible because it is public baseline or approved aggregate.'
+      );
     case 'anonymized-aggregate':
       return aggregateOnly('Anonymized aggregate', 'Only aggregate output is available.');
     case 'user-private':

@@ -96,7 +96,9 @@ export function StudioReportBuilderPage(): ReactElement {
         actions={
           <>
             <StatusBadge status={`${approvedCount}/${sections.length} approved`} />
-            <StatusBadge status={studioExportDecision.allowed ? 'Policy clear' : 'Policy blocked'} />
+            <StatusBadge
+              status={studioExportDecision.allowed ? 'Policy clear' : 'Policy blocked'}
+            />
             {!readiness.ready ? (
               <button
                 type="button"
@@ -208,7 +210,11 @@ export function StudioReportBuilderPage(): ReactElement {
           <div className="pdf-preview">
             <h2>{reportBrandConfig.company}</h2>
             <p>{deal.name} Investment Preview</p>
-            <div className="property-image report-hero" role="img" aria-label="Mock report hero image" />
+            <div
+              className="property-image report-hero"
+              role="img"
+              aria-label="Mock report hero image"
+            />
             <div className="metric-grid">
               <MetricCard label="Target IRR" value="14.8%" detail="Draft" />
               <MetricCard label="Equity Multiple" value="1.82x" detail="Draft" />
@@ -263,11 +269,7 @@ export function StudioReportBuilderPage(): ReactElement {
           </Link>
         </StudioCard>
       </div>
-      <ContextualSurfaceTriggers
-        dealId={deal.id}
-        route="report-builder"
-        propertyId={propertyId}
-      />
+      <ContextualSurfaceTriggers dealId={deal.id} route="report-builder" propertyId={propertyId} />
       <ExportGovernanceModal
         isOpen={exportModalOpen}
         onClose={() => setExportModalOpen(false)}
@@ -410,22 +412,22 @@ export function StudioWhiteLabelPage(): ReactElement {
           <h3>{company}</h3>
           <div className="preview-accent" />
           <TabPanelSwitch panelKey={preview}>
-          {preview === 'portal' ? (
-            <>
-              <div className="pdf-block" />
-              <div className="preview-card-row">
-                <div />
-                <div />
-              </div>
-              <small>Powered by Finem Studio</small>
-            </>
-          ) : (
-            <>
-              <h4>Riverside Flats Investment Preview</h4>
-              <p>{brandConfig.disclaimer}</p>
-              <small>{brandConfig.footer}</small>
-            </>
-          )}
+            {preview === 'portal' ? (
+              <>
+                <div className="pdf-block" />
+                <div className="preview-card-row">
+                  <div />
+                  <div />
+                </div>
+                <small>Powered by Finem Studio</small>
+              </>
+            ) : (
+              <>
+                <h4>Riverside Flats Investment Preview</h4>
+                <p>{brandConfig.disclaimer}</p>
+                <small>{brandConfig.footer}</small>
+              </>
+            )}
           </TabPanelSwitch>
         </div>
       </StudioCard>

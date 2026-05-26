@@ -1,7 +1,13 @@
 import { useState, type ReactElement } from 'react';
 
 import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceModal';
-import { MaterialIcon, StatusBadge, StudioCard, TrustBadge, DataTable } from '@/components/studio/StudioPrimitives';
+import {
+  MaterialIcon,
+  StatusBadge,
+  StudioCard,
+  TrustBadge,
+  DataTable,
+} from '@/components/studio/StudioPrimitives';
 import {
   buildExportManifest,
   evaluateExportReadiness,
@@ -18,7 +24,8 @@ const SECTION_STATUS_COPY: Record<string, string> = {
 };
 
 export function ReportSectionReviewCard({ section }: { section: ReportSection }): ReactElement {
-  const statusCopy = SECTION_STATUS_COPY[section.status] ?? 'Reviewer posture determines export inclusion.';
+  const statusCopy =
+    SECTION_STATUS_COPY[section.status] ?? 'Reviewer posture determines export inclusion.';
   return (
     <div className="section-check governance-section">
       <MaterialIcon name={section.status === 'Approved' ? 'check_circle' : 'pending'} />

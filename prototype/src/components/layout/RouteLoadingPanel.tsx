@@ -2,10 +2,7 @@ import { useLocation } from 'react-router-dom';
 import type { ReactElement } from 'react';
 
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
-import {
-  getRouteLoadingCopy,
-  resolveRouteLoadingVariant,
-} from '@/lib/studio/route-loading';
+import { getRouteLoadingCopy, resolveRouteLoadingVariant } from '@/lib/studio/route-loading';
 
 export function RouteLoadingPanel(): ReactElement {
   const { pathname } = useLocation();

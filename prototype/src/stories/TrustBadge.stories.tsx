@@ -35,7 +35,9 @@ export const PublicToStudioCrosswalk: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     expect(canvas.getAllByLabelText(/Authority state: Public baseline/i).length).toBeGreaterThan(0);
-    expect(canvas.getAllByLabelText(/Authority state: Candidate evidence/i).length).toBeGreaterThan(0);
+    expect(canvas.getAllByLabelText(/Authority state: Candidate evidence/i).length).toBeGreaterThan(
+      0
+    );
     expect(canvas.getByLabelText(/Authority state: Sample map data/i)).toBeInTheDocument();
   },
 };

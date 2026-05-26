@@ -1,22 +1,99 @@
-:root{
-  color-scheme:light;
-  --ink:#0f1110;--paper:#f9f9f7;--parchment:#f6f4ef;--chrome-forest:#1e392d;--chrome-forest-deep:#0f2f1e;
-  --cre-green:#1f5a3a;--cre-green-hover:#184a30;--cre-green-soft:#e8f2ed;--cre-gold:#d6b469;--cre-gold-soft:#f6e3b1;
-  --cre-border-gold:rgba(197,160,89,.22);--slate-glass:rgba(15,17,16,.82);
-  --bg:var(--parchment);--surface:#fff;--surface-muted:#ece8df;--text:#1c1a17;--text-muted:#5c574f;--muted:var(--text-muted);
-  --accent:var(--cre-green);--accent-soft:var(--cre-green-soft);--warning:#8a5a00;--danger:#8b1e1e;--border:#d8d2c6;--border-warm:#dbcab0;
-  --focus-ring:rgba(31,90,58,.42);
-  --shadow-elevation-low:0 .3px .3px rgba(0,0,0,.02),0 .8px .8px rgba(0,0,0,.028),0 1.5px 1.5px rgba(0,0,0,.035),0 2.7px 2.7px rgba(0,0,0,.042),0 5px 5px rgba(0,0,0,.05),0 12px 12px rgba(0,0,0,.07);
-  --shadow-elevation-medium:0 .6px .6px rgba(0,0,0,.03),0 1.6px 1.6px rgba(0,0,0,.04),0 3px 3px rgba(0,0,0,.05),0 6px 6px rgba(0,0,0,.06),0 14px 14px rgba(0,0,0,.08),0 28px 28px rgba(0,0,0,.1);
-  --shadow:var(--shadow-elevation-low);
-  --studio-primary:var(--cre-green);--studio-primary-strong:var(--cre-green-hover);--studio-primary-soft:var(--cre-green-soft);
-  --studio-sidebar:var(--chrome-forest-deep);--studio-surface:#f7f9fb;--studio-card:#fff;--studio-muted:#f2f4f6;--studio-line:#c3c6d7;
-  --studio-text:#191c1e;--studio-subtle:#434655;--studio-success:#166534;--studio-warning:#92400e;--studio-danger:#93000a;--studio-shadow:var(--shadow-elevation-low);
-  --motion-instant:100ms;--motion-standard:180ms;--motion-review:220ms;--motion-continuity:260ms;
-  --motion-ease-standard:cubic-bezier(.2,0,0,1);--motion-ease-emphasized:cubic-bezier(.16,1,.3,1);
-  --type-micro:.6875rem;--type-caption:.75rem;--type-body:.9375rem;--type-lead:1.0625rem;--type-title:1.5rem;--type-display:clamp(1.75rem,3vw,2.25rem);
-  --tracking-micro:.14em;--tracking-kicker:.08em;
-  font-family:Inter,'Segoe UI',system-ui,sans-serif;line-height:1.5;color:var(--text);background:var(--bg);
+:root {
+  color-scheme: light;
+  --ink: #0f1110;
+  --paper: #f9f9f7;
+  --parchment: #f6f4ef;
+  --chrome-forest: #1e392d;
+  --chrome-forest-deep: #0f2f1e;
+  --cre-green: #1f5a3a;
+  --cre-green-hover: #184a30;
+  --cre-green-soft: #e8f2ed;
+  --cre-gold: #d6b469;
+  --cre-gold-soft: #f6e3b1;
+  --cre-border-gold: rgba(197, 160, 89, 0.22);
+  --slate-glass: rgba(15, 17, 16, 0.82);
+  --bg: var(--parchment);
+  --surface: #fff;
+  --surface-muted: #ece8df;
+  --text: #1c1a17;
+  --text-muted: #5c574f;
+  --muted: var(--text-muted);
+  --accent: var(--cre-green);
+  --accent-soft: var(--cre-green-soft);
+  --warning: #8a5a00;
+  --danger: #8b1e1e;
+  --border: #d8d2c6;
+  --border-warm: #dbcab0;
+  --focus-ring: rgba(31, 90, 58, 0.42);
+  --shadow-elevation-low:
+    0 0.3px 0.3px rgba(0, 0, 0, 0.02), 0 0.8px 0.8px rgba(0, 0, 0, 0.028),
+    0 1.5px 1.5px rgba(0, 0, 0, 0.035), 0 2.7px 2.7px rgba(0, 0, 0, 0.042),
+    0 5px 5px rgba(0, 0, 0, 0.05), 0 12px 12px rgba(0, 0, 0, 0.07);
+  --shadow-elevation-medium:
+    0 0.6px 0.6px rgba(0, 0, 0, 0.03), 0 1.6px 1.6px rgba(0, 0, 0, 0.04),
+    0 3px 3px rgba(0, 0, 0, 0.05), 0 6px 6px rgba(0, 0, 0, 0.06), 0 14px 14px rgba(0, 0, 0, 0.08),
+    0 28px 28px rgba(0, 0, 0, 0.1);
+  --shadow: var(--shadow-elevation-low);
+  --studio-primary: var(--cre-green);
+  --studio-primary-strong: var(--cre-green-hover);
+  --studio-primary-soft: var(--cre-green-soft);
+  --studio-sidebar: var(--chrome-forest-deep);
+  --studio-surface: #f7f9fb;
+  --studio-card: #fff;
+  --studio-muted: #f2f4f6;
+  --studio-line: #c3c6d7;
+  --studio-text: #191c1e;
+  --studio-subtle: #434655;
+  --studio-success: #166534;
+  --studio-warning: #92400e;
+  --studio-danger: #93000a;
+  --studio-shadow: var(--shadow-elevation-low);
+  --motion-instant: 100ms;
+  --motion-standard: 180ms;
+  --motion-review: 220ms;
+  --motion-continuity: 260ms;
+  --motion-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --motion-ease-emphasized: cubic-bezier(0.16, 1, 0.3, 1);
+  --type-micro: 0.6875rem;
+  --type-caption: 0.75rem;
+  --type-body: 0.9375rem;
+  --type-lead: 1.0625rem;
+  --type-title: 1.5rem;
+  --type-display: clamp(1.75rem, 3vw, 2.25rem);
+  --tracking-micro: 0.14em;
+  --tracking-kicker: 0.08em;
+  font-family: Inter, 'Segoe UI', system-ui, sans-serif;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
 }
-.shell{--button-radius:8px;--button-padding:.625rem 1rem;--button-font-weight:650;--button-bg:var(--surface);--button-color:var(--text);--button-border:var(--border);--button-primary-bg:var(--cre-green);--button-primary-color:#fff;--button-primary-border:var(--cre-green-hover);--button-secondary-bg:var(--surface);--button-secondary-color:var(--text);--button-secondary-border:var(--border-warm)}
-.studio-shell,.studio-standalone{--focus-ring:rgba(31,90,58,.45);--button-radius:.45rem;--button-padding:.65rem .95rem;--button-font-weight:700;--button-bg:#fff;--button-color:var(--studio-text);--button-border:var(--studio-line);--button-primary-bg:var(--studio-primary);--button-primary-color:#fff;--button-primary-border:var(--studio-primary-strong);--button-secondary-bg:#fff;--button-secondary-color:var(--studio-text);--button-secondary-border:var(--studio-line)}
+.shell {
+  --button-radius: 8px;
+  --button-padding: 0.625rem 1rem;
+  --button-font-weight: 650;
+  --button-bg: var(--surface);
+  --button-color: var(--text);
+  --button-border: var(--border);
+  --button-primary-bg: var(--cre-green);
+  --button-primary-color: #fff;
+  --button-primary-border: var(--cre-green-hover);
+  --button-secondary-bg: var(--surface);
+  --button-secondary-color: var(--text);
+  --button-secondary-border: var(--border-warm);
+}
+.studio-shell,
+.studio-standalone {
+  --focus-ring: rgba(31, 90, 58, 0.45);
+  --button-radius: 0.45rem;
+  --button-padding: 0.65rem 0.95rem;
+  --button-font-weight: 700;
+  --button-bg: #fff;
+  --button-color: var(--studio-text);
+  --button-border: var(--studio-line);
+  --button-primary-bg: var(--studio-primary);
+  --button-primary-color: #fff;
+  --button-primary-border: var(--studio-primary-strong);
+  --button-secondary-bg: #fff;
+  --button-secondary-color: var(--studio-text);
+  --button-secondary-border: var(--studio-line);
+}

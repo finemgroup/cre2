@@ -489,8 +489,8 @@ export function SensitivityCellDrilldownDrawer({
         <div>
           <strong>Advisory mock output</strong>
           <p>
-            Sensitivity cells are formula-backed prototype values — not investment advice or
-            lender commitments. Scenario lock and reviewer gates must clear before export.
+            Sensitivity cells are formula-backed prototype values — not investment advice or lender
+            commitments. Scenario lock and reviewer gates must clear before export.
           </p>
         </div>
       </div>

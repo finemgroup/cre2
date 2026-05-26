@@ -120,7 +120,9 @@ export function StudioDebtPanelPage(): ReactElement {
           <div className="dashboard-grid">
             <StudioCard title="Lender Quote Gate" className="wide-card">
               <div className="blocked-panel">
-                <strong>{quotePending ? 'Lender quote missing' : 'Lender quote candidate attached'}</strong>
+                <strong>
+                  {quotePending ? 'Lender quote missing' : 'Lender quote candidate attached'}
+                </strong>
                 <p>
                   DSCR and debt yield remain advisory until a reviewed term sheet or lender quote is
                   attached as candidate evidence.
@@ -134,7 +136,11 @@ export function StudioDebtPanelPage(): ReactElement {
                 </p>
               )}
               <div className="studio-actions">
-                <button type="button" className="btn btn-primary" onClick={() => setQuoteOpen(true)}>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => setQuoteOpen(true)}
+                >
                   Add Mock Lender Quote
                 </button>
                 <PrototypeActionLink

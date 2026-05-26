@@ -82,11 +82,7 @@ export function CompsPage(): ReactElement {
       </header>
 
       <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="property" />
-      <RuntimeResourceStatus
-        loading={compState.loading}
-        error={compState.error}
-        variant="public"
-      />
+      <RuntimeResourceStatus loading={compState.loading} error={compState.error} variant="public" />
 
       {!compState.loading && compViews.length > 0 ? (
         <div className="proof-strip" aria-label="Comp provider rights">
@@ -147,50 +143,50 @@ export function CompsPage(): ReactElement {
           }
         />
       ) : (
-      <div className="table-wrap">
-        <table>
-          <caption>Sample comp set for {property.address}</caption>
-          <thead>
-            <tr>
-              <th scope="col">Comp</th>
-              <th scope="col">Distance</th>
-              <th scope="col">Cap rate</th>
-              <th scope="col">Authority</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredComps.map((comp) => (
-              <tr key={comp.id} className={selectedId === comp.id ? 'row-selected' : undefined}>
-                <td>{comp.name}</td>
-                <td>{comp.distanceMi} mi</td>
-                <td>{comp.capRate}</td>
-                <td>
-                  <AuthorityBadge
-                    label={comp.authority === 'blocked' ? 'blocked' : comp.authority}
-                  />
-                </td>
-                <td>
-                  <button
-                    type="button"
-                    className="btn btn-ghost"
-                    onClick={() => setSelectedId(comp.id)}
-                    disabled={!comp.canInspect}
-                    aria-describedby={!comp.canInspect ? `${comp.id}-blocked-reason` : undefined}
-                  >
-                    Inspect
-                  </button>
-                  {!comp.canInspect ? (
-                    <span id={`${comp.id}-blocked-reason`} className="sr-only">
-                      {comp.safeExplanation}
-                    </span>
-                  ) : null}
-                </td>
+        <div className="table-wrap">
+          <table>
+            <caption>Sample comp set for {property.address}</caption>
+            <thead>
+              <tr>
+                <th scope="col">Comp</th>
+                <th scope="col">Distance</th>
+                <th scope="col">Cap rate</th>
+                <th scope="col">Authority</th>
+                <th scope="col">Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {filteredComps.map((comp) => (
+                <tr key={comp.id} className={selectedId === comp.id ? 'row-selected' : undefined}>
+                  <td>{comp.name}</td>
+                  <td>{comp.distanceMi} mi</td>
+                  <td>{comp.capRate}</td>
+                  <td>
+                    <AuthorityBadge
+                      label={comp.authority === 'blocked' ? 'blocked' : comp.authority}
+                    />
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      className="btn btn-ghost"
+                      onClick={() => setSelectedId(comp.id)}
+                      disabled={!comp.canInspect}
+                      aria-describedby={!comp.canInspect ? `${comp.id}-blocked-reason` : undefined}
+                    >
+                      Inspect
+                    </button>
+                    {!comp.canInspect ? (
+                      <span id={`${comp.id}-blocked-reason`} className="sr-only">
+                        {comp.safeExplanation}
+                      </span>
+                    ) : null}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
       <section className="card" aria-labelledby="comp-map-context-heading">

@@ -18,10 +18,7 @@ import { useA11yAnnouncement } from '@/lib/a11y/useA11yAnnouncement';
 import { DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
 import { getStudioDashboardView } from '@/lib/runtime/studio-workspace';
 import { getStudioBillingView } from '@/lib/studio/billing-plans';
-import {
-  getStudioOnboardingView,
-  type StudioOnboardingView,
-} from '@/lib/studio/onboarding-flow';
+import { getStudioOnboardingView, type StudioOnboardingView } from '@/lib/studio/onboarding-flow';
 
 type OnboardingTierOption = StudioOnboardingView['tierOptions'][number];
 import { runtimeServices } from '@/lib/runtime/runtime-services';
@@ -63,7 +60,11 @@ export function StudioLandingPage(): ReactElement {
             reporting, and white-label investor presentation surfaces.
           </p>
           <div className="studio-actions">
-            <PrototypeActionLink to="/studio/onboarding" className="btn btn-primary" feature="Start workspace">
+            <PrototypeActionLink
+              to="/studio/onboarding"
+              className="btn btn-primary"
+              feature="Start workspace"
+            >
               Start workspace
             </PrototypeActionLink>
             <PrototypeActionLink
@@ -117,9 +118,18 @@ export function StudioLandingPage(): ReactElement {
 
       <section className="proof-strip studio-outcomes" aria-label="Workflow outcomes">
         {[
-          ['Governed intake', 'Every packet keeps candidate evidence separate from reviewed output.'],
-          ['Visible comps posture', 'Public, reviewed, and restricted tiers stay labeled in the UI.'],
-          ['Export discipline', 'Reports stay gated until review, consent, and source rights clear.'],
+          [
+            'Governed intake',
+            'Every packet keeps candidate evidence separate from reviewed output.',
+          ],
+          [
+            'Visible comps posture',
+            'Public, reviewed, and restricted tiers stay labeled in the UI.',
+          ],
+          [
+            'Export discipline',
+            'Reports stay gated until review, consent, and source rights clear.',
+          ],
         ].map(([title, copy]) => (
           <article key={title}>
             <strong>{title}</strong>
@@ -296,8 +306,14 @@ export function StudioOnboardingPage(): ReactElement {
                 </select>
               </label>
               <div className="chip-group" aria-label="Asset classes">
-                {(onboardingView?.assetClassOptions ?? ['Multifamily', 'Office', 'Industrial', 'Retail']).map(
-                  (asset: string) => {
+                {(
+                  onboardingView?.assetClassOptions ?? [
+                    'Multifamily',
+                    'Office',
+                    'Industrial',
+                    'Retail',
+                  ]
+                ).map((asset: string) => {
                   const selected = assetClasses.includes(asset);
                   return (
                     <button
@@ -316,8 +332,7 @@ export function StudioOnboardingPage(): ReactElement {
                       {asset}
                     </button>
                   );
-                }
-                )}
+                })}
               </div>
               {onboardingView?.linkedBillingPath ? (
                 <p className="contextual-handoffs">

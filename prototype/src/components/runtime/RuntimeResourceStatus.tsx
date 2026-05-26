@@ -3,10 +3,7 @@ import type { ReactElement } from 'react';
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
-import {
-  getRouteLoadingCopy,
-  type RouteLoadingVariant,
-} from '@/lib/studio/route-loading';
+import { getRouteLoadingCopy, type RouteLoadingVariant } from '@/lib/studio/route-loading';
 
 type RuntimeResourceStatusProps = {
   loading?: boolean;

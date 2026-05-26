@@ -32,7 +32,9 @@ describe('accessibility navigation', () => {
 
   it('announces route changes to screen readers on the public shell', async () => {
     await renderRoute('/property/demo-001');
-    expect(screen.getByText(/Navigated to Property Intelligence - 1200 Commerce St/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Navigated to Property Intelligence - 1200 Commerce St/i)
+    ).toBeInTheDocument();
   });
 
   it('passes axe on representative public routes', async () => {

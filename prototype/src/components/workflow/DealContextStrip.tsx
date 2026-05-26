@@ -30,22 +30,22 @@ export function DealContextStrip({
     <>
       <RuntimeResourceStatus error={cockpitState.error} variant="studio-deal" />
       <div className="deal-context-strip" aria-label="Deal cockpit context">
-      <div>
-        <p className="studio-eyebrow">Deal context</p>
-        <strong>{dealName}</strong>
+        <div>
+          <p className="studio-eyebrow">Deal context</p>
+          <strong>{dealName}</strong>
+        </div>
+        <div className="deal-context-strip-meta">
+          <StatusBadge status={`Stage: ${activeStage}`} />
+          <StatusBadge status={`${projection.blockerCount} blockers`} />
+          <HitlTrustTierBadge tier={projection.nextAction.confidence.trustTier} />
+          {projection.reviewSummary.visible ? (
+            <StatusBadge status={`${projection.reviewSummary.pendingCount} pending reviews`} />
+          ) : null}
+        </div>
+        <p className="muted deal-context-strip-note">
+          Advisory cockpit context only. UI posture never authorizes export or evidence promotion.
+        </p>
       </div>
-      <div className="deal-context-strip-meta">
-        <StatusBadge status={`Stage: ${activeStage}`} />
-        <StatusBadge status={`${projection.blockerCount} blockers`} />
-        <HitlTrustTierBadge tier={projection.nextAction.confidence.trustTier} />
-        {projection.reviewSummary.visible ? (
-          <StatusBadge status={`${projection.reviewSummary.pendingCount} pending reviews`} />
-        ) : null}
-      </div>
-      <p className="muted deal-context-strip-note">
-        Advisory cockpit context only. UI posture never authorizes export or evidence promotion.
-      </p>
-    </div>
     </>
   );
 }

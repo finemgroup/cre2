@@ -9,7 +9,9 @@ import {
 
 describe('review state contract simulator', () => {
   it('does not let candidate or private observations become public by queue completion', () => {
-    const candidate = fixtureObservations.find((observation) => observation.id === 'obs-private-cap-rate');
+    const candidate = fixtureObservations.find(
+      (observation) => observation.id === 'obs-private-cap-rate'
+    );
 
     expect(candidate).toBeDefined();
     expect(queueCompletionPromotes()).toBe(false);
@@ -32,7 +34,11 @@ describe('review state contract simulator', () => {
 
   it('rejects non-operator promotion attempts', () => {
     const observation = fixtureObservations.find((item) => item.id === 'obs-provider-comp')!;
-    const result = transitionReviewState(observation, fixtureActors.orgAdmin, 'approve-public-projection');
+    const result = transitionReviewState(
+      observation,
+      fixtureActors.orgAdmin,
+      'approve-public-projection'
+    );
 
     expect(result.reviewState).toBe(observation.reviewState);
   });

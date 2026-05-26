@@ -173,7 +173,11 @@ export function StudioSpatialWorkbenchPage(): ReactElement {
         variant="studio-deal"
       />
       <div className="metric-grid spatial-workbench-metrics">
-        <MetricCard label="Visible layers" value={String(summary.layerCount)} detail="Report context" />
+        <MetricCard
+          label="Visible layers"
+          value={String(summary.layerCount)}
+          detail="Report context"
+        />
         <MetricCard
           label="Trade areas"
           value={String(summary.reportEligibleTradeAreas)}

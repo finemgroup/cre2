@@ -1,12 +1,7 @@
 import { DEFAULT_DEAL_ID } from '@/data/studio';
 import { getLinkedDealId } from '@/lib/workflow-identity';
 
-export const PUBLIC_UPLOAD_STAGES = [
-  'Select files',
-  'Terms',
-  'Upload',
-  'Candidate',
-] as const;
+export const PUBLIC_UPLOAD_STAGES = ['Select files', 'Terms', 'Upload', 'Candidate'] as const;
 
 export function getPublicUploadGuideView(propertyId = 'demo-001') {
   return {

@@ -21,10 +21,7 @@ export function LandingPage(): ReactElement {
   );
   const landingView = landingState.value;
   const featuredState = useRuntimeResource(
-    () =>
-      runtimeServices.public
-        .getLandingView()
-        .then((view) => view.featuredProperties),
+    () => runtimeServices.public.getLandingView().then((view) => view.featuredProperties),
     'landing-featured',
     getPublicLandingView().featuredProperties
   );
@@ -180,7 +177,10 @@ export function LandingPage(): ReactElement {
           {[
             ['Public baseline', 'Sample listings safe for marketplace discovery and search.'],
             ['Reviewed output', 'Fields promoted after analyst review with visible provenance.'],
-            ['Restricted / premium', 'Provider-gated comps and exports stay labeled, never implied as public.'],
+            [
+              'Restricted / premium',
+              'Provider-gated comps and exports stay labeled, never implied as public.',
+            ],
           ].map(([title, copy]) => (
             <li key={title}>
               <strong>{title}</strong>

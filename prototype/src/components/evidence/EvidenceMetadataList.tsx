@@ -17,10 +17,7 @@ type EvidenceMetadataListProps = {
   heading?: string;
 };
 
-export function EvidenceMetadataList({
-  items,
-  heading,
-}: EvidenceMetadataListProps): ReactElement {
+export function EvidenceMetadataList({ items, heading }: EvidenceMetadataListProps): ReactElement {
   return (
     <section aria-label={heading ?? 'Evidence metadata'}>
       {heading ? <h3 className="evidence-metadata-heading">{heading}</h3> : null}
@@ -31,36 +28,36 @@ export function EvidenceMetadataList({
             : null;
 
           return (
-          <li key={`${item.label}-${item.sourceId ?? item.value}`}>
-            <div className="evidence-metadata-row">
-              <strong>{item.label}</strong>
-              {posture ? (
-                <AuthorityBadge label={posture} />
-              ) : item.authorityLabel ? (
-                <span className="muted">{item.authorityLabel}</span>
+            <li key={`${item.label}-${item.sourceId ?? item.value}`}>
+              <div className="evidence-metadata-row">
+                <strong>{item.label}</strong>
+                {posture ? (
+                  <AuthorityBadge label={posture} />
+                ) : item.authorityLabel ? (
+                  <span className="muted">{item.authorityLabel}</span>
+                ) : null}
+              </div>
+              <p>{item.value}</p>
+              <p className="muted">{item.safeExplanation}</p>
+              {item.sourceId || item.asOf ? (
+                <dl className="evidence-metadata-meta">
+                  {item.sourceId ? (
+                    <>
+                      <dt>Source ref</dt>
+                      <dd>
+                        <code>{item.sourceId}</code>
+                      </dd>
+                    </>
+                  ) : null}
+                  {item.asOf ? (
+                    <>
+                      <dt>As of</dt>
+                      <dd>{item.asOf}</dd>
+                    </>
+                  ) : null}
+                </dl>
               ) : null}
-            </div>
-            <p>{item.value}</p>
-            <p className="muted">{item.safeExplanation}</p>
-            {item.sourceId || item.asOf ? (
-              <dl className="evidence-metadata-meta">
-                {item.sourceId ? (
-                  <>
-                    <dt>Source ref</dt>
-                    <dd>
-                      <code>{item.sourceId}</code>
-                    </dd>
-                  </>
-                ) : null}
-                {item.asOf ? (
-                  <>
-                    <dt>As of</dt>
-                    <dd>{item.asOf}</dd>
-                  </>
-                ) : null}
-              </dl>
-            ) : null}
-          </li>
+            </li>
           );
         })}
       </ul>

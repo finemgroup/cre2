@@ -11,7 +11,10 @@ import {
   StatusBadge,
   StudioCard,
 } from '@/components/studio/StudioPrimitives';
-import { HitlTrustTierBadge, reviewStateToHitlTier } from '@/components/workflow/HitlTrustTierBadge';
+import {
+  HitlTrustTierBadge,
+  reviewStateToHitlTier,
+} from '@/components/workflow/HitlTrustTierBadge';
 import { getBrokerOsView } from '@/lib/runtime/studio-workspace';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
@@ -47,8 +50,8 @@ export function StudioBrokerOsPage(): ReactElement {
         }
       />
       <NonProductionCallout>
-        Broker OS is a sanitized projection only. Raw worker queues, Fabricator logs, and PII context
-        never appear on this surface.
+        Broker OS is a sanitized projection only. Raw worker queues, Fabricator logs, and PII
+        context never appear on this surface.
       </NonProductionCallout>
       <RuntimeResourceStatus
         loading={brokerState.loading}
@@ -72,8 +75,8 @@ export function StudioBrokerOsPage(): ReactElement {
           </div>
           <StudioCard title="Operator-lite taxonomy" eyebrow="Projection boundary">
             <p className="muted">
-              Broker OS exposes only sanitized summaries. Internal Fabricator logs, worker queues, and
-              PII-bearing context stay off this surface.
+              Broker OS exposes only sanitized summaries. Internal Fabricator logs, worker queues,
+              and PII-bearing context stay off this surface.
             </p>
             <div className="governance-list">
               <div>
@@ -109,8 +112,18 @@ export function StudioBrokerOsPage(): ReactElement {
               <div className="metric-grid four">
                 <MetricCard label="API Gateway" value="42ms" detail="Healthy" />
                 <MetricCard label="Agent Nodes" value="12/12" detail="Online" />
-                <MetricCard label="DB Pool" value="45%" detail="Projection only" icon="water_drop" />
-                <MetricCard label="Error Rate" value="0.01%" detail="Sanitized" icon="trending_down" />
+                <MetricCard
+                  label="DB Pool"
+                  value="45%"
+                  detail="Projection only"
+                  icon="water_drop"
+                />
+                <MetricCard
+                  label="Error Rate"
+                  value="0.01%"
+                  detail="Sanitized"
+                  icon="trending_down"
+                />
               </div>
               <h3>Active Job Streams</h3>
               <p className="muted">{brokerView.safeProjectionLabel}</p>
@@ -148,7 +161,9 @@ export function StudioBrokerOsPage(): ReactElement {
                 {brokerView.reviewQueuePreview.map((item) => (
                   <li key={item.observation.id}>
                     {item.observation.fieldKey} · {item.safeStatus}{' '}
-                    <HitlTrustTierBadge tier={reviewStateToHitlTier(item.observation.reviewState)} />
+                    <HitlTrustTierBadge
+                      tier={reviewStateToHitlTier(item.observation.reviewState)}
+                    />
                   </li>
                 ))}
               </ul>

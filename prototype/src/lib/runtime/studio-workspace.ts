@@ -15,7 +15,11 @@ import type { ActorContext } from '@/lib/contracts/actor-context';
 import { decideVisibility } from '@/lib/contracts/visibility';
 import { getValuationVersionForActor } from '@/lib/contracts/valuation-version';
 import { getSourceBlocksForDeal } from '@/lib/source-bundle';
-import { getStudioReportSections, getLinkedPropertyId, resolvePropertyIdForDeal } from '@/lib/workflow-identity';
+import {
+  getStudioReportSections,
+  getLinkedPropertyId,
+  resolvePropertyIdForDeal,
+} from '@/lib/workflow-identity';
 import { evaluateExportReadiness } from '@/lib/report-governance';
 import { getPublicPropertyView } from '@/lib/runtime/public-property';
 import {
@@ -32,9 +36,7 @@ import {
   UNIT_CONFLICT_OPTIONS,
   VERSION_SNAPSHOTS,
 } from '@/pages/studio/deals/deal-route-shared';
-import {
-  calculateUnderwritingMetrics,
-} from '@/lib/underwriting';
+import { calculateUnderwritingMetrics } from '@/lib/underwriting';
 import {
   mockCandidateFields,
   mockNormalizationCandidates,
@@ -56,7 +58,10 @@ export function getStudioDashboardView(actor: ActorContext = fixtureActors.orgAd
   };
 }
 
-export function getStudioDealView(dealId: string | undefined, actor: ActorContext = fixtureActors.orgAdmin) {
+export function getStudioDealView(
+  dealId: string | undefined,
+  actor: ActorContext = fixtureActors.orgAdmin
+) {
   const deal = getStudioDeal(dealId);
   if (!deal) return undefined;
   return {
@@ -221,8 +226,7 @@ export function getStudioDebtPanelView(
   const assumptions =
     underwritingAssumptionsByDeal[deal.id] ?? underwritingAssumptionsByDeal['riverside-flats'];
   const metrics = calculateUnderwritingMetrics(assumptions);
-  const debtTraceItem =
-    ASSUMPTION_TRACE_ITEMS.find((item) => item.id === 'debt-service') ?? null;
+  const debtTraceItem = ASSUMPTION_TRACE_ITEMS.find((item) => item.id === 'debt-service') ?? null;
   return {
     deal,
     actorId: actor.id,
@@ -250,10 +254,7 @@ export function getStudioDealIntakeView(
     sourceBlocks: getSourceBlocksForDeal(deal.id),
     activeStageIndex: 2,
     filesNeedingReview: uploadFiles.filter(
-      (file) =>
-        file.status === 'needs review' ||
-        file.status === 'blocked' ||
-        Boolean(file.issue)
+      (file) => file.status === 'needs review' || file.status === 'blocked' || Boolean(file.issue)
     ).length,
   };
 }

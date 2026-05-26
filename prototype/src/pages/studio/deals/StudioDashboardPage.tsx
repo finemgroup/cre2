@@ -118,7 +118,10 @@ export function StudioDashboardPage(): ReactElement {
                   <Link to={studioDealPath(DEFAULT_DEAL_ID, 'intake')} className="btn btn-primary">
                     Import OM
                   </Link>
-                  <Link to={studioDealPath(DEFAULT_DEAL_ID, 'intake')} className="btn btn-secondary">
+                  <Link
+                    to={studioDealPath(DEFAULT_DEAL_ID, 'intake')}
+                    className="btn btn-secondary"
+                  >
                     New Deal
                   </Link>
                 </>

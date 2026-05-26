@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
 import { fixtureActors } from '@/lib/contracts/fixtures';
-import { assertReceiptIsRedacted, createReceipt, resetReceiptStore } from '@/lib/contracts/receipts';
+import {
+  assertReceiptIsRedacted,
+  createReceipt,
+  resetReceiptStore,
+} from '@/lib/contracts/receipts';
 
 describe('export receipt idempotency contract simulator', () => {
   it('returns the same receipt for replayed idempotency keys', () => {

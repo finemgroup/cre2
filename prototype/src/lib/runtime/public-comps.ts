@@ -1,6 +1,13 @@
 import { mockComps, type CompRecord } from '@/data/mock';
 import { PUBLIC_ACTOR, type ActorContext } from '@/lib/contracts/actor-context';
-import { getMapLayerManifestsForActor, getSpatialEvidenceForActor, getTradeAreasForActor, precisionLabel, verificationLabel, type TradeArea } from '@/lib/contracts/spatial';
+import {
+  getMapLayerManifestsForActor,
+  getSpatialEvidenceForActor,
+  getTradeAreasForActor,
+  precisionLabel,
+  verificationLabel,
+  type TradeArea,
+} from '@/lib/contracts/spatial';
 import { decideVisibility } from '@/lib/contracts/visibility';
 
 export type PublicCompView = CompRecord & {
@@ -12,10 +19,7 @@ export type PublicCompContextView = {
   comps: PublicCompView[];
   mapLayers: ReturnType<typeof getMapLayerManifestsForActor>;
   tradeAreas: TradeArea[];
-  evidenceByLayer: Record<
-    string,
-    Array<{ label: string; value: string; safeExplanation: string }>
-  >;
+  evidenceByLayer: Record<string, Array<{ label: string; value: string; safeExplanation: string }>>;
 };
 
 export function getPublicCompViews(actor: ActorContext = PUBLIC_ACTOR): PublicCompView[] {

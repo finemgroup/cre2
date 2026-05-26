@@ -1,10 +1,10 @@
 import type { ReactElement } from 'react';
 
-import { ReadinessRail, type ReadinessRailItem } from '@/components/workstation/UnderwritingWorkstationPrimitives';
 import {
-  VALUATION_READINESS_STAGES,
-  type ValuationReadinessStage,
-} from '@/lib/readiness-stages';
+  ReadinessRail,
+  type ReadinessRailItem,
+} from '@/components/workstation/UnderwritingWorkstationPrimitives';
+import { VALUATION_READINESS_STAGES, type ValuationReadinessStage } from '@/lib/readiness-stages';
 import type { WorkflowGate, WorkflowGateEvaluation } from '@/lib/contracts/workflow-gates';
 
 const STAGE_FAMILIES: Record<ValuationReadinessStage, WorkflowGate['family'][]> = {
@@ -15,9 +15,7 @@ const STAGE_FAMILIES: Record<ValuationReadinessStage, WorkflowGate['family'][]> 
   Export: ['export'],
 };
 
-function gateStatusToRailStatus(
-  status: WorkflowGate['status']
-): ReadinessRailItem['status'] {
+function gateStatusToRailStatus(status: WorkflowGate['status']): ReadinessRailItem['status'] {
   if (status === 'passed') return 'ready';
   if (status === 'warning') return 'warning';
   if (status === 'blocked') return 'blocked';
@@ -35,9 +33,7 @@ export function evaluationToReadinessRailItems(
   evaluation: WorkflowGateEvaluation
 ): ReadinessRailItem[] {
   return VALUATION_READINESS_STAGES.map((stage) => {
-    const gates = evaluation.gates.filter((gate) =>
-      STAGE_FAMILIES[stage].includes(gate.family)
-    );
+    const gates = evaluation.gates.filter((gate) => STAGE_FAMILIES[stage].includes(gate.family));
     const status = worstRailStatus(gates.map((gate) => gateStatusToRailStatus(gate.status)));
     const detail =
       gates.find((gate) => gate.status !== 'passed')?.safeMessage ??

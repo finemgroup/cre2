@@ -48,7 +48,11 @@ export function StudioStandaloneShell(): ReactElement {
           <p id="report-export-disabled-note" className="sr-only">
             Export stays gated until report sections and source-rights gates clear in the builder.
           </p>
-          <PrototypeActionButton feature="Report help" className="btn btn-ghost" aria-label="Report help">
+          <PrototypeActionButton
+            feature="Report help"
+            className="btn btn-ghost"
+            aria-label="Report help"
+          >
             <MaterialIcon name="help" />
           </PrototypeActionButton>
           <span className="avatar" role="img" aria-label="User avatar" />

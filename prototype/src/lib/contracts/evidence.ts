@@ -55,14 +55,18 @@ export function resolveFieldForActor(
   observations: Observation[]
 ): ResolvedFieldValue | undefined {
   const candidates = observations
-    .filter((observation) => observation.propertyId === propertyId && observation.fieldKey === fieldKey)
+    .filter(
+      (observation) => observation.propertyId === propertyId && observation.fieldKey === fieldKey
+    )
     .map((observation) => ({
       observation,
       decision: decideVisibility(actor, observation),
     }));
 
   const allowed = candidates
-    .filter(({ decision }) => decision.decision === 'allow' || decision.decision === 'aggregate-only')
+    .filter(
+      ({ decision }) => decision.decision === 'allow' || decision.decision === 'aggregate-only'
+    )
     .sort(
       (left, right) =>
         scoreCandidate(right.observation, right.decision.label) -

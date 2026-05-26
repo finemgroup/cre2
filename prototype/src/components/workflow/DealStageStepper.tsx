@@ -34,28 +34,28 @@ export function DealStageStepper({ dealId }: { dealId: string }): ReactElement {
     <>
       <RuntimeResourceStatus error={progressState.error} variant="studio-deal" />
       <MotionBlock motionName="navRail">
-      <nav className="deal-stage-stepper" aria-label="Deal workflow stages">
-        <p className="studio-eyebrow">Deal workflow</p>
-        <ol className="deal-stage-list">
-          {DEAL_STAGE_DEFINITIONS.map((stage) => {
-            const status = progress[stage.id];
-            const isActive = stage.id === activeStage;
-            return (
-              <li
-                key={stage.id}
-                className={`deal-stage-item deal-stage-${status}${isActive ? ' active' : ''}`}
-                aria-current={isActive ? 'step' : undefined}
-              >
-                <Link to={stage.primaryRoute(dealId)} className="deal-stage-link">
-                  <span className="deal-stage-name">{stage.label}</span>
-                  <span className="deal-stage-status">{STATUS_LABEL[status]}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ol>
-      </nav>
-    </MotionBlock>
+        <nav className="deal-stage-stepper" aria-label="Deal workflow stages">
+          <p className="studio-eyebrow">Deal workflow</p>
+          <ol className="deal-stage-list">
+            {DEAL_STAGE_DEFINITIONS.map((stage) => {
+              const status = progress[stage.id];
+              const isActive = stage.id === activeStage;
+              return (
+                <li
+                  key={stage.id}
+                  className={`deal-stage-item deal-stage-${status}${isActive ? ' active' : ''}`}
+                  aria-current={isActive ? 'step' : undefined}
+                >
+                  <Link to={stage.primaryRoute(dealId)} className="deal-stage-link">
+                    <span className="deal-stage-name">{stage.label}</span>
+                    <span className="deal-stage-status">{STATUS_LABEL[status]}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ol>
+        </nav>
+      </MotionBlock>
     </>
   );
 }

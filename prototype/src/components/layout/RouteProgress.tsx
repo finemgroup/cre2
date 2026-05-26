@@ -8,7 +8,11 @@ export function RouteProgress(): ReactElement {
   return (
     <div
       key={`${location.pathname}${location.search}`}
-      className={isStudioRoute ? 'route-progress route-progress-studio' : 'route-progress route-progress-public'}
+      className={
+        isStudioRoute
+          ? 'route-progress route-progress-studio'
+          : 'route-progress route-progress-public'
+      }
       aria-hidden="true"
     />
   );

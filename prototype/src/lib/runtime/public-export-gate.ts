@@ -3,12 +3,7 @@ import { fixtureActors } from '@/lib/contracts/fixtures';
 import { getPublicReportView } from '@/lib/runtime/report-flow';
 import { getLinkedDealId } from '@/lib/workflow-identity';
 
-export const PUBLIC_EXPORT_SCOPES = [
-  'preview',
-  'download',
-  'share',
-  'partner-delivery',
-] as const;
+export const PUBLIC_EXPORT_SCOPES = ['preview', 'download', 'share', 'partner-delivery'] as const;
 
 export function getPublicExportGateView(
   propertyId: string | undefined,

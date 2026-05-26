@@ -21,9 +21,9 @@ describe('wave 3 studio routes', () => {
   it('renders HITL review queue as internal-only projection', async () => {
     await renderRoute('/studio/deals/riverside-flats/hitl-review');
     expect(screen.getByRole('heading', { name: /Reviewer Assignment Queue/i })).toBeInTheDocument();
-    expect(screen.getAllByText(/queue completion is not promotion authority/i).length).toBeGreaterThan(
-      0
-    );
+    expect(
+      screen.getAllByText(/queue completion is not promotion authority/i).length
+    ).toBeGreaterThan(0);
   });
 
   it('renders spatial workbench manifest and trade areas', async () => {

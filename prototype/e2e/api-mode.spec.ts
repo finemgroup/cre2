@@ -24,7 +24,9 @@ test.describe('sandbox api mode smoke', () => {
     await expect(page.getByLabel('Deal cockpit context')).toBeVisible();
     await expect(page.getByText('Core')).toBeVisible();
     await expect(page.getByRole('navigation', { name: /Underwriting panels/i })).toBeVisible();
-    await expect(page.getByRole('heading', { name: /Executive Underwriting Cockpit/i })).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: /Executive Underwriting Cockpit/i })
+    ).toBeVisible();
     await expect(page.getByText(/AI staff pulse/i)).toBeVisible();
   });
 

@@ -1,6 +1,11 @@
 import type { NormalizationCandidateRow } from '@/lib/staged-import';
 
-const OPEN_POSTURES = new Set(['Blocked', 'Source pending', 'Candidate evidence', 'Reviewer required']);
+const OPEN_POSTURES = new Set([
+  'Blocked',
+  'Source pending',
+  'Candidate evidence',
+  'Reviewer required',
+]);
 
 export function summarizeNormalizationPosture(rows: NormalizationCandidateRow[]) {
   const reviewed = rows.filter((row) => row.posture === 'Reviewed').length;

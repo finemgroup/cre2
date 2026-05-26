@@ -121,7 +121,9 @@ export function AssumptionsPanel({
       <DataProvenanceLabel provenance={provenance} />
       <div className="review-summary">
         <TrustBadge state={provenance.requiresConfirmation ? 'Candidate evidence' : 'Reviewed'} />
-        <span>Every assumption change stays candidate-only until source trace and gates clear.</span>
+        <span>
+          Every assumption change stays candidate-only until source trace and gates clear.
+        </span>
       </div>
     </StudioCard>
   );

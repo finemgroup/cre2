@@ -1,9 +1,6 @@
 import type { ActorContext } from '@/lib/contracts/actor-context';
 import type { ReviewState } from '@/lib/contracts/evidence';
-import {
-  evaluateWorkflowGates,
-  type WorkflowGateEvaluation,
-} from '@/lib/contracts/workflow-gates';
+import { evaluateWorkflowGates, type WorkflowGateEvaluation } from '@/lib/contracts/workflow-gates';
 import { getTradeAreasForActor, type TradeArea } from '@/lib/contracts/spatial';
 
 export type EvidenceSnapshot = {
@@ -51,7 +48,8 @@ export function getValuationVersionForActor(input: {
   spatialSourceClear?: boolean;
 }): ValuationVersion {
   const reportId = input.reportId ?? `report-${input.propertyId}`;
-  const isPublic = input.actor.actorClass === 'anonymous' || input.actor.actorClass === 'partner-api';
+  const isPublic =
+    input.actor.actorClass === 'anonymous' || input.actor.actorClass === 'partner-api';
   const tradeAreas = getTradeAreasForActor(input.actor, input.propertyId);
   const reviewState: ReviewState = isPublic ? 'needs-review' : 'approved-private-use';
   const sourceRightsClear = input.sourceRightsClear ?? !isPublic;

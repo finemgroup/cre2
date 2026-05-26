@@ -1,9 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import {
-  buildScenarioPresets,
-  listScenarioPresets,
-} from '@/lib/underwriting/scenarios';
+import { buildScenarioPresets, listScenarioPresets } from '@/lib/underwriting/scenarios';
 import { DEFAULT_UNDERWRITING_ASSUMPTIONS, calculateUnderwritingMetrics } from '@/lib/underwriting';
 
 describe('underwriting scenario presets', () => {

@@ -128,10 +128,7 @@ export type StudioRuntimeServices = {
   ): Promise<StudioDealIntakeView | undefined>;
   getWorkflowProgress(dealId: string): Promise<Record<DealWorkflowStage, DealStageStatus>>;
   getNextAction(dealId: string): Promise<DealNextAction>;
-  getCockpitProjection(
-    dealId: string,
-    actor?: ActorContext
-  ): Promise<DealCockpitProjection>;
+  getCockpitProjection(dealId: string, actor?: ActorContext): Promise<DealCockpitProjection>;
   getBrokerOs(): Promise<StudioBrokerOsView>;
   getBillingPlans(): Promise<StudioBillingView>;
   getOnboardingView(): Promise<StudioOnboardingView>;
