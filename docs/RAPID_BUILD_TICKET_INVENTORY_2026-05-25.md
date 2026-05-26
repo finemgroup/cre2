@@ -290,3 +290,10 @@ Canonical ticket pack: [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPI
 | `SOPHEX-VIS-006` | Done | Comp saved views + filter-empty states (public + studio) |
 | `SOPHEX-VIS-007` | Done | Scenario keyboard hint + route module cleanup |
 | CSS budget trim | Done | Consolidated proof-strip utilities; CSS 69.4 KB |
+
+### Wave 20 Ticket Ledger
+
+| Ticket | Status | Notes |
+| --- | --- | --- |
+| `SOPHEX-CRE-006` | Done | Import cleanup completed for intake, data-review, sources, debt, versions, underwriting (all 10 deal modules) |
+| Matrix route paths | Done | Intake, data-review, sources, debt, versions now point at `deals/*` modules |

@@ -1,126 +1,53 @@
-// @ts-nocheck
 import { useMemo, useState, type ReactElement } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import {
-  AnimatedList,
   DataTable,
-  DetailDrawer,
-  MaterialIcon,
-  MetricCard,
-  NonProductionCallout,
-  PageTitle,
-  PaywallOverlay,
-  StageStepper,
-  StatusBadge,
-  StickyActionBar,
   StudioCard,
-  TrustBadge,
   WorkflowContextHeader,
 } from '@/components/studio/StudioPrimitives';
 import {
   AssumptionsPanel,
   GatesPanel,
   MetricsPanel,
-  SensitivityMatrix,
   SyntheticDataBanner,
   VersionLockCard,
 } from '@/components/underwriting/UnderwritingPanels';
-import {
-  ProvenanceCell,
-  ReviewPostureBanner,
-  SourceEvidenceBlockCard,
-} from '@/components/provenance/ProvenanceWidgets';
-import { EvidenceMetadataList } from '@/components/evidence/EvidenceMetadataList';
-import type { EvidenceMetadataItem } from '@/components/evidence/EvidenceMetadataList';
-import { UploadDropzone } from '@/components/upload/UploadDropzone';
-import { StagedImportReviewPanel } from '@/components/review/StagedImportReviewPanel';
 import { GateOverrideModal } from '@/components/overlays/GateOverrideModal';
-import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
-import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
-import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
-import { TrustExplainerDrawer } from '@/components/overlays/TrustExplainerDrawer';
-import { UpgradePlanModal } from '@/components/overlays/UpgradePlanModal';
 import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
-import { SensitivityHeatmap } from '@/components/visualization/SensitivityHeatmap';
-import { AccessibleBarChart } from '@/components/visualization/AccessibleBarChart';
-import {
-  ActivityTimelinePanel,
-  WorkflowContinuityContainer,
-  WorkflowHandoffLink,
-} from '@/components/workflow/WorkflowPrimitives';
-import { AiTaskPulse } from '@/components/workflow/AiTaskPulse';
-import { DataWorkbenchShell } from '@/components/workflow/DataWorkbenchShell';
+import { WorkflowContinuityContainer, WorkflowHandoffLink } from '@/components/workflow/WorkflowPrimitives';
 import { DealCockpitPanel } from '@/components/workflow/DealCockpitPanel';
 import { ContextualSurfaceTriggers } from '@/components/workflow/ContextualSurfaceTriggers';
 import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
 import { HitlReviewDrawer } from '@/components/workflow/HitlReviewDrawer';
-import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
 import {
   CalculationBreakdownDrawer,
-  EvidenceConflictResolverModal,
-  EvidenceTraceList,
-  EvidenceValueCard,
   ReadinessRail,
-  SensitivityCellDrilldownDrawer,
   SourceCoverageCard,
   VersionLockConfirmationModal,
   WorkflowSpineNav,
-  IntakeWorkflowNav,
   buildUnderwritingSpineSteps,
-  WorkstationDrawer,
-  type ConflictOption,
-  type EvidenceTraceItem,
-  type ReadinessRailItem,
-  type VersionSnapshot,
 } from '@/components/workstation/UnderwritingWorkstationPrimitives';
 import {
   buildProFormaRows,
-  buildSensitivityGrid,
   calculateUnderwritingMetrics,
   evaluateUnderwritingGates,
   formatCurrency,
   formatMultiple,
   formatPercent,
 } from '@/lib/underwriting';
+import { buildScenarioPresets, type ScenarioName } from '@/lib/underwriting/scenarios';
+import { getStudioCompViews } from '@/lib/runtime/studio-workspace';
 import {
-  buildScenarioPresets,
-  listScenarioPresets,
-  type ScenarioName,
-} from '@/lib/underwriting/scenarios';
-import { mockCandidateFields, mockUploadFiles } from '@/lib/staged-import';
-import { fixtureActors } from '@/lib/contracts/fixtures';
-import { getValuationVersionForActor } from '@/lib/contracts/valuation-version';
-import { getLinkedPropertyId } from '@/lib/workflow-identity';
-import {
-  activity,
-  DEFAULT_DEAL_ID,
   studioDealPath,
   studioReportPath,
   underwritingAssumptionsByDeal,
   underwritingProvenanceByDeal,
   type Deal,
 } from '@/data/studio';
-import {
-  getStudioCompViews,
-  getStudioDashboardView,
-  getStudioDealView,
-} from '@/lib/runtime/studio-workspace';
-import { formatOnboardingSummary, getOnboardingProfile } from '@/lib/studio/onboarding-profile';
-import {
-  SegmentedControl,
-  TabPanelSwitch,
-  StudioDealNotFound,
-  useStudioDeal,
-} from '@/pages/studio/StudioShared';
+import { TabPanelSwitch, StudioDealNotFound, useStudioDeal } from '@/pages/studio/StudioShared';
 
-import {
-  DEAL_DOCUMENT_EVIDENCE,
-  ASSUMPTION_TRACE_ITEMS,
-  UNIT_CONFLICT_OPTIONS,
-  VERSION_SNAPSHOTS,
-  READINESS_ITEMS,
-} from './deal-route-shared';
+import { READINESS_ITEMS } from './deal-route-shared';
 
 export function StudioUnderwritingPage(): ReactElement {
   const deal = useStudioDeal();
@@ -185,25 +112,25 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
         />
       ) : null}
       <div className="deal-cockpit-stack">
-      <DealCockpitPanel
-        dealId={deal.id}
-        title="Executive Underwriting Cockpit"
-        eyebrow="CRE cockpit pattern adapted"
-        kpis={[
-          {
-            label: 'Advisory Value',
-            value: formatCurrency(metrics.indicatedValue),
-            detail: `${activeScenario} formula-backed range`,
-          },
-          { label: 'IRR', value: formatPercent(metrics.irr), detail: 'Model-inferred' },
-          { label: 'DSCR', value: formatMultiple(metrics.dscr), detail: 'Lender quote pending' },
-          {
-            label: 'Open Gates',
-            value: String(gates.filter((gate) => gate.status !== 'PASS').length),
-            detail: 'Mock underwriting gates',
-          },
-        ]}
-      />
+        <DealCockpitPanel
+          dealId={deal.id}
+          title="Executive Underwriting Cockpit"
+          eyebrow="CRE cockpit pattern adapted"
+          kpis={[
+            {
+              label: 'Advisory Value',
+              value: formatCurrency(metrics.indicatedValue),
+              detail: `${activeScenario} formula-backed range`,
+            },
+            { label: 'IRR', value: formatPercent(metrics.irr), detail: 'Model-inferred' },
+            { label: 'DSCR', value: formatMultiple(metrics.dscr), detail: 'Lender quote pending' },
+            {
+              label: 'Open Gates',
+              value: String(gates.filter((gate) => gate.status !== 'PASS').length),
+              detail: 'Mock underwriting gates',
+            },
+          ]}
+        />
       </div>
       <StudioCard title="Workflow Spine" eyebrow="Assumptions → export">
         <WorkflowSpineNav steps={buildUnderwritingSpineSteps(deal.id, 'assumptions')} />
@@ -239,131 +166,131 @@ function StudioUnderwritingWorkspace({ deal }: { deal: Deal }): ReactElement {
         </Link>
       </div>
       <TabPanelSwitch panelKey={activeScenario}>
-      <div className="workstation-hero-grid">
-        <StudioCard title="Valuation Range & Model Output" eyebrow="Stitch rollout surface">
-          <div className="valuation-range">
-            <span>Advisory valuation range</span>
-            <strong>
-              {formatCurrency(metrics.indicatedValue * 0.94)} -{' '}
-              {formatCurrency(metrics.indicatedValue * 1.06)}
-            </strong>
-            <p>
-              Range is formula-backed mock output. Lender quote and unit-count evidence must clear
-              before report/export.
-            </p>
-          </div>
-          <div className="studio-actions">
-            <Link
-              to={studioDealPath(deal.id, 'underwriting-sources')}
-              className="btn btn-secondary"
-            >
-              Open Source Trace
-            </Link>
-            <Link to={studioReportPath(deal.id)} className="btn btn-primary">
-              Review Report Gates
-            </Link>
-          </div>
-        </StudioCard>
-        <SourceCoverageCard
-          documentedPercent={92}
-          blockers={[
-            'Lender quote missing',
-            'Unit count conflict unresolved',
-            'Scenario set not locked',
-          ]}
-        />
-        <StudioCard title="Readiness Rail">
-          <ReadinessRail items={READINESS_ITEMS} />
-        </StudioCard>
-      </div>
-      <div className="cockpit-grid">
-        <AssumptionsPanel
-          assumptions={assumptions}
-          provenance={underwritingProvenanceByDeal[deal.id]}
-          sourceTracePath={studioDealPath(deal.id, 'underwriting-sources')}
-          onChange={setAssumptions}
-        />
-        <MetricsPanel
-          metrics={metrics}
-          scenarioLabel={activeScenario}
-          onInspectMetric={setCalculationTarget}
-        />
-        <div aria-live="polite" className="sr-only">
-          {activeScenario} scenario: IRR {formatPercent(metrics.irr)}, NOI{' '}
-          {formatCurrency(metrics.noi)}
+        <div className="workstation-hero-grid">
+          <StudioCard title="Valuation Range & Model Output" eyebrow="Stitch rollout surface">
+            <div className="valuation-range">
+              <span>Advisory valuation range</span>
+              <strong>
+                {formatCurrency(metrics.indicatedValue * 0.94)} -{' '}
+                {formatCurrency(metrics.indicatedValue * 1.06)}
+              </strong>
+              <p>
+                Range is formula-backed mock output. Lender quote and unit-count evidence must clear
+                before report/export.
+              </p>
+            </div>
+            <div className="studio-actions">
+              <Link
+                to={studioDealPath(deal.id, 'underwriting-sources')}
+                className="btn btn-secondary"
+              >
+                Open Source Trace
+              </Link>
+              <Link to={studioReportPath(deal.id)} className="btn btn-primary">
+                Review Report Gates
+              </Link>
+            </div>
+          </StudioCard>
+          <SourceCoverageCard
+            documentedPercent={92}
+            blockers={[
+              'Lender quote missing',
+              'Unit count conflict unresolved',
+              'Scenario set not locked',
+            ]}
+          />
+          <StudioCard title="Readiness Rail">
+            <ReadinessRail items={READINESS_ITEMS} />
+          </StudioCard>
         </div>
-        <GatesPanel
-          gates={gates}
-          onOverride={(gateId) => {
-            const gate = gates.find((item) => item.id === gateId);
-            if (!gate) return;
-            setOverrideTarget({ id: gate.id, label: gate.label, detail: gate.detail });
-          }}
-        />
-      </div>
-      <StudioCard title="Pro Forma Cash Flow">
-        <DataTable
-          caption="Five-year pro forma cash flow"
-          headers={['Year', 'Gross Revenue', 'Expenses', 'NOI', 'Debt Service', 'Cash Flow']}
-          rows={proFormaRows}
-        />
-      </StudioCard>
-      <div className="dashboard-grid">
-        <VersionLockCard
-          canLock={gates.every((gate) => gate.status === 'PASS' || gate.status === 'OVERRIDDEN')}
-          locked={locked}
-          onLock={() => setLockModalOpen(true)}
-        />
-        <StudioCard title="Next Handoff">
-          <WorkflowHandoffLink
-            to={studioDealPath(deal.id, 'underwriting-sources')}
-            label="Resolve evidence blockers"
-            reason="Lender quote and unit count conflict block version lock and export."
+        <div className="cockpit-grid">
+          <AssumptionsPanel
+            assumptions={assumptions}
+            provenance={underwritingProvenanceByDeal[deal.id]}
+            sourceTracePath={studioDealPath(deal.id, 'underwriting-sources')}
+            onChange={setAssumptions}
           />
-          <WorkflowHandoffLink
-            to={studioDealPath(deal.id, 'versions')}
-            label="Review version timeline"
-            reason="Version lock stays disabled until all gates pass or are overridden."
+          <MetricsPanel
+            metrics={metrics}
+            scenarioLabel={activeScenario}
+            onInspectMetric={setCalculationTarget}
           />
-          <WorkflowHandoffLink
-            to={studioReportPath(deal.id)}
-            label="Review report gates"
-            reason="Export remains blocked until section review and source rights clear."
+          <div aria-live="polite" className="sr-only">
+            {activeScenario} scenario: IRR {formatPercent(metrics.irr)}, NOI{' '}
+            {formatCurrency(metrics.noi)}
+          </div>
+          <GatesPanel
+            gates={gates}
+            onOverride={(gateId) => {
+              const gate = gates.find((item) => item.id === gateId);
+              if (!gate) return;
+              setOverrideTarget({ id: gate.id, label: gate.label, detail: gate.detail });
+            }}
           />
-          <WorkflowHandoffLink
-            to={studioDealPath(deal.id, 'scenarios')}
-            label="Compare scenarios"
-            reason={`${activeScenario} metrics are formula-backed but still mock-only.`}
-          />
-          <WorkflowHandoffLink
-            to={studioDealPath(deal.id, 'capital-stack')}
-            label="Review capital stack"
-            reason="Advisory stack and waterfall remain mock-only and export gated."
-          />
-          <WorkflowHandoffLink
-            to={studioDealPath(deal.id, 'ic-packet')}
-            label="Open IC packet"
-            reason="IC delivery simulated until section and evidence gates clear."
-          />
-          <WorkflowHandoffLink
-            to={studioDealPath(deal.id, 'hitl-review')}
-            label="Open HITL review queue"
-            reason="Internal reviewer assignments do not persist promotion authority."
-          />
-          <button
-            type="button"
-            className="btn btn-secondary"
-            onClick={() => setHitlDrawerOpen(true)}
-          >
-            Open analyst review drawer
-          </button>
-          <WorkflowHandoffLink
-            to={studioDealPath(deal.id, 'spatial')}
-            label="Open spatial workbench"
-            reason="Map manifest, trade areas, and source rights for report context."
+        </div>
+        <StudioCard title="Pro Forma Cash Flow">
+          <DataTable
+            caption="Five-year pro forma cash flow"
+            headers={['Year', 'Gross Revenue', 'Expenses', 'NOI', 'Debt Service', 'Cash Flow']}
+            rows={proFormaRows}
           />
         </StudioCard>
-      </div>
+        <div className="dashboard-grid">
+          <VersionLockCard
+            canLock={gates.every((gate) => gate.status === 'PASS' || gate.status === 'OVERRIDDEN')}
+            locked={locked}
+            onLock={() => setLockModalOpen(true)}
+          />
+          <StudioCard title="Next Handoff">
+            <WorkflowHandoffLink
+              to={studioDealPath(deal.id, 'underwriting-sources')}
+              label="Resolve evidence blockers"
+              reason="Lender quote and unit count conflict block version lock and export."
+            />
+            <WorkflowHandoffLink
+              to={studioDealPath(deal.id, 'versions')}
+              label="Review version timeline"
+              reason="Version lock stays disabled until all gates pass or are overridden."
+            />
+            <WorkflowHandoffLink
+              to={studioReportPath(deal.id)}
+              label="Review report gates"
+              reason="Export remains blocked until section review and source rights clear."
+            />
+            <WorkflowHandoffLink
+              to={studioDealPath(deal.id, 'scenarios')}
+              label="Compare scenarios"
+              reason={`${activeScenario} metrics are formula-backed but still mock-only.`}
+            />
+            <WorkflowHandoffLink
+              to={studioDealPath(deal.id, 'capital-stack')}
+              label="Review capital stack"
+              reason="Advisory stack and waterfall remain mock-only and export gated."
+            />
+            <WorkflowHandoffLink
+              to={studioDealPath(deal.id, 'ic-packet')}
+              label="Open IC packet"
+              reason="IC delivery simulated until section and evidence gates clear."
+            />
+            <WorkflowHandoffLink
+              to={studioDealPath(deal.id, 'hitl-review')}
+              label="Open HITL review queue"
+              reason="Internal reviewer assignments do not persist promotion authority."
+            />
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => setHitlDrawerOpen(true)}
+            >
+              Open analyst review drawer
+            </button>
+            <WorkflowHandoffLink
+              to={studioDealPath(deal.id, 'spatial')}
+              label="Open spatial workbench"
+              reason="Map manifest, trade areas, and source rights for report context."
+            />
+          </StudioCard>
+        </div>
       </TabPanelSwitch>
       <ContextualSurfaceTriggers dealId={deal.id} route="underwriting" />
       <GateOverrideModal
