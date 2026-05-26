@@ -197,13 +197,13 @@ export function ReportPage(): ReactElement {
 
       {linkedDealId ? (
         <section className="card" aria-label="Studio continuity">
-          <p className="eyebrow">Studio handoff</p>
+          <p className="eyebrow">Linked Studio deal: {linkedDealId}</p>
           <p>
             Analyst workspace handoff remains mock/sandbox-only; it does not promote this advisory
             report or enable export.
           </p>
           <Link to={`/studio/deals/${linkedDealId}/underwriting`} className="btn btn-secondary">
-            Open linked Studio deal
+            Open {linkedDealId} in Studio
           </Link>
         </section>
       ) : null}
