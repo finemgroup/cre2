@@ -187,11 +187,10 @@ export function ReportPage(): ReactElement {
   return (
     <section className="page report-trust-page">
       <header className="page-header">
-        <p className="eyebrow">Prototype public report · {property.id}</p>
+        <p className="eyebrow">Public Intelligence · {property.id}</p>
         <h1>Report for {property.address}</h1>
         <p className="lede">
-          Advisory public intelligence preview with source limits, reviewer posture, and disabled
-          export gates always visible.
+          Advisory preview with source limits, Review Required posture, and Export gated controls.
         </p>
       </header>
 
@@ -232,7 +231,7 @@ export function ReportPage(): ReactElement {
       <section className="report-trust-hero card" aria-labelledby="report-advisory-heading">
         <div>
           <p className="eyebrow">{fixtureEyebrow}</p>
-          <h2 id="report-advisory-heading">Advisory model-inferred valuation range</h2>
+          <h2 id="report-advisory-heading">Advisory / Model-Inferred valuation range</h2>
           <strong className="report-trust-range">{fixtureRange}</strong>
           <p>
             {fixtureSummary} Figures are derived from deterministic fixture data and public/source
@@ -240,7 +239,7 @@ export function ReportPage(): ReactElement {
           </p>
         </div>
         <div className="report-trust-export-card" aria-label="Export gate posture">
-          <span>Export gate</span>
+          <span>Export gated</span>
           <strong>Disabled in prototype</strong>
           <p>{fixtureExportPosture}</p>
           <button type="button" className="btn btn-primary" disabled>
@@ -271,11 +270,11 @@ export function ReportPage(): ReactElement {
         aria-label="Source coverage and confidence"
       >
         {[
-          ['Source coverage', fixtureCoverage, `${citationCount} visible citations`],
+          ['Source Coverage', fixtureCoverage, `${citationCount} visible citations`],
           ['Confidence', fixtureConfidence, fixtureAuthority],
           ['Freshness', fixtureFreshness, `Snapshot ${snapshotDate}`],
           [
-            'Authority',
+            'Authority Labels Applied',
             'Advisory only',
             `${valuationVersion?.evidenceSnapshot.redactedEvidenceCount ?? 0} refs redacted`,
           ],
@@ -306,7 +305,7 @@ export function ReportPage(): ReactElement {
 
       <section className="report-gap-register card" aria-labelledby="report-gap-heading">
         <div>
-          <p className="eyebrow">Warning and gap register</p>
+          <p className="eyebrow">Warning & Gap Register</p>
           <h2 id="report-gap-heading">What still blocks trust and export</h2>
         </div>
         <ul>
@@ -361,7 +360,7 @@ export function ReportPage(): ReactElement {
               <h2>{section.title}</h2>
               <p>{section.citation}</p>
               <p className="muted">
-                Draft section only. Copy remains review-gated and cannot be exported from this
+                Draft report sections. Copy remains review-gated and cannot be exported from this
                 prototype.
               </p>
               <AuthorityBadge
@@ -406,8 +405,7 @@ export function ReportPage(): ReactElement {
       </div>
 
       <footer className="card report-prototype-footer">
-        Prototype-only report state: {fixtureStateLabel}. No live valuation, provider send, billing,
-        CRE bridge, or export authority is enabled.
+        Prototype-only. No live valuation or export. State: {fixtureStateLabel}.
       </footer>
     </section>
   );

@@ -28,8 +28,14 @@ test.describe('public Sophex smoke', () => {
   test('public report fixture states keep trust copy and export gate visible', async ({ page }) => {
     await gotoRoute(page, '/report/demo-001?state=provider-restricted');
 
+    await expect(page.getByText(/Public Intelligence/i)).toBeVisible();
     await expect(page.getByRole('heading', { name: /^Not an appraisal$/i })).toBeVisible();
-    await expect(page.getByText(/Advisory model-inferred valuation range/i)).toBeVisible();
+    await expect(page.getByText(/Advisory \/ Model-Inferred valuation range/i)).toBeVisible();
+    await expect(page.getByText(/Source Coverage/i).first()).toBeVisible();
+    await expect(page.getByText(/Warning & Gap Register/i)).toBeVisible();
+    await expect(page.getByText(/Authority Labels Applied/i)).toBeVisible();
+    await expect(page.getByText(/Draft report sections/i).first()).toBeVisible();
+    await expect(page.getByText(/Prototype-only\. No live valuation or export\./i)).toBeVisible();
     await expect(page.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
     await expect(page.getByRole('link', { name: /Continue to export gate/i })).toBeVisible();
 
