@@ -25,6 +25,20 @@ test.describe('public Sophex smoke', () => {
     await expect(page.getByRole('heading', { name: /Report for 1200 Commerce St/i })).toBeVisible();
   });
 
+  test('public report fixture states keep trust copy and export gate visible', async ({ page }) => {
+    await gotoRoute(page, '/report/demo-001?state=provider-restricted');
+
+    await expect(page.getByRole('heading', { name: /^Not an appraisal$/i })).toBeVisible();
+    await expect(page.getByText(/Advisory model-inferred valuation range/i)).toBeVisible();
+    await expect(page.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
+    await expect(page.getByRole('link', { name: /Continue to export gate/i })).toBeVisible();
+
+    await page.getByRole('link', { name: /Low evidence/i }).click();
+    await expect(page).toHaveURL(/state=low-evidence/);
+    await expect(page.locator('.report-trust-hero').getByText(/Thin citation pack/i)).toBeVisible();
+    await expect(page.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
+  });
+
   test('upload produces candidate evidence receipt copy', async ({ page }) => {
     await gotoRoute(page, '/upload');
     await page.locator('#file-input').setInputFiles({
