@@ -1308,7 +1308,7 @@ td {
 }
 
 .studio-hero {
-  min-height: 480px;
+  min-height: 440px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 460px;
   gap: 2rem;
@@ -2213,7 +2213,6 @@ button.upload-zone {
   }
 }
 
-/* Overlay surfaces */
 .modal-root {
   position: fixed;
   inset: 0;

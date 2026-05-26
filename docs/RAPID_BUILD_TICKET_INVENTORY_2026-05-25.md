@@ -282,10 +282,11 @@ Canonical ticket pack: [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPI
 | `SOPHEX-RUN-001` | Mostly done | Runtime posture chip + sandbox fallback tests |
 | Gated runtime tickets | Blocked | Schema, provider, HITL/legal, billing/auth per approval packet |
 
-### Wave 18 Ticket Ledger
+### Wave 19 Ticket Ledger
 
 | Ticket | Status | Notes |
 | --- | --- | --- |
-| `SOPHEX-CRE-005` | Done | Lazy geometry load states in `MapLayerControlPanel`, GIS tests |
-| `SOPHEX-RUN-001` | Mostly done | `RuntimePostureChip`, sandbox in-process fallback tests |
-| Partial route polish | Done | Property snapshot strip, report advisor band, visual snapshots rebaselined |
+| `SOPHEX-CRE-006` | Done | Deal route import cleanup on dashboard, overview, comps, scenario modules |
+| `SOPHEX-VIS-006` | Done | Comp saved views + filter-empty states (public + studio) |
+| `SOPHEX-VIS-007` | Done | Scenario keyboard hint + route module cleanup |
+| CSS budget trim | Done | Consolidated proof-strip utilities; CSS 69.4 KB |

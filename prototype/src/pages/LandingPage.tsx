@@ -34,7 +34,7 @@ export function LandingPage(): ReactElement {
 
   return (
     <section className="page">
-      <header className="page-header marketing-hero">
+      <header className="page-header">
         <p className="eyebrow">CRE intelligence marketplace</p>
         <h1>Evidence-first property intelligence</h1>
         <p className="lede">
@@ -161,7 +161,7 @@ export function LandingPage(): ReactElement {
         </div>
       ) : null}
 
-      <section id="source-trust" className="landing-trust-panel" aria-labelledby="source-trust-heading">
+      <section id="source-trust" className="card" aria-labelledby="source-trust-heading">
         <h2 id="source-trust-heading">Source trust tiers</h2>
         <p className="muted">
           Every property card, comp, and report preview shows how far evidence has progressed from

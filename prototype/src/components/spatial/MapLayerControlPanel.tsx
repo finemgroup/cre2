@@ -126,7 +126,7 @@ export function MapLayerControlPanel({
                 <p className="muted map-layer-meta">
                   {layer.precisionLabel} · {layer.refreshedLabel} · {layer.lazyLoadPolicy}
                 </p>
-                <p className="map-layer-geometry-state" role="status">
+                <p className="muted" role="status">
                   {geometryStateLabel(geometryState)}
                 </p>
                 <small>{layer.safeCaveat}</small>
@@ -153,7 +153,7 @@ export function MapLayerControlPanel({
               <AuthorityBadge label="not-legal-boundary" />
             </div>
             {selectedGeometryState ? (
-              <p className="map-layer-geometry-state" role="status">
+              <p className="muted" role="status">
                 {geometryStateLabel(selectedGeometryState)}
               </p>
             ) : null}

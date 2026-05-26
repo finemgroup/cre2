@@ -1,126 +1,21 @@
-// @ts-nocheck
-import { useMemo, useState, type ReactElement } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import type { ReactElement } from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   AnimatedList,
   DataTable,
-  DetailDrawer,
-  MaterialIcon,
   MetricCard,
   NonProductionCallout,
   PageTitle,
-  PaywallOverlay,
-  StageStepper,
   StatusBadge,
-  StickyActionBar,
   StudioCard,
   TrustBadge,
-  WorkflowContextHeader,
 } from '@/components/studio/StudioPrimitives';
-import {
-  AssumptionsPanel,
-  GatesPanel,
-  MetricsPanel,
-  SensitivityMatrix,
-  SyntheticDataBanner,
-  VersionLockCard,
-} from '@/components/underwriting/UnderwritingPanels';
-import {
-  ProvenanceCell,
-  ReviewPostureBanner,
-  SourceEvidenceBlockCard,
-} from '@/components/provenance/ProvenanceWidgets';
-import { EvidenceMetadataList } from '@/components/evidence/EvidenceMetadataList';
-import type { EvidenceMetadataItem } from '@/components/evidence/EvidenceMetadataList';
-import { UploadDropzone } from '@/components/upload/UploadDropzone';
-import { StagedImportReviewPanel } from '@/components/review/StagedImportReviewPanel';
-import { GateOverrideModal } from '@/components/overlays/GateOverrideModal';
-import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
-import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
+import { ActivityTimelinePanel } from '@/components/workflow/WorkflowPrimitives';
 import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
-import { TrustExplainerDrawer } from '@/components/overlays/TrustExplainerDrawer';
-import { UpgradePlanModal } from '@/components/overlays/UpgradePlanModal';
-import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
-import { SensitivityHeatmap } from '@/components/visualization/SensitivityHeatmap';
-import { AccessibleBarChart } from '@/components/visualization/AccessibleBarChart';
-import {
-  ActivityTimelinePanel,
-  WorkflowContinuityContainer,
-  WorkflowHandoffLink,
-} from '@/components/workflow/WorkflowPrimitives';
-import { AiTaskPulse } from '@/components/workflow/AiTaskPulse';
-import { DataWorkbenchShell } from '@/components/workflow/DataWorkbenchShell';
-import { DealCockpitPanel } from '@/components/workflow/DealCockpitPanel';
-import { ContextualSurfaceTriggers } from '@/components/workflow/ContextualSurfaceTriggers';
-import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
-import { HitlReviewDrawer } from '@/components/workflow/HitlReviewDrawer';
-import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
-import {
-  CalculationBreakdownDrawer,
-  EvidenceConflictResolverModal,
-  EvidenceTraceList,
-  EvidenceValueCard,
-  ReadinessRail,
-  SensitivityCellDrilldownDrawer,
-  SourceCoverageCard,
-  VersionLockConfirmationModal,
-  WorkflowSpineNav,
-  IntakeWorkflowNav,
-  buildUnderwritingSpineSteps,
-  WorkstationDrawer,
-  type ConflictOption,
-  type EvidenceTraceItem,
-  type ReadinessRailItem,
-  type VersionSnapshot,
-} from '@/components/workstation/UnderwritingWorkstationPrimitives';
-import {
-  buildProFormaRows,
-  buildSensitivityGrid,
-  calculateUnderwritingMetrics,
-  evaluateUnderwritingGates,
-  formatCurrency,
-  formatMultiple,
-  formatPercent,
-} from '@/lib/underwriting';
-import {
-  buildScenarioPresets,
-  listScenarioPresets,
-  type ScenarioName,
-} from '@/lib/underwriting/scenarios';
-import { mockCandidateFields, mockUploadFiles } from '@/lib/staged-import';
-import { fixtureActors } from '@/lib/contracts/fixtures';
-import { getValuationVersionForActor } from '@/lib/contracts/valuation-version';
-import { getLinkedPropertyId } from '@/lib/workflow-identity';
-import {
-  activity,
-  DEFAULT_DEAL_ID,
-  studioDealPath,
-  studioReportPath,
-  underwritingAssumptionsByDeal,
-  underwritingProvenanceByDeal,
-  type Deal,
-} from '@/data/studio';
-import {
-  getStudioCompViews,
-  getStudioDashboardView,
-  getStudioDealView,
-} from '@/lib/runtime/studio-workspace';
+import { activity, DEFAULT_DEAL_ID, studioDealPath } from '@/data/studio';
+import { getStudioDashboardView } from '@/lib/runtime/studio-workspace';
 import { formatOnboardingSummary, getOnboardingProfile } from '@/lib/studio/onboarding-profile';
-import {
-  SegmentedControl,
-  TabPanelSwitch,
-  StudioDealNotFound,
-  useStudioDeal,
-} from '@/pages/studio/StudioShared';
-
-import {
-  DEAL_DOCUMENT_EVIDENCE,
-  ASSUMPTION_TRACE_ITEMS,
-  UNIT_CONFLICT_OPTIONS,
-  VERSION_SNAPSHOTS,
-  READINESS_ITEMS,
-} from './deal-route-shared';
 
 export function StudioDashboardPage(): ReactElement {
   const dashboardView = getStudioDashboardView();
@@ -175,20 +70,26 @@ export function StudioDashboardPage(): ReactElement {
       </div>
       <div className="dashboard-grid">
         <StudioCard title="Deal Pipeline" className="wide-card">
-          <DataTable
-            caption="Deal pipeline"
-            headers={['Deal', 'Market', 'Stage', 'Value', 'Authority']}
-            getRowKey={(_row, index) => dashboardView.deals[index].id}
-            rows={dashboardView.deals.map((deal) => [
-              <Link key={deal.id} to={studioDealPath(deal.id)}>
-                {deal.name}
-              </Link>,
-              deal.market,
-              <StatusBadge status={deal.stage} />,
-              deal.value,
-              <TrustBadge state={deal.authority} />,
-            ])}
-          />
+          {dashboardView.deals.length === 0 ? (
+            <p className="muted" role="status">
+              No active deals in this mock workspace. Start with Import OM or New Deal.
+            </p>
+          ) : (
+            <DataTable
+              caption="Deal pipeline"
+              headers={['Deal', 'Market', 'Stage', 'Value', 'Authority']}
+              getRowKey={(_row, index) => dashboardView.deals[index].id}
+              rows={dashboardView.deals.map((deal) => [
+                <Link key={deal.id} to={studioDealPath(deal.id)}>
+                  {deal.name}
+                </Link>,
+                deal.market,
+                <StatusBadge status={deal.stage} />,
+                deal.value,
+                <TrustBadge state={deal.authority} />,
+              ])}
+            />
+          )}
         </StudioCard>
         <div>
           <StudioCard title="Upgrade Coverage">

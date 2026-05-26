@@ -91,14 +91,14 @@ export function ReportPage(): ReactElement {
         </section>
       ) : null}
 
-      <section className="report-advisor-band" aria-labelledby="report-advisor-heading">
-        <div>
+      <section className="card" aria-labelledby="report-advisor-heading">
+        <div className="report-advisor-layout">
           <h2 id="report-advisor-heading">Advisor sharing preview</h2>
           <p className="muted">
             Sections below show review posture and source limits before any export or syndication.
           </p>
         </div>
-        <div className="report-advisor-metrics">
+        <div className="chip-row report-advisor-metrics">
           <span>
             <strong className="fin-value">{sections.filter((s) => s.status === 'ready').length}</strong>{' '}
             reviewed

@@ -1,11 +1,17 @@
-import { useState, type ReactElement } from 'react';
+import { useMemo, useState, type ReactElement } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
+import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
+import {
+  filterPublicComps,
+  PUBLIC_COMP_SAVED_VIEWS,
+  type CompSavedViewId,
+} from '@/lib/comps/comp-saved-views';
 import { getPublicCompContextView } from '@/lib/runtime/public-comps';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
@@ -17,6 +23,7 @@ export function CompsPage(): ReactElement {
   const { id } = useParams();
   const property = getPropertyRecord(id);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [savedView, setSavedView] = useState<CompSavedViewId>('all');
   const compState = useRuntimeResource(
     () => runtimeServices.public.getCompContext(undefined, property?.id),
     `comps-${property?.id ?? 'missing'}`,
@@ -24,7 +31,12 @@ export function CompsPage(): ReactElement {
   );
   const compContext = compState.value;
   const compViews = compContext.comps;
+  const filteredComps = useMemo(
+    () => filterPublicComps(compViews, savedView),
+    [compViews, savedView]
+  );
   const selected = compViews.find((comp) => comp.id === selectedId);
+  const activeView = PUBLIC_COMP_SAVED_VIEWS.find((entry) => entry.id === savedView);
 
   if (!property) {
     return (
@@ -75,6 +87,36 @@ export function CompsPage(): ReactElement {
         />
       </section>
 
+      <section className="card" aria-labelledby="comp-saved-view-heading">
+        <h2 id="comp-saved-view-heading">Saved comp views</h2>
+        <div className="chip-row" role="group" aria-label="Saved comp view">
+          {PUBLIC_COMP_SAVED_VIEWS.map((entry) => (
+            <button
+              key={entry.id}
+              type="button"
+              className={savedView === entry.id ? 'chip active' : 'chip'}
+              aria-pressed={savedView === entry.id}
+              onClick={() => setSavedView(entry.id)}
+            >
+              {entry.label}
+            </button>
+          ))}
+        </div>
+        {activeView ? <p className="muted">{activeView.description}</p> : null}
+      </section>
+
+      {filteredComps.length === 0 ? (
+        <EmptyStateCard
+          icon="filter_alt_off"
+          title="No comps match this saved view"
+          description={`The "${activeView?.label ?? savedView}" filter removed every row for ${property.address}.`}
+          actions={
+            <button type="button" className="btn btn-secondary" onClick={() => setSavedView('all')}>
+              Reset to full set
+            </button>
+          }
+        />
+      ) : (
       <div className="table-wrap">
         <table>
           <caption>Sample comp set for {property.address}</caption>
@@ -88,7 +130,7 @@ export function CompsPage(): ReactElement {
             </tr>
           </thead>
           <tbody>
-            {compViews.map((comp) => (
+            {filteredComps.map((comp) => (
               <tr key={comp.id} className={selectedId === comp.id ? 'row-selected' : undefined}>
                 <td>{comp.name}</td>
                 <td>{comp.distanceMi} mi</td>
@@ -119,6 +161,7 @@ export function CompsPage(): ReactElement {
           </tbody>
         </table>
       </div>
+      )}
 
       <section className="card" aria-labelledby="comp-map-context-heading">
         <h2 id="comp-map-context-heading">Map context fallback</h2>

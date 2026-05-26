@@ -1,9 +1,6 @@
-// @ts-nocheck
 import { useMemo, useState, type ReactElement } from 'react';
-import { Link, useParams } from 'react-router-dom';
 
 import {
-  AnimatedList,
   DataTable,
   DetailDrawer,
   MaterialIcon,
@@ -11,102 +8,24 @@ import {
   NonProductionCallout,
   PageTitle,
   PaywallOverlay,
-  StageStepper,
-  StatusBadge,
-  StickyActionBar,
   StudioCard,
   TrustBadge,
   WorkflowContextHeader,
 } from '@/components/studio/StudioPrimitives';
-import {
-  AssumptionsPanel,
-  GatesPanel,
-  MetricsPanel,
-  SensitivityMatrix,
-  SyntheticDataBanner,
-  VersionLockCard,
-} from '@/components/underwriting/UnderwritingPanels';
-import {
-  ProvenanceCell,
-  ReviewPostureBanner,
-  SourceEvidenceBlockCard,
-} from '@/components/provenance/ProvenanceWidgets';
-import { EvidenceMetadataList } from '@/components/evidence/EvidenceMetadataList';
-import type { EvidenceMetadataItem } from '@/components/evidence/EvidenceMetadataList';
-import { UploadDropzone } from '@/components/upload/UploadDropzone';
-import { StagedImportReviewPanel } from '@/components/review/StagedImportReviewPanel';
-import { GateOverrideModal } from '@/components/overlays/GateOverrideModal';
-import { PrototypeActionButton } from '@/components/overlays/PrototypeActionButton';
-import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
-import { PrototypeActionLink } from '@/components/overlays/PrototypeActionLink';
-import { TrustExplainerDrawer } from '@/components/overlays/TrustExplainerDrawer';
+import { ProvenanceCell, ReviewPostureBanner, SourceEvidenceBlockCard } from '@/components/provenance/ProvenanceWidgets';
+import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { UpgradePlanModal } from '@/components/overlays/UpgradePlanModal';
-import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
-import { SensitivityHeatmap } from '@/components/visualization/SensitivityHeatmap';
-import { AccessibleBarChart } from '@/components/visualization/AccessibleBarChart';
-import {
-  ActivityTimelinePanel,
-  WorkflowContinuityContainer,
-  WorkflowHandoffLink,
-} from '@/components/workflow/WorkflowPrimitives';
-import { AiTaskPulse } from '@/components/workflow/AiTaskPulse';
-import { DataWorkbenchShell } from '@/components/workflow/DataWorkbenchShell';
-import { DealCockpitPanel } from '@/components/workflow/DealCockpitPanel';
-import { ContextualSurfaceTriggers } from '@/components/workflow/ContextualSurfaceTriggers';
+import { TrustExplainerDrawer } from '@/components/overlays/TrustExplainerDrawer';
 import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
-import { HitlReviewDrawer } from '@/components/workflow/HitlReviewDrawer';
 import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
+import { ContextualSurfaceTriggers } from '@/components/workflow/ContextualSurfaceTriggers';
 import {
-  CalculationBreakdownDrawer,
-  EvidenceConflictResolverModal,
-  EvidenceTraceList,
-  EvidenceValueCard,
-  ReadinessRail,
-  SensitivityCellDrilldownDrawer,
-  SourceCoverageCard,
-  VersionLockConfirmationModal,
-  WorkflowSpineNav,
-  IntakeWorkflowNav,
-  buildUnderwritingSpineSteps,
-  WorkstationDrawer,
-  type ConflictOption,
-  type EvidenceTraceItem,
-  type ReadinessRailItem,
-  type VersionSnapshot,
-} from '@/components/workstation/UnderwritingWorkstationPrimitives';
-import {
-  buildProFormaRows,
-  buildSensitivityGrid,
-  calculateUnderwritingMetrics,
-  evaluateUnderwritingGates,
-  formatCurrency,
-  formatMultiple,
-  formatPercent,
-} from '@/lib/underwriting';
-import {
-  buildScenarioPresets,
-  listScenarioPresets,
-  type ScenarioName,
-} from '@/lib/underwriting/scenarios';
-import { mockCandidateFields, mockUploadFiles } from '@/lib/staged-import';
-import { fixtureActors } from '@/lib/contracts/fixtures';
-import { getValuationVersionForActor } from '@/lib/contracts/valuation-version';
-import { getLinkedPropertyId } from '@/lib/workflow-identity';
-import {
-  activity,
-  DEFAULT_DEAL_ID,
-  studioDealPath,
-  studioReportPath,
-  underwritingAssumptionsByDeal,
-  underwritingProvenanceByDeal,
-  type Deal,
-} from '@/data/studio';
-import {
-  getStudioCompViews,
-  getStudioDashboardView,
-  getStudioDealView,
-} from '@/lib/runtime/studio-workspace';
-import { formatOnboardingSummary, getOnboardingProfile } from '@/lib/studio/onboarding-profile';
+  filterStudioComps,
+  STUDIO_COMP_SAVED_VIEWS,
+  type CompSavedViewId,
+} from '@/lib/comps/comp-saved-views';
+import { getStudioCompViews, getStudioDealView } from '@/lib/runtime/studio-workspace';
+import { studioDealPath } from '@/data/studio';
 import {
   SegmentedControl,
   TabPanelSwitch,
@@ -114,17 +33,14 @@ import {
   useStudioDeal,
 } from '@/pages/studio/StudioShared';
 
-import {
-  DEAL_DOCUMENT_EVIDENCE,
-  ASSUMPTION_TRACE_ITEMS,
-  UNIT_CONFLICT_OPTIONS,
-  VERSION_SNAPSHOTS,
-  READINESS_ITEMS,
-} from './deal-route-shared';
-
 export function StudioCompsPage(): ReactElement {
   const deal = useStudioDeal();
   const compViews = getStudioCompViews();
+  const [savedView, setSavedView] = useState<CompSavedViewId>('all');
+  const filteredComps = useMemo(
+    () => filterStudioComps(compViews, savedView),
+    [compViews, savedView]
+  );
   const [selectedId, setSelectedId] = useState(compViews[0]?.id ?? '');
   const selected = compViews.find((comp) => comp.id === selectedId) ?? null;
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -133,6 +49,7 @@ export function StudioCompsPage(): ReactElement {
   const [trustOpen, setTrustOpen] = useState(false);
   if (!deal) return <StudioDealNotFound />;
   const sourceBlocks = getStudioDealView(deal.id)?.sourceBlocks ?? [];
+  const activeView = STUDIO_COMP_SAVED_VIEWS.find((entry) => entry.id === savedView);
 
   return (
     <div>
@@ -159,6 +76,22 @@ export function StudioCompsPage(): ReactElement {
         resolveLabel="Review comp source trace"
       />
       <ReviewPostureBanner blocks={sourceBlocks} />
+      <StudioCard title="Saved comp views" eyebrow="Filter preset">
+        <div className="chip-row" role="group" aria-label="Saved comp view">
+          {STUDIO_COMP_SAVED_VIEWS.map((entry) => (
+            <button
+              key={entry.id}
+              type="button"
+              className={savedView === entry.id ? 'chip active' : 'chip'}
+              aria-pressed={savedView === entry.id}
+              onClick={() => setSavedView(entry.id)}
+            >
+              {entry.label}
+            </button>
+          ))}
+        </div>
+        {activeView ? <p className="muted">{activeView.description}</p> : null}
+      </StudioCard>
       <div className="comps-grid">
         <StudioCard title="Subject Property">
           <div className="property-image small" aria-label="Mock subject property image" />
@@ -184,13 +117,28 @@ export function StudioCompsPage(): ReactElement {
                 <MaterialIcon name="map" />
                 Sample map view. No precise public markers in MVP0.
               </div>
+            ) : filteredComps.length === 0 ? (
+              <EmptyStateCard
+                icon="filter_alt_off"
+                title="No comps in this saved view"
+                description={`The "${activeView?.label ?? savedView}" filter removed every comparable row. Try Full set or Visible.`}
+                actions={
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setSavedView('all')}
+                  >
+                    Reset to full set
+                  </button>
+                }
+              />
             ) : (
               <DataTable
                 dense
                 caption="Sales comparables"
                 headers={['Comp', 'Distance', 'Units', 'Sale Price', 'Authority']}
-                getRowKey={(_row, index) => compViews[index].id}
-                rows={compViews.map((comp) => [
+                getRowKey={(_row, index) => filteredComps[index].id}
+                rows={filteredComps.map((comp) => [
                   <button
                     type="button"
                     className="table-link"

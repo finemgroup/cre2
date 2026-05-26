@@ -44,8 +44,8 @@ export function StudioBrokerOsPage(): ReactElement {
           Broker OS exposes only sanitized summaries. Internal Fabricator logs, worker queues, and
           PII-bearing context stay off this surface.
         </p>
-        <div className="broker-taxonomy-grid">
-          <div className="broker-taxonomy-section">
+        <div className="governance-list">
+          <div>
             <strong>External surfaces</strong>
             <ul>
               {brokerProjection.taxonomy.externalSurfaces.map((surface) => (
@@ -55,7 +55,7 @@ export function StudioBrokerOsPage(): ReactElement {
               ))}
             </ul>
           </div>
-          <div className="broker-taxonomy-section">
+          <div>
             <strong>Internal-only (never projected)</strong>
             <ul>
               {brokerProjection.taxonomy.internalOnly.map((item) => (

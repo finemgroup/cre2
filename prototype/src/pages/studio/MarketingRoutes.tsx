@@ -105,16 +105,16 @@ export function StudioLandingPage(): ReactElement {
         investment advice.
       </NonProductionCallout>
 
-      <section className="studio-marketing-proof" aria-label="Workflow outcomes">
+      <section className="proof-strip studio-outcomes" aria-label="Workflow outcomes">
         {[
           ['Governed intake', 'Every packet keeps candidate evidence separate from reviewed output.'],
           ['Visible comps posture', 'Public, reviewed, and restricted tiers stay labeled in the UI.'],
           ['Export discipline', 'Reports stay gated until review, consent, and source rights clear.'],
         ].map(([title, copy]) => (
-          <div key={title}>
+          <article key={title}>
             <strong>{title}</strong>
             <p>{copy}</p>
-          </div>
+          </article>
         ))}
       </section>
 
