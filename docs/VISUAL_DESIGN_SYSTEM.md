@@ -82,5 +82,6 @@ After each visual wave:
 | 14 | Shell + component polish (badges, bento, buttons) | Implemented (Wave 13 overlap) |
 | 15 | inst-table rollout, map HUD, loading/empty states | Implemented (dense default + branded route loading) |
 | 16 | Presentation mode, doc sync, cross-project visual matrix | Implemented (nav link, snapshots, contextual triggers closeout) |
+| 17 | Living visual/runtime integration matrix + route optimization | Implemented (matrix doc, chunk split commit `7572376`) |
 
-See also [WORLD_CLASS_PROTOTYPE_SPEC.md](./WORLD_CLASS_PROTOTYPE_SPEC.md) for product invariants.
+See also [WORLD_CLASS_PROTOTYPE_SPEC.md](./WORLD_CLASS_PROTOTYPE_SPEC.md) for product invariants and [SOPHEX_VISUAL_AND_RUNTIME_INTEGRATION_MATRIX.md](./SOPHEX_VISUAL_AND_RUNTIME_INTEGRATION_MATRIX.md) for the living execution tracker.

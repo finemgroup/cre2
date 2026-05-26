@@ -3,6 +3,8 @@
 This file freezes the current `prototype/` build as the product specification for future runtime work.
 It is not a runtime authorization, schema, migration, provider, queue, or deploy plan.
 
+For living visual/runtime execution tracking, see [SOPHEX_VISUAL_AND_RUNTIME_INTEGRATION_MATRIX.md](./SOPHEX_VISUAL_AND_RUNTIME_INTEGRATION_MATRIX.md).
+
 ## Purpose
 
 The current prototype proves the public Sophex marketplace surface and the Finem CRE Studio workflow shape with mock data only.

@@ -2,15 +2,16 @@
 
 **Purpose:** Single checklist of every mock-only prototype location so operators can resolve them deliberately when gated lanes open. This is a **tracking doc**, not runtime authorization.
 
-**Last synced:** 2026-05-25 (after Wave 11 UX closeout)
+**Last synced:** 2026-05-26 (after Wave 17 visual/runtime matrix)
 
 **Related docs:**
 
 | Doc                                                                                            | What it tracks                   | Gap vs this registry                   |
 | ---------------------------------------------------------------------------------------------- | -------------------------------- | -------------------------------------- |
+| [SOPHEX_VISUAL_AND_RUNTIME_INTEGRATION_MATRIX.md](SOPHEX_VISUAL_AND_RUNTIME_INTEGRATION_MATRIX.md) | Living visual/runtime tracker with route scores and ticket status | Per-fixture inventory detail |
 | [RAPID_BUILD_TICKET_INVENTORY_2026-05-25.md](RAPID_BUILD_TICKET_INVENTORY_2026-05-25.md)       | Wave completion by ticket        | No per-route resolution lane           |
 | [UNDERWRITING_WORKFLOW_UX_REVIEW_2026-05-25.md](UNDERWRITING_WORKFLOW_UX_REVIEW_2026-05-25.md) | UX strategy + Wave 6 ticket pack | Product intent, not mock inventory     |
-| [WORLD_CLASS_PROTOTYPE_SPEC.md](WORLD_CLASS_PROTOTYPE_SPEC.md)                                 | Route acceptance matrix          | Synced through Wave 11 shell/workflow routes |
+| [WORLD_CLASS_PROTOTYPE_SPEC.md](WORLD_CLASS_PROTOTYPE_SPEC.md)                                 | Route acceptance matrix          | Synced through Wave 16 design-system route |
 | [PROTOTYPE_MVP0.md](PROTOTYPE_MVP0.md)                                                         | Early MVP0 route list            | **Stale** — 12-screen snapshot only    |
 | [STITCH_UNDERWRITING_WORKSTATION_TRIAGE.md](STITCH_UNDERWRITING_WORKSTATION_TRIAGE.md)         | Stitch classification            | Triage intent, not resolution status   |
 | [SOPHEX_GATED_LANES_APPROVAL_PACKET.md](SOPHEX_GATED_LANES_APPROVAL_PACKET.md)                 | Operator gates to open runtime   | Approval checklist, not mock inventory |
@@ -76,6 +77,7 @@
 | `/studio/settings/billing`                   | `MarketingRoutes.tsx`       | Mock plan tiers                                                                                          | `billing-auth`                          | Phase 2                                                   |
 | `/studio/settings/white-label`               | `ReportRoutes.tsx`          | Mock branding uploads                                                                                    | `schema-db`, `billing-auth`             | Phase 2                                                   |
 | `/studio/broker-os`                          | `OperatorRoutes.tsx`        | Sanitized job/agent projection + HITL queue                                                              | `sandbox-api`, `keep-mock` (projection) | Wave 5 HITL card                                          |
+| `/studio/design-system`                      | `DesignSystemRoutes.tsx`    | Reference-only token/badge/table showcase; no product state                                              | `keep-mock`                               | Wave 13-16 visual design system                           |
 
 **Studio mock data sources:** `prototype/src/data/studio.ts`, `lib/runtime/studio-workspace.ts`, `lib/source-bundle/index.ts`, `lib/staged-import/index.ts`, `lib/underwriting/*`, `lib/gis/*`, `lib/workflow/deal-stage-model.ts`
 

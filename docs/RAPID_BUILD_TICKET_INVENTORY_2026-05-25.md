@@ -56,6 +56,8 @@ Historical product workflow tickets remain in `COMPOSER_2_5_RAPID_IMPLEMENTATION
 
 **Mock resolution tracking:** use [MOCK_RESOLUTION_REGISTRY.md](MOCK_RESOLUTION_REGISTRY.md) as the canonical checklist of mock-only routes, fixtures, simulated CTAs, and disabled gates to resolve when gated lanes open.
 
+**Living execution tracker:** use [SOPHEX_VISUAL_AND_RUNTIME_INTEGRATION_MATRIX.md](SOPHEX_VISUAL_AND_RUNTIME_INTEGRATION_MATRIX.md) for the next visual/runtime wave — route scores, component coverage, ticket status, validation evidence, and blocked vs ready lanes. Wave history remains in this inventory; product route specs remain in `WORLD_CLASS_PROTOTYPE_SPEC.md`.
+
 ## Product Workflow Tickets (Wave 2)
 
 | Ticket                                           | Status                   | Notes                                                                   |
@@ -255,3 +257,25 @@ Canonical ticket pack: [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPI
 | `SOPHEX-FE-A11Y-PROGRESS` | Implemented on master | Full upload flow progress semantics test |
 | `SOPHEX-FE-AUTHORITY-WIRE` | Implemented on master | Shared status badge vocabulary helper |
 | `SOPHEX-FE-TAB-PANEL-MOTION` | Implemented on master | `tabPanel` preset, `DealWorkflowLayout`, stable page transition key, in-page `TabPanelSwitch` on comps/scenario/preview/onboarding/billing |
+
+## Wave 17 Visual Runtime Matrix (2026-05-26)
+
+| Track | Status | Notes |
+| --- | --- | --- |
+| Living integration matrix | Implemented | `SOPHEX_VISUAL_AND_RUNTIME_INTEGRATION_MATRIX.md` — route scores, ticket matrix, validation protocol |
+| Doc cross-links | Implemented | INDEX, RAPID_BUILD, MOCK_RESOLUTION, VISUAL_DESIGN_SYSTEM point to matrix |
+| Route chunk optimization | Implemented on master | Commit `7572376` — per-route async chunks, Inter preload, circular chunk warning removed |
+
+### Wave 17 Ticket Ledger
+
+| Ticket | Status | Notes |
+| --- | --- | --- |
+| `SOPHEX-AUD-001` | Done | Initial route/component scorecard and tracker structure |
+| `SOPHEX-OPT-001` | Done | Route-level code splitting and font loading optimization |
+| `SOPHEX-VIS-004` | Ready | Marketing/public proof polish |
+| `SOPHEX-VIS-005` | Ready | CSS budget trim headroom |
+| `SOPHEX-CRE-002` | Ready | Split `DealRoutes.tsx` into per-route modules |
+| `SOPHEX-OPS-001` | Ready | Broker OS lite taxonomy |
+| `SOPHEX-OPS-002` | Ready | Broker OS UI polish |
+| `SOPHEX-OPT-002` | Ready | Motion bundle evaluation |
+| Gated runtime tickets | Blocked | Schema, provider, HITL/legal, billing/auth per approval packet |
