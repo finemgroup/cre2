@@ -41,7 +41,7 @@ export function LandingPage(): ReactElement {
           Search public baseline properties, compare comps, and preview valuation reports with
           visible source and review state.
         </p>
-        <div className="marketing-proof-strip" aria-label="Marketplace proof points">
+        <div className="proof-strip" aria-label="Marketplace proof points">
           {[
             ['2', 'Featured markets'],
             ['4', 'Trust tiers labeled'],

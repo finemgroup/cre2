@@ -19,6 +19,20 @@ test.describe('route shell visuals', () => {
     });
   });
 
+  test('studio marketing landing', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/studio');
+    await expect(
+      page.getByRole('heading', {
+        name: /From intake packet to investor-ready report in one governed workflow/i,
+      })
+    ).toBeVisible();
+    await expect(page).toHaveScreenshot('studio-marketing-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
   test('studio dashboard', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await gotoRoute(page, '/studio/dashboard');

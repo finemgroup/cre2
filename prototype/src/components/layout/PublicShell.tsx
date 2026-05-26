@@ -11,6 +11,7 @@ import { getPublicRouteTitle } from '@/lib/a11y/routeTitles';
 import { useRouteAnnouncement } from '@/lib/a11y/useRouteAnnouncement';
 import { PrototypeActionAnchor } from '@/components/overlays/PrototypeActionAnchor';
 import { ActorDemoSelector } from '@/components/runtime/ActorDemoSelector';
+import { RuntimePostureChip } from '@/components/runtime/RuntimePostureChip';
 import { useStudioSurfaceFonts } from '@/lib/fonts/useStudioSurfaceFonts';
 import { PresentationModeToggle } from '@/components/layout/PresentationModeToggle';
 import { usePresentationMode } from '@/lib/studio/usePresentationMode';
@@ -57,6 +58,7 @@ export function PublicShell(): ReactElement {
           </NavLink>
         </nav>
         <PresentationModeToggle className="btn btn-ghost presentation-mode-toggle public-presentation-toggle" />
+        <RuntimePostureChip />
         <ActorDemoSelector />
       </header>
       <PublicMobileNavDrawer isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />

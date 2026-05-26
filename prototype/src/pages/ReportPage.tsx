@@ -91,6 +91,30 @@ export function ReportPage(): ReactElement {
         </section>
       ) : null}
 
+      <section className="report-advisor-band" aria-labelledby="report-advisor-heading">
+        <div>
+          <h2 id="report-advisor-heading">Advisor sharing preview</h2>
+          <p className="muted">
+            Sections below show review posture and source limits before any export or syndication.
+          </p>
+        </div>
+        <div className="report-advisor-metrics">
+          <span>
+            <strong className="fin-value">{sections.filter((s) => s.status === 'ready').length}</strong>{' '}
+            reviewed
+          </span>
+          <span>
+            <strong className="fin-value">
+              {sections.filter((s) => s.status === 'review-required').length}
+            </strong>{' '}
+            need review
+          </span>
+          <span>
+            <strong className="fin-value">{sections.length}</strong> total sections
+          </span>
+        </div>
+      </section>
+
       <div className="card-grid">
         {sections.map((section, index) => (
           <SophexMotionSurface

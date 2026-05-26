@@ -55,6 +55,19 @@ describe('MapLayerControlPanel', () => {
     await user.click(checkbox);
     expect(checkbox).not.toBeChecked();
   });
+
+  it('shows geometry load posture labels for lazy layers', async () => {
+    const propertyView = getPublicPropertyView('demo-001', fixtureActors.public);
+    const layers = propertyView?.spatialContext.layers ?? [];
+    render(
+      <MapLayerControlPanel
+        layers={layers}
+        evidenceByLayer={propertyView?.spatialContext.evidenceByLayer ?? {}}
+      />
+    );
+
+    expect(screen.getAllByText(/Geometry loaded \(mock\)|Metadata only|Geometry not loaded/i).length).toBeGreaterThan(0);
+  });
 });
 
 describe('evaluateSpatialSourceClear', () => {

@@ -1,9 +1,18 @@
-import { useId, useState, type ReactElement } from 'react';
+import { useEffect, useId, useState, type ReactElement } from 'react';
 import { AnimatePresence } from 'framer-motion';
 
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
 import type { PublicMapLayerProjection } from '@/lib/contracts/spatial';
+import {
+  geometryLoadDelayMs,
+  geometryStateLabel,
+  resolveInitialGeometryState,
+  shouldLoadGeometryOnSelection,
+  shouldLoadGeometryOnVisibility,
+  type LayerGeometryState,
+} from '@/lib/gis/layer-load-state';
+import { useReducedMotionPreference } from '@/lib/motion';
 
 export type MapLayerDetailItem = {
   label: string;
@@ -17,29 +26,69 @@ export type MapLayerControlPanelProps = {
   heading?: string;
 };
 
+function buildInitialGeometryStates(
+  layers: PublicMapLayerProjection[]
+): Record<string, LayerGeometryState> {
+  return Object.fromEntries(layers.map((layer) => [layer.id, resolveInitialGeometryState(layer)]));
+}
+
 export function MapLayerControlPanel({
   layers,
   evidenceByLayer = {},
   heading = 'Map layers',
 }: MapLayerControlPanelProps): ReactElement {
   const groupId = useId();
+  const reducedMotion = useReducedMotionPreference();
   const [visibleLayerIds, setVisibleLayerIds] = useState<string[]>(() =>
     layers.map((layer) => layer.id)
   );
   const [selectedLayerId, setSelectedLayerId] = useState<string | null>(
     layers[0]?.id ?? null
   );
+  const [geometryStates, setGeometryStates] = useState<Record<string, LayerGeometryState>>(() =>
+    buildInitialGeometryStates(layers)
+  );
+
+  useEffect(() => {
+    setGeometryStates(buildInitialGeometryStates(layers));
+    setVisibleLayerIds(layers.map((layer) => layer.id));
+    setSelectedLayerId(layers[0]?.id ?? null);
+  }, [layers]);
+
+  function queueGeometryLoad(layer: PublicMapLayerProjection) {
+    const current = geometryStates[layer.id] ?? resolveInitialGeometryState(layer);
+    if (current === 'loaded' || current === 'loading' || current === 'deferred') return;
+
+    setGeometryStates((states) => ({ ...states, [layer.id]: 'loading' }));
+    window.setTimeout(() => {
+      setGeometryStates((states) => ({ ...states, [layer.id]: 'loaded' }));
+    }, geometryLoadDelayMs(reducedMotion));
+  }
 
   function toggleLayer(layerId: string) {
+    const layer = layers.find((entry) => entry.id === layerId);
+    const willHide = visibleLayerIds.includes(layerId);
     setVisibleLayerIds((current) =>
-      current.includes(layerId)
-        ? current.filter((id) => id !== layerId)
-        : [...current, layerId]
+      willHide ? current.filter((id) => id !== layerId) : [...current, layerId]
     );
+    if (layer && !willHide && shouldLoadGeometryOnVisibility(layer)) {
+      queueGeometryLoad(layer);
+    }
+  }
+
+  function selectLayer(layerId: string) {
+    setSelectedLayerId(layerId);
+    const layer = layers.find((entry) => entry.id === layerId);
+    if (layer && shouldLoadGeometryOnSelection(layer)) {
+      queueGeometryLoad(layer);
+    }
   }
 
   const selectedLayer = layers.find((layer) => layer.id === selectedLayerId);
   const selectedEvidence = selectedLayerId ? evidenceByLayer[selectedLayerId] ?? [] : [];
+  const selectedGeometryState = selectedLayer
+    ? geometryStates[selectedLayer.id] ?? resolveInitialGeometryState(selectedLayer)
+    : null;
 
   return (
     <section className="map-layer-controls" aria-labelledby={groupId}>
@@ -53,6 +102,7 @@ export function MapLayerControlPanel({
           {layers.map((layer) => {
             const visible = visibleLayerIds.includes(layer.id);
             const selected = selectedLayerId === layer.id;
+            const geometryState = geometryStates[layer.id] ?? resolveInitialGeometryState(layer);
             return (
               <li key={layer.id}>
                 <div className="map-layer-toggle-row">
@@ -60,7 +110,7 @@ export function MapLayerControlPanel({
                     type="button"
                     className="btn btn-ghost map-layer-select"
                     aria-pressed={selected}
-                    onClick={() => setSelectedLayerId(layer.id)}
+                    onClick={() => selectLayer(layer.id)}
                   >
                     {layer.label}
                   </button>
@@ -75,6 +125,9 @@ export function MapLayerControlPanel({
                 </div>
                 <p className="muted map-layer-meta">
                   {layer.precisionLabel} · {layer.refreshedLabel} · {layer.lazyLoadPolicy}
+                </p>
+                <p className="map-layer-geometry-state" role="status">
+                  {geometryStateLabel(geometryState)}
                 </p>
                 <small>{layer.safeCaveat}</small>
               </li>
@@ -99,6 +152,11 @@ export function MapLayerControlPanel({
               <AuthorityBadge label="approximate-centroid" />
               <AuthorityBadge label="not-legal-boundary" />
             </div>
+            {selectedGeometryState ? (
+              <p className="map-layer-geometry-state" role="status">
+                {geometryStateLabel(selectedGeometryState)}
+              </p>
+            ) : null}
             <p>{selectedLayer.safeCaveat}</p>
             {selectedEvidence.length > 0 ? (
               <ul className="evidence-list">

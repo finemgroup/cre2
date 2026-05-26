@@ -75,7 +75,20 @@ export function PropertyPage(): ReactElement {
       ) : null}
       {propertyState.error ? <p className="warning">{propertyState.error}</p> : null}
 
-      <div className="split-layout">
+      <div className="proof-strip" aria-label="Property snapshot">
+        {[
+          [property.capRate, 'Cap rate'],
+          [propertyView?.evidenceDrawer.length ?? 0, 'Evidence fields'],
+          [propertyView?.spatialContext.layers.length ?? 0, 'Map layers'],
+        ].map(([value, label]) => (
+          <article key={String(label)}>
+            <strong className="fin-value">{value}</strong>
+            <span>{label}</span>
+          </article>
+        ))}
+      </div>
+
+      <div className="split-layout property-page-grid">
         <div className="card">
           <div className="field-row">
             <span>Cap rate</span>
@@ -158,6 +171,10 @@ export function PropertyPage(): ReactElement {
       </div>
 
       <SophexSheet isOpen={drawerOpen} label="Evidence drawer" onClose={() => setDrawerOpen(false)}>
+        <p className="muted">
+          {propertyView?.evidenceDrawer.length ?? 0} field records and{' '}
+          {propertyView?.spatialContext.evidence.length ?? 0} spatial facts in this public view.
+        </p>
         <p>Public baseline fields only in this prototype.</p>
         <EvidenceMetadataList
           heading="Field evidence"

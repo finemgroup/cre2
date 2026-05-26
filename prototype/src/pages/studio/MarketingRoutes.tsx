@@ -64,7 +64,7 @@ export function StudioLandingPage(): ReactElement {
               View dashboard
             </PrototypeActionLink>
           </div>
-          <div className="marketing-proof-strip" aria-label="Product proof points">
+          <div className="proof-strip" aria-label="Product proof points">
             {[
               ['3', 'Active mock deals'],
               ['12', 'Review gates enforced'],

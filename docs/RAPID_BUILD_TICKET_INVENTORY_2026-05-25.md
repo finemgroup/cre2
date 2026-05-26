@@ -278,4 +278,14 @@ Canonical ticket pack: [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPI
 | `SOPHEX-OPS-001` | Done | Broker OS lite taxonomy |
 | `SOPHEX-OPS-002` | Done | Broker OS UI polish |
 | `SOPHEX-OPT-002` | Done | Motion bundle evaluation (`m` + LazyMotion) |
+| `SOPHEX-CRE-005` | Done | Spatial lazy layer states + source-rights polish |
+| `SOPHEX-RUN-001` | Mostly done | Runtime posture chip + sandbox fallback tests |
 | Gated runtime tickets | Blocked | Schema, provider, HITL/legal, billing/auth per approval packet |
+
+### Wave 18 Ticket Ledger
+
+| Ticket | Status | Notes |
+| --- | --- | --- |
+| `SOPHEX-CRE-005` | Done | Lazy geometry load states in `MapLayerControlPanel`, GIS tests |
+| `SOPHEX-RUN-001` | Mostly done | `RuntimePostureChip`, sandbox in-process fallback tests |
+| Partial route polish | Done | Property snapshot strip, report advisor band, visual snapshots rebaselined |
