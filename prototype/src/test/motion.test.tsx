@@ -1,8 +1,9 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { AnimatedList } from '@/components/studio/StudioPrimitives';
 import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
+import { DataWorkbenchShell } from '@/components/workflow/DataWorkbenchShell';
 import { getMotionProps, getMotionSpec } from '@/lib/motion';
 
 vi.mock('framer-motion', async () => {
@@ -40,6 +41,12 @@ describe('motion tokens', () => {
 
   it('resolves listReveal alias to listStagger timing', () => {
     expect(getMotionSpec('listReveal')).toEqual(getMotionSpec('listStagger'));
+  });
+
+  it('defines universal shell, workbench, and map motion specs', () => {
+    expect(getMotionSpec('navRail').initial).toEqual({ opacity: 0, x: -10 });
+    expect(getMotionSpec('workbenchPanel').initial).toEqual({ opacity: 0, y: 8 });
+    expect(getMotionSpec('mapSelection').initial).toEqual({ opacity: 0, scale: 0.985 });
   });
 });
 
@@ -80,5 +87,31 @@ describe('list stagger timing', () => {
   it('uses a child delay constant for staggered lists', async () => {
     const { LIST_STAGGER_CHILD_DELAY_S } = await import('@/lib/motion/motion-tokens');
     expect(LIST_STAGGER_CHILD_DELAY_S).toBeGreaterThan(0);
+  });
+});
+
+describe('DataWorkbenchShell motion', () => {
+  it('animates view changes through the workbench panel preset', () => {
+    render(
+      <DataWorkbenchShell
+        title="Evidence Workbench"
+        views={{
+          table: <p>Table view</p>,
+          list: <p>List view</p>,
+        }}
+      />
+    );
+
+    expect(screen.getByText('Table view').parentElement).toHaveAttribute(
+      'data-sophex-motion',
+      'workbenchPanel'
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'list' }));
+
+    expect(screen.getByText('List view').parentElement).toHaveAttribute(
+      'data-sophex-motion',
+      'workbenchPanel'
+    );
   });
 });

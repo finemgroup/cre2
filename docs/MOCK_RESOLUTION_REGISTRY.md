@@ -10,7 +10,7 @@
 | ---------------------------------------------------------------------------------------------- | -------------------------------- | -------------------------------------- |
 | [RAPID_BUILD_TICKET_INVENTORY_2026-05-25.md](RAPID_BUILD_TICKET_INVENTORY_2026-05-25.md)       | Wave completion by ticket        | No per-route resolution lane           |
 | [UNDERWRITING_WORKFLOW_UX_REVIEW_2026-05-25.md](UNDERWRITING_WORKFLOW_UX_REVIEW_2026-05-25.md) | UX strategy + Wave 6 ticket pack | Product intent, not mock inventory     |
-| [WORLD_CLASS_PROTOTYPE_SPEC.md](WORLD_CLASS_PROTOTYPE_SPEC.md)                                 | Route acceptance matrix          | **Stale** — missing Wave 3–5 routes    |
+| [WORLD_CLASS_PROTOTYPE_SPEC.md](WORLD_CLASS_PROTOTYPE_SPEC.md)                                 | Route acceptance matrix          | Synced through Wave 11 shell/workflow routes |
 | [PROTOTYPE_MVP0.md](PROTOTYPE_MVP0.md)                                                         | Early MVP0 route list            | **Stale** — 12-screen snapshot only    |
 | [STITCH_UNDERWRITING_WORKSTATION_TRIAGE.md](STITCH_UNDERWRITING_WORKSTATION_TRIAGE.md)         | Stitch classification            | Triage intent, not resolution status   |
 | [SOPHEX_GATED_LANES_APPROVAL_PACKET.md](SOPHEX_GATED_LANES_APPROVAL_PACKET.md)                 | Operator gates to open runtime   | Approval checklist, not mock inventory |
@@ -236,7 +236,7 @@ Artifacts: `docs/design/stitch-underwriting-workstation/`
 | Storybook        | `prototype/src/stories/`                  | Includes `Wave3Polish.stories.tsx`                                 |
 | E2E flows        | `prototype/e2e/flows.spec.ts`             | Cross-entity demo paths; **Underwrite in Studio** entry CTA        |
 | Visual baselines | `prototype/e2e/visual.spec.ts-snapshots/` | Updated for Valuation snapshots + Wave 6 chrome                    |
-| Lighthouse       | `prototype/lighthouserc.cjs`              | 10 representative URLs                                             |
+| Lighthouse       | `prototype/lighthouserc.cjs`              | 20 representative URLs                                             |
 
 ---
 
@@ -251,7 +251,7 @@ Use this when opening a gated lane — check off per row in the tables above.
 5. ☐ Replace `simulated-cta` with real receipts or governed writes
 6. ☐ Replace `disabled-gate` controls only when server-side gates agree (UI never authorizes alone)
 7. ☐ Update this registry row status from `mock-*` → `resolved-{lane}` with date and PR link
-8. ☐ Refresh [WORLD_CLASS_PROTOTYPE_SPEC.md](WORLD_CLASS_PROTOTYPE_SPEC.md) route matrix (currently behind Waves 3–6 and Evidence/Snapshot renames)
+8. ☐ Keep [WORLD_CLASS_PROTOTYPE_SPEC.md](WORLD_CLASS_PROTOTYPE_SPEC.md) route matrix synced when new prototype routes or workflow chrome land
 
 ---
 
@@ -260,4 +260,4 @@ Use this when opening a gated lane — check off per row in the tables above.
 - **After each prototype wave:** add rows or update “Logged in” column here; do not rely on ticket inventory alone.
 - **Wave 6 note:** workflow stepper/cockpit are **advisory UX** — track separately from `disabled-gate` controls; resolving runtime gates does not automatically remove mock-boundary banners.
 - **When a mock is resolved:** mark the row, link the implementing PR, and note which lane cleared it.
-- **Doc drift alert:** `WORLD_CLASS_PROTOTYPE_SPEC.md` and `PROTOTYPE_MVP0.md` need a sync pass to include Wave 3–6 routes and Evidence/Snapshot label renames — tracked as doc debt, not product debt.
+- **Doc drift alert:** `PROTOTYPE_MVP0.md` remains an early snapshot; `WORLD_CLASS_PROTOTYPE_SPEC.md` is the current route acceptance source and should be kept synced after future waves.

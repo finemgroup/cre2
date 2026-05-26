@@ -2,7 +2,7 @@
 
 Sophex motion should feel restrained, legible, and confidence-building. This is a CRE evidence and valuation product, not an AI toy.
 
-Primary reference: CRE clean-master `apps/core/lib/motion-tokens.ts`, `apps/core/lib/motion/workflow-motion.ts`, `apps/core/components/os/OSMotion.tsx`, and [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) (doctrine only — do not copy runtime dependency graph into Sophex setup). P51 high-end animation supplement: [P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md). Map/GIS supplement: [ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md).
+Primary reference: CRE clean-master `apps/core/lib/motion-tokens.ts`, `apps/core/lib/motion/workflow-motion.ts`, `apps/core/components/os/OSMotion.tsx`, and [UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md](UX_MOTION_TO_SOPHEX_HARVEST_PACKET_AUTHORITATIVE.md) (doctrine only — do not copy runtime dependency graph into Sophex setup). P51 high-end animation supplement: [P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](P51_CRE_ANIMATION_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md). Map/GIS supplement: [ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md](ICSC_MAP_RECOVERY_TO_SOPHEX_HARVEST_PACKET_PROVISIONAL.md). Sophex-specific adoption scope: [SOPHEX_SHELL_MOTION_HARVEST.md](SOPHEX_SHELL_MOTION_HARVEST.md).
 
 ## Motion Tiers
 

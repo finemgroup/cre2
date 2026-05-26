@@ -1,6 +1,8 @@
 import { useMemo, useState, type ReactElement, type ReactNode } from 'react';
+import { AnimatePresence } from 'framer-motion';
 
 import { StatusBadge } from '@/components/studio/StudioPrimitives';
+import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
 
 export type DataWorkbenchViewMode = 'table' | 'list' | 'grid';
 export type DataWorkbenchViews = Partial<Record<DataWorkbenchViewMode, ReactNode>>;
@@ -63,9 +65,15 @@ export function DataWorkbenchShell({
         <StatusBadge status={`${selectedMode} view`} />
         <span>View state is local and mock-only; it does not change evidence authority.</span>
       </div>
-      <div className={`data-workbench-content data-workbench-${selectedMode}`}>
-        {views[selectedMode]}
-      </div>
+      <AnimatePresence mode="wait" initial={false}>
+        <SophexMotionSurface
+          key={selectedMode}
+          motionName="workbenchPanel"
+          className={`data-workbench-content data-workbench-${selectedMode}`}
+        >
+          {views[selectedMode]}
+        </SophexMotionSurface>
+      </AnimatePresence>
     </section>
   );
 }

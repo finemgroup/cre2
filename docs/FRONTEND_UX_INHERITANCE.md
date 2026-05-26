@@ -12,6 +12,8 @@ The CRE underwriting annex adds provisional readiness/gates/version-governance U
 
 Wave 8 adds a focused cockpit harvest from CRE Platform shared UI. See [CRE_PLATFORM_COCKPIT_HARVEST_2026-05-25.md](CRE_PLATFORM_COCKPIT_HARVEST_2026-05-25.md). Adopted patterns are Sophex-native bento states, confidence/HITL escalation, data workbench view switching, and AI task pulse projections. CRE runtime, CRM, operator shell, and package imports remain excluded.
 
+Shell and motion synthesis is tracked in [SOPHEX_SHELL_MOTION_HARVEST.md](SOPHEX_SHELL_MOTION_HARVEST.md). It limits adoption to authenticated Studio shell orientation, workflow rails, drawers, report/spatial workbench panels, and reduced-motion-safe tokens. It does not authorize public/operator overreach or direct CRE/ICSC runtime reuse.
+
 ## Public Marketing Surfaces Vs Authenticated Workstations
 
 | Surface                                    | Purpose                                                                             | Content Engine patterns allowed                                                              |

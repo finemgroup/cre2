@@ -152,14 +152,14 @@ Canonical ticket pack: [COMPOSER_2_5_RAPID_IMPLEMENTATION_TICKET_PACK_CRE_COCKPI
 
 | Ticket                                        | Status                | Notes                                       |
 | --------------------------------------------- | --------------------- | ------------------------------------------- |
-| `SOPHEX-FE-WAVE-8-CRE-COCKPIT-HARVEST-MATRIX` | Implemented on branch | CRE source copy/adapt/reference matrix      |
-| `SOPHEX-FE-COCKPIT-BENTO-STATE-CONTRACT`      | Implemented on branch | Sophex-native bento state primitives        |
-| `SOPHEX-FE-COCKPIT-DEAL-PANEL-COMPOSITION`    | Implemented on branch | Shared overview/underwriting cockpit panel  |
-| `SOPHEX-FE-UW-CONFIDENCE-HITL-ACTIONS`        | Implemented on branch | Confidence-aware shared HITL assignments    |
-| `SOPHEX-FE-EVIDENCE-DATA-WORKBENCH-SHELL`     | Implemented on branch | Table/list/grid shell for evidence surfaces |
-| `SOPHEX-FE-COCKPIT-AI-TASK-PULSE`             | Implemented on branch | Mock-only AI/reviewer task pulse            |
-| `SOPHEX-FE-COCKPIT-STORYBOOK-AND-TESTS`       | Implemented on branch | Storybook and Vitest coverage               |
-| `SOPHEX-DOCS-CRE-COCKPIT-HARVEST-SYNC`        | Implemented on branch | Registry, UX, MVP0, and spec sync           |
+| `SOPHEX-FE-WAVE-8-CRE-COCKPIT-HARVEST-MATRIX` | Implemented on master | CRE source copy/adapt/reference matrix      |
+| `SOPHEX-FE-COCKPIT-BENTO-STATE-CONTRACT`      | Implemented on master | Sophex-native bento state primitives        |
+| `SOPHEX-FE-COCKPIT-DEAL-PANEL-COMPOSITION`    | Implemented on master | Shared overview/underwriting cockpit panel  |
+| `SOPHEX-FE-UW-CONFIDENCE-HITL-ACTIONS`        | Implemented on master | Confidence-aware shared HITL assignments    |
+| `SOPHEX-FE-EVIDENCE-DATA-WORKBENCH-SHELL`     | Implemented on master | Table/list/grid shell for evidence surfaces |
+| `SOPHEX-FE-COCKPIT-AI-TASK-PULSE`             | Implemented on master | Mock-only AI/reviewer task pulse            |
+| `SOPHEX-FE-COCKPIT-STORYBOOK-AND-TESTS`       | Implemented on master | Storybook and Vitest coverage               |
+| `SOPHEX-DOCS-CRE-COCKPIT-HARVEST-SYNC`        | Implemented on master | Registry, UX, MVP0, and spec sync           |
 
 ## Wave 9 Install / Polish (2026-05-25)
 

@@ -264,7 +264,14 @@ export function MotionBlock({
   motionName = 'stageItem',
 }: ChildrenProps & {
   className?: string;
-  motionName?: 'stageItem' | 'listStagger' | 'railEnter' | 'collapse';
+  motionName?:
+    | 'stageItem'
+    | 'listStagger'
+    | 'railEnter'
+    | 'navRail'
+    | 'workbenchPanel'
+    | 'mapSelection'
+    | 'collapse';
 }): ReactElement {
   const reducedMotion = useReducedMotionPreference();
   const props = getMotionProps(getMotionSpec(motionName), reducedMotion);
