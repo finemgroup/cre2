@@ -172,6 +172,14 @@ export function resolveExportFixtureState(value: string | null): ExportGateFixtu
   );
 }
 
+export function appendExportFixtureStateQuery(path: string, stateParam: string | null): string {
+  if (!stateParam) {
+    return path;
+  }
+  const fixtureStateId = resolveExportFixtureState(stateParam)[0];
+  return `${path}${path.includes('?') ? '&' : '?'}state=${fixtureStateId}`;
+}
+
 export function sourcePackBlocker(stateId: ExportFixtureStateId): string {
   return EXPORT_FIXTURE_STATES.find(([id]) => id === stateId)?.[9].at(-1) ?? '';
 }
