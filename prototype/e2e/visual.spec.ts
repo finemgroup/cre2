@@ -75,6 +75,18 @@ test.describe('route shell visuals', () => {
     });
   });
 
+  test('public source pack cockpit', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await gotoRoute(page, '/sources/demo-001?state=provider-restricted');
+    await expect(
+      page.getByRole('heading', { name: /Source pack for 1200 Commerce St/i })
+    ).toBeVisible();
+    await expect(page).toHaveScreenshot('public-source-pack-desktop.png', {
+      fullPage: true,
+      maxDiffPixelRatio: 0.03,
+    });
+  });
+
   test('studio tablet nav affordance', async ({ page }) => {
     await page.setViewportSize({ width: 768, height: 1024 });
     await gotoRoute(page, '/studio/dashboard');

@@ -4,6 +4,11 @@ import type { ReactElement } from 'react';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import type { AuthorityPosture } from '@/lib/authority/authority-vocabulary';
 import { getPublicReportView } from '@/lib/runtime/report-flow';
+import {
+  EXPORT_FIXTURE_STATES,
+  resolveExportFixtureState,
+  type ExportFixtureStateId,
+} from '@/lib/runtime/public-export-fixtures';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import { getLinkedDealId } from '@/lib/workflow-identity';
@@ -12,15 +17,8 @@ import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { trackEvent } from '@/lib/analytics/collector';
 
-type ReportFixtureStateId =
-  | 'clean'
-  | 'blocked'
-  | 'low-evidence'
-  | 'provider-restricted'
-  | 'ready-for-review';
-
 type ReportFixtureState = readonly [
-  ReportFixtureStateId,
+  ExportFixtureStateId,
   string,
   string,
   string,
@@ -34,85 +32,86 @@ type ReportFixtureState = readonly [
   readonly AuthorityPosture[],
 ];
 
-const REPORT_FIXTURE_STATES: ReportFixtureState[] = [
-  [
-    'clean',
-    'Clean',
-    'High source coverage',
+type ReportOverlay = readonly [string, string, string, string, string, readonly AuthorityPosture[]];
+
+const REPORT_OVERLAY: Record<ExportFixtureStateId, ReportOverlay> = {
+  clean: [
     '$18.4M - $19.2M',
     'High',
-    '94%',
     'Refreshed 5 days ago',
     'Reviewed public baseline',
-    'Gated for consent and receipt generation.',
     'Reviewed baseline fields; still advisory.',
-    ['Export consent and receipt generation are disabled.'],
     ['advisory', 'model-inferred', 'reviewed'],
   ],
-  [
-    'blocked',
-    'Blocked',
-    'Review blockers present',
+  blocked: [
     '$17.8M - $19.6M',
     'Medium',
-    '72%',
     'Mixed source dates',
     'Reviewer required',
-    'Blocked: section review, consent, and source-rights gates are open.',
     'Preview only; review gaps remain visible.',
-    ['Comparable sales review, source rights, and reviewer approval are incomplete.'],
     ['advisory', 'reviewer-required', 'source-pending', 'blocked'],
   ],
-  [
-    'low-evidence',
-    'Low evidence',
-    'Thin citation pack',
+  'low-evidence': [
     '$16.9M - $20.1M',
     'Low',
-    '48%',
     'Needs refresh',
     'Candidate evidence only',
-    'Blocked: evidence coverage is below review threshold.',
     'Thin sources widen the model-inferred range.',
-    ['Assessor, rent roll, and map support need review.'],
     ['advisory', 'candidate-evidence', 'source-pending'],
   ],
-  [
-    'provider-restricted',
-    'Provider restricted',
-    'Source rights constrained',
+  'provider-restricted': [
     '$18.1M - $19.7M',
     'Medium',
-    '81%',
     'Current, restricted',
     'Provider-limited summary',
-    'Blocked: restricted comps must be removed or summarized.',
     'Restricted comps inform the range but cannot ship.',
-    ['Premium-private comp rows are summary-only.'],
     ['advisory', 'source-pending', 'blocked'],
   ],
-  [
-    'ready-for-review',
-    'Ready for review',
-    'Analyst queue ready',
+  'ready-for-review': [
     '$18.3M - $19.4M',
     'High pending reviewer',
-    '89%',
     'Reviewed this week',
     'Reviewer required',
-    'Gated: ready for analyst review, not export.',
     'Evidence is assembled for reviewer signoff.',
-    ['Analyst approval and export receipt are not recorded.'],
     ['advisory', 'reviewer-required', 'reviewed'],
   ],
-];
+};
+
+const REPORT_FIXTURE_STATES: ReportFixtureState[] = EXPORT_FIXTURE_STATES.map((base) => {
+  const overlay = REPORT_OVERLAY[base[0]];
+  return [
+    base[0],
+    base[1],
+    base[2],
+    overlay[0],
+    overlay[1],
+    base[3],
+    overlay[2],
+    overlay[3],
+    base[8],
+    overlay[4],
+    base[9],
+    overlay[5],
+  ];
+});
 
 function resolveFixtureState(value: string | null): ReportFixtureState {
-  return (
-    REPORT_FIXTURE_STATES.find(([stateId]) => stateId === value) ??
-    REPORT_FIXTURE_STATES.find(([stateId]) => stateId === 'blocked') ??
-    REPORT_FIXTURE_STATES[0]
-  );
+  const base = resolveExportFixtureState(value);
+  const overlay = REPORT_OVERLAY[base[0]];
+  return [
+    base[0],
+    base[1],
+    base[2],
+    overlay[0],
+    overlay[1],
+    base[3],
+    overlay[2],
+    overlay[3],
+    base[8],
+    overlay[4],
+    base[9],
+    overlay[5],
+  ];
 }
 
 function formatSnapshotDate(value?: string): string {
@@ -405,6 +404,8 @@ export function ReportPage(): ReactElement {
         <Link to={`/review/${property.id}?state=${fixtureStateId}`} className="btn btn-secondary">
           Open review queue
         </Link>
+        {' · '}
+        <Link to={`/sources/${property.id}?state=${fixtureStateId}`}>Open source pack</Link>
       </div>
 
       <footer className="card report-prototype-footer">

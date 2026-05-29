@@ -2,7 +2,7 @@
 
 **Purpose:** Single checklist of every mock-only prototype location so operators can resolve them deliberately when gated lanes open. This is a **tracking doc**, not runtime authorization.
 
-**Last synced:** 2026-05-29 (after `SOPHEX-REVIEW-QUEUE-001` review queue source gap cockpit closeout)
+**Last synced:** 2026-05-29 (after `SOPHEX-SOURCE-EVIDENCE-002` source pack citation drilldown closeout)
 
 **Related docs:**
 
@@ -42,7 +42,8 @@
 | `/upload`             | `prototype/src/pages/UploadPage.tsx`   | `simulated-cta` upload stages; `runtimeServices.public.getUploadGuide()` with fixture fallback; contribution proof strip                                                                                                                                                  | `provider`, `hitl-legal`                  | WORLD_CLASS spec / Wave 29                                            |
 | `/report/:id`         | `prototype/src/pages/ReportPage.tsx`   | `mock-data` sections; deterministic trust fixture states (`clean`, `blocked`, `low-evidence`, `provider-restricted`, `ready-for-review`); disabled export CTA plus export-gate handoff; `simulated-cta` section review                                                    | `sandbox-api`, `hitl-legal`               | Wave 2/4 / `SOPHEX-REPORT-002` / `SOPHEX-OVERNIGHT-REPORT-MATRIX-001` |
 | `/export/:id`         | `prototype/src/pages/ExportPage.tsx`   | `disabled-gate` generate; deterministic review-readiness fixture states (`clean`, `blocked`, `low-evidence`, `provider-restricted`, `ready-for-review`); consent/source-rights/reviewer/section gates; report/review/studio cross-links; `MockBoundaryBanner` (`export` variant) | `hitl-legal`, `schema-db`                 | Wave 2/4/6 / Wave 26 / Wave 31 / `SOPHEX-EXPORT-GATE-001`             |
-| `/review/:id`         | `prototype/src/pages/ReviewPage.tsx`   | `mock-ui` source gap cockpit; deterministic fixture states via `public-export-fixtures.ts`; source gap register; local-only reviewer actions; disabled export CTA; report/export handoffs | `hitl-legal`, `sandbox-api`               | `SOPHEX-REVIEW-QUEUE-001`                                             |
+| `/review/:id`         | `prototype/src/pages/ReviewPage.tsx`   | `mock-ui` source gap cockpit; deterministic fixture states via `public-export-fixtures.ts`; source gap register; local-only reviewer actions; disabled export CTA; report/export/source handoffs | `hitl-legal`, `sandbox-api`               | `SOPHEX-REVIEW-QUEUE-001`                                             |
+| `/sources/:id`        | `prototype/src/pages/ReviewPage.tsx` (sources mode) | `mock-ui` source pack / citation drilldown; shared fixture states via `public-export-fixtures.ts`; source-rights blocker copy; local-only citation actions; disabled export CTA; report/export/review handoffs | `hitl-legal`, `sandbox-api`, `provider`   | `SOPHEX-SOURCE-EVIDENCE-002`                                          |
 | `*` (404)             | `prototype/src/pages/NotFoundPage.tsx` | Static guard                                                                                                                                                                                                                                                              | `keep-mock`                               | —                                                                     |
 
 **Public mock data sources:** `prototype/src/data/mock.ts`, `lib/runtime/public-search.ts`, `lib/runtime/public-comps.ts`, `lib/runtime/report-flow.ts`, `lib/runtime/upload-flow.ts`
