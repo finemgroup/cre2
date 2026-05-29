@@ -73,11 +73,7 @@ export function GuidedDemoRail(): ReactElement | null {
   const nextStep = stepIndex >= 0 && stepIndex < STEPS.length - 1 ? STEPS[stepIndex + 1] : null;
 
   return (
-    <aside
-      className="public-studio-continuity guided-demo-rail"
-      role="navigation"
-      aria-label="Guided demo path"
-    >
+    <nav className="public-studio-continuity guided-demo-rail" aria-label="Guided demo path">
       <div>
         <strong>Guided demo · prototype only</strong>
         <p className="muted">
@@ -121,6 +117,6 @@ export function GuidedDemoRail(): ReactElement | null {
           ))}
         </div>
       </div>
-    </aside>
+    </nav>
   );
 }
