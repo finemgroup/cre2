@@ -184,7 +184,8 @@ export function ReviewPage(): ReactElement {
             <article key={gap.id} className="card">
               <h3>{gap.section}</h3>
               <p>
-                {gap.blockerType} · {gap.evidenceStatus} · {gap.sourceRightsPosture} · {gap.confidenceImpact}
+                {gap.blockerType} · {gap.evidenceStatus} · {gap.sourceRightsPosture} ·{' '}
+                {gap.confidenceImpact}
               </p>
               <p>{gap.reviewerAction}</p>
               <p className="muted">Blocks export</p>
@@ -230,7 +231,9 @@ export function ReviewPage(): ReactElement {
       </button>
       {copyStatus ? <p className="muted">{copyStatus}</p> : null}
 
-      <footer className="card report-prototype-footer">Prototype-only / no live approval. Export remains disabled.</footer>
+      <footer className="card report-prototype-footer">
+        Prototype-only / no live approval. Export remains disabled.
+      </footer>
     </section>
   );
 }
