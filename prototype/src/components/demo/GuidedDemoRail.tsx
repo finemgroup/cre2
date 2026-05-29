@@ -74,25 +74,36 @@ export function GuidedDemoRail(): ReactElement | null {
 
   return (
     <nav className="public-studio-continuity guided-demo-rail" aria-label="Guided demo path">
-      <div>
-        <strong>Guided demo · prototype only</strong>
-        <p className="muted">
-          Public Intelligence · Not an appraisal · Advisory / Model-Inferred · Export gated · No
-          live valuation, source retrieval, or export
+      <div className="guided-demo-rail__summary">
+        <p className="micro-label">Guided demo</p>
+        <h2>Public intelligence walkthrough</h2>
+        <p>
+          Public Intelligence · Not an appraisal · Advisory / Model-Inferred · Export gated ·
+          prototype only.
         </p>
-        <p className="guided-demo-rail__meta">
-          Step: <strong>{step.label}</strong> · Fixture: <strong>{fixture[1]}</strong>
+      </div>
+
+      <div className="guided-demo-rail__status" aria-label="Current guided demo state">
+        <span>
+          Current step <strong>{step.label}</strong>
+        </span>
+        <span>
+          Fixture <strong>{fixture[1]}</strong>
+        </span>
+        <span>
+          Next{' '}
           {nextStep ? (
-            <>
-              {' '}
-              · Next:{' '}
-              <Link to={demoPath(route.propertyId, nextStep.id, stateId)}>{nextStep.label}</Link>
-            </>
+            <Link to={demoPath(route.propertyId, nextStep.id, stateId)}>{nextStep.label}</Link>
           ) : (
-            <> · End of guided path</>
+            <strong>Review complete</strong>
           )}
-        </p>
-        <p className="guided-demo-rail__meta">{NARRATIVES[stateId]}</p>
+        </span>
+      </div>
+
+      <p className="guided-demo-rail__narrative">{NARRATIVES[stateId]}</p>
+
+      <div className="guided-demo-rail__group">
+        <span className="micro-label">Path</span>
         <nav className="guided-demo-rail__links" aria-label="Public intelligence demo steps">
           {STEPS.map((entry) => (
             <Link
@@ -104,8 +115,11 @@ export function GuidedDemoRail(): ReactElement | null {
             </Link>
           ))}
         </nav>
+      </div>
+
+      <div className="guided-demo-rail__group">
+        <span className="micro-label">Fixture state</span>
         <div className="guided-demo-rail__links" aria-label="Fixture state switcher">
-          <span className="micro-label">Fixture state</span>
           {FIXTURE_LABELS.map(([id, label]) => (
             <Link
               key={id}

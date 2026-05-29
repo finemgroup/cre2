@@ -58,9 +58,11 @@ export function PublicShell(): ReactElement {
             Studio
           </NavLink>
         </nav>
-        <PresentationModeToggle className="btn btn-ghost presentation-mode-toggle public-presentation-toggle" />
-        <RuntimePostureChip />
-        <ActorDemoSelector />
+        <div className="shell-demo-controls" aria-label="Prototype controls">
+          <PresentationModeToggle className="btn btn-ghost presentation-mode-toggle public-presentation-toggle" />
+          <RuntimePostureChip />
+          <ActorDemoSelector />
+        </div>
       </header>
       <PublicMobileNavDrawer isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
       <main className="shell-main">

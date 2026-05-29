@@ -140,23 +140,18 @@ export function ExportPage(): ReactElement {
       ) : null}
 
       {gateView ? (
-        <p className="contextual-handoffs">
+        <nav className="contextual-handoffs" aria-label="Export route handoffs">
           <Link to={`${gateView.reportPath}?state=${fixtureStateId}`}>
             Review public report sections
           </Link>
-          {' · '}
           <Link to={`/review/${propertyId}?state=${fixtureStateId}`}>
             Open source gap review queue
           </Link>
-          {' · '}
           <Link to={`/sources/${propertyId}?state=${fixtureStateId}`}>Open source pack</Link>
           {gateView.studioReportPath ? (
-            <>
-              {' · '}
-              <Link to={gateView.studioReportPath}>Open Studio report builder</Link>
-            </>
+            <Link to={gateView.studioReportPath}>Open Studio report builder</Link>
           ) : null}
-        </p>
+        </nav>
       ) : null}
 
       <StageRail stages={STAGES} activeIndex={stage} />

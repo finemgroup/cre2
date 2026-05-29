@@ -131,22 +131,18 @@ export function ReviewPage(): ReactElement {
         </div>
       ) : null}
 
-      <p className="contextual-handoffs">
+      <nav
+        className="contextual-handoffs"
+        aria-label={isSources ? 'Source pack handoffs' : 'Review route handoffs'}
+      >
         <Link to={`/report/${propertyId}?state=${fixtureStateId}`}>Return to report preview</Link>
-        {' · '}
         <Link to={`/export/${propertyId}?state=${fixtureStateId}`}>Return to export gate</Link>
         {isSources ? (
-          <>
-            {' · '}
-            <Link to={`/review/${propertyId}?state=${fixtureStateId}`}>Return to review queue</Link>
-          </>
+          <Link to={`/review/${propertyId}?state=${fixtureStateId}`}>Return to review queue</Link>
         ) : (
-          <>
-            {' · '}
-            <Link to={`/sources/${propertyId}?state=${fixtureStateId}`}>Open source pack</Link>
-          </>
+          <Link to={`/sources/${propertyId}?state=${fixtureStateId}`}>Open source pack</Link>
         )}
-      </p>
+      </nav>
 
       <nav
         className="proof-strip report-state-switcher"

@@ -12,7 +12,7 @@ export function ActorDemoSelector(): ReactElement {
 
   return (
     <label className="actor-demo-selector">
-      <span>Prototype actor</span>
+      <span>Viewer</span>
       <select
         value={actorKey}
         aria-label="Prototype actor context"

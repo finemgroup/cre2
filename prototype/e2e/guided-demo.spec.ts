@@ -12,7 +12,7 @@ test.describe('guided demo states', () => {
 
     const rail = page.getByRole('navigation', { name: /Guided demo path/i });
     await expect(rail).toBeVisible();
-    await expect(rail.getByText(/Guided demo · prototype only/i)).toBeVisible();
+    await expect(rail.getByText(/Public intelligence walkthrough/i)).toBeVisible();
     await expect(rail.getByText(/Export gated/i)).toBeVisible();
     await expect(rail.getByText(/Source rights constrain export/i)).toBeVisible();
     await expect(rail.getByRole('link', { name: /3 · Report/i })).toHaveAttribute(
