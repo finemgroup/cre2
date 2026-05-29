@@ -89,7 +89,7 @@ test.describe('public Sophex smoke', () => {
     ).toBeVisible();
     await expect(page.getByText(/Source gap register/i)).toBeVisible();
     await expect(page.getByText(/Provider-restricted/i).first()).toBeVisible();
-    await expect(page.getByRole('cell', { name: /Premium comp row/i })).toBeVisible();
+    await expect(page.getByText(/Premium comp row/i).first()).toBeVisible();
     await expect(
       page.locator('.page-header').getByText(/Prototype-only \/ no live approval/i)
     ).toBeVisible();
@@ -106,7 +106,7 @@ test.describe('public Sophex smoke', () => {
   test('review queue low-evidence state shows blocker posture', async ({ page }) => {
     await gotoRoute(page, '/review/demo-001?state=low-evidence');
     await expect(page.locator('.page-header').getByText(/Thin citation pack/i)).toBeVisible();
-    await expect(page.getByText(/Coverage below export threshold/i).first()).toBeVisible();
+    await expect(page.getByText(/Evidence coverage below export threshold/i).first()).toBeVisible();
     await expect(page.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
     const exportGateLink = page.getByRole('link', { name: /Return to export gate/i });
     await exportGateLink.scrollIntoViewIfNeeded();

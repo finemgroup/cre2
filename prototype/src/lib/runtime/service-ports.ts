@@ -22,7 +22,6 @@ import { getPublicSearchProperties } from '@/lib/runtime/public-search';
 import { getPublicUploadGuideView } from '@/lib/runtime/public-upload';
 import { getPublicLandingView } from '@/lib/runtime/public-landing';
 import { getPublicExportGateView } from '@/lib/runtime/public-export-gate';
-import { getPublicReviewQueueView } from '@/lib/runtime/public-review-queue';
 import { getStudioBillingView } from '@/lib/studio/billing-plans';
 import { getStudioOnboardingView } from '@/lib/studio/onboarding-flow';
 import type { ExportPolicyDecision, ExportScope } from '@/lib/runtime/export-policy';
@@ -44,7 +43,6 @@ export type PublicReportView = NonNullable<ReturnType<typeof getPublicReportView
 export type PublicUploadGuideView = ReturnType<typeof getPublicUploadGuideView>;
 export type PublicLandingView = ReturnType<typeof getPublicLandingView>;
 export type PublicExportGateView = NonNullable<ReturnType<typeof getPublicExportGateView>>;
-export type PublicReviewQueueView = NonNullable<ReturnType<typeof getPublicReviewQueueView>>;
 export type StudioDashboardView = ReturnType<typeof getStudioDashboardView>;
 export type StudioDealView = NonNullable<ReturnType<typeof getStudioDealView>>;
 export type StudioCompView = ReturnType<typeof getStudioCompViews>[number];
@@ -89,10 +87,6 @@ export type PublicRuntimeServices = {
     propertyId: string | undefined,
     actor?: ActorContext
   ): Promise<PublicExportGateView | undefined>;
-  getReviewQueueView(
-    propertyId: string | undefined,
-    actor?: ActorContext
-  ): Promise<PublicReviewQueueView | undefined>;
 };
 
 export type StudioRuntimeServices = {
@@ -172,9 +166,6 @@ export const fixtureRuntimeServices: RuntimeServices = {
     },
     async getExportGateView(propertyId, actor) {
       return getPublicExportGateView(propertyId, actor);
-    },
-    async getReviewQueueView(propertyId, actor) {
-      return getPublicReviewQueueView(propertyId, actor);
     },
   },
   studio: {
