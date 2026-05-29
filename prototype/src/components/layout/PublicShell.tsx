@@ -17,15 +17,25 @@ import { PresentationModeToggle } from '@/components/layout/PresentationModeTogg
 import { GuidedDemoRail } from '@/components/demo/GuidedDemoRail';
 import { usePresentationMode } from '@/lib/studio/usePresentationMode';
 
+const GUIDED_DEMO_ROUTE_PATTERN =
+  /^\/(?:property\/[^/]+(?:\/comps)?|report\/[^/]+|export\/[^/]+|review\/[^/]+|sources\/[^/]+)$/;
+
 export function PublicShell(): ReactElement {
   const location = useLocation();
   const routeAnnouncement = useRouteAnnouncement(getPublicRouteTitle(location.pathname));
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   useStudioSurfaceFonts();
   const { enabled: presentationMode } = usePresentationMode();
+  const shellClassName = [
+    'shell',
+    presentationMode ? 'presentation-mode' : '',
+    GUIDED_DEMO_ROUTE_PATTERN.test(location.pathname) ? 'shell-guided-demo' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 
   return (
-    <div className={presentationMode ? 'shell presentation-mode' : 'shell'}>
+    <div className={shellClassName}>
       <ScreenReaderAnnouncement message={routeAnnouncement} />
       <a href="#page-content" className="skip-link">
         Skip to content
