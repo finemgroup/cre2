@@ -195,25 +195,28 @@ describe('public Sophex routes', () => {
 
   it('derives export blockers from report governance readiness', async () => {
     await renderRoute('/export/demo-001');
-    const blockers = screen.getByRole('list', { name: /Export blockers/i });
+    const blockers = screen.getByRole('list', { name: /Export readiness blocker register/i });
 
-    expect(within(blockers).getByText(/consent/i)).toBeInTheDocument();
-    expect(within(blockers).getByText(/source-rights/i)).toBeInTheDocument();
+    expect(
+      within(blockers).getByText(/Consent gate must clear before export/i)
+    ).toBeInTheDocument();
+    expect(
+      within(blockers).getByText(/Source-rights gate must clear before export/i)
+    ).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /Generate export/i })).toBeDisabled();
   });
 
-  it('generates a redacted preview receipt from the export policy', async () => {
+  it('keeps preview export receipt generation disabled', async () => {
     const user = userEvent.setup();
-    await renderRoute('/export/demo-001');
+    await renderRoute('/export/demo-001?state=low-evidence');
 
     await user.click(screen.getByRole('radio', { name: /preview/i }));
-    await user.click(screen.getByRole('button', { name: /Generate export receipt/i }));
 
-    await waitFor(() => expect(screen.getByText(/Redacted evidence refs/i)).toBeInTheDocument(), {
-      timeout: 1500,
-    });
-    expect(screen.getByText(/Export manifest/i)).toBeInTheDocument();
-    expect(screen.getByText(/draft-preview/i)).toBeInTheDocument();
+    expect(screen.getByText(/Evidence coverage below export threshold/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: /Generate export receipt disabled/i })
+    ).toBeDisabled();
+    expect(screen.queryByText(/Redacted evidence refs/i)).not.toBeInTheDocument();
   });
 
   it('switches the prototype actor context without exposing private values', async () => {
