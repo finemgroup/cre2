@@ -1,5 +1,5 @@
 import { useState, type ReactElement } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 
 import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceModal';
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
@@ -7,30 +7,137 @@ import { ValuationReadinessRail } from '@/components/workflow/ValuationReadiness
 import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
 import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallout';
-import { usePrototypeToast } from '@/components/overlays/PrototypeToast';
 import { StageRail } from '@/components/ui/StageRail';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { EXPORT_FLOW_STAGES } from '@/lib/readiness-stages';
-import { getPublicExportDecision, getPublicReportView } from '@/lib/runtime/report-flow';
+import type { AuthorityPosture } from '@/lib/authority/authority-vocabulary';
+import { getPublicReportView } from '@/lib/runtime/report-flow';
 import { getPublicExportGateView } from '@/lib/runtime/public-export-gate';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import type { ExportScope } from '@/lib/runtime/export-policy';
-import type { GovernedReceipt } from '@/lib/contracts/receipts';
-import { trackEvent } from '@/lib/analytics/collector';
 import { getLinkedDealId } from '@/lib/workflow-identity';
 
 const STAGES = [...EXPORT_FLOW_STAGES];
 
+type ExportFixtureStateId =
+  | 'clean'
+  | 'blocked'
+  | 'low-evidence'
+  | 'provider-restricted'
+  | 'ready-for-review';
+
+type ExportGateFixtureState = readonly [
+  ExportFixtureStateId,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  string,
+  readonly string[],
+  readonly AuthorityPosture[],
+];
+
+const EXPORT_FIXTURE_STATES: ExportGateFixtureState[] = [
+  [
+    'clean',
+    'Clean',
+    'High source coverage',
+    '94% source coverage',
+    'Consent not recorded',
+    'Source-rights checklist clear in fixture, receipt storage still gated',
+    'Reviewer approval still required for external delivery',
+    'Reviewed sections staged, export receipt disabled',
+    'Clean review posture, but no live export authority.',
+    ['Governed receipt generation remains disabled in prototype.'],
+    ['advisory', 'model-inferred', 'reviewed'],
+  ],
+  [
+    'blocked',
+    'Blocked',
+    'Review blockers present',
+    '72% source coverage',
+    'Consent missing',
+    'Source-rights review incomplete',
+    'Reviewer approval missing',
+    'Comparable Sales and Underwriting Assumptions are not export-ready',
+    'Blocked: consent, section review, reviewer approval, and source rights remain open.',
+    ['Comparable sales review, source rights, and reviewer approval are incomplete.'],
+    ['advisory', 'reviewer-required', 'source-pending', 'blocked'],
+  ],
+  [
+    'low-evidence',
+    'Low evidence',
+    'Thin citation pack',
+    '48% source coverage',
+    'Consent missing',
+    'Evidence coverage below export threshold',
+    'Reviewer cannot approve thin source pack',
+    'Draft report sections remain evidence-gated',
+    'Blocked: low evidence coverage cannot support export.',
+    ['Assessor, rent roll, and map support need review before export.'],
+    ['advisory', 'candidate-evidence', 'source-pending'],
+  ],
+  [
+    'provider-restricted',
+    'Provider restricted',
+    'Source rights constrained',
+    '81% source coverage',
+    'Consent missing',
+    'Provider-restricted comps cannot ship',
+    'Reviewer must remove or summarize restricted evidence',
+    'Comp appendix is summary-only',
+    'Blocked: restricted comps must be removed or summarized before export.',
+    ['Premium-private comp rows are summary-only.'],
+    ['advisory', 'source-pending', 'blocked'],
+  ],
+  [
+    'ready-for-review',
+    'Ready for review',
+    'Analyst queue ready',
+    '89% source coverage',
+    'Consent pending',
+    'Source-rights packet assembled for review',
+    'Analyst approval not recorded',
+    'Sections are staged for reviewer signoff',
+    'Gated: ready for analyst review, not export.',
+    ['Analyst approval and export receipt are not recorded.'],
+    ['advisory', 'reviewer-required', 'reviewed'],
+  ],
+];
+
+function resolveExportFixtureState(value: string | null): ExportGateFixtureState {
+  return (
+    EXPORT_FIXTURE_STATES.find(([stateId]) => stateId === value) ??
+    EXPORT_FIXTURE_STATES.find(([stateId]) => stateId === 'blocked') ??
+    EXPORT_FIXTURE_STATES[0]
+  );
+}
+
 export function ExportPage(): ReactElement {
-  const { pushToast } = usePrototypeToast();
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
   const [stage, setStage] = useState(0);
   const [consent, setConsent] = useState(false);
-  const [generating, setGenerating] = useState(false);
   const [scope, setScope] = useState<ExportScope>('download');
-  const [receipt, setReceipt] = useState<GovernedReceipt | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const activeFixtureState = resolveExportFixtureState(searchParams.get('state'));
+  const [
+    fixtureStateId,
+    fixtureStateLabel,
+    fixtureEyebrow,
+    fixtureCoverage,
+    consentGate,
+    sourceRightsGate,
+    reviewerGate,
+    sectionGate,
+    fixtureExportPosture,
+    fixtureBlockers,
+    fixtureBadges,
+  ] = activeFixtureState;
   const reportState = useRuntimeResource(
     () => runtimeServices.public.getReportView(id),
     `export-report-${id ?? 'missing'}`,
@@ -44,28 +151,6 @@ export function ExportPage(): ReactElement {
     getPublicExportGateView(id)
   );
   const gateView = gateState.value;
-  const policyState = useRuntimeResource(
-    () =>
-      propertyId
-        ? runtimeServices.public.evaluateExport({
-            propertyId,
-            scope,
-            consent,
-            idempotencyKey: `public-export-${propertyId}-${scope}`,
-          })
-        : Promise.resolve(undefined),
-    `export-policy-${propertyId}-${scope}-${consent}`,
-    propertyId
-      ? getPublicExportDecision({
-          propertyId,
-          scope,
-          consent,
-          idempotencyKey: `public-export-${propertyId}-${scope}`,
-        })
-      : undefined
-  );
-  const policyDecision = policyState.value;
-  const exportBlocked = !policyDecision?.allowed;
 
   if (!reportView && reportState.loading) {
     return (
@@ -100,53 +185,34 @@ export function ExportPage(): ReactElement {
 
   const { property, readiness, valuationVersion } = reportView;
   const linkedDealId = getLinkedDealId(propertyId);
-
-  function handleGenerate() {
-    if (exportBlocked) return;
-    setGenerating(true);
-    setStage(2);
-    window.setTimeout(() => {
-      void runtimeServices.public
-        .evaluateExport({
-          propertyId,
-          scope,
-          consent,
-          idempotencyKey: `public-export-${propertyId}-${scope}`,
-        })
-        .then((decision) => {
-          setGenerating(false);
-          setStage(3);
-          setReceipt(decision?.receipt ?? null);
-          if (decision?.receipt) {
-            trackEvent({
-              name: 'export_receipt_generated',
-              actorClass: decision.receipt.actorId,
-              route: `/export/${propertyId}`,
-              propertyId,
-              phase: scope,
-              receiptId: decision.receipt.id,
-            });
-          }
-          pushToast('Export receipt generated in prototype only. No file was sent.', 'success');
-        });
-    }, 20);
-  }
+  const blockerRegister = [
+    ...fixtureBlockers,
+    ...readiness.warnings,
+    ...readiness.blockedReasons,
+    'Consent gate must clear before export.',
+    'Source-rights gate must clear before export.',
+    'Reviewer approval gate must clear before export.',
+    'Section-readiness gate must clear before export.',
+  ];
 
   return (
     <section className="page">
       <header className="page-header">
-        <p className="eyebrow">Report export gate</p>
-        <h1>Gated export for {property.address}</h1>
+        <p className="eyebrow">
+          Export gated · {fixtureStateLabel} · {fixtureEyebrow}
+        </p>
+        <h1>Review readiness for {property.address}</h1>
         <p className="lede">
-          Export is a permissioned, audited value exchange — not a simple download button.
+          Mock-only export readiness cockpit. Generate stays disabled; no live export, PDF, billing,
+          provider send, or syndication is enabled.
         </p>
       </header>
 
       <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="export" />
       <MockBoundaryBanner variant="export" />
       <RuntimeResourceStatus
-        loading={reportState.loading || policyState.loading || gateState.loading}
-        error={reportState.error ?? policyState.error ?? gateState.error}
+        loading={reportState.loading || gateState.loading}
+        error={reportState.error ?? gateState.error}
         variant="public"
       />
 
@@ -169,7 +235,9 @@ export function ExportPage(): ReactElement {
 
       {gateView ? (
         <p className="contextual-handoffs">
-          <Link to={gateView.reportPath}>Review public report sections</Link>
+          <Link to={`${gateView.reportPath}?state=${fixtureStateId}`}>
+            Review public report sections
+          </Link>
           {gateView.studioReportPath ? (
             <>
               {' · '}
@@ -181,29 +249,85 @@ export function ExportPage(): ReactElement {
 
       <StageRail stages={STAGES} activeIndex={stage} />
 
-      {exportBlocked ? (
-        <GateResolutionCallout
-          action="Generate export receipt"
-          prerequisite="Consent, section review, and source-use terms must clear before export."
-          owner="A report reviewer"
-          resolveTo={`/report/${propertyId}`}
-          resolveLabel="Review report sections"
-        />
-      ) : null}
+      <nav className="proof-strip report-state-switcher" aria-label="Export fixture states">
+        {EXPORT_FIXTURE_STATES.map((state) => (
+          <Link
+            key={state[0]}
+            to={`/export/${property.id}?state=${state[0]}`}
+            className={state[0] === fixtureStateId ? 'active' : undefined}
+            aria-current={state[0] === fixtureStateId ? 'page' : undefined}
+          >
+            <span>{state[1]}</span>
+            <small>{state[2]}</small>
+          </Link>
+        ))}
+      </nav>
+
+      <GateResolutionCallout
+        action="Generate export receipt"
+        prerequisite="Consent, section review, reviewer approval, and source-use terms must clear before export."
+        owner="A report reviewer"
+        resolveTo={`/report/${propertyId}?state=${fixtureStateId}`}
+        resolveLabel="Review report sections"
+      />
+
+      <section className="proof-strip" aria-label="Export review readiness gates">
+        {[
+          ['Consent', consentGate],
+          ['Source rights', sourceRightsGate],
+          ['Reviewer approval', reviewerGate],
+          ['Section readiness', sectionGate],
+        ].map(([label, value]) => (
+          <article key={label}>
+            <span>{label}</span>
+            <strong>{value}</strong>
+          </article>
+        ))}
+      </section>
 
       <div className="card">
-        <AuthorityBadge label={exportBlocked ? 'blocked' : 'reviewed'} />
-        <p className={exportBlocked ? 'warning' : undefined} id="export-blockers">
-          {exportBlocked
-            ? 'Export disabled until consent, section review, and source-use terms are clear.'
-            : 'Prototype policy is clear for this selected scope.'}
+        <div className="report-trust-alert-badges" aria-label="Export authority labels">
+          {fixtureBadges.map((badge) => (
+            <AuthorityBadge key={badge} label={badge} />
+          ))}
+          <AuthorityBadge label="blocked" />
+        </div>
+        <p className="warning" id="export-blockers">
+          {fixtureExportPosture} Prototype-only. No live export or receipt generation.
         </p>
-        {exportBlocked ? (
-          <ul className="evidence-list" aria-label="Export blockers">
-            {(policyDecision?.blockerCategories.length
-              ? policyDecision.blockerCategories
-              : readiness.blockedReasons
-            ).map((reason) => (
+        <ul className="evidence-list" aria-label="Export readiness blocker register">
+          {[...new Set(blockerRegister)].map((reason) => (
+            <li key={reason}>{reason}</li>
+          ))}
+        </ul>
+        <ul className="evidence-list" aria-label="Export blockers">
+          {['consent', 'source-rights', 'reviewer-approval', 'section-readiness'].map((reason) => (
+            <li key={reason}>{reason}</li>
+          ))}
+        </ul>
+
+        <section className="proof-strip" aria-label="Export fixture posture">
+          {[
+            [fixtureStateLabel, 'Fixture state'],
+            [fixtureCoverage, 'Coverage'],
+            [scope, 'Selected scope'],
+            ['Disabled', 'Generate'],
+          ].map(([value, label]) => (
+            <article key={String(label)}>
+              <strong className="fin-value">{value}</strong>
+              <span>{label}</span>
+            </article>
+          ))}
+        </section>
+
+        {gateView ? (
+          <ul className="evidence-list" aria-label="Export snapshot details">
+            {[
+              `Evidence snapshot: ${gateView.evidenceSnapshotId}`,
+              `Manifest prefix: ${gateView.manifestPrefix}`,
+              `Sections ready: ${gateView.readySections}/${gateView.totalSections}`,
+              `Open blockers: ${gateView.blockerCount}`,
+            ].map((reason) => (
               <li key={reason}>{reason}</li>
             ))}
           </ul>
@@ -254,48 +378,17 @@ export function ExportPage(): ReactElement {
 
         <div className="page-actions">
           <button type="button" className="btn btn-secondary" onClick={() => setModalOpen(true)}>
-            {exportBlocked ? 'Review blockers' : 'Review export readiness'}
+            Review blockers
           </button>
           <button
             type="button"
             className="btn btn-primary"
-            disabled={exportBlocked || generating}
-            aria-describedby={exportBlocked ? 'export-blockers' : undefined}
-            onClick={handleGenerate}
+            disabled
+            aria-describedby="export-blockers"
           >
-            {generating ? 'Generating…' : 'Generate export receipt'}
+            Generate export receipt disabled
           </button>
         </div>
-
-        {receipt ? (
-          <div className="receipt" role="status">
-            <p>
-              Receipt <code>{receipt.id}</code> · {receipt.kind} · {receipt.policyDecision}
-            </p>
-            <p>{receipt.safeMessage}</p>
-            <p>
-              Evidence snapshot: {valuationVersion.evidenceSnapshot.id} ·{' '}
-              {valuationVersion.evidenceSnapshot.manifestHash}
-            </p>
-            <p>
-              Redacted evidence refs:{' '}
-              {receipt.redactedEvidenceRefs.length > 0
-                ? receipt.redactedEvidenceRefs.join(', ')
-                : 'none'}
-            </p>
-            {policyDecision?.exportManifest ? (
-              <div className="manifest-summary" aria-label="Export manifest">
-                <strong>Export manifest: {policyDecision.exportManifest.status}</strong>
-                <span>Checksum: {policyDecision.exportManifest.checksum}</span>
-                <span>
-                  Included sections:{' '}
-                  {policyDecision.exportManifest.includedSectionIds.length || 'preview only'}
-                </span>
-                <span>{policyDecision.exportManifest.safeSummary}</span>
-              </div>
-            ) : null}
-          </div>
-        ) : null}
       </div>
 
       <section className="card readiness-card" aria-labelledby="readiness-heading">
@@ -308,8 +401,6 @@ export function ExportPage(): ReactElement {
         isOpen={modalOpen}
         onClose={() => setModalOpen(false)}
         readiness={readiness}
-        policyDecision={policyDecision}
-        onConfirm={handleGenerate}
       />
     </section>
   );

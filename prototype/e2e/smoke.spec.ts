@@ -57,18 +57,29 @@ test.describe('public Sophex smoke', () => {
     await expect(page.getByText(/Upload receipt:/i)).toBeVisible();
   });
 
-  test('export gate surfaces governance blockers', async ({ page }) => {
-    await gotoRoute(page, '/export/demo-001');
-    await expect(page.getByRole('button', { name: /Generate export/i })).toBeDisabled();
+  test('export gate surfaces review readiness blockers', async ({ page }) => {
+    await gotoRoute(page, '/export/demo-001?state=provider-restricted');
+    await expect(
+      page.getByRole('heading', { name: /Review readiness for 1200 Commerce St/i })
+    ).toBeVisible();
+    await expect(page.getByText(/Provider-restricted comps cannot ship/i)).toBeVisible();
+    await expect(page.getByText(/Premium-private comp rows are summary-only/i)).toBeVisible();
+    await expect(page.getByText(/Prototype-only\. No live export/i)).toBeVisible();
+    await expect(
+      page.getByRole('button', { name: /Generate export receipt disabled/i })
+    ).toBeDisabled();
     await page.getByRole('button', { name: /Review blockers/i }).click();
     await expect(page.getByRole('dialog', { name: /Export blocked/i })).toBeVisible();
   });
 
-  test('export preview generates governed receipt without sending files', async ({ page }) => {
-    await gotoRoute(page, '/export/demo-001');
+  test('export fixture states keep generation disabled', async ({ page }) => {
+    await gotoRoute(page, '/export/demo-001?state=low-evidence');
     await page.getByRole('radio', { name: /preview/i }).check();
-    await page.getByRole('button', { name: /Generate export receipt/i }).click();
-    await expect(page.getByText(/Redacted evidence refs/i)).toBeVisible();
+    await expect(page.getByText(/Evidence coverage below export threshold/i)).toBeVisible();
+    await expect(page.getByText(/low evidence coverage cannot support export/i)).toBeVisible();
+    await expect(
+      page.getByRole('button', { name: /Generate export receipt disabled/i })
+    ).toBeDisabled();
   });
 
   test('public footer exposes trust links', async ({ page }) => {

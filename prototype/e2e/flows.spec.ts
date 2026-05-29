@@ -7,7 +7,7 @@ test.beforeEach(async ({ page }) => {
 });
 
 test.describe('public end-to-end flows', () => {
-  test('search to export receipt across property context', async ({ page }) => {
+  test('search to gated export readiness across property context', async ({ page }) => {
     await gotoRoute(page, '/');
     await page.getByLabel(/Property or market/i).fill('Austin');
     await page.getByRole('button', { name: /^Search$/ }).click();
@@ -28,10 +28,16 @@ test.describe('public end-to-end flows', () => {
     await expect(page.getByRole('heading', { name: /Report for 1200 Commerce St/i })).toBeVisible();
     await page.getByRole('link', { name: /Continue to export gate/i }).click();
 
+    await expect(page).toHaveURL(/\/export\/demo-001\?state=blocked/);
+    await expect(
+      page.getByRole('heading', { name: /Review readiness for 1200 Commerce St/i })
+    ).toBeVisible();
     await expect(page.getByRole('button', { name: /Generate export/i })).toBeDisabled();
+    await expect(page.getByText(/Consent gate must clear before export/i)).toBeVisible();
     await page.getByRole('radio', { name: /preview/i }).check();
-    await page.getByRole('button', { name: /Generate export receipt/i }).click();
-    await expect(page.getByText(/Redacted evidence refs/i)).toBeVisible();
+    await expect(
+      page.getByRole('button', { name: /Generate export receipt disabled/i })
+    ).toBeDisabled();
   });
 
   test('evidence drawer shows structured source metadata', async ({ page }) => {
@@ -244,7 +250,7 @@ test.describe('Studio end-to-end flows', () => {
     await researchPreviewReportLink.press('Enter');
     await expect(page).toHaveURL(/\/report\/demo-002$/);
     await page.getByRole('link', { name: /Continue to export gate/i }).click();
-    await expect(page).toHaveURL(/\/export\/demo-002$/);
+    await expect(page).toHaveURL(/\/export\/demo-002\?state=blocked$/);
     await page.getByRole('link', { name: /1200-tech/i }).click();
     await expect(page).toHaveURL(/\/studio\/deals\/1200-tech\/underwriting$/);
     await page.getByRole('link', { name: /Review capital stack/i }).click();

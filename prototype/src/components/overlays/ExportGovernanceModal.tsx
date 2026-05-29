@@ -11,7 +11,6 @@ type ExportGovernanceModalProps = {
   onClose: () => void;
   readiness: ExportReadiness;
   policyDecision?: ExportPolicyDecision;
-  onConfirm?: () => void;
 };
 
 export function ExportGovernanceModal({
@@ -19,7 +18,6 @@ export function ExportGovernanceModal({
   onClose,
   readiness,
   policyDecision,
-  onConfirm,
 }: ExportGovernanceModalProps): ReactElement {
   return (
     <SophexModal
@@ -67,16 +65,9 @@ export function ExportGovernanceModal({
             <button type="button" className="btn btn-secondary" onClick={onClose}>
               Cancel
             </button>
-            <PrototypeActionButton
-              feature="PDF export"
-              className="btn btn-primary"
-              onClick={() => {
-                onConfirm?.();
-                onClose();
-              }}
-            >
-              Proceed to export
-            </PrototypeActionButton>
+            <button type="button" className="btn btn-primary" disabled>
+              Generate Export Disabled
+            </button>
           </div>
         </>
       ) : (

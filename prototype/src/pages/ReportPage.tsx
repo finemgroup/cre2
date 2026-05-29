@@ -245,7 +245,7 @@ export function ReportPage(): ReactElement {
           <button type="button" className="btn btn-primary" disabled>
             Generate export disabled
           </button>
-          <Link to={`/export/${property.id}`} className="btn btn-secondary">
+          <Link to={`/export/${property.id}?state=${fixtureStateId}`} className="btn btn-secondary">
             Continue to export gate
           </Link>
         </div>
@@ -399,7 +399,7 @@ export function ReportPage(): ReactElement {
         <button type="button" className="btn btn-primary" disabled>
           Export disabled until governed receipt
         </button>
-        <Link to={`/export/${property.id}`} className="btn btn-secondary">
+        <Link to={`/export/${property.id}?state=${fixtureStateId}`} className="btn btn-secondary">
           Review export gate details
         </Link>
       </div>
