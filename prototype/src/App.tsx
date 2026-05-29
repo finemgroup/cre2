@@ -27,6 +27,9 @@ const ReportPage = lazy(() =>
 const ExportPage = lazy(() =>
   import('@/pages/ExportPage').then((module) => ({ default: module.ExportPage }))
 );
+const ReviewPage = lazy(() =>
+  import('@/pages/ReviewPage').then((module) => ({ default: module.ReviewPage }))
+);
 const NotFoundPage = lazy(() =>
   import('@/pages/NotFoundPage').then((module) => ({ default: module.NotFoundPage }))
 );
@@ -148,6 +151,7 @@ export default function App(): ReactElement {
           <Route path="comps" element={<LazyPage page={CompsPage} />} />
           <Route path="report/:id" element={<LazyPage page={ReportPage} />} />
           <Route path="export/:id" element={<LazyPage page={ExportPage} />} />
+          <Route path="review/:id" element={<LazyPage page={ReviewPage} />} />
           <Route path="*" element={<LazyPage page={NotFoundPage} />} />
         </Route>
         <Route path="studio" element={<StudioAppShell />}>

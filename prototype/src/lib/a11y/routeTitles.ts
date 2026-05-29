@@ -8,7 +8,7 @@ function propertyScopedTitle(suffix: string, propertyId: string): string {
 }
 
 function extractPublicPropertyId(pathname: string): string | undefined {
-  const match = pathname.match(/^\/(?:property|report|export)\/([^/]+)/);
+  const match = pathname.match(/^\/(?:property|report|export|review)\/([^/]+)/);
   return match?.[1];
 }
 
@@ -35,6 +35,9 @@ export function getPublicRouteTitle(pathname: string): string {
   }
   if (pathname.startsWith('/export/')) {
     return propertyId ? propertyScopedTitle('Export Gate', propertyId) : 'Export Gate - Sophex';
+  }
+  if (pathname.startsWith('/review/')) {
+    return propertyId ? propertyScopedTitle('Review Queue', propertyId) : 'Review Queue - Sophex';
   }
   return 'Page Not Found - Sophex';
 }

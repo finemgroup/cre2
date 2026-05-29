@@ -185,6 +185,9 @@ describe('public Sophex routes', () => {
 
     const exportPage = await renderRoute('/export/demo-001');
     expect(await axe(exportPage.container)).toHaveNoViolations();
+
+    const reviewPage = await renderRoute('/review/demo-001');
+    expect(await axe(reviewPage.container)).toHaveNoViolations();
   });
 
   it('derives distinct export blockers for linked property contexts', async () => {
@@ -286,5 +289,31 @@ describe('public Sophex routes', () => {
 
     await user.click(screen.getAllByRole('button', { name: /Mark section reviewed/i })[0]);
     expect(screen.getByText(/Mark section reviewed is simulated/i)).toBeInTheDocument();
+  });
+
+  it('renders review queue with source gaps and disabled export', async () => {
+    await renderRoute('/review/demo-001?state=blocked');
+
+    expect(
+      screen.getByRole('heading', { name: /Review queue for 1200 Commerce St/i })
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Source gap register/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Prototype-only \/ no live approval/i).length).toBeGreaterThan(0);
+    expect(screen.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
+    expect(screen.getByRole('link', { name: /Return to export gate/i })).toHaveAttribute(
+      'href',
+      '/export/demo-001?state=blocked'
+    );
+  });
+
+  it('marks review gaps in local state without enabling export', async () => {
+    const user = userEvent.setup();
+    await renderRoute('/review/demo-001?state=provider-restricted');
+
+    await user.click(
+      screen.getAllByRole('button', { name: /Mark gap reviewed \(prototype\)/i })[0]
+    );
+    expect(screen.getByText(/Reviewed in local state only/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
   });
 });

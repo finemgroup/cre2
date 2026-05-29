@@ -38,6 +38,23 @@ test.describe('public end-to-end flows', () => {
     await expect(
       page.getByRole('button', { name: /Generate export receipt disabled/i })
     ).toBeDisabled();
+    await page.getByRole('link', { name: /Open source gap review queue/i }).press('Enter');
+
+    await expect(page).toHaveURL(/\/review\/demo-001\?state=blocked/);
+    await expect(
+      page.getByRole('heading', { name: /Review queue for 1200 Commerce St/i })
+    ).toBeVisible();
+    await expect(
+      page.locator('.page-header').getByText(/Prototype-only \/ no live approval/i)
+    ).toBeVisible();
+    await expect(page.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
+    const markReviewed = page
+      .getByRole('button', { name: /Mark gap reviewed \(prototype\)/i })
+      .first();
+    await markReviewed.scrollIntoViewIfNeeded();
+    await markReviewed.click({ force: true });
+    await expect(page.getByText(/Reviewed in local state only/i).first()).toBeVisible();
+    await expect(page.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
   });
 
   test('evidence drawer shows structured source metadata', async ({ page }) => {

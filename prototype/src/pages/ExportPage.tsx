@@ -10,112 +10,18 @@ import { GateResolutionCallout } from '@/components/workflow/GateResolutionCallo
 import { StageRail } from '@/components/ui/StageRail';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
 import { EXPORT_FLOW_STAGES } from '@/lib/readiness-stages';
-import type { AuthorityPosture } from '@/lib/authority/authority-vocabulary';
 import { getPublicReportView } from '@/lib/runtime/report-flow';
 import { getPublicExportGateView } from '@/lib/runtime/public-export-gate';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import type { ExportScope } from '@/lib/runtime/export-policy';
 import { getLinkedDealId } from '@/lib/workflow-identity';
+import {
+  EXPORT_FIXTURE_STATES,
+  resolveExportFixtureState,
+} from '@/lib/runtime/public-export-fixtures';
 
 const STAGES = [...EXPORT_FLOW_STAGES];
-
-type ExportFixtureStateId =
-  | 'clean'
-  | 'blocked'
-  | 'low-evidence'
-  | 'provider-restricted'
-  | 'ready-for-review';
-
-type ExportGateFixtureState = readonly [
-  ExportFixtureStateId,
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-  string,
-  readonly string[],
-  readonly AuthorityPosture[],
-];
-
-const EXPORT_FIXTURE_STATES: ExportGateFixtureState[] = [
-  [
-    'clean',
-    'Clean',
-    'High source coverage',
-    '94% source coverage',
-    'Consent not recorded',
-    'Source-rights checklist clear in fixture, receipt storage still gated',
-    'Reviewer approval still required for external delivery',
-    'Reviewed sections staged, export receipt disabled',
-    'Clean review posture, but no live export authority.',
-    ['Governed receipt generation remains disabled in prototype.'],
-    ['advisory', 'model-inferred', 'reviewed'],
-  ],
-  [
-    'blocked',
-    'Blocked',
-    'Review blockers present',
-    '72% source coverage',
-    'Consent missing',
-    'Source-rights review incomplete',
-    'Reviewer approval missing',
-    'Comparable Sales and Underwriting Assumptions are not export-ready',
-    'Blocked: consent, section review, reviewer approval, and source rights remain open.',
-    ['Comparable sales review, source rights, and reviewer approval are incomplete.'],
-    ['advisory', 'reviewer-required', 'source-pending', 'blocked'],
-  ],
-  [
-    'low-evidence',
-    'Low evidence',
-    'Thin citation pack',
-    '48% source coverage',
-    'Consent missing',
-    'Evidence coverage below export threshold',
-    'Reviewer cannot approve thin source pack',
-    'Draft report sections remain evidence-gated',
-    'Blocked: low evidence coverage cannot support export.',
-    ['Assessor, rent roll, and map support need review before export.'],
-    ['advisory', 'candidate-evidence', 'source-pending'],
-  ],
-  [
-    'provider-restricted',
-    'Provider restricted',
-    'Source rights constrained',
-    '81% source coverage',
-    'Consent missing',
-    'Provider-restricted comps cannot ship',
-    'Reviewer must remove or summarize restricted evidence',
-    'Comp appendix is summary-only',
-    'Blocked: restricted comps must be removed or summarized before export.',
-    ['Premium-private comp rows are summary-only.'],
-    ['advisory', 'source-pending', 'blocked'],
-  ],
-  [
-    'ready-for-review',
-    'Ready for review',
-    'Analyst queue ready',
-    '89% source coverage',
-    'Consent pending',
-    'Source-rights packet assembled for review',
-    'Analyst approval not recorded',
-    'Sections are staged for reviewer signoff',
-    'Gated: ready for analyst review, not export.',
-    ['Analyst approval and export receipt are not recorded.'],
-    ['advisory', 'reviewer-required', 'reviewed'],
-  ],
-];
-
-function resolveExportFixtureState(value: string | null): ExportGateFixtureState {
-  return (
-    EXPORT_FIXTURE_STATES.find(([stateId]) => stateId === value) ??
-    EXPORT_FIXTURE_STATES.find(([stateId]) => stateId === 'blocked') ??
-    EXPORT_FIXTURE_STATES[0]
-  );
-}
 
 export function ExportPage(): ReactElement {
   const { id } = useParams();
@@ -237,6 +143,10 @@ export function ExportPage(): ReactElement {
         <p className="contextual-handoffs">
           <Link to={`${gateView.reportPath}?state=${fixtureStateId}`}>
             Review public report sections
+          </Link>
+          {' · '}
+          <Link to={`/review/${propertyId}?state=${fixtureStateId}`}>
+            Open source gap review queue
           </Link>
           {gateView.studioReportPath ? (
             <>
