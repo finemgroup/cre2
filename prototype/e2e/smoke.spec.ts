@@ -82,6 +82,48 @@ test.describe('public Sophex smoke', () => {
     ).toBeDisabled();
   });
 
+  test('review queue renders source gaps and keeps export gated', async ({ page }) => {
+    await gotoRoute(page, '/review/demo-001?state=provider-restricted');
+    await expect(
+      page.getByRole('heading', { name: /Review queue for 1200 Commerce St/i })
+    ).toBeVisible();
+    await expect(page.getByText(/Source gap register/i)).toBeVisible();
+    await expect(page.getByText(/Provider-restricted/i).first()).toBeVisible();
+    await expect(page.getByRole('cell', { name: /Premium comp row/i })).toBeVisible();
+    await expect(
+      page.locator('.page-header').getByText(/Prototype-only \/ no live approval/i)
+    ).toBeVisible();
+    await expect(page.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
+    const markReviewed = page
+      .getByRole('button', { name: /Mark gap reviewed \(prototype\)/i })
+      .first();
+    await markReviewed.scrollIntoViewIfNeeded();
+    await markReviewed.click({ force: true });
+    await expect(page.getByText(/Export remains gated/i).first()).toBeVisible();
+    await expect(page.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
+  });
+
+  test('review queue low-evidence state shows blocker posture', async ({ page }) => {
+    await gotoRoute(page, '/review/demo-001?state=low-evidence');
+    await expect(page.locator('.page-header').getByText(/Thin citation pack/i)).toBeVisible();
+    await expect(page.getByText(/Coverage below export threshold/i).first()).toBeVisible();
+    await expect(page.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
+    const exportGateLink = page.getByRole('link', { name: /Return to export gate/i });
+    await exportGateLink.scrollIntoViewIfNeeded();
+    await exportGateLink.press('Enter');
+    await expect(page).toHaveURL(/\/export\/demo-001\?state=low-evidence/);
+  });
+
+  test('export gate links into review queue with fixture continuity', async ({ page }) => {
+    await gotoRoute(page, '/export/demo-001?state=blocked');
+    const reviewLink = page.getByRole('link', { name: /Open source gap review queue/i });
+    await reviewLink.scrollIntoViewIfNeeded();
+    await reviewLink.press('Enter');
+    await expect(page).toHaveURL(/\/review\/demo-001\?state=blocked/);
+    await page.getByRole('link', { name: /Return to report preview/i }).press('Enter');
+    await expect(page).toHaveURL(/\/report\/demo-001\?state=blocked/);
+  });
+
   test('public footer exposes trust links', async ({ page }) => {
     await gotoRoute(page, '/');
     await expect(page.getByRole('navigation', { name: /Trust and legal/i })).toBeVisible();
