@@ -28,7 +28,7 @@ test.describe('public Sophex smoke', () => {
   test('public report fixture states keep trust copy and export gate visible', async ({ page }) => {
     await gotoRoute(page, '/report/demo-001?state=provider-restricted');
 
-    await expect(page.getByText(/Public Intelligence/i)).toBeVisible();
+    await expect(page.locator('.page-header').getByText(/Public Intelligence/i)).toBeVisible();
     await expect(page.getByRole('heading', { name: /^Not an appraisal$/i })).toBeVisible();
     await expect(page.getByText(/Advisory \/ Model-Inferred valuation range/i)).toBeVisible();
     await expect(page.getByText(/Source Coverage/i).first()).toBeVisible();
@@ -39,7 +39,7 @@ test.describe('public Sophex smoke', () => {
     await expect(page.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
     await expect(page.getByRole('link', { name: /Continue to export gate/i })).toBeVisible();
 
-    await page.getByRole('link', { name: /Low evidence/i }).click();
+    await page.locator('.report-state-switcher').getByRole('link', { name: /Low evidence/i }).click();
     await expect(page).toHaveURL(/state=low-evidence/);
     await expect(page.locator('.report-trust-hero').getByText(/Thin citation pack/i)).toBeVisible();
     await expect(page.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
