@@ -2744,6 +2744,35 @@ button.heatmap-cell:focus-visible {
   margin: 0.25rem 0 0;
 }
 
+.guided-demo-rail {
+  grid-template-columns: 1fr;
+}
+
+.guided-demo-rail__meta {
+  font-size: 0.88rem;
+}
+
+.guided-demo-rail__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.65rem;
+}
+
+.guided-demo-rail__links a {
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+
+.guided-demo-rail__links a[aria-current='page'],
+.guided-demo-rail__links a[aria-current='true'] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
 .valuation-readiness-rail {
   display: grid;
   gap: 0.75rem;

@@ -1,5 +1,5 @@
 import { useMemo, useState, type ReactElement } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
@@ -20,9 +20,11 @@ import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import { fixtureActors } from '@/lib/contracts/fixtures';
 import { getValuationVersionForActor } from '@/lib/contracts/valuation-version';
 import { getLinkedDealId, getPropertyRecord } from '@/lib/workflow-identity';
+import { appendExportFixtureStateQuery } from '@/lib/runtime/public-export-fixtures';
 
 export function CompsPage(): ReactElement {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
   const property = getPropertyRecord(id);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [savedView, setSavedView] = useState<CompSavedViewId>('all');
@@ -240,7 +242,10 @@ export function CompsPage(): ReactElement {
         ) : null}
       </SophexSheet>
       <div className="action-row">
-        <Link to={`/report/${property.id}`} className="btn btn-primary">
+        <Link
+          to={appendExportFixtureStateQuery(`/report/${property.id}`, searchParams.get('state'))}
+          className="btn btn-primary"
+        >
           Preview report for {property.address}
         </Link>
       </div>

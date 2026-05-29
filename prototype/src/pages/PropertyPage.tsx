@@ -1,5 +1,5 @@
 import { useState, type ReactElement } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
@@ -16,9 +16,11 @@ import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import { getLinkedDealId } from '@/lib/workflow-identity';
 import { trackEvent } from '@/lib/analytics/collector';
+import { appendExportFixtureStateQuery } from '@/lib/runtime/public-export-fixtures';
 
 export function PropertyPage(): ReactElement {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
   const propertyState = useRuntimeResource(
     () => runtimeServices.public.getPropertyView(id),
     `property-${id ?? 'missing'}`,
@@ -183,10 +185,16 @@ export function PropertyPage(): ReactElement {
       </section>
 
       <div className="action-row">
-        <Link to={`/property/${property.id}/comps`} className="btn btn-primary">
+        <Link
+          to={appendExportFixtureStateQuery(`/property/${property.id}/comps`, searchParams.get('state'))}
+          className="btn btn-primary"
+        >
           Compare comps
         </Link>
-        <Link to={`/report/${property.id}`} className="btn btn-secondary">
+        <Link
+          to={appendExportFixtureStateQuery(`/report/${property.id}`, searchParams.get('state'))}
+          className="btn btn-secondary"
+        >
           Preview report
         </Link>
         {linkedDealId ? (

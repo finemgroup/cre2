@@ -14,6 +14,7 @@ import { ActorDemoSelector } from '@/components/runtime/ActorDemoSelector';
 import { RuntimePostureChip } from '@/components/runtime/RuntimePostureChip';
 import { useStudioSurfaceFonts } from '@/lib/fonts/useStudioSurfaceFonts';
 import { PresentationModeToggle } from '@/components/layout/PresentationModeToggle';
+import { GuidedDemoRail } from '@/components/demo/GuidedDemoRail';
 import { usePresentationMode } from '@/lib/studio/usePresentationMode';
 
 export function PublicShell(): ReactElement {
@@ -63,6 +64,7 @@ export function PublicShell(): ReactElement {
       </header>
       <PublicMobileNavDrawer isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
       <main className="shell-main">
+        <GuidedDemoRail />
         <PageTransition>
           <Outlet />
         </PageTransition>
