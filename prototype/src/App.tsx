@@ -152,6 +152,7 @@ export default function App(): ReactElement {
           <Route path="report/:id" element={<LazyPage page={ReportPage} />} />
           <Route path="export/:id" element={<LazyPage page={ExportPage} />} />
           <Route path="review/:id" element={<LazyPage page={ReviewPage} />} />
+          <Route path="sources/:id" element={<LazyPage page={ReviewPage} />} />
           <Route path="*" element={<LazyPage page={NotFoundPage} />} />
         </Route>
         <Route path="studio" element={<StudioAppShell />}>

@@ -8,7 +8,7 @@ function propertyScopedTitle(suffix: string, propertyId: string): string {
 }
 
 function extractPublicPropertyId(pathname: string): string | undefined {
-  const match = pathname.match(/^\/(?:property|report|export|review)\/([^/]+)/);
+  const match = pathname.match(/^\/(?:property|report|export|review|sources)\/([^/]+)/);
   return match?.[1];
 }
 
@@ -38,6 +38,9 @@ export function getPublicRouteTitle(pathname: string): string {
   }
   if (pathname.startsWith('/review/')) {
     return propertyId ? propertyScopedTitle('Review Queue', propertyId) : 'Review Queue - Sophex';
+  }
+  if (pathname.startsWith('/sources/')) {
+    return propertyId ? propertyScopedTitle('Source Pack', propertyId) : 'Source Pack - Sophex';
   }
   return 'Page Not Found - Sophex';
 }

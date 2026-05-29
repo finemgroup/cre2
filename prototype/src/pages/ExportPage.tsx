@@ -148,6 +148,8 @@ export function ExportPage(): ReactElement {
           <Link to={`/review/${propertyId}?state=${fixtureStateId}`}>
             Open source gap review queue
           </Link>
+          {' · '}
+          <Link to={`/sources/${propertyId}?state=${fixtureStateId}`}>Open source pack</Link>
           {gateView.studioReportPath ? (
             <>
               {' · '}
