@@ -186,7 +186,10 @@ export function PropertyPage(): ReactElement {
 
       <div className="action-row">
         <Link
-          to={appendExportFixtureStateQuery(`/property/${property.id}/comps`, searchParams.get('state'))}
+          to={appendExportFixtureStateQuery(
+            `/property/${property.id}/comps`,
+            searchParams.get('state')
+          )}
           className="btn btn-primary"
         >
           Compare comps
