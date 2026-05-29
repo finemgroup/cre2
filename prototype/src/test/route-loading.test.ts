@@ -1,9 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import {
-  getRouteLoadingCopy,
-  resolveRouteLoadingVariant,
-} from '@/lib/studio/route-loading';
+import { getRouteLoadingCopy, resolveRouteLoadingVariant } from '@/lib/studio/route-loading';
 
 describe('route loading variants', () => {
   it('maps public property routes to the public loading family', () => {

@@ -157,12 +157,14 @@ describe('public Sophex routes', () => {
   it('renders report preview sections with authority posture', async () => {
     await renderRoute('/report/demo-001');
 
-    expect(screen.getByRole('heading', { name: /Report for 1200 Commerce St/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: /Report for 1200 Commerce St/i })
+    ).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /Readiness rail/i })).toBeInTheDocument();
     expect(screen.getAllByText(/Review required before export/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByRole('button', { name: /Mark section reviewed/i }).length).toBeGreaterThan(
-      0
-    );
+    expect(
+      screen.getAllByRole('button', { name: /Mark section reviewed/i }).length
+    ).toBeGreaterThan(0);
   });
 
   it('opens comp detail when inspecting a permitted comp row', async () => {
@@ -207,10 +209,9 @@ describe('public Sophex routes', () => {
     await user.click(screen.getByRole('radio', { name: /preview/i }));
     await user.click(screen.getByRole('button', { name: /Generate export receipt/i }));
 
-    await waitFor(
-      () => expect(screen.getByText(/Redacted evidence refs/i)).toBeInTheDocument(),
-      { timeout: 1500 }
-    );
+    await waitFor(() => expect(screen.getByText(/Redacted evidence refs/i)).toBeInTheDocument(), {
+      timeout: 1500,
+    });
     expect(screen.getByText(/Export manifest/i)).toBeInTheDocument();
     expect(screen.getByText(/draft-preview/i)).toBeInTheDocument();
   });

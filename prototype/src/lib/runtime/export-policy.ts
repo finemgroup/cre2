@@ -86,8 +86,7 @@ function createExportManifest(input: {
     { length: input.readiness.approvedCount },
     (_value, index) => `section-${index + 1}`
   );
-  const status =
-    input.scope === 'preview' || input.blocked ? 'draft-preview' : 'approved';
+  const status = input.scope === 'preview' || input.blocked ? 'draft-preview' : 'approved';
 
   return {
     id: `manifest-${input.reportId}-${input.scope}`,

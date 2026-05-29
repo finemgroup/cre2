@@ -2341,7 +2341,11 @@ button.upload-zone {
   padding: 1.25rem;
   border: 1px dashed var(--border-warm, var(--border));
   border-radius: 0.85rem;
-  background: color-mix(in srgb, var(--paper, var(--surface)) 88%, var(--cre-gold-soft, var(--accent-soft)));
+  background: color-mix(
+    in srgb,
+    var(--paper, var(--surface)) 88%,
+    var(--cre-gold-soft, var(--accent-soft))
+  );
   text-align: start;
 }
 

@@ -14,10 +14,15 @@ export type ReviewQueueItem = {
   safeStatus: string;
 };
 
-export function getReviewQueue(actor: ActorContext = fixtureActors.internalOperator): ReviewQueueItem[] {
+export function getReviewQueue(
+  actor: ActorContext = fixtureActors.internalOperator
+): ReviewQueueItem[] {
   if (actor.actorClass !== 'internal-operator') return [];
   return fixtureObservations
-    .filter((observation) => observation.reviewState === 'candidate' || observation.reviewState === 'needs-review')
+    .filter(
+      (observation) =>
+        observation.reviewState === 'candidate' || observation.reviewState === 'needs-review'
+    )
     .map((observation) => ({
       observation,
       canPromotePublic: isPublicProjectionEligible(observation),

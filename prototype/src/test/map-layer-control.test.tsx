@@ -48,7 +48,9 @@ describe('MapLayerControlPanel', () => {
       'true'
     );
     expect(
-      screen.getByRole('region', { name: new RegExp(`Selected layer details for ${secondLayer.label}`) })
+      screen.getByRole('region', {
+        name: new RegExp(`Selected layer details for ${secondLayer.label}`),
+      })
     ).toBeInTheDocument();
 
     const checkbox = screen.getAllByRole('checkbox')[0];
@@ -66,7 +68,9 @@ describe('MapLayerControlPanel', () => {
       />
     );
 
-    expect(screen.getAllByText(/Geometry loaded \(mock\)|Metadata only|Geometry not loaded/i).length).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText(/Geometry loaded \(mock\)|Metadata only|Geometry not loaded/i).length
+    ).toBeGreaterThan(0);
   });
 });
 

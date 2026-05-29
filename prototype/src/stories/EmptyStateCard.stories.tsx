@@ -26,7 +26,9 @@ export const Neutral: Story = {
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByRole('heading', { name: /No comps matched your filters/i })).toBeVisible();
+    await expect(
+      canvas.getByRole('heading', { name: /No comps matched your filters/i })
+    ).toBeVisible();
     await expect(canvas.getByRole('button', { name: /Reset filters/i })).toBeEnabled();
   },
 };

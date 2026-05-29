@@ -58,7 +58,10 @@ describe('accessibility progress semantics', () => {
     );
 
     const fileInput = screen.getByLabelText(/Drag lease, rent roll, or OM here/i);
-    await user.upload(fileInput, new File(['sample'], 'rent-roll.pdf', { type: 'application/pdf' }));
+    await user.upload(
+      fileInput,
+      new File(['sample'], 'rent-roll.pdf', { type: 'application/pdf' })
+    );
     await user.click(screen.getByRole('checkbox', { name: /source-use/i }));
     await user.click(screen.getByRole('button', { name: /Start upload/i }));
 

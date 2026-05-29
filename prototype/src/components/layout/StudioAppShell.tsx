@@ -23,9 +23,7 @@ import { useStudioSurfaceFonts } from '@/lib/fonts/useStudioSurfaceFonts';
 import { useRouteAnnouncement } from '@/lib/a11y/useRouteAnnouncement';
 import { getStudioRouteTitle } from '@/lib/a11y/routeTitles';
 import { getOnboardingProfile } from '@/lib/studio/onboarding-profile';
-import {
-  PresentationModeToggle,
-} from '@/components/layout/PresentationModeToggle';
+import { PresentationModeToggle } from '@/components/layout/PresentationModeToggle';
 import { usePresentationMode } from '@/lib/studio/usePresentationMode';
 
 function isActiveMatch(path: string, match: string): boolean {

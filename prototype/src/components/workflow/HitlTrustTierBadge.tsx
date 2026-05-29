@@ -2,10 +2,7 @@ import type { ReactElement } from 'react';
 
 export type HitlTrustTier = 'AUTO' | 'NOTIFY' | 'HITL' | 'BLOCK';
 
-const TIER_COPY: Record<
-  HitlTrustTier,
-  { label: string; detail: string }
-> = {
+const TIER_COPY: Record<HitlTrustTier, { label: string; detail: string }> = {
   AUTO: {
     label: 'Auto-eligible',
     detail: 'Baseline public projection only; not promotion authority.',

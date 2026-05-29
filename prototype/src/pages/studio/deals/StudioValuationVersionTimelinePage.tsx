@@ -214,7 +214,9 @@ export function StudioValuationVersionTimelinePage(): ReactElement {
                     </span>
                   </>
                 ) : (
-                  <p className="muted">Select a snapshot to inspect evidence refs and gate posture.</p>
+                  <p className="muted">
+                    Select a snapshot to inspect evidence refs and gate posture.
+                  </p>
                 )}
               </StudioCard>
             </div>

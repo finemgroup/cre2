@@ -101,17 +101,11 @@ export function getVerificationSummary(
   };
 }
 
-export function listTradeAreasForReport(
-  actor: ActorContext,
-  propertyId: string
-): TradeArea[] {
+export function listTradeAreasForReport(actor: ActorContext, propertyId: string): TradeArea[] {
   return getTradeAreasForActor(actor, propertyId);
 }
 
-export function listSpatialEvidence(
-  actor: ActorContext,
-  propertyId: string
-): SpatialEvidence[] {
+export function listSpatialEvidence(actor: ActorContext, propertyId: string): SpatialEvidence[] {
   return getSpatialEvidenceForActor(actor, propertyId);
 }
 

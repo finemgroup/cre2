@@ -17,12 +17,7 @@ export const ONBOARDING_TIER_OPTIONS = [
   },
 ] as const;
 
-export const ONBOARDING_ASSET_CLASSES = [
-  'Multifamily',
-  'Office',
-  'Industrial',
-  'Retail',
-] as const;
+export const ONBOARDING_ASSET_CLASSES = ['Multifamily', 'Office', 'Industrial', 'Retail'] as const;
 
 export function getStudioOnboardingView() {
   return {

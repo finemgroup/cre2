@@ -13,7 +13,9 @@ describe('Wave 10 UX polish', () => {
       </MemoryRouter>
     );
 
-    expect(screen.getByRole('heading', { name: /Advanced surfaces for this stage/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('heading', { name: /Advanced surfaces for this stage/i })
+    ).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Valuation snapshots/i })).toHaveAttribute(
       'href',
       '/studio/deals/riverside-flats/versions'

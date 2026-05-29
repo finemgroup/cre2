@@ -23,7 +23,11 @@ export const PUBLIC_COMP_SAVED_VIEWS: CompSavedView[] = [
 
 export const STUDIO_COMP_SAVED_VIEWS: CompSavedView[] = [
   { id: 'all', label: 'Full set', description: 'All mock comps including locked rows.' },
-  { id: 'inspectable', label: 'Visible', description: 'Comps visible to the current workspace actor.' },
+  {
+    id: 'inspectable',
+    label: 'Visible',
+    description: 'Comps visible to the current workspace actor.',
+  },
   { id: 'nearby', label: 'Within 1 mi', description: 'Distance-filtered comp subset.' },
   {
     id: 'reviewed',

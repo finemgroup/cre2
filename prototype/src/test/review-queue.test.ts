@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
 import { fixtureActors, fixtureObservations } from '@/lib/contracts/fixtures';
-import { completeExtractionJob, getReviewQueue, applyReviewAction } from '@/lib/runtime/review-queue';
+import {
+  completeExtractionJob,
+  getReviewQueue,
+  applyReviewAction,
+} from '@/lib/runtime/review-queue';
 
 describe('review queue runtime simulation', () => {
   it('shows review queue only to internal operators', () => {

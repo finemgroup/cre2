@@ -1,15 +1,8 @@
 import type { PublicMapLayerProjection } from '@/lib/contracts/spatial';
 
-export type LayerGeometryState =
-  | 'metadata-only'
-  | 'deferred'
-  | 'idle'
-  | 'loading'
-  | 'loaded';
+export type LayerGeometryState = 'metadata-only' | 'deferred' | 'idle' | 'loading' | 'loaded';
 
-export function resolveInitialGeometryState(
-  layer: PublicMapLayerProjection
-): LayerGeometryState {
+export function resolveInitialGeometryState(layer: PublicMapLayerProjection): LayerGeometryState {
   if (!layer.canLoadGeometry) return 'metadata-only';
   if (layer.payloadSizeClass === 'deferred-heavy') return 'deferred';
   if (layer.lazyLoadPolicy === 'initial-metadata') return 'loaded';

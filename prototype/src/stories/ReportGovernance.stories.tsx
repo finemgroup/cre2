@@ -57,7 +57,10 @@ export const ExportReadinessBlocked: Story = {
 
 export const ExportReadinessReady: Story = {
   render: () => (
-    <ExportReadinessCard sections={readySections} sourceBlocks={getSourceBlocksForDeal('canyon-logistics')} />
+    <ExportReadinessCard
+      sections={readySections}
+      sourceBlocks={getSourceBlocksForDeal('canyon-logistics')}
+    />
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

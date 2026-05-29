@@ -29,7 +29,9 @@ async function handleRequest(
   const url = req.url ?? '/';
   if (!url.startsWith('/sandbox/v0')) {
     res.writeHead(404, { 'content-type': 'application/json' });
-    res.end(JSON.stringify({ error: { code: 'not_found', safeMessage: 'Use /sandbox/v0 routes.' } }));
+    res.end(
+      JSON.stringify({ error: { code: 'not_found', safeMessage: 'Use /sandbox/v0 routes.' } })
+    );
     return;
   }
 

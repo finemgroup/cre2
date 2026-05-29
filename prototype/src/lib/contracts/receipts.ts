@@ -57,7 +57,9 @@ export function createReceipt(input: {
 }
 
 export function assertReceiptIsRedacted(receipt: GovernedReceipt): boolean {
-  return receipt.redactedEvidenceRefs.every((ref) => !ref.includes('private') && !ref.includes('raw'));
+  return receipt.redactedEvidenceRefs.every(
+    (ref) => !ref.includes('private') && !ref.includes('raw')
+  );
 }
 
 function hashLike(value: string): string {

@@ -26,7 +26,11 @@ import type {
   StudioDealIntakeView,
 } from '@/lib/runtime/service-ports';
 import type { DealCockpitProjection } from '@/lib/workflow/cockpit-projection';
-import type { DealNextAction, DealStageStatus, DealWorkflowStage } from '@/lib/workflow/deal-stage-model';
+import type {
+  DealNextAction,
+  DealStageStatus,
+  DealWorkflowStage,
+} from '@/lib/workflow/deal-stage-model';
 import type { ExportPolicyDecision } from '@/lib/runtime/export-policy';
 import { handleSandboxApiRequest } from '@/lib/runtime/sandbox-api';
 

@@ -13,7 +13,11 @@ import {
   TrustBadge,
   WorkflowContextHeader,
 } from '@/components/studio/StudioPrimitives';
-import { ProvenanceCell, ReviewPostureBanner, SourceEvidenceBlockCard } from '@/components/provenance/ProvenanceWidgets';
+import {
+  ProvenanceCell,
+  ReviewPostureBanner,
+  SourceEvidenceBlockCard,
+} from '@/components/provenance/ProvenanceWidgets';
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { UpgradePlanModal } from '@/components/overlays/UpgradePlanModal';
@@ -92,11 +96,7 @@ export function StudioCompsPage(): ReactElement {
         Comparable sales are sample rows with mixed authority states.
       </NonProductionCallout>
       <MockBoundaryBanner variant="evidence" />
-      <RuntimeResourceStatus
-        loading={runtimeLoading}
-        error={runtimeError}
-        variant="studio-deal"
-      />
+      <RuntimeResourceStatus loading={runtimeLoading} error={runtimeError} variant="studio-deal" />
       <GateResolutionCallout
         action="Apply comp set to underwriting"
         prerequisite="Premium-private comp visibility and exit cap citation remain blocked."
@@ -142,121 +142,124 @@ export function StudioCompsPage(): ReactElement {
           description="The studio runtime adapter returned an empty comp set. Provider entitlements or sandbox filtering may be blocking every row."
           tone="warning"
           actions={
-            <Link to={studioDealPath(deal.id, 'underwriting-sources')} className="btn btn-secondary">
+            <Link
+              to={studioDealPath(deal.id, 'underwriting-sources')}
+              className="btn btn-secondary"
+            >
               Review comp source trace
             </Link>
           }
         />
       ) : (
-      <div className="comps-grid">
-        <StudioCard title="Subject Property">
-          <div className="property-image small" aria-label="Mock subject property image" />
-          <p>{deal.address}</p>
-          <MetricCard label="Units" value="196" detail="Candidate from OM" />
-          <MetricCard label="Target basis" value="$217k/unit" detail="Model-inferred" />
-        </StudioCard>
-        <StudioCard
-          title="Sales Comparables"
-          className="wide-card"
-          actions={
-            <SegmentedControl
-              label="Comp view mode"
-              value={view}
-              options={['table', 'map']}
-              onChange={setView}
-            />
-          }
-        >
-          <TabPanelSwitch panelKey={view}>
-            {view === 'map' ? (
-              <div className="mock-map map-hud-panel">
-                <MaterialIcon name="map" />
-                Sample map view. No precise public markers in MVP0.
-              </div>
-            ) : filteredComps.length === 0 ? (
-              <EmptyStateCard
-                icon="filter_alt_off"
-                title="No comps in this saved view"
-                description={`The "${activeView?.label ?? savedView}" filter removed every comparable row. Try Full set or Visible.`}
-                actions={
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setSavedView('all')}
-                  >
-                    Reset to full set
-                  </button>
-                }
+        <div className="comps-grid">
+          <StudioCard title="Subject Property">
+            <div className="property-image small" aria-label="Mock subject property image" />
+            <p>{deal.address}</p>
+            <MetricCard label="Units" value="196" detail="Candidate from OM" />
+            <MetricCard label="Target basis" value="$217k/unit" detail="Model-inferred" />
+          </StudioCard>
+          <StudioCard
+            title="Sales Comparables"
+            className="wide-card"
+            actions={
+              <SegmentedControl
+                label="Comp view mode"
+                value={view}
+                options={['table', 'map']}
+                onChange={setView}
               />
-            ) : (
-              <DataTable
-                dense
-                caption="Sales comparables"
-                headers={['Comp', 'Distance', 'Units', 'Sale Price', 'Authority']}
-                getRowKey={(_row, index) => filteredComps[index].id}
-                rows={filteredComps.map((comp) => [
-                  <button
-                    type="button"
-                    className="table-link"
-                    onClick={() => {
-                      setSelectedId(comp.id);
-                      setDrawerOpen(true);
-                    }}
-                    aria-describedby={!comp.visible ? `${comp.id}-visibility` : undefined}
-                  >
-                    {comp.name}
-                    {!comp.visible ? (
-                      <span id={`${comp.id}-visibility`} className="sr-only">
-                        {comp.safeExplanation}
-                      </span>
-                    ) : null}
-                  </button>,
-                  comp.distance,
-                  comp.units,
-                  <ProvenanceCell
-                    value={comp.salePrice}
-                    citation={sourceBlocks[2]?.citations[0]}
-                    state={comp.authority}
-                  />,
-                  <TrustBadge state={comp.authority} />,
-                ])}
-              />
-            )}
-          </TabPanelSwitch>
-          <div className="paywall-zone">
-            <PaywallOverlay>
-              <h3>Premium comp set locked</h3>
-              <p>Upgrade to view provider-restricted and organization-private comparables.</p>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => setUpgradeOpen(true)}
-              >
-                Upgrade
-              </button>
-            </PaywallOverlay>
-          </div>
-        </StudioCard>
-        <StudioCard title="Comp Detail" className="comp-aside">
-          {selected ? (
-            <div className="drawer-facts">
-              <MetricCard
-                label="Selected comp"
-                value={selected.name}
-                detail={`${selected.distance} from subject`}
-              />
-              <MetricCard
-                label="Price / Unit"
-                value={selected.pricePerUnit}
-                detail={selected.authority}
-              />
-              <TrustBadge state={selected.authority} />
+            }
+          >
+            <TabPanelSwitch panelKey={view}>
+              {view === 'map' ? (
+                <div className="mock-map map-hud-panel">
+                  <MaterialIcon name="map" />
+                  Sample map view. No precise public markers in MVP0.
+                </div>
+              ) : filteredComps.length === 0 ? (
+                <EmptyStateCard
+                  icon="filter_alt_off"
+                  title="No comps in this saved view"
+                  description={`The "${activeView?.label ?? savedView}" filter removed every comparable row. Try Full set or Visible.`}
+                  actions={
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => setSavedView('all')}
+                    >
+                      Reset to full set
+                    </button>
+                  }
+                />
+              ) : (
+                <DataTable
+                  dense
+                  caption="Sales comparables"
+                  headers={['Comp', 'Distance', 'Units', 'Sale Price', 'Authority']}
+                  getRowKey={(_row, index) => filteredComps[index].id}
+                  rows={filteredComps.map((comp) => [
+                    <button
+                      type="button"
+                      className="table-link"
+                      onClick={() => {
+                        setSelectedId(comp.id);
+                        setDrawerOpen(true);
+                      }}
+                      aria-describedby={!comp.visible ? `${comp.id}-visibility` : undefined}
+                    >
+                      {comp.name}
+                      {!comp.visible ? (
+                        <span id={`${comp.id}-visibility`} className="sr-only">
+                          {comp.safeExplanation}
+                        </span>
+                      ) : null}
+                    </button>,
+                    comp.distance,
+                    comp.units,
+                    <ProvenanceCell
+                      value={comp.salePrice}
+                      citation={sourceBlocks[2]?.citations[0]}
+                      state={comp.authority}
+                    />,
+                    <TrustBadge state={comp.authority} />,
+                  ])}
+                />
+              )}
+            </TabPanelSwitch>
+            <div className="paywall-zone">
+              <PaywallOverlay>
+                <h3>Premium comp set locked</h3>
+                <p>Upgrade to view provider-restricted and organization-private comparables.</p>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => setUpgradeOpen(true)}
+                >
+                  Upgrade
+                </button>
+              </PaywallOverlay>
             </div>
-          ) : (
-            <p>Select a comparable sale to inspect authority and valuation context.</p>
-          )}
-        </StudioCard>
-      </div>
+          </StudioCard>
+          <StudioCard title="Comp Detail" className="comp-aside">
+            {selected ? (
+              <div className="drawer-facts">
+                <MetricCard
+                  label="Selected comp"
+                  value={selected.name}
+                  detail={`${selected.distance} from subject`}
+                />
+                <MetricCard
+                  label="Price / Unit"
+                  value={selected.pricePerUnit}
+                  detail={selected.authority}
+                />
+                <TrustBadge state={selected.authority} />
+              </div>
+            ) : (
+              <p>Select a comparable sale to inspect authority and valuation context.</p>
+            )}
+          </StudioCard>
+        </div>
       )}
       <DetailDrawer
         isOpen={drawerOpen}

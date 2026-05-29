@@ -88,7 +88,11 @@ export function toStudioTrustPosture(label: AuthorityPosture): StudioTrustPostur
   }
   if (label === 'source-pending' || label === 'user-submission') return 'Needs review';
   if (label === 'approved-private-use' || label === 'approved-public-projection') return 'Reviewed';
-  if (label === 'approximate-centroid' || label === 'sample-map-data' || label === 'not-legal-boundary') {
+  if (
+    label === 'approximate-centroid' ||
+    label === 'sample-map-data' ||
+    label === 'not-legal-boundary'
+  ) {
     return 'Public baseline';
   }
   return 'Needs review';
@@ -131,7 +135,10 @@ export function formatStatusBadge(status: string): {
   ariaLabel: string;
   classSuffix: string;
 } {
-  const normalized = status.toLowerCase().replace(/[^a-z]+/g, '-').replace(/^-|-$/g, '');
+  const normalized = status
+    .toLowerCase()
+    .replace(/[^a-z]+/g, '-')
+    .replace(/^-|-$/g, '');
   const mapped = STATUS_BADGE_VOCABULARY[normalized];
   if (mapped) {
     return {

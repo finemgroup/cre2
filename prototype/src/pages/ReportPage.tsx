@@ -60,7 +60,9 @@ export function ReportPage(): ReactElement {
 
   const linkedDealId = getLinkedDealId(property.id);
   const reviewedCount = sections.filter((section) => section.status === 'ready').length;
-  const reviewRequiredCount = sections.filter((section) => section.status === 'review-required').length;
+  const reviewRequiredCount = sections.filter(
+    (section) => section.status === 'review-required'
+  ).length;
   const blockedCount = sections.filter((section) => section.status === 'blocked').length;
 
   return (
@@ -130,60 +132,60 @@ export function ReportPage(): ReactElement {
           }
         />
       ) : (
-      <div className="card-grid">
-        {sections.map((section, index) => (
-          <SophexMotionSurface
-            key={section.id}
-            motionName="stageItem"
-            className="card"
-            staggerIndex={index}
-          >
-            <h2>{section.title}</h2>
-            <p>{section.citation}</p>
-            {section.id === 'map' ? (
-              <>
-                <div className="provenance-labels" aria-label="Map provenance labels">
-                  <AuthorityBadge label="sample-map-data" />
-                  <AuthorityBadge label="approximate-centroid" />
-                  <AuthorityBadge label="not-legal-boundary" />
-                </div>
-                <MapLayerControlPanel
-                  layers={spatialContext?.layers ?? []}
-                  evidenceByLayer={spatialContext?.evidenceByLayer ?? {}}
-                  heading="Report map layer controls"
-                />
-              </>
-            ) : null}
-            <AuthorityBadge
-              label={
-                section.status === 'ready'
-                  ? 'reviewed'
-                  : section.status === 'blocked'
-                    ? 'blocked'
-                    : 'unreviewed'
-              }
-            />
-            {section.status === 'review-required' ? (
-              <p className="warning">Review required before export.</p>
-            ) : null}
-            <PrototypeActionButton
-              feature="Mark section reviewed"
-              className="btn btn-ghost"
-              onClick={() =>
-                trackEvent({
-                  name: 'report_section_reviewed',
-                  actorClass: 'anonymous',
-                  route: `/report/${property.id}`,
-                  propertyId: property.id,
-                  phase: section.status,
-                })
-              }
+        <div className="card-grid">
+          {sections.map((section, index) => (
+            <SophexMotionSurface
+              key={section.id}
+              motionName="stageItem"
+              className="card"
+              staggerIndex={index}
             >
-              Mark section reviewed (prototype)
-            </PrototypeActionButton>
-          </SophexMotionSurface>
-        ))}
-      </div>
+              <h2>{section.title}</h2>
+              <p>{section.citation}</p>
+              {section.id === 'map' ? (
+                <>
+                  <div className="provenance-labels" aria-label="Map provenance labels">
+                    <AuthorityBadge label="sample-map-data" />
+                    <AuthorityBadge label="approximate-centroid" />
+                    <AuthorityBadge label="not-legal-boundary" />
+                  </div>
+                  <MapLayerControlPanel
+                    layers={spatialContext?.layers ?? []}
+                    evidenceByLayer={spatialContext?.evidenceByLayer ?? {}}
+                    heading="Report map layer controls"
+                  />
+                </>
+              ) : null}
+              <AuthorityBadge
+                label={
+                  section.status === 'ready'
+                    ? 'reviewed'
+                    : section.status === 'blocked'
+                      ? 'blocked'
+                      : 'unreviewed'
+                }
+              />
+              {section.status === 'review-required' ? (
+                <p className="warning">Review required before export.</p>
+              ) : null}
+              <PrototypeActionButton
+                feature="Mark section reviewed"
+                className="btn btn-ghost"
+                onClick={() =>
+                  trackEvent({
+                    name: 'report_section_reviewed',
+                    actorClass: 'anonymous',
+                    route: `/report/${property.id}`,
+                    propertyId: property.id,
+                    phase: section.status,
+                  })
+                }
+              >
+                Mark section reviewed (prototype)
+              </PrototypeActionButton>
+            </SophexMotionSurface>
+          ))}
+        </div>
       )}
 
       <div className="action-row">

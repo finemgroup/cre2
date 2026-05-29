@@ -38,13 +38,13 @@ export function getDealCockpitProjection(
 ): DealCockpitProjection {
   const progress = getDealStageProgress(dealId);
   const nextAction = getUnifiedDealNextAction(dealId, undefined, progress);
-  const blockedStages = DEAL_STAGE_DEFINITIONS.filter((stage) => progress[stage.id] === 'blocked').map(
-    (stage) => ({
-      id: stage.id,
-      label: stage.label,
-      summary: stage.summary,
-    })
-  );
+  const blockedStages = DEAL_STAGE_DEFINITIONS.filter(
+    (stage) => progress[stage.id] === 'blocked'
+  ).map((stage) => ({
+    id: stage.id,
+    label: stage.label,
+    summary: stage.summary,
+  }));
 
   return {
     dealId,

@@ -17,11 +17,7 @@ function TrustExplainerDemo({
       <button type="button" className="btn btn-secondary" onClick={() => setOpen(true)}>
         Open trust explainer
       </button>
-      <TrustExplainerDrawer
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        context={context}
-      />
+      <TrustExplainerDrawer isOpen={open} onClose={() => setOpen(false)} context={context} />
     </>
   );
 }
@@ -38,9 +34,7 @@ type Story = StoryObj<typeof meta>;
 
 export const OpenWithContext: Story = {
   render: () => (
-    <TrustExplainerDemo
-      context="Authority for Eastline Apartments is Candidate evidence."
-    />
+    <TrustExplainerDemo context="Authority for Eastline Apartments is Candidate evidence." />
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

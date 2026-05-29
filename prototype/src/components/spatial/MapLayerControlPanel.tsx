@@ -1,4 +1,4 @@
-import { useEffect, useId, useState, type ReactElement } from 'react';
+import { useId, useState, type ReactElement } from 'react';
 import { AnimatePresence } from 'framer-motion';
 
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
@@ -39,21 +39,17 @@ export function MapLayerControlPanel({
 }: MapLayerControlPanelProps): ReactElement {
   const groupId = useId();
   const reducedMotion = useReducedMotionPreference();
-  const [visibleLayerIds, setVisibleLayerIds] = useState<string[]>(() =>
-    layers.map((layer) => layer.id)
-  );
-  const [selectedLayerId, setSelectedLayerId] = useState<string | null>(
-    layers[0]?.id ?? null
-  );
+  const layerIds = layers.map((layer) => layer.id);
+  const [hiddenLayerIds, setHiddenLayerIds] = useState<string[]>([]);
+  const [selectedLayerOverride, setSelectedLayerOverride] = useState<string | null>(null);
   const [geometryStates, setGeometryStates] = useState<Record<string, LayerGeometryState>>(() =>
     buildInitialGeometryStates(layers)
   );
-
-  useEffect(() => {
-    setGeometryStates(buildInitialGeometryStates(layers));
-    setVisibleLayerIds(layers.map((layer) => layer.id));
-    setSelectedLayerId(layers[0]?.id ?? null);
-  }, [layers]);
+  const visibleLayerIds = layerIds.filter((layerId) => !hiddenLayerIds.includes(layerId));
+  const selectedLayerId =
+    selectedLayerOverride && layerIds.includes(selectedLayerOverride)
+      ? selectedLayerOverride
+      : (layers[0]?.id ?? null);
 
   function queueGeometryLoad(layer: PublicMapLayerProjection) {
     const current = geometryStates[layer.id] ?? resolveInitialGeometryState(layer);
@@ -68,8 +64,8 @@ export function MapLayerControlPanel({
   function toggleLayer(layerId: string) {
     const layer = layers.find((entry) => entry.id === layerId);
     const willHide = visibleLayerIds.includes(layerId);
-    setVisibleLayerIds((current) =>
-      willHide ? current.filter((id) => id !== layerId) : [...current, layerId]
+    setHiddenLayerIds((current) =>
+      willHide ? [...current, layerId] : current.filter((id) => id !== layerId)
     );
     if (layer && !willHide && shouldLoadGeometryOnVisibility(layer)) {
       queueGeometryLoad(layer);
@@ -77,7 +73,7 @@ export function MapLayerControlPanel({
   }
 
   function selectLayer(layerId: string) {
-    setSelectedLayerId(layerId);
+    setSelectedLayerOverride(layerId);
     const layer = layers.find((entry) => entry.id === layerId);
     if (layer && shouldLoadGeometryOnSelection(layer)) {
       queueGeometryLoad(layer);
@@ -85,9 +81,9 @@ export function MapLayerControlPanel({
   }
 
   const selectedLayer = layers.find((layer) => layer.id === selectedLayerId);
-  const selectedEvidence = selectedLayerId ? evidenceByLayer[selectedLayerId] ?? [] : [];
+  const selectedEvidence = selectedLayerId ? (evidenceByLayer[selectedLayerId] ?? []) : [];
   const selectedGeometryState = selectedLayer
-    ? geometryStates[selectedLayer.id] ?? resolveInitialGeometryState(selectedLayer)
+    ? (geometryStates[selectedLayer.id] ?? resolveInitialGeometryState(selectedLayer))
     : null;
 
   return (

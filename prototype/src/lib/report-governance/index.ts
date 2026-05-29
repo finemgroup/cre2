@@ -54,7 +54,9 @@ export function evaluateExportReadiness(
       approvedCount,
       totalCount: sections.length,
       warnings: [],
-      blockedReasons: ['Source bundle context is required before export readiness can be evaluated.'],
+      blockedReasons: [
+        'Source bundle context is required before export readiness can be evaluated.',
+      ],
     };
   }
 
@@ -96,11 +98,16 @@ function sectionDisposition(status: string): ExportManifestSection['disposition'
   return 'excluded';
 }
 
-function sectionReason(section: ReadinessSection, disposition: ExportManifestSection['disposition']): string | undefined {
+function sectionReason(
+  section: ReadinessSection,
+  disposition: ExportManifestSection['disposition']
+): string | undefined {
   const label = sectionLabel(section);
   if (disposition === 'included') return undefined;
-  if (disposition === 'reviewer-required') return `${label} requires reviewer signoff before export.`;
-  if (disposition === 'redacted') return `${label} redacted for LP identifiers in this mock manifest.`;
+  if (disposition === 'reviewer-required')
+    return `${label} requires reviewer signoff before export.`;
+  if (disposition === 'redacted')
+    return `${label} redacted for LP identifiers in this mock manifest.`;
   return `${label} is ${statusLabel(section.status)} and excluded from delivery.`;
 }
 

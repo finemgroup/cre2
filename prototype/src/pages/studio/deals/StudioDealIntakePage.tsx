@@ -169,7 +169,11 @@ export function StudioDealIntakePage(): ReactElement {
                 </label>
                 <label>
                   Implied Cap Rate
-                  <input defaultValue="5.8%" aria-invalid="true" aria-describedby="cap-rate-error" />
+                  <input
+                    defaultValue="5.8%"
+                    aria-invalid="true"
+                    aria-describedby="cap-rate-error"
+                  />
                 </label>
                 <label>
                   Vacancy

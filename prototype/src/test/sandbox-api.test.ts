@@ -108,7 +108,9 @@ describe('sandbox API shell', () => {
       deal: { id: string };
       assumptions: { purchasePrice: number };
       reviewedCompCount: number;
-    }>(await request('/studio/deals/riverside-flats/underwriting', { actor: fixtureActors.orgAdmin }));
+    }>(
+      await request('/studio/deals/riverside-flats/underwriting', { actor: fixtureActors.orgAdmin })
+    );
     const spatial = await readJson<{
       deal: { id: string };
       summary: { layerCount: number };
@@ -123,12 +125,16 @@ describe('sandbox API shell', () => {
       deal: { id: string };
       traceItems: unknown[];
       conflictOptions: unknown[];
-    }>(await request('/studio/deals/riverside-flats/source-trace', { actor: fixtureActors.orgAdmin }));
+    }>(
+      await request('/studio/deals/riverside-flats/source-trace', { actor: fixtureActors.orgAdmin })
+    );
     const dataReview = await readJson<{
       deal: { id: string };
       uploadFiles: unknown[];
       normalizationRows: unknown[];
-    }>(await request('/studio/deals/riverside-flats/data-review', { actor: fixtureActors.orgAdmin }));
+    }>(
+      await request('/studio/deals/riverside-flats/data-review', { actor: fixtureActors.orgAdmin })
+    );
     const debt = await readJson<{
       deal: { id: string };
       metrics: { dscr: number };

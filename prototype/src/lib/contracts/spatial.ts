@@ -252,7 +252,9 @@ export function getMapLayerManifestsForActor(
   return fixtureMapLayerManifests
     .filter((layer) => layer.allowedContexts.includes(context))
     .map((layer) => ({ layer, decision: decideVisibility(actor, layer) }))
-    .filter(({ decision }) => decision.decision === 'allow' || decision.decision === 'aggregate-only')
+    .filter(
+      ({ decision }) => decision.decision === 'allow' || decision.decision === 'aggregate-only'
+    )
     .map(({ layer }) => ({
       id: layer.id,
       label: layer.label,

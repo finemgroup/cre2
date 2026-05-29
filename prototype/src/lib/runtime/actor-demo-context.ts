@@ -20,7 +20,9 @@ export function getActorDemoContext(key: ActorDemoKey = 'public'): ActorContext 
 export function readStoredActorDemoKey(): ActorDemoKey {
   if (typeof window === 'undefined') return 'public';
   const stored = window.localStorage.getItem(ACTOR_DEMO_STORAGE_KEY);
-  return actorDemoOptions.some((option) => option.key === stored) ? (stored as ActorDemoKey) : 'public';
+  return actorDemoOptions.some((option) => option.key === stored)
+    ? (stored as ActorDemoKey)
+    : 'public';
 }
 
 export function storeActorDemoKey(key: ActorDemoKey): void {
