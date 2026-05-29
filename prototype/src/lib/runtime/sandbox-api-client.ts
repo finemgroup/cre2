@@ -8,6 +8,7 @@ import type {
   PublicUploadGuideView,
   PublicLandingView,
   PublicExportGateView,
+  PublicReviewQueueView,
   RuntimeServices,
   StudioBillingView,
   StudioOnboardingView,
@@ -88,6 +89,10 @@ export function createSandboxApiRuntimeServices(
       async getExportGateView(propertyId, actor) {
         if (!propertyId) return undefined;
         return client.get<PublicExportGateView>(`/export-gate/${propertyId}`, { actor });
+      },
+      async getReviewQueueView(propertyId, actor) {
+        if (!propertyId) return undefined;
+        return client.get<PublicReviewQueueView>(`/public-review-queue/${propertyId}`, { actor });
       },
     },
     studio: {

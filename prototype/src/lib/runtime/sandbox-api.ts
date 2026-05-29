@@ -9,6 +9,7 @@ import { getPublicReportView, getPublicExportDecision } from '@/lib/runtime/repo
 import { getPublicUploadGuideView } from '@/lib/runtime/public-upload';
 import { getPublicLandingView } from '@/lib/runtime/public-landing';
 import { getPublicExportGateView } from '@/lib/runtime/public-export-gate';
+import { getPublicReviewQueueView } from '@/lib/runtime/public-review-queue';
 import type { ExportScope } from '@/lib/runtime/export-policy';
 import {
   getStudioCompViews,
@@ -99,6 +100,12 @@ export async function routeSandboxRequest(request: Request): Promise<SandboxApiR
   if (request.method === 'GET' && exportGateMatch) {
     const view = getPublicExportGateView(exportGateMatch[1], actor);
     return view ? ok(view) : safeError(404, 'not_found', 'Export gate was not found.');
+  }
+
+  const publicReviewQueueMatch = path.match(/^\/public-review-queue\/([^/]+)$/);
+  if (request.method === 'GET' && publicReviewQueueMatch) {
+    const view = getPublicReviewQueueView(publicReviewQueueMatch[1], actor);
+    return view ? ok(view) : safeError(404, 'not_found', 'Review queue view was not found.');
   }
 
   if (request.method === 'POST' && path === '/uploads/candidates') {

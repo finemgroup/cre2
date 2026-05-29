@@ -402,6 +402,9 @@ export function ReportPage(): ReactElement {
         <Link to={`/export/${property.id}?state=${fixtureStateId}`} className="btn btn-secondary">
           Review export gate details
         </Link>
+        <Link to={`/review/${property.id}?state=${fixtureStateId}`} className="btn btn-secondary">
+          Open review queue
+        </Link>
       </div>
 
       <footer className="card report-prototype-footer">
