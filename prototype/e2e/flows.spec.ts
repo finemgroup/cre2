@@ -55,6 +55,16 @@ test.describe('public end-to-end flows', () => {
     await markReviewed.click({ force: true });
     await expect(page.getByText(/Reviewed in local state only/i).first()).toBeVisible();
     await expect(page.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
+    await page.getByRole('link', { name: /Open source pack/i }).press('Enter');
+
+    await expect(page).toHaveURL(/\/sources\/demo-001\?state=blocked/);
+    await expect(
+      page.getByRole('heading', { name: /Source pack for 1200 Commerce St/i })
+    ).toBeVisible();
+    await expect(
+      page.getByText(/Prototype-only \/ no live source retrieval/i).first()
+    ).toBeVisible();
+    await expect(page.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
   });
 
   test('evidence drawer shows structured source metadata', async ({ page }) => {
