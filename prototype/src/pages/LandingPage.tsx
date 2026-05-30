@@ -1,9 +1,9 @@
 import { useState, type ReactElement } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
-import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
+import { PublicTrustStrip } from '@/components/public/PublicTrustStrip';
 import { SophexMotionSurface } from '@/components/motion/SophexMotionSurface';
 import { getPublicSearchProperties } from '@/lib/runtime/public-search';
 import { getPublicLandingView } from '@/lib/runtime/public-landing';
@@ -11,8 +11,10 @@ import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 
 export function LandingPage(): ReactElement {
-  const [query, setQuery] = useState('');
-  const [searched, setSearched] = useState(false);
+  const [searchParams] = useSearchParams();
+  const initialQuery = searchParams.get('q') ?? '';
+  const [query, setQuery] = useState(initialQuery);
+  const [searched, setSearched] = useState(Boolean(initialQuery));
 
   const landingState = useRuntimeResource(
     () => runtimeServices.public.getLandingView(),
@@ -40,91 +42,106 @@ export function LandingPage(): ReactElement {
   }
 
   return (
-    <section className="page">
-      <header className="page-header">
-        <p className="eyebrow">CRE intelligence marketplace</p>
-        <h1>Evidence-first property intelligence</h1>
+    <section className="page explore-page">
+      <header className="explore-hero">
+        <p className="eyebrow">Public intelligence</p>
+        <h1>Discover Institutional Intelligence</h1>
         <p className="lede">
           Search public baseline properties, compare comps, and preview valuation reports with
           visible source and review state.
         </p>
-        <div className="proof-strip" aria-label="Marketplace proof points">
-          {[
-            [landingView?.marketCount ?? '—', 'Featured markets'],
-            [landingView?.trustTierLabels ?? '—', 'Trust tiers labeled'],
-            [landingView?.totalListings ?? '—', 'Sample listings'],
-          ].map(([value, label]) => (
-            <article key={String(label)}>
-              <strong className="fin-value">{value}</strong>
-              <span>{label}</span>
-            </article>
-          ))}
-        </div>
+        <form
+          className="explore-search-form"
+          onSubmit={(event) => {
+            event.preventDefault();
+            runSearch();
+          }}
+        >
+          <label htmlFor="explore-search" className="sr-only">
+            Property or market
+          </label>
+          <input
+            id="explore-search"
+            type="search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="Austin retail, 1200 Commerce St, market name..."
+          />
+          <button type="submit" className="btn btn-primary">
+            Search
+          </button>
+        </form>
+        <PublicTrustStrip
+          labels={[
+            'Advisory / model-inferred',
+            'Not an appraisal',
+            'Public baseline',
+            'Export gated',
+          ]}
+        />
       </header>
 
-      <PublicStudioContinuityBanner surface="landing" />
       <RuntimeResourceStatus
         loading={landingState.loading || featuredState.loading || searchState.loading}
         error={searchState.error ?? featuredState.error ?? landingState.error}
         variant="public"
       />
 
-      <form
-        className="search-form"
-        onSubmit={(e) => {
-          e.preventDefault();
-          runSearch();
-        }}
-      >
-        <label htmlFor="search">Property or market</label>
-        <div className="search-row">
-          <input
-            id="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Austin retail, 1200 Commerce St"
-          />
-          <button type="submit" className="btn btn-primary">
-            Search
-          </button>
-        </div>
-      </form>
-
       {!searched ? (
-        <EmptyStateCard
-          icon="travel_explore"
-          title="Start with a market or address"
-          description="Sample properties are available for Austin and nearby markets. Try a suggested query or browse featured listings."
-          actions={
-            <>
-              <div className="chip-row">
-                {sampleQueries.map((sample) => (
-                  <button
-                    key={sample}
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => runSearch(sample)}
-                  >
-                    {sample}
-                  </button>
-                ))}
-              </div>
-              <div className="card-grid featured-grid">
-                {featuredProperties.map((property) => (
-                  <article key={property.id} className="card">
-                    <h2>{property.address}</h2>
-                    <p>
-                      {property.market} · {property.assetType}
-                    </p>
-                    <Link to={`/property/${property.id}`} className="btn btn-secondary">
-                      View featured property
-                    </Link>
-                  </article>
-                ))}
-              </div>
-            </>
-          }
-        />
+        <>
+          <div className="explore-bento" aria-label="Market intelligence">
+            <article className="explore-bento__card explore-bento__card--map">
+              <p className="micro-label">Market map</p>
+              <h2>Featured markets</h2>
+              <p className="fin-value">{landingView?.marketCount ?? '—'}</p>
+              <p className="muted">Sample coverage only — no live provider feed.</p>
+            </article>
+            <article className="explore-bento__card">
+              <p className="micro-label">Trust tiers</p>
+              <h2>Labeled authority</h2>
+              <p>{landingView?.trustTierLabels ?? 'Public baseline · Reviewed · Restricted'}</p>
+            </article>
+            <article className="explore-bento__card">
+              <p className="micro-label">Listings</p>
+              <h2>Sample properties</h2>
+              <p className="fin-value">{landingView?.totalListings ?? '—'}</p>
+            </article>
+          </div>
+          <EmptyStateCard
+            icon="travel_explore"
+            title="Start with a market or address"
+            description="Sample properties are available for Austin and nearby markets. Try a suggested query or browse featured listings."
+            actions={
+              <>
+                <div className="chip-row">
+                  {sampleQueries.map((sample) => (
+                    <button
+                      key={sample}
+                      type="button"
+                      className="btn btn-secondary"
+                      onClick={() => runSearch(sample)}
+                    >
+                      {sample}
+                    </button>
+                  ))}
+                </div>
+                <div className="card-grid featured-grid">
+                  {featuredProperties.map((property) => (
+                    <article key={property.id} className="card">
+                      <h2>{property.address}</h2>
+                      <p>
+                        {property.market} · {property.assetType}
+                      </p>
+                      <Link to={`/property/${property.id}`} className="btn btn-secondary">
+                        View featured property
+                      </Link>
+                    </article>
+                  ))}
+                </div>
+              </>
+            }
+          />
+        </>
       ) : null}
 
       {searched ? (

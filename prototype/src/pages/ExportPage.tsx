@@ -2,6 +2,7 @@ import { useState, type ReactElement } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 
 import { ExportGovernanceModal } from '@/components/overlays/ExportGovernanceModal';
+import { PublicTrustStrip } from '@/components/public/PublicTrustStrip';
 import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
 import { MockBoundaryBanner } from '@/components/workflow/MockBoundaryBanner';
@@ -175,6 +176,10 @@ export function ExportPage(): ReactElement {
         ))}
       </nav>
 
+      <PublicTrustStrip
+        labels={['Advisory / model-inferred', 'Not an appraisal', 'Export gated', 'Mock-only']}
+      />
+
       <GateResolutionCallout
         action="Generate export receipt"
         prerequisite="Consent, section review, reviewer approval, and source-use terms must clear before export."
@@ -183,19 +188,38 @@ export function ExportPage(): ReactElement {
         resolveLabel="Review report sections"
       />
 
-      <section className="proof-strip" aria-label="Export review readiness gates">
-        {[
-          ['Consent', consentGate],
-          ['Source rights', sourceRightsGate],
-          ['Reviewer approval', reviewerGate],
-          ['Section readiness', sectionGate],
-        ].map(([label, value]) => (
-          <article key={label}>
-            <span>{label}</span>
-            <strong>{value}</strong>
-          </article>
-        ))}
-      </section>
+      <div className="governance-gate-layout">
+        <div className="card governance-gate-alert">
+          <p className="eyebrow">Export gated</p>
+          <h2>Requirements checklist</h2>
+          <ul className="governance-checklist" aria-label="Export review readiness gates">
+            {[
+              ['Basic inputs complete', consentGate],
+              ['Source rights cleared', sourceRightsGate],
+              ['Reviewer approval', reviewerGate],
+              ['Section readiness', sectionGate],
+            ].map(([label, value]) => (
+              <li key={label}>
+                {label}: <strong>{value}</strong>
+              </li>
+            ))}
+          </ul>
+          <p className="warning" id="export-blockers">
+            {fixtureExportPosture} Prototype-only. No live export or receipt generation.
+          </p>
+        </div>
+
+        <div className="governance-gate-rail">
+          <section className="card">
+            <h2>Required resolutions</h2>
+            <ul className="evidence-list" aria-label="Export readiness blocker register">
+              {[...new Set(blockerRegister)].map((reason) => (
+                <li key={reason}>{reason}</li>
+              ))}
+            </ul>
+          </section>
+        </div>
+      </div>
 
       <div className="card">
         <div className="report-trust-alert-badges" aria-label="Export authority labels">
@@ -204,14 +228,6 @@ export function ExportPage(): ReactElement {
           ))}
           <AuthorityBadge label="blocked" />
         </div>
-        <p className="warning" id="export-blockers">
-          {fixtureExportPosture} Prototype-only. No live export or receipt generation.
-        </p>
-        <ul className="evidence-list" aria-label="Export readiness blocker register">
-          {[...new Set(blockerRegister)].map((reason) => (
-            <li key={reason}>{reason}</li>
-          ))}
-        </ul>
         <ul className="evidence-list" aria-label="Export blockers">
           {['consent', 'source-rights', 'reviewer-approval', 'section-readiness'].map((reason) => (
             <li key={reason}>{reason}</li>

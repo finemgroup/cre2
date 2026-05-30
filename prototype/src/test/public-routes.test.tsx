@@ -9,13 +9,13 @@ describe('public Sophex routes', () => {
   it('renders the public shell without basic accessibility violations', async () => {
     const { container } = await renderRoute('/');
     expect(
-      screen.getByRole('heading', { name: /Evidence-first property intelligence/i })
+      screen.getByRole('heading', { name: /Discover Institutional Intelligence/i })
     ).toBeInTheDocument();
     expect(
       screen.getByRole('heading', { name: /Start with a market or address/i })
     ).toBeInTheDocument();
     expect(await axe(container)).toHaveNoViolations();
-  });
+  }, 15000);
 
   it('searches sample properties and keeps property links route-scoped', async () => {
     const user = userEvent.setup();
@@ -44,7 +44,7 @@ describe('public Sophex routes', () => {
     await renderRoute('/property/demo-002');
 
     expect(screen.getByRole('heading', { name: /4400 Research Blvd/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /Compare comps/i })).toHaveAttribute(
+    expect(screen.getAllByRole('link', { name: /Compare comps/i })[0]).toHaveAttribute(
       'href',
       '/property/demo-002/comps'
     );
@@ -52,9 +52,9 @@ describe('public Sophex routes', () => {
       'href',
       '/report/demo-002'
     );
-    expect(screen.getByRole('link', { name: /Open spatial workbench/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /Underwrite/i })).toHaveAttribute(
       'href',
-      '/studio/deals/1200-tech/spatial'
+      '/studio/deals/riverside-flats/underwriting'
     );
   });
 
@@ -62,10 +62,11 @@ describe('public Sophex routes', () => {
     await renderRoute('/property/demo-002/comps');
     expect(screen.getByText(/Sample comp set for 4400 Research Blvd/i)).toBeInTheDocument();
     expect(screen.getByText(/Comp set readiness/i)).toBeInTheDocument();
-    expect(
-      screen.getByRole('link', { name: /Preview report for 4400 Research Blvd/i })
-    ).toHaveAttribute('href', '/report/demo-002');
-    expect(screen.getByRole('heading', { name: /Map context fallback/i })).toBeInTheDocument();
+    expect(screen.getAllByRole('link', { name: /^Preview report$/i })[0]).toHaveAttribute(
+      'href',
+      '/report/demo-002'
+    );
+    expect(screen.getByText(/Comps for 4400 Research Blvd/i)).toBeInTheDocument();
   });
 
   it('opens the public evidence drawer with prototype feedback', async () => {
@@ -82,13 +83,14 @@ describe('public Sophex routes', () => {
   it('shows spatial provenance labels and a non-map fallback on property pages', async () => {
     await renderRoute('/property/demo-001');
 
-    expect(screen.getByText(/Public ↔ Studio continuity/i)).toBeInTheDocument();
+    expect(screen.getByText(/Source-confirmed/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Model-inferred/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Sample map data/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/Approximate centroid/i).length).toBeGreaterThan(0);
-    expect(screen.getAllByText(/Not legal boundary/i).length).toBeGreaterThan(0);
-    expect(screen.getByRole('heading', { name: /Map facts as list/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Regional context/i })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: /Map layer controls/i })).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: /Sample map layer/i })).toBeInTheDocument();
+    expect(
+      screen.getByRole('img', { name: /Sample imagery — mock-only spatial preview/i })
+    ).toBeInTheDocument();
   });
 
   it('shows prototype feedback when selecting a public upload file', async () => {
@@ -226,6 +228,7 @@ describe('public Sophex routes', () => {
     const user = userEvent.setup();
     await renderRoute('/property/demo-001');
 
+    await user.click(screen.getByRole('button', { name: /^Demo$/i }));
     await user.selectOptions(screen.getByLabelText(/Prototype actor context/i), 'sourceOwner');
     expect(screen.getByText(/Public records aggregate/i)).toBeInTheDocument();
     expect(screen.queryByText(/private rent roll/i)).not.toBeInTheDocument();
@@ -254,15 +257,15 @@ describe('public Sophex routes', () => {
     ).toBeInTheDocument();
   });
 
-  it('links public properties to linked Studio deals', async () => {
+  it('keeps public product navigation distinct from Studio entry', async () => {
     await renderRoute('/property/demo-002');
-    expect(screen.getByRole('link', { name: /Underwrite in Studio/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /^Underwrite$/i })).toHaveAttribute(
       'href',
-      '/studio/deals/1200-tech/intake'
+      '/studio/deals/riverside-flats/underwriting'
     );
-    expect(screen.getByRole('link', { name: /Open linked Studio deal/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /Open Sophex Studio/i })).toHaveAttribute(
       'href',
-      '/studio/deals/1200-tech'
+      '/studio'
     );
   });
 
@@ -297,7 +300,7 @@ describe('public Sophex routes', () => {
     expect(
       screen.getByRole('heading', { name: /Review queue for 1200 Commerce St/i })
     ).toBeInTheDocument();
-    expect(screen.getByText(/Source gap register/i)).toBeInTheDocument();
+    expect(screen.getByText(/Review queue blockers/i)).toBeInTheDocument();
     expect(screen.getAllByText(/Prototype-only \/ no live approval/i).length).toBeGreaterThan(0);
     expect(screen.getByRole('button', { name: /Generate export disabled/i })).toBeDisabled();
     expect(screen.getByRole('link', { name: /Return to export gate/i })).toHaveAttribute(

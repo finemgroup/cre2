@@ -3,18 +3,17 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
-import { MapPlaceholderPreview } from '@/components/spatial/MapPlaceholderPreview';
+import { SpatialHUD } from '@/components/spatial/SpatialHUD';
+import { SpatialPreviewCard } from '@/components/spatial/SpatialPreviewCard';
 import { EvidenceMetadataList } from '@/components/evidence/EvidenceMetadataList';
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
-import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
+import { PublicTrustStrip } from '@/components/public/PublicTrustStrip';
 import { usePrototypeAction } from '@/lib/prototype/usePrototypeAction';
-import { studioDealPath } from '@/data/studio';
 import { getPublicPropertyView } from '@/lib/runtime/public-property';
 import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
-import { getLinkedDealId } from '@/lib/workflow-identity';
 import { trackEvent } from '@/lib/analytics/collector';
 import { appendExportFixtureStateQuery } from '@/lib/runtime/public-export-fixtures';
 
@@ -28,7 +27,6 @@ export function PropertyPage(): ReactElement {
   );
   const propertyView = propertyState.value;
   const property = propertyView?.property;
-  const linkedDealId = getLinkedDealId(id);
   const notifyPrototype = usePrototypeAction();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -78,29 +76,94 @@ export function PropertyPage(): ReactElement {
     );
   }
 
-  return (
-    <section className="page">
-      <header className="page-header">
-        <p className="eyebrow">Property intelligence · {property.id}</p>
-        <h1>{property.address}</h1>
-        <p>
-          {property.market} · {property.assetType}
-        </p>
-      </header>
+  const marketParts = property.market.split(',').map((part) => part.trim());
+  const breadcrumb = ['Intelligence', ...marketParts, property.address.split(',')[0].trim()];
 
-      <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="property" />
+  return (
+    <section className="page property-page">
       <RuntimeResourceStatus
         loading={propertyState.loading}
         error={propertyState.error}
         variant="public"
       />
 
-      <div className="proof-strip" aria-label="Property snapshot">
+      <nav className="property-breadcrumb" aria-label="Property context">
+        {breadcrumb.map((part, index) => (
+          <span key={part}>
+            {index > 0 ? ' › ' : ''}
+            {part}
+          </span>
+        ))}
+      </nav>
+
+      <header className="property-intelligence-hero">
+        <div className="property-intelligence-hero__media">
+          <SpatialPreviewCard
+            title={property.address}
+            caption="Sample imagery — mock-only spatial preview"
+            badges={['Source-confirmed', 'Model-inferred']}
+          />
+        </div>
+        <div className="property-intelligence-hero__summary">
+          <div>
+            <p className="eyebrow">Property intelligence</p>
+            <h1>{property.address}</h1>
+            <p className="property-intelligence-hero__location">
+              {property.market} · {property.assetType}
+            </p>
+          </div>
+          <div className="property-intelligence-hero__value">
+            <span>Advisory value range</span>
+            <strong>$18.4M - $19.2M</strong>
+            <small>Model-estimated · not an appraisal</small>
+          </div>
+        </div>
+        <PublicTrustStrip
+          labels={[
+            'Advisory / model-inferred',
+            'Not an appraisal',
+            'Public baseline',
+            'Export gated',
+          ]}
+        />
+        <p className="property-export-gate-note" role="note">
+          Branded report export remains gated until review, source-rights, and consent checks clear.
+          Preview and source pack actions are mock-only.
+        </p>
+        <div className="property-hero-actions" aria-label="Primary property actions">
+          <Link
+            to={appendExportFixtureStateQuery(
+              `/property/${property.id}/comps`,
+              searchParams.get('state')
+            )}
+            className="btn btn-primary"
+          >
+            Compare comps
+          </Link>
+          <Link
+            to={appendExportFixtureStateQuery(`/report/${property.id}`, searchParams.get('state'))}
+            className="btn btn-secondary"
+          >
+            Preview report
+          </Link>
+          <Link
+            to={appendExportFixtureStateQuery(`/sources/${property.id}`, searchParams.get('state'))}
+            className="btn btn-secondary"
+          >
+            View source pack
+          </Link>
+          <button type="button" className="btn btn-ghost" onClick={openEvidenceDrawer}>
+            Evidence drawer
+          </button>
+        </div>
+      </header>
+
+      <div className="proof-strip property-metric-strip" aria-label="Property snapshot">
         {[
-          [property.capRate, 'Cap rate'],
-          [propertyView?.evidenceDrawer.length ?? 0, 'Evidence fields'],
-          [propertyView?.spatialContext.layers.length ?? 0, 'Map layers'],
-          [property.authority, 'Authority'],
+          [propertyView?.evidenceDrawer[0]?.value ?? property.capRate, 'Market cap rate'],
+          ['$1.42M', 'NOI (fixture)'],
+          ['42,500 SF', 'Building size'],
+          ['94%', 'Occupancy'],
         ].map(([value, label]) => (
           <article key={String(label)}>
             <strong className="fin-value">{value}</strong>
@@ -133,31 +196,23 @@ export function PropertyPage(): ReactElement {
           ) : null}
         </div>
 
-        <div className="card">
-          <MapPlaceholderPreview caption="Sample map layer — no live geo precision. Not a legal boundary.">
-            <p className="muted">Selected property context preserved when drawer opens.</p>
-            <div className="provenance-labels" aria-label="Map truth labels">
-              <AuthorityBadge label="sample-map-data" />
-              <AuthorityBadge label="approximate-centroid" />
-              <AuthorityBadge label="not-legal-boundary" />
-            </div>
-            <ul className="map-layer-list" aria-label="Visible map layer summary">
-              {(propertyView?.spatialContext.layers.length ?? 0) === 0 ? (
-                <li className="muted">No map layers are visible in this actor context.</li>
-              ) : (
-                propertyView?.spatialContext.layers.map((layer) => (
-                  <li key={layer.id}>
-                    <strong>{layer.label}</strong>
-                    <span>
-                      {layer.precisionLabel} · {layer.refreshedLabel}
-                    </span>
-                    <small>{layer.safeCaveat}</small>
-                  </li>
-                ))
-              )}
-            </ul>
-          </MapPlaceholderPreview>
-        </div>
+        <SpatialHUD
+          title="Regional context"
+          subtitle="Mock-only map layers — not a legal boundary"
+          layerGroups={[
+            {
+              id: 'context',
+              label: 'Context layers',
+              layers: propertyView?.spatialContext.layers ?? [],
+            },
+          ]}
+          facts={(propertyView?.spatialContext.evidence ?? []).map((item) => ({
+            label: item.label,
+            value: item.value,
+            sourceLabel: item.safeExplanation,
+          }))}
+          radiusChips={['1 mi trade area', 'Sample map data']}
+        />
       </div>
 
       <MapLayerControlPanel
@@ -166,25 +221,7 @@ export function PropertyPage(): ReactElement {
         heading="Map layer controls"
       />
 
-      <section className="card" aria-labelledby="map-fallback-heading">
-        <h2 id="map-fallback-heading">Map facts as list</h2>
-        <p className="muted">
-          Non-map fallback for the same sample spatial facts shown in the regional map.
-        </p>
-        <ul className="evidence-list">
-          {(propertyView?.spatialContext.evidence.length ?? 0) === 0 ? (
-            <li className="muted">No spatial facts are available for this property view.</li>
-          ) : (
-            propertyView?.spatialContext.evidence.map((item) => (
-              <li key={item.label}>
-                <strong>{item.label}:</strong> {item.value} — {item.safeExplanation}
-              </li>
-            ))
-          )}
-        </ul>
-      </section>
-
-      <div className="action-row">
+      <div className="property-mobile-sticky-cta">
         <Link
           to={appendExportFixtureStateQuery(
             `/property/${property.id}/comps`,
@@ -194,25 +231,6 @@ export function PropertyPage(): ReactElement {
         >
           Compare comps
         </Link>
-        <Link
-          to={appendExportFixtureStateQuery(`/report/${property.id}`, searchParams.get('state'))}
-          className="btn btn-secondary"
-        >
-          Preview report
-        </Link>
-        {linkedDealId ? (
-          <>
-            <Link to={studioDealPath(linkedDealId, 'intake')} className="btn btn-primary">
-              Underwrite in Studio
-            </Link>
-            <Link to={studioDealPath(linkedDealId)} className="btn btn-secondary">
-              Open linked Studio deal
-            </Link>
-            <Link to={studioDealPath(linkedDealId, 'spatial')} className="btn btn-secondary">
-              Open spatial workbench
-            </Link>
-          </>
-        ) : null}
       </div>
 
       <SophexSheet isOpen={drawerOpen} label="Evidence drawer" onClose={() => setDrawerOpen(false)}>

@@ -11,7 +11,7 @@ test.describe('route shell visuals', () => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await gotoRoute(page, '/');
     await expect(
-      page.getByRole('heading', { name: /Evidence-first property intelligence/i })
+      page.getByRole('heading', { name: /Discover Institutional Intelligence/i })
     ).toBeVisible();
     await expect(page).toHaveScreenshot('public-landing-desktop.png', {
       fullPage: true,
@@ -102,7 +102,7 @@ test.describe('route shell visuals', () => {
     await page.setViewportSize({ width: 320, height: 800 });
     await gotoRoute(page, '/');
     await expect(
-      page.getByRole('heading', { name: /Evidence-first property intelligence/i })
+      page.getByRole('heading', { name: /Discover Institutional Intelligence/i })
     ).toBeVisible();
     await expect(page).toHaveScreenshot('public-landing-mobile-320.png', {
       clip: { x: 0, y: 0, width: 320, height: 420 },
@@ -126,7 +126,9 @@ test.describe('route shell visuals', () => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await gotoRoute(page, '/property/demo-001');
     await expect(page.getByRole('heading', { name: /1200 Commerce St/i })).toBeVisible();
-    await expect(page.getByRole('img', { name: /Sample map layer/i })).toBeVisible();
+    await expect(
+      page.getByRole('img', { name: /Sample imagery — mock-only spatial preview/i })
+    ).toBeVisible();
     await expect(page).toHaveScreenshot('public-property-map-desktop.png', {
       fullPage: true,
       maxDiffPixelRatio: 0.03,
@@ -206,7 +208,7 @@ test.describe('route shell visuals', () => {
   test('public comps dashboard', async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await gotoRoute(page, '/property/demo-001/comps');
-    await expect(page.getByRole('heading', { name: /Side-by-side comp dashboard/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Comps for 1200 Commerce St/i })).toBeVisible();
     await expect(page).toHaveScreenshot('public-comps-desktop.png', {
       fullPage: true,
       maxDiffPixelRatio: 0.03,

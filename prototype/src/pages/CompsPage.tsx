@@ -4,10 +4,11 @@ import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { SophexSheet } from '@/components/motion/SophexSheet';
 import { EmptyStateCard } from '@/components/overlays/EmptyStateCard';
 import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
-import { MapLayerControlPanel } from '@/components/spatial/MapLayerControlPanel';
 import { AuthorityBadge } from '@/components/ui/AuthorityBadge';
+import { PublicTrustStrip } from '@/components/public/PublicTrustStrip';
+import { PublicWorkbenchShell } from '@/components/public/PublicWorkbenchShell';
+import { SpatialPreviewCard } from '@/components/spatial/SpatialPreviewCard';
 import { ValuationReadinessRail } from '@/components/workflow/ValuationReadinessRail';
-import { PublicStudioContinuityBanner } from '@/components/evidence/PublicStudioContinuity';
 import {
   filterPublicComps,
   PUBLIC_COMP_SAVED_VIEWS,
@@ -19,8 +20,10 @@ import { runtimeServices } from '@/lib/runtime/runtime-services';
 import { useRuntimeResource } from '@/lib/runtime/useRuntimeResource';
 import { fixtureActors } from '@/lib/contracts/fixtures';
 import { getValuationVersionForActor } from '@/lib/contracts/valuation-version';
-import { getLinkedDealId, getPropertyRecord } from '@/lib/workflow-identity';
+import { getPropertyRecord } from '@/lib/workflow-identity';
 import { appendExportFixtureStateQuery } from '@/lib/runtime/public-export-fixtures';
+
+type CompTab = 'sale' | 'lease';
 
 export function CompsPage(): ReactElement {
   const { id } = useParams();
@@ -28,6 +31,7 @@ export function CompsPage(): ReactElement {
   const property = getPropertyRecord(id);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [savedView, setSavedView] = useState<CompSavedViewId>('all');
+  const [compTab, setCompTab] = useState<CompTab>('sale');
   const compState = useRuntimeResource(
     () => runtimeServices.public.getCompContext(undefined, property?.id),
     `comps-${property?.id ?? 'missing'}`,
@@ -66,47 +70,32 @@ export function CompsPage(): ReactElement {
     );
   }
 
-  const linkedDealId = getLinkedDealId(property.id);
   const valuationVersion = getValuationVersionForActor({
     actor: fixtureActors.public,
     propertyId: property.id,
   });
 
-  return (
-    <section className="page">
-      <header className="page-header">
-        <p className="eyebrow">Comp comparison</p>
-        <h1>Side-by-side comp dashboard</h1>
-        <p className="lede">
-          Permission-filtered comps for {property.address} with authority labels and blocked rows
-          omitted from export.
-        </p>
-      </header>
-
-      <PublicStudioContinuityBanner linkedDealId={linkedDealId} surface="property" />
-      <RuntimeResourceStatus loading={compState.loading} error={compState.error} variant="public" />
-
-      {!compState.loading && compViews.length > 0 ? (
-        <div className="proof-strip" aria-label="Comp provider rights">
-          {[
-            [rightsSummary.visible, 'Visible comps'],
-            [rightsSummary.restricted, 'Provider-restricted'],
-            [rightsSummary.total, 'Total in adapter set'],
-          ].map(([value, label]) => (
-            <article key={String(label)}>
-              <strong className="fin-value">{value}</strong>
-              <span>{label}</span>
-            </article>
+  const gridPanel = (
+    <div className="comps-workbench-grid">
+      <div className="comps-workbench-toolbar">
+        <div className="chip-row" role="tablist" aria-label="Comp type">
+          {(['sale', 'lease'] as const).map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              role="tab"
+              aria-selected={compTab === tab}
+              className={compTab === tab ? 'chip active' : 'chip'}
+              onClick={() => setCompTab(tab)}
+            >
+              {tab === 'sale' ? 'Sale comps' : 'Lease comps'}
+            </button>
           ))}
         </div>
-      ) : null}
-
-      <section className="card readiness-card">
-        <ValuationReadinessRail
-          evaluation={valuationVersion.readiness}
-          heading="Comp set readiness"
-        />
-      </section>
+        <p className="muted">
+          {filteredComps.length} matching comps · {compTab} view · fixture-backed only
+        </p>
+      </div>
 
       <section className="card" aria-labelledby="comp-saved-view-heading">
         <h2 id="comp-saved-view-heading">Saved comp views</h2>
@@ -130,14 +119,14 @@ export function CompsPage(): ReactElement {
         <EmptyStateCard
           icon="analytics"
           title="No comps returned"
-          description="The runtime adapter returned an empty comp set for this property. Provider rights or sandbox filtering may be blocking every row."
+          description="The runtime adapter returned an empty comp set for this property."
           tone="warning"
         />
       ) : filteredComps.length === 0 ? (
         <EmptyStateCard
           icon="filter_alt_off"
           title="No comps match this saved view"
-          description={`The "${activeView?.label ?? savedView}" filter removed every row for ${property.address}.`}
+          description={`The "${activeView?.label ?? savedView}" filter removed every row.`}
           actions={
             <button type="button" className="btn btn-secondary" onClick={() => setSavedView('all')}>
               Reset to full set
@@ -145,87 +134,145 @@ export function CompsPage(): ReactElement {
           }
         />
       ) : (
-        <div className="table-wrap">
-          <table>
-            <caption>Sample comp set for {property.address}</caption>
-            <thead>
-              <tr>
-                <th scope="col">Comp</th>
-                <th scope="col">Distance</th>
-                <th scope="col">Cap rate</th>
-                <th scope="col">Authority</th>
-                <th scope="col">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredComps.map((comp) => (
-                <tr key={comp.id} className={selectedId === comp.id ? 'row-selected' : undefined}>
-                  <td>{comp.name}</td>
-                  <td>{comp.distanceMi} mi</td>
-                  <td>{comp.capRate}</td>
-                  <td>
-                    <AuthorityBadge
-                      label={comp.authority === 'blocked' ? 'blocked' : comp.authority}
-                    />
-                  </td>
-                  <td>
-                    <button
-                      type="button"
-                      className="btn btn-ghost"
-                      onClick={() => setSelectedId(comp.id)}
-                      disabled={!comp.canInspect}
-                      aria-describedby={!comp.canInspect ? `${comp.id}-blocked-reason` : undefined}
-                    >
-                      Inspect
-                    </button>
-                    {!comp.canInspect ? (
-                      <span id={`${comp.id}-blocked-reason`} className="sr-only">
-                        {comp.safeExplanation}
-                      </span>
-                    ) : null}
-                  </td>
+        <>
+          <div className="table-wrap comps-table-desktop">
+            <table className="studio-table inst-table">
+              <caption>Sample comp set for {property.address}</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Address</th>
+                  <th scope="col">Asset type</th>
+                  <th scope="col">Sale date</th>
+                  <th scope="col">Price/SF</th>
+                  <th scope="col">Cap rate</th>
+                  <th scope="col">Confidence</th>
+                  <th scope="col">Sources</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {filteredComps.map((comp) => (
+                  <tr key={comp.id} className={selectedId === comp.id ? 'row-selected' : undefined}>
+                    <td>{comp.name}</td>
+                    <td>{property.assetType}</td>
+                    <td>2024-Q3</td>
+                    <td>{compTab === 'sale' ? '$412' : '$28/mo'}</td>
+                    <td>{comp.capRate}</td>
+                    <td>
+                      <AuthorityBadge
+                        label={comp.authority === 'blocked' ? 'blocked' : comp.authority}
+                      />
+                    </td>
+                    <td>{comp.canInspect ? '2 sources' : 'Restricted'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="comps-card-list" aria-label="Comp cards">
+            {filteredComps.map((comp) => (
+              <article key={comp.id} className="card comps-mobile-card">
+                <h3>{comp.name}</h3>
+                <p>
+                  {comp.distanceMi} mi · Cap {comp.capRate}
+                </p>
+                <AuthorityBadge label={comp.authority === 'blocked' ? 'blocked' : comp.authority} />
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  onClick={() => setSelectedId(comp.id)}
+                  disabled={!comp.canInspect}
+                >
+                  Inspect
+                </button>
+              </article>
+            ))}
+          </div>
+        </>
       )}
+    </div>
+  );
 
-      <section className="card" aria-labelledby="comp-map-context-heading">
-        <h2 id="comp-map-context-heading">Map context fallback</h2>
-        <p className="muted">
-          The comp map is represented as a keyboard-readable list in this prototype.
-        </p>
-        <div className="provenance-labels" aria-label="Comp map provenance labels">
-          <AuthorityBadge label="sample-map-data" />
-          <AuthorityBadge label="not-legal-boundary" />
-        </div>
-        <ul className="map-layer-list" aria-label="Comp map layers">
-          {compContext.mapLayers.map((layer) => (
-            <li key={layer.id}>
-              <strong>{layer.label}</strong>
-              <span>
-                {layer.precisionLabel} · {layer.refreshedLabel}
-              </span>
-              <small>{layer.safeCaveat}</small>
-            </li>
-          ))}
-        </ul>
-        <ul className="evidence-list" aria-label="Trade areas">
-          {compContext.tradeAreas.map((tradeArea) => (
-            <li key={tradeArea.id}>
-              <strong>{tradeArea.label}</strong> — {tradeArea.parametersLabel}.{' '}
-              {tradeArea.safeCaveat}
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <MapLayerControlPanel
-        layers={compContext.mapLayers}
-        evidenceByLayer={compContext.evidenceByLayer}
-        heading="Comp map layer controls"
+  const mapPanel = (
+    <div className="comps-map-panel">
+      <SpatialPreviewCard
+        title={`Comp context — ${property.address}`}
+        caption="Priced markers are fixture-only — no live provider feed"
+        badges={['Sample map data', `${rightsSummary.restricted} restricted`]}
       />
+      <ul className="map-layer-list" aria-label="Comp map layers">
+        {compContext.mapLayers.map((layer) => (
+          <li key={layer.id}>
+            <strong>{layer.label}</strong>
+            <span>
+              {layer.precisionLabel} · {layer.refreshedLabel}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  const evidenceRail = (
+    <>
+      <RuntimeResourceStatus loading={compState.loading} error={compState.error} variant="public" />
+      {!compState.loading && compViews.length > 0 ? (
+        <div className="proof-strip" aria-label="Comp provider rights">
+          {[
+            [rightsSummary.visible, 'Visible comps'],
+            [rightsSummary.restricted, 'Provider-restricted'],
+            [rightsSummary.total, 'Total in adapter set'],
+          ].map(([value, label]) => (
+            <article key={String(label)}>
+              <strong className="fin-value">{value}</strong>
+              <span>{label}</span>
+            </article>
+          ))}
+        </div>
+      ) : null}
+      <section className="card readiness-card">
+        <ValuationReadinessRail
+          evaluation={valuationVersion.readiness}
+          heading="Comp set readiness"
+        />
+      </section>
+      <p className="muted">
+        Private and provider-restricted comps stay labeled. Export and download remain disabled.
+      </p>
+    </>
+  );
+
+  return (
+    <section className="page">
+      <PublicWorkbenchShell
+        eyebrow="Comp comparison"
+        title={`Comps for ${property.address}`}
+        description="Split map and grid workbench with authority labels and blocked rows omitted from export."
+        headerActions={
+          <Link
+            to={appendExportFixtureStateQuery(`/report/${property.id}`, searchParams.get('state'))}
+            className="btn btn-secondary comps-desktop-handoff"
+          >
+            Preview report
+          </Link>
+        }
+        visualPanel={mapPanel}
+        evidenceRail={
+          <>
+            {evidenceRail}
+            {gridPanel}
+          </>
+        }
+        mobileCta={
+          <Link
+            to={appendExportFixtureStateQuery(`/report/${property.id}`, searchParams.get('state'))}
+            className="btn btn-primary"
+          >
+            Preview report
+          </Link>
+        }
+      />
+
+      <PublicTrustStrip labels={['Mock-only', 'Not an appraisal']} className="comps-trust-footer" />
 
       <SophexSheet
         isOpen={Boolean(selected)}
@@ -241,14 +288,6 @@ export function CompsPage(): ReactElement {
           </>
         ) : null}
       </SophexSheet>
-      <div className="action-row">
-        <Link
-          to={appendExportFixtureStateQuery(`/report/${property.id}`, searchParams.get('state'))}
-          className="btn btn-primary"
-        >
-          Preview report for {property.address}
-        </Link>
-      </div>
     </section>
   );
 }

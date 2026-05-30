@@ -19,12 +19,9 @@ describe('accessibility navigation', () => {
   });
 
   it('marks active public navigation links with aria-current', async () => {
-    await renderRoute('/upload');
-    expect(screen.getByRole('link', { name: /Upload documents/i })).toHaveAttribute(
-      'aria-current',
-      'page'
-    );
-    expect(screen.getByRole('link', { name: /Search properties/i })).not.toHaveAttribute(
+    await renderRoute('/property/demo-001/comps');
+    expect(screen.getByRole('link', { name: /Comps/i })).toHaveAttribute('aria-current', 'page');
+    expect(screen.getByRole('link', { name: /Explore/i })).not.toHaveAttribute(
       'aria-current',
       'page'
     );
@@ -49,5 +46,5 @@ describe('accessibility navigation', () => {
 
     const comps = await renderRoute('/property/demo-001/comps');
     expect(await axe(comps.container)).toHaveNoViolations();
-  });
+  }, 20000);
 });

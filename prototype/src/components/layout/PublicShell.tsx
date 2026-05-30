@@ -1,5 +1,5 @@
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import { useState, type ReactElement } from 'react';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useState, type FormEvent, type ReactElement } from 'react';
 
 import { PublicMobileNavDrawer } from '@/components/overlays/PublicMobileNavDrawer';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
@@ -10,19 +10,26 @@ import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitiv
 import { getPublicRouteTitle } from '@/lib/a11y/routeTitles';
 import { useRouteAnnouncement } from '@/lib/a11y/useRouteAnnouncement';
 import { PrototypeActionAnchor } from '@/components/overlays/PrototypeActionAnchor';
-import { ActorDemoSelector } from '@/components/runtime/ActorDemoSelector';
-import { RuntimePostureChip } from '@/components/runtime/RuntimePostureChip';
 import { useStudioSurfaceFonts } from '@/lib/fonts/useStudioSurfaceFonts';
-import { PresentationModeToggle } from '@/components/layout/PresentationModeToggle';
 import { GuidedDemoRail } from '@/components/demo/GuidedDemoRail';
 import { usePresentationMode } from '@/lib/studio/usePresentationMode';
+import { getPublicProductLinks } from '@/lib/public/public-product-nav';
 
 export function PublicShell(): ReactElement {
   const location = useLocation();
+  const navigate = useNavigate();
   const routeAnnouncement = useRouteAnnouncement(getPublicRouteTitle(location.pathname));
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [headerQuery, setHeaderQuery] = useState('');
   useStudioSurfaceFonts();
   const { enabled: presentationMode } = usePresentationMode();
+  const productLinks = getPublicProductLinks(location.pathname, location.search);
+
+  function onHeaderSearch(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const trimmed = headerQuery.trim();
+    navigate(trimmed ? `/?q=${encodeURIComponent(trimmed)}` : '/');
+  }
 
   return (
     <div className={presentationMode ? 'shell presentation-mode' : 'shell'}>
@@ -37,7 +44,16 @@ export function PublicShell(): ReactElement {
           <Link to="/" className="brand">
             Sophex
           </Link>
-          <p className="micro-label shell-tagline">Evidence-first CRE intelligence</p>
+          <form className="shell-search" role="search" onSubmit={onHeaderSearch}>
+            <MaterialIcon name="search" />
+            <input
+              type="search"
+              placeholder="Search properties, owners, markets..."
+              value={headerQuery}
+              onChange={(event) => setHeaderQuery(event.target.value)}
+              aria-label="Search properties, owners, markets"
+            />
+          </form>
         </div>
         <button
           type="button"
@@ -48,23 +64,24 @@ export function PublicShell(): ReactElement {
           <MaterialIcon name="menu" />
         </button>
         <nav className="shell-nav" aria-label="Primary">
-          <NavLink to="/" end aria-label="Search properties">
-            Search
-          </NavLink>
-          <NavLink to="/upload" aria-label="Upload documents">
-            Upload
-          </NavLink>
-          <NavLink to="/studio" aria-label="Open Finem CRE Studio">
-            Studio
-          </NavLink>
+          {productLinks.map((link) => (
+            <Link
+              key={link.label}
+              to={link.to}
+              className={link.active ? 'active' : undefined}
+              aria-current={link.active ? 'page' : undefined}
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
-        <PresentationModeToggle className="btn btn-ghost presentation-mode-toggle public-presentation-toggle" />
-        <RuntimePostureChip />
-        <ActorDemoSelector />
+        <Link to="/studio" className="shell-studio-entry" aria-label="Open Sophex Studio">
+          Studio
+        </Link>
       </header>
       <PublicMobileNavDrawer isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
+      <GuidedDemoRail />
       <main className="shell-main">
-        <GuidedDemoRail />
         <PageTransition>
           <Outlet />
         </PageTransition>
