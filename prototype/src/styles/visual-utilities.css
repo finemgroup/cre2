@@ -504,4 +504,19 @@
   .governance-gate-layout {
     grid-template-columns: 1fr;
   }
+  .map-layer-toggle-row {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  .map-layer-select {
+    flex: 1 1 auto;
+    min-width: 0;
+    text-align: left;
+  }
+  .map-layer-meta {
+    font-size: 0.78rem;
+  }
+  .property-page .map-layer-controls {
+    margin-bottom: 3.5rem;
+  }
 }

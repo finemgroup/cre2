@@ -110,6 +110,70 @@ test.describe('route shell visuals', () => {
     });
   });
 
+  test('public property profile mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 800 });
+    await gotoRoute(page, '/property/demo-001?state=clean');
+    await expect(page.getByRole('heading', { name: /1200 Commerce St/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('public-property-mobile-320.png', {
+      clip: { x: 0, y: 0, width: 320, height: 520 },
+      maxDiffPixelRatio: 0.1,
+    });
+  });
+
+  test('public comps workbench mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 800 });
+    await gotoRoute(page, '/property/demo-001/comps?state=clean');
+    await expect(page.getByRole('heading', { name: /Comps for 1200 Commerce St/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('public-comps-mobile-320.png', {
+      clip: { x: 0, y: 0, width: 320, height: 520 },
+      maxDiffPixelRatio: 0.1,
+    });
+  });
+
+  test('public report preview mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 800 });
+    await gotoRoute(page, '/report/demo-001?state=clean');
+    await expect(page.getByRole('heading', { name: /Report for 1200 Commerce St/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('public-report-mobile-320.png', {
+      clip: { x: 0, y: 0, width: 320, height: 520 },
+      maxDiffPixelRatio: 0.1,
+    });
+  });
+
+  test('public export gate mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 800 });
+    await gotoRoute(page, '/export/demo-001?state=blocked');
+    await expect(page.getByRole('button', { name: /Review blockers/i })).toBeVisible();
+    await expect(page).toHaveScreenshot('public-export-mobile-320.png', {
+      clip: { x: 0, y: 0, width: 320, height: 520 },
+      maxDiffPixelRatio: 0.1,
+    });
+  });
+
+  test('public review queue mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 800 });
+    await gotoRoute(page, '/review/demo-001?state=blocked');
+    await expect(
+      page.getByRole('heading', { name: /Review queue for 1200 Commerce St/i })
+    ).toBeVisible();
+    await expect(page).toHaveScreenshot('public-review-mobile-320.png', {
+      clip: { x: 0, y: 0, width: 320, height: 520 },
+      maxDiffPixelRatio: 0.1,
+    });
+  });
+
+  test('public source pack mobile', async ({ page }) => {
+    await page.setViewportSize({ width: 320, height: 800 });
+    await gotoRoute(page, '/sources/demo-001?state=provider-restricted');
+    await expect(
+      page.getByRole('heading', { name: /Source pack for 1200 Commerce St/i })
+    ).toBeVisible();
+    await expect(page).toHaveScreenshot('public-source-pack-mobile-320.png', {
+      clip: { x: 0, y: 0, width: 320, height: 520 },
+      maxDiffPixelRatio: 0.1,
+    });
+  });
+
   test('studio dashboard at 1000px breakpoint', async ({ page }) => {
     await page.setViewportSize({ width: 1000, height: 900 });
     await gotoRoute(page, '/studio/dashboard');
