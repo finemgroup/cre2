@@ -14,9 +14,26 @@ This folder preserves the Google Stitch package for Sophex's public intelligence
 
 | Path | Role |
 | --- | --- |
-| `wave-1/screenshots/` | Stitch screen captures (`SPI-01` through `SPI-08`) |
+| `wave-1/screenshots/` | Screen captures (`SPI-01` through `SPI-08`) |
 | `wave-1/raw-html/` | Reference stubs summarizing pasted Stitch HTML structure |
 | `wave-1/raw-html/00-source-map.md` | Screen-to-route adoption map |
+
+## Screenshot provenance
+
+Original Stitch PNG exports were not present in repo history at archive time. Files under `wave-1/screenshots/` are **post-implementation Playwright baselines** captured from the merged prototype (PR #13, 2026-05-30) so every `SPI-*` screen has a linked visual artifact.
+
+| File | Source |
+| --- | --- |
+| `01-public-product-shell.png` | Playwright visual baseline — landing desktop |
+| `02-property-profile-hero.png` | Playwright visual baseline — property desktop |
+| `03-comps-map-grid.png` | Playwright visual baseline — comps desktop |
+| `04-underwrite-shell.png` | Playwright visual baseline — Studio underwriting desktop (SPI-04 handoff target) |
+| `05-source-pack-drilldown.png` | Playwright visual baseline — source pack desktop |
+| `06-demo-controls-drawer.png` | Live capture — report route with Demo drawer open |
+| `07-review-export-gate.png` | Playwright visual baseline — export gate desktop |
+| `08-mobile-property-profile.png` | Live capture — property mobile (320×800) |
+
+Replace individual files with original Stitch exports when those assets are imported; update this table accordingly.
 
 ## Screen Index
 
