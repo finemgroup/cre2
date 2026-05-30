@@ -52,9 +52,9 @@ describe('public Sophex routes', () => {
       'href',
       '/report/demo-002'
     );
-    expect(screen.getByRole('link', { name: /Open spatial workbench/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /Underwrite/i })).toHaveAttribute(
       'href',
-      '/studio/deals/1200-tech/spatial'
+      '/studio/deals/riverside-flats/underwriting'
     );
   });
 
@@ -82,7 +82,8 @@ describe('public Sophex routes', () => {
   it('shows spatial provenance labels and a non-map fallback on property pages', async () => {
     await renderRoute('/property/demo-001');
 
-    expect(screen.getByText(/Public ↔ Studio continuity/i)).toBeInTheDocument();
+    expect(screen.getByText(/Source-confirmed/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/Model-inferred/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Sample map data/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Approximate centroid/i).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/Not legal boundary/i).length).toBeGreaterThan(0);
@@ -226,6 +227,7 @@ describe('public Sophex routes', () => {
     const user = userEvent.setup();
     await renderRoute('/property/demo-001');
 
+    await user.click(screen.getByRole('button', { name: /^Demo$/i }));
     await user.selectOptions(screen.getByLabelText(/Prototype actor context/i), 'sourceOwner');
     expect(screen.getByText(/Public records aggregate/i)).toBeInTheDocument();
     expect(screen.queryByText(/private rent roll/i)).not.toBeInTheDocument();
@@ -254,15 +256,15 @@ describe('public Sophex routes', () => {
     ).toBeInTheDocument();
   });
 
-  it('links public properties to linked Studio deals', async () => {
+  it('keeps public product navigation distinct from Studio entry', async () => {
     await renderRoute('/property/demo-002');
-    expect(screen.getByRole('link', { name: /Underwrite in Studio/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /^Underwrite$/i })).toHaveAttribute(
       'href',
-      '/studio/deals/1200-tech/intake'
+      '/studio/deals/riverside-flats/underwriting'
     );
-    expect(screen.getByRole('link', { name: /Open linked Studio deal/i })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /Open Sophex Studio/i })).toHaveAttribute(
       'href',
-      '/studio/deals/1200-tech'
+      '/studio'
     );
   });
 
