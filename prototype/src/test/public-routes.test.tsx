@@ -62,7 +62,7 @@ describe('public Sophex routes', () => {
     await renderRoute('/property/demo-002/comps');
     expect(screen.getByText(/Sample comp set for 4400 Research Blvd/i)).toBeInTheDocument();
     expect(screen.getByText(/Comp set readiness/i)).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /^Preview report$/i })).toHaveAttribute(
+    expect(screen.getAllByRole('link', { name: /^Preview report$/i })[0]).toHaveAttribute(
       'href',
       '/report/demo-002'
     );

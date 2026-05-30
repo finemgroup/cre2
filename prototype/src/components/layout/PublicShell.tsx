@@ -81,7 +81,7 @@ export function PublicShell(): ReactElement {
       </header>
       <PublicMobileNavDrawer isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
       <GuidedDemoRail />
-      <main className="shell-main" id="page-content">
+      <main className="shell-main">
         <PageTransition>
           <Outlet />
         </PageTransition>
