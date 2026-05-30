@@ -9,7 +9,7 @@ test.beforeEach(async ({ page }) => {
 test.describe('guided demo states', () => {
   test('guided demo rail renders on key public routes with prototype posture', async ({ page }) => {
     await gotoRoute(page, '/report/demo-001?state=provider-restricted');
-    await page.getByRole('button', { name: /Demo controls/i }).click();
+    await page.getByRole('button', { name: /^Demo$/i }).click();
 
     const rail = page.getByRole('navigation', { name: /Guided demo path/i });
     await expect(rail).toBeVisible();
@@ -23,7 +23,7 @@ test.describe('guided demo states', () => {
     );
 
     await gotoRoute(page, '/export/demo-001?state=provider-restricted');
-    await page.getByRole('button', { name: /Demo controls/i }).click();
+    await page.getByRole('button', { name: /^Demo$/i }).click();
     await expect(page.getByRole('navigation', { name: /Guided demo path/i })).toBeVisible();
     await expect(page.getByRole('link', { name: /4 · Export gate/i })).toHaveAttribute(
       'aria-current',
@@ -31,7 +31,7 @@ test.describe('guided demo states', () => {
     );
 
     await gotoRoute(page, '/property/demo-001?state=provider-restricted');
-    await page.getByRole('button', { name: /Demo controls/i }).click();
+    await page.getByRole('button', { name: /^Demo$/i }).click();
     await expect(page.getByRole('navigation', { name: /Guided demo path/i })).toBeVisible();
     await expect(page.getByRole('link', { name: /1 · Property/i })).toHaveAttribute(
       'aria-current',
@@ -43,7 +43,7 @@ test.describe('guided demo states', () => {
     page,
   }) => {
     await gotoRoute(page, '/report/demo-001?state=provider-restricted');
-    await page.getByRole('button', { name: /Demo controls/i }).click();
+    await page.getByRole('button', { name: /^Demo$/i }).click();
 
     await page
       .getByRole('navigation', { name: /Guided demo path/i })
@@ -52,7 +52,7 @@ test.describe('guided demo states', () => {
       })
       .click();
     await expect(page).toHaveURL(/\/export\/demo-001\?state=provider-restricted/);
-    await page.getByRole('button', { name: /Demo controls/i }).click();
+    await page.getByRole('button', { name: /^Demo$/i }).click();
 
     await page
       .getByRole('navigation', { name: /Guided demo path/i })
@@ -61,7 +61,7 @@ test.describe('guided demo states', () => {
       })
       .click();
     await expect(page).toHaveURL(/\/review\/demo-001\?state=provider-restricted/);
-    await page.getByRole('button', { name: /Demo controls/i }).click();
+    await page.getByRole('button', { name: /^Demo$/i }).click();
 
     await page
       .getByRole('navigation', { name: /Guided demo path/i })
@@ -89,7 +89,7 @@ test.describe('guided demo states', () => {
 
   test('export remains gated and no live export action is enabled', async ({ page }) => {
     await gotoRoute(page, '/export/demo-001?state=clean');
-    await page.getByRole('button', { name: /Demo controls/i }).click();
+    await page.getByRole('button', { name: /^Demo$/i }).click();
 
     await expect(page.getByRole('button', { name: /Generate export/i })).toBeDisabled();
     await expect(

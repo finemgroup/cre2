@@ -108,7 +108,7 @@ export function GuidedDemoRail(): ReactElement | null {
         <span className="material-symbols-outlined" aria-hidden="true">
           tuning
         </span>
-        <span>Demo controls</span>
+        <span>Demo</span>
       </button>
       {open ? (
         <button
