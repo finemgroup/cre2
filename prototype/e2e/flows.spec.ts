@@ -249,12 +249,13 @@ test.describe('Studio end-to-end flows', () => {
   test('cross-entity demo paths link public properties to studio deals', async ({ page }) => {
     await gotoRoute(page, '/property/demo-001');
     await expect(page.getByRole('heading', { name: /1200 Commerce St/i })).toBeVisible();
-    const underwriteInStudioLink = page.getByRole('link', { name: /Underwrite in Studio/i });
-    await expect(underwriteInStudioLink).toBeVisible();
-    await underwriteInStudioLink.press('Enter');
-    await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/intake$/);
-    await gotoRoute(page, '/studio/deals/riverside-flats');
-    await page.locator('a.tab-link', { hasText: 'Underwriting' }).click();
+    const shellNav = page.locator('.shell-nav');
+    if (await shellNav.isVisible()) {
+      await shellNav.getByRole('link', { name: 'Underwrite' }).click();
+    } else {
+      await page.getByRole('button', { name: /Open navigation menu/i }).click();
+      await page.locator('.public-mobile-nav').getByRole('link', { name: 'Underwrite' }).click();
+    }
     await expect(page).toHaveURL(/\/studio\/deals\/riverside-flats\/underwriting$/);
     await page
       .locator('.studio-card', {

@@ -1,5 +1,5 @@
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
-import type { ReactElement } from 'react';
+import { useState, type ReactElement } from 'react';
 
 import {
   resolveExportFixtureState,
@@ -33,6 +33,28 @@ const FIXTURE_LABELS: readonly [ExportFixtureStateId, string][] = [
   ['ready-for-review', 'Ready for review'],
 ];
 
+const ACTOR_STORAGE_KEY = 'sophex.prototype.actor-demo';
+const ACTOR_LABELS = [
+  ['public', 'Public baseline viewer'],
+  ['sourceOwner', 'Source owner'],
+  ['orgMember', 'Org member'],
+  ['internalOperator', 'Internal operator'],
+] as const;
+
+type ActorDemoKey = (typeof ACTOR_LABELS)[number][0];
+
+function readActorKey(): ActorDemoKey {
+  if (typeof window === 'undefined') return 'public';
+  const stored = window.localStorage.getItem(ACTOR_STORAGE_KEY);
+  return ACTOR_LABELS.some(([key]) => key === stored) ? (stored as ActorDemoKey) : 'public';
+}
+
+function storeActorKey(key: ActorDemoKey): void {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(ACTOR_STORAGE_KEY, key);
+  window.dispatchEvent(new CustomEvent('sophex:actor-demo-change', { detail: key }));
+}
+
 function demoPath(propertyId: string, stepId: StepId, stateId: ExportFixtureStateId): string {
   const q = `?state=${stateId}`;
   if (stepId === 'property') return `/property/${propertyId}${q}`;
@@ -61,6 +83,8 @@ function resolveRoute(pathname: string): { propertyId: string; stepId: StepId } 
 export function GuidedDemoRail(): ReactElement | null {
   const { pathname } = useLocation();
   const [searchParams] = useSearchParams();
+  const [open, setOpen] = useState(false);
+  const [actorKey, setActorKey] = useState<ActorDemoKey>(() => readActorKey());
   const route = resolveRoute(pathname);
   if (!route) return null;
 
@@ -73,50 +97,138 @@ export function GuidedDemoRail(): ReactElement | null {
   const nextStep = stepIndex >= 0 && stepIndex < STEPS.length - 1 ? STEPS[stepIndex + 1] : null;
 
   return (
-    <nav className="public-studio-continuity guided-demo-rail" aria-label="Guided demo path">
-      <div>
-        <strong>Guided demo · prototype only</strong>
-        <p className="muted">
-          Public Intelligence · Not an appraisal · Advisory / Model-Inferred · Export gated · No
-          live valuation, source retrieval, or export
-        </p>
-        <p className="guided-demo-rail__meta">
-          Step: <strong>{step.label}</strong> · Fixture: <strong>{fixture[1]}</strong>
-          {nextStep ? (
-            <>
-              {' '}
-              · Next:{' '}
-              <Link to={demoPath(route.propertyId, nextStep.id, stateId)}>{nextStep.label}</Link>
-            </>
-          ) : (
-            <> · End of guided path</>
-          )}
-        </p>
-        <p className="guided-demo-rail__meta">{NARRATIVES[stateId]}</p>
-        <nav className="guided-demo-rail__links" aria-label="Public intelligence demo steps">
-          {STEPS.map((entry) => (
-            <Link
-              key={entry.id}
-              to={demoPath(route.propertyId, entry.id, stateId)}
-              aria-current={entry.id === step.id ? 'page' : undefined}
+    <>
+      <button
+        type="button"
+        className="demo-controls-trigger"
+        aria-expanded={open}
+        aria-controls="demo-controls-drawer"
+        onClick={() => setOpen(true)}
+      >
+        <span className="material-symbols-outlined" aria-hidden="true">
+          tuning
+        </span>
+        <span>Demo controls</span>
+      </button>
+      {open ? (
+        <button
+          type="button"
+          className="demo-controls-scrim"
+          aria-label="Close demo controls"
+          onClick={() => setOpen(false)}
+        />
+      ) : null}
+      {open ? (
+        <aside
+          id="demo-controls-drawer"
+          className="demo-controls-drawer open"
+          aria-label="Demo controls drawer"
+        >
+          <div className="demo-controls-drawer__header">
+            <div>
+              <p className="micro-label">Prototype management</p>
+              <h2>Demo Controls</h2>
+            </div>
+            <button
+              type="button"
+              className="btn btn-ghost demo-controls-drawer__close"
+              aria-label="Close demo controls"
+              onClick={() => setOpen(false)}
             >
-              {entry.nav}
-            </Link>
-          ))}
-        </nav>
-        <div className="guided-demo-rail__links" aria-label="Fixture state switcher">
-          <span className="micro-label">Fixture state</span>
-          {FIXTURE_LABELS.map(([id, label]) => (
+              <span className="material-symbols-outlined" aria-hidden="true">
+                close
+              </span>
+            </button>
+          </div>
+          <div className="demo-controls-warning" role="note">
+            Internal operator utility. Prototype-only; not production navigation.
+          </div>
+          <nav className="guided-demo-rail" aria-label="Guided demo path">
+            <p className="micro-label">Guided path</p>
+            <div className="guided-demo-rail__links" aria-label="Public intelligence demo steps">
+              {STEPS.map((entry) => (
+                <Link
+                  key={entry.id}
+                  to={demoPath(route.propertyId, entry.id, stateId)}
+                  aria-current={entry.id === step.id ? 'page' : undefined}
+                  onClick={() => setOpen(false)}
+                >
+                  {entry.nav}
+                </Link>
+              ))}
+            </div>
+          </nav>
+          <section className="demo-controls-section" aria-label="Current demo posture">
+            <p className="micro-label">Current posture</p>
+            <p>
+              Step: <strong>{step.label}</strong>
+            </p>
+            <p>
+              Fixture: <strong>{fixture[1]}</strong>
+            </p>
+            <p className="muted">{NARRATIVES[stateId]}</p>
+            {nextStep ? (
+              <Link
+                to={demoPath(route.propertyId, nextStep.id, stateId)}
+                className="btn btn-secondary"
+                onClick={() => setOpen(false)}
+              >
+                Continue to {nextStep.label}
+              </Link>
+            ) : (
+              <p className="muted">End of guided path</p>
+            )}
+          </section>
+          <section className="demo-controls-section" aria-label="Fixture state switcher">
+            <p className="micro-label">Fixture state</p>
+            <div className="guided-demo-rail__links">
+              {FIXTURE_LABELS.map(([id, label]) => (
+                <Link
+                  key={id}
+                  to={demoPath(route.propertyId, step.id, id)}
+                  aria-current={id === stateId ? 'true' : undefined}
+                  onClick={() => setOpen(false)}
+                >
+                  {label}
+                </Link>
+              ))}
+            </div>
+          </section>
+          <section className="demo-controls-section" aria-label="Prototype actor controls">
+            <label className="actor-demo-selector">
+              <span>Prototype actor</span>
+              <select
+                value={actorKey}
+                aria-label="Prototype actor context"
+                onChange={(event) => {
+                  const nextKey = event.target.value as ActorDemoKey;
+                  setActorKey(nextKey);
+                  storeActorKey(nextKey);
+                }}
+              >
+                {ACTOR_LABELS.map(([key, label]) => (
+                  <option key={key} value={key}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </section>
+          <section className="demo-controls-section" aria-label="Demo reset">
+            <p className="muted">
+              Public Intelligence · Not an appraisal · Advisory / Model-Inferred · Export gated · No
+              live valuation, source retrieval, or export
+            </p>
             <Link
-              key={id}
-              to={demoPath(route.propertyId, step.id, id)}
-              aria-current={id === stateId ? 'true' : undefined}
+              to={demoPath(route.propertyId, 'property', 'clean')}
+              className="btn btn-secondary"
+              onClick={() => setOpen(false)}
             >
-              {label}
+              Reset demo
             </Link>
-          ))}
-        </div>
-      </div>
-    </nav>
+          </section>
+        </aside>
+      ) : null}
+    </>
   );
 }
