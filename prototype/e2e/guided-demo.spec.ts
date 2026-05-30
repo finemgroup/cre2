@@ -76,14 +76,23 @@ test.describe('guided demo states', () => {
   test('property and comps handoffs preserve fixture state query', async ({ page }) => {
     await gotoRoute(page, '/property/demo-001?state=low-evidence');
 
-    await page.getByRole('link', { name: /Compare comps/i }).click();
+    await page
+      .getByRole('link', { name: /Compare comps/i })
+      .first()
+      .click();
     await expect(page).toHaveURL(/\/property\/demo-001\/comps\?state=low-evidence/);
 
-    await page.getByRole('link', { name: /Preview report for/i }).click();
+    await page
+      .getByRole('link', { name: /^Preview report$/i })
+      .first()
+      .click();
     await expect(page).toHaveURL(/\/report\/demo-001\?state=low-evidence/);
 
     await gotoRoute(page, '/property/demo-001');
-    await page.getByRole('link', { name: /Compare comps/i }).click();
+    await page
+      .getByRole('link', { name: /Compare comps/i })
+      .first()
+      .click();
     await expect(page).toHaveURL(/\/property\/demo-001\/comps$/);
   });
 

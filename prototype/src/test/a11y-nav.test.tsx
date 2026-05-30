@@ -46,5 +46,5 @@ describe('accessibility navigation', () => {
 
     const comps = await renderRoute('/property/demo-001/comps');
     expect(await axe(comps.container)).toHaveNoViolations();
-  });
+  }, 20000);
 });

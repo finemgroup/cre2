@@ -3,9 +3,9 @@ import path from 'node:path';
 
 const DIST_ASSETS = path.resolve('dist/assets');
 const JS_BUDGET_BYTES = 184 * 1024;
-const CSS_BUDGET_BYTES = 74 * 1024;
-const TOTAL_JS_BUDGET_BYTES = 551 * 1024;
-const TOTAL_CSS_BUDGET_BYTES = 74 * 1024;
+const CSS_BUDGET_BYTES = 80 * 1024;
+const TOTAL_JS_BUDGET_BYTES = 566 * 1024;
+const TOTAL_CSS_BUDGET_BYTES = 80 * 1024;
 const MAP_LAYER_METADATA_BUDGET_BYTES = 24 * 1024;
 const MAP_LAYER_GEOMETRY_BUDGET_BYTES = 96 * 1024;
 

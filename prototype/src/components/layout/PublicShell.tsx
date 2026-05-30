@@ -1,5 +1,5 @@
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import { useState, type ReactElement } from 'react';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { useState, type FormEvent, type ReactElement } from 'react';
 
 import { PublicMobileNavDrawer } from '@/components/overlays/PublicMobileNavDrawer';
 import { MaterialIcon } from '@/components/studio/StudioPrimitives';
@@ -13,48 +13,23 @@ import { PrototypeActionAnchor } from '@/components/overlays/PrototypeActionAnch
 import { useStudioSurfaceFonts } from '@/lib/fonts/useStudioSurfaceFonts';
 import { GuidedDemoRail } from '@/components/demo/GuidedDemoRail';
 import { usePresentationMode } from '@/lib/studio/usePresentationMode';
-
-const DEFAULT_DEMO_PROPERTY_ID = 'demo-001';
-const DEFAULT_DEMO_DEAL_ID = 'riverside-flats';
-
-function demoQuery(search: string): string {
-  const state = new URLSearchParams(search).get('state');
-  return state ? `?state=${encodeURIComponent(state)}` : '';
-}
+import { getPublicProductLinks } from '@/lib/public/public-product-nav';
 
 export function PublicShell(): ReactElement {
   const location = useLocation();
+  const navigate = useNavigate();
   const routeAnnouncement = useRouteAnnouncement(getPublicRouteTitle(location.pathname));
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [headerQuery, setHeaderQuery] = useState('');
   useStudioSurfaceFonts();
   const { enabled: presentationMode } = usePresentationMode();
-  const stateQuery = demoQuery(location.search);
-  const productLinks = [
-    { label: 'Explore', to: '/', active: location.pathname === '/' },
-    {
-      label: 'Comps',
-      to: `/property/${DEFAULT_DEMO_PROPERTY_ID}/comps${stateQuery}`,
-      active: location.pathname.includes('/comps'),
-    },
-    {
-      label: 'Intelligence',
-      to: `/property/${DEFAULT_DEMO_PROPERTY_ID}${stateQuery}`,
-      active: location.pathname.startsWith('/property/') && !location.pathname.includes('/comps'),
-    },
-    {
-      label: 'Underwrite',
-      to: `/studio/deals/${DEFAULT_DEMO_DEAL_ID}/underwriting`,
-      active: location.pathname.includes('/underwriting'),
-    },
-    {
-      label: 'Review',
-      to: `/review/${DEFAULT_DEMO_PROPERTY_ID}${stateQuery}`,
-      active:
-        location.pathname.startsWith('/review/') ||
-        location.pathname.startsWith('/export/') ||
-        location.pathname.startsWith('/sources/'),
-    },
-  ];
+  const productLinks = getPublicProductLinks(location.pathname, location.search);
+
+  function onHeaderSearch(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const trimmed = headerQuery.trim();
+    navigate(trimmed ? `/?q=${encodeURIComponent(trimmed)}` : '/');
+  }
 
   return (
     <div className={presentationMode ? 'shell presentation-mode' : 'shell'}>
@@ -69,10 +44,16 @@ export function PublicShell(): ReactElement {
           <Link to="/" className="brand">
             Sophex
           </Link>
-          <div className="shell-search" role="search">
+          <form className="shell-search" role="search" onSubmit={onHeaderSearch}>
             <MaterialIcon name="search" />
-            <input type="search" placeholder="Search properties, owners, markets..." />
-          </div>
+            <input
+              type="search"
+              placeholder="Search properties, owners, markets..."
+              value={headerQuery}
+              onChange={(event) => setHeaderQuery(event.target.value)}
+              aria-label="Search properties, owners, markets"
+            />
+          </form>
         </div>
         <button
           type="button"
@@ -100,7 +81,7 @@ export function PublicShell(): ReactElement {
       </header>
       <PublicMobileNavDrawer isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
       <GuidedDemoRail />
-      <main className="shell-main">
+      <main className="shell-main" id="page-content">
         <PageTransition>
           <Outlet />
         </PageTransition>

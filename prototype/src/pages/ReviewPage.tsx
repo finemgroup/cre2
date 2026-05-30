@@ -1,6 +1,8 @@
 import { useState, type ReactElement } from 'react';
 import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom';
 
+import { SourceTraceFlow } from '@/components/evidence/SourceTraceFlow';
+import { PublicTrustStrip } from '@/components/public/PublicTrustStrip';
 import { RuntimeResourceStatus } from '@/components/runtime/RuntimeResourceStatus';
 import { getPublicReportView } from '@/lib/runtime/report-flow';
 import {
@@ -86,7 +88,6 @@ export function ReviewPage(): ReactElement {
   }
 
   const { property, readiness } = reportView;
-  const rows = isSources ? citations : sourceGaps;
 
   return (
     <section className="page">
@@ -164,34 +165,58 @@ export function ReviewPage(): ReactElement {
         ))}
       </nav>
 
-      <section className="card">
-        <h2>Export remains gated</h2>
-        <p className="warning">
-          {exportPosture}{' '}
-          {isSources
-            ? sourcePackBlocker(fixtureStateId)
-            : 'Prototype-only review. Does not clear export gates.'}
-        </p>
-        {isSources ? (
-          <>
-            <p className="eyebrow">Source-rights and blocker posture</p>
+      <PublicTrustStrip
+        labels={['Advisory / model-inferred', 'Not an appraisal', 'Export gated', 'Mock-only']}
+      />
+
+      <div className="governance-gate-layout">
+        <section className="card governance-gate-alert">
+          <p className="eyebrow">Export gated</p>
+          <h2>Requirements pending</h2>
+          <p className="warning">
+            {exportPosture}{' '}
+            {isSources
+              ? sourcePackBlocker(fixtureStateId)
+              : 'Prototype-only review. Does not clear export gates.'}
+          </p>
+          {isSources ? (
             <ul>
               {fixtureBlockers.map((blocker) => (
                 <li key={blocker}>{blocker}</li>
               ))}
             </ul>
-          </>
-        ) : null}
-        <button type="button" className="btn btn-primary" disabled>
-          Generate export disabled
-        </button>
-      </section>
+          ) : null}
+          <button type="button" className="btn btn-primary" disabled>
+            Generate export disabled
+          </button>
+        </section>
+
+        <div className="governance-gate-rail">
+          <section className="card">
+            <h2>Required resolutions</h2>
+            <ul className="governance-checklist">
+              {(isSources ? fixtureBlockers : sourceGaps.map((gap) => gap.section)).map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+          <section className="card">
+            <h2>Export options</h2>
+            <p className="muted">All export scopes remain disabled in this prototype.</p>
+            <ul className="governance-checklist">
+              <li>Preview PDF — disabled</li>
+              <li>Download branded report — disabled</li>
+              <li>Partner delivery — disabled</li>
+            </ul>
+          </section>
+        </div>
+      </div>
 
       {!isSources ? (
         <section className="card report-gap-register">
-          <p className="eyebrow">Source gap register</p>
-          <h2>Unresolved blockers before export readiness</h2>
-          <ul>
+          <p className="eyebrow">Requirements checklist</p>
+          <h2>Review queue blockers</h2>
+          <ul className="governance-checklist">
             {sourceGaps
               .filter((gap) => !reviewedIds.includes(gap.id))
               .map((gap) => (
@@ -206,75 +231,60 @@ export function ReviewPage(): ReactElement {
         </section>
       ) : null}
 
-      <section
-        className="card-grid"
-        aria-label={isSources ? 'Citation drilldown register' : 'Source gap resolution register'}
-      >
-        {rows.map((row) => {
-          const rowId = row.id;
-          const reviewed = reviewedIds.includes(rowId);
-          const expanded = expandedId === rowId;
-          return (
-            <article key={rowId} className="card">
-              <h3>{'title' in row ? row.title : row.section}</h3>
-              {'meta' in row ? (
-                <>
-                  <p>{row.meta}</p>
-                  <p className="muted">Blocks export: {row.blocksExport ? 'Yes' : 'No'}</p>
-                  <p>{row.excerpt}</p>
-                </>
-              ) : (
-                <>
-                  <p>{row.blockerType}</p>
-                  <p className="muted">Blocks export</p>
-                </>
-              )}
-              <button
-                type="button"
-                className="btn btn-ghost"
-                onClick={() => setExpandedId(expanded ? null : rowId)}
-              >
-                {expanded
-                  ? 'Hide detail'
-                  : isSources
-                    ? 'Expand citation detail'
-                    : 'Expand blocker detail'}
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={() =>
-                  setReviewedIds((current) =>
-                    current.includes(rowId)
-                      ? current.filter((value) => value !== rowId)
-                      : [...current, rowId]
-                  )
-                }
-              >
-                {reviewed
-                  ? isSources
-                    ? 'Unmark citation (prototype)'
-                    : 'Unmark gap (prototype)'
-                  : isSources
-                    ? 'Mark citation reviewed (prototype)'
-                    : 'Mark gap reviewed (prototype)'}
-              </button>
-              {expanded ? (
-                <p className="muted">
-                  {isSources
-                    ? 'Prototype-only; does not clear export gates.'
-                    : 'detail' in row
-                      ? row.detail
-                      : ''}
-                </p>
-              ) : null}
-              {reviewed ? (
-                <p className="warning">Reviewed in local state only. Export remains gated.</p>
-              ) : null}
-            </article>
-          );
-        })}
-      </section>
+      {isSources ? (
+        <SourceTraceFlow
+          rows={citations}
+          expandedId={expandedId}
+          reviewedIds={reviewedIds}
+          onToggleExpand={(rowId) => setExpandedId(expandedId === rowId ? null : rowId)}
+          onToggleReviewed={(rowId) =>
+            setReviewedIds((current) =>
+              current.includes(rowId)
+                ? current.filter((value) => value !== rowId)
+                : [...current, rowId]
+            )
+          }
+        />
+      ) : (
+        <section className="card-grid" aria-label="Source gap resolution register">
+          {sourceGaps.map((row) => {
+            const rowId = row.id;
+            const reviewed = reviewedIds.includes(rowId);
+            const expanded = expandedId === rowId;
+            return (
+              <article key={rowId} className="card">
+                <h3>{row.section}</h3>
+                <p>{row.blockerType}</p>
+                <p className="muted">Blocks export</p>
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  onClick={() => setExpandedId(expanded ? null : rowId)}
+                >
+                  {expanded ? 'Hide detail' : 'Expand blocker detail'}
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() =>
+                    setReviewedIds((current) =>
+                      current.includes(rowId)
+                        ? current.filter((value) => value !== rowId)
+                        : [...current, rowId]
+                    )
+                  }
+                >
+                  {reviewed ? 'Unmark gap (prototype)' : 'Mark gap reviewed (prototype)'}
+                </button>
+                {expanded ? <p className="muted">{row.detail}</p> : null}
+                {reviewed ? (
+                  <p className="warning">Reviewed in local state only. Export remains gated.</p>
+                ) : null}
+              </article>
+            );
+          })}
+        </section>
+      )}
 
       <button
         type="button"

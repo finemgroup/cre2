@@ -2,14 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import type { ReactElement } from 'react';
 
 import { SophexSheet } from '@/components/motion/SophexSheet';
-
-const DEFAULT_DEMO_PROPERTY_ID = 'demo-001';
-const DEFAULT_DEMO_DEAL_ID = 'riverside-flats';
-
-function demoQuery(search: string): string {
-  const state = new URLSearchParams(search).get('state');
-  return state ? `?state=${encodeURIComponent(state)}` : '';
-}
+import { getPublicProductLinks } from '@/lib/public/public-product-nav';
 
 type PublicMobileNavDrawerProps = {
   isOpen: boolean;
@@ -21,37 +14,7 @@ export function PublicMobileNavDrawer({
   onClose,
 }: PublicMobileNavDrawerProps): ReactElement {
   const location = useLocation();
-  const stateQuery = demoQuery(location.search);
-  const links = [
-    { label: 'Explore', to: '/', active: location.pathname === '/', icon: 'explore' },
-    {
-      label: 'Comps',
-      to: `/property/${DEFAULT_DEMO_PROPERTY_ID}/comps${stateQuery}`,
-      active: location.pathname.includes('/comps'),
-      icon: 'compare_arrows',
-    },
-    {
-      label: 'Intelligence',
-      to: `/property/${DEFAULT_DEMO_PROPERTY_ID}${stateQuery}`,
-      active: location.pathname.startsWith('/property/') && !location.pathname.includes('/comps'),
-      icon: 'psychology',
-    },
-    {
-      label: 'Underwrite',
-      to: `/studio/deals/${DEFAULT_DEMO_DEAL_ID}/underwriting`,
-      active: location.pathname.includes('/underwriting'),
-      icon: 'analytics',
-    },
-    {
-      label: 'Review',
-      to: `/review/${DEFAULT_DEMO_PROPERTY_ID}${stateQuery}`,
-      active:
-        location.pathname.startsWith('/review/') ||
-        location.pathname.startsWith('/export/') ||
-        location.pathname.startsWith('/sources/'),
-      icon: 'task_alt',
-    },
-  ];
+  const links = getPublicProductLinks(location.pathname, location.search);
 
   return (
     <SophexSheet isOpen={isOpen} onClose={onClose} label="Public navigation">

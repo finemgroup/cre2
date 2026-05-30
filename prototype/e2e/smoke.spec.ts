@@ -6,7 +6,7 @@ test.describe('public Sophex smoke', () => {
   test('landing search returns sample properties', async ({ page }) => {
     await gotoRoute(page, '/');
     await expect(
-      page.getByRole('heading', { name: /Evidence-first property intelligence/i })
+      page.getByRole('heading', { name: /Discover Institutional Intelligence/i })
     ).toBeVisible();
     await page.getByLabel(/Property or market/i).fill('Austin');
     await page.getByRole('button', { name: /^Search$/ }).click();
@@ -20,7 +20,7 @@ test.describe('public Sophex smoke', () => {
     await page.keyboard.press('Escape');
     await expect(page.getByRole('dialog', { name: /Evidence drawer/i })).toBeHidden();
     await gotoRoute(page, '/property/demo-001/comps');
-    await expect(page.getByRole('heading', { name: /Side-by-side comp dashboard/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Comps for/i })).toBeVisible();
     await gotoRoute(page, '/report/demo-001');
     await expect(page.getByRole('heading', { name: /Report for 1200 Commerce St/i })).toBeVisible();
   });
@@ -90,7 +90,7 @@ test.describe('public Sophex smoke', () => {
     await expect(
       page.getByRole('heading', { name: /Review queue for 1200 Commerce St/i })
     ).toBeVisible();
-    await expect(page.getByText(/Source gap register/i)).toBeVisible();
+    await expect(page.getByText(/Review queue blockers/i)).toBeVisible();
     await expect(page.getByText(/Provider-restricted/i).first()).toBeVisible();
     await expect(page.getByText(/Premium comp row/i).first()).toBeVisible();
     await expect(

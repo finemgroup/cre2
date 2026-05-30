@@ -17,12 +17,12 @@ test.describe('public end-to-end flows', () => {
       .click();
 
     await expect(page.getByRole('heading', { name: /1200 Commerce St/i })).toBeVisible();
-    const compareCompsLink = page.getByRole('link', { name: /Compare comps/i });
+    const compareCompsLink = page.getByRole('link', { name: /Compare comps/i }).first();
     await expect(compareCompsLink).toBeVisible();
     await compareCompsLink.press('Enter');
-    await expect(page.getByRole('heading', { name: /Side-by-side comp dashboard/i })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Comps for/i })).toBeVisible();
 
-    const previewReportLink = page.getByRole('link', { name: /Preview report/i });
+    const previewReportLink = page.getByRole('link', { name: /Preview report/i }).first();
     await expect(previewReportLink).toBeVisible();
     await previewReportLink.press('Enter');
     await expect(page.getByRole('heading', { name: /Report for 1200 Commerce St/i })).toBeVisible();
@@ -269,11 +269,11 @@ test.describe('Studio end-to-end flows', () => {
 
     await gotoRoute(page, '/property/demo-002');
     await expect(page.getByRole('heading', { name: /4400 Research Blvd/i })).toBeVisible();
-    const researchCompareCompsLink = page.getByRole('link', { name: /Compare comps/i });
+    const researchCompareCompsLink = page.getByRole('link', { name: /Compare comps/i }).first();
     await expect(researchCompareCompsLink).toBeVisible();
     await researchCompareCompsLink.press('Enter');
     await expect(page).toHaveURL(/\/property\/demo-002\/comps$/);
-    const researchPreviewReportLink = page.getByRole('link', { name: /Preview report/i });
+    const researchPreviewReportLink = page.getByRole('link', { name: /Preview report/i }).first();
     await expect(researchPreviewReportLink).toBeVisible();
     await researchPreviewReportLink.press('Enter');
     await expect(page).toHaveURL(/\/report\/demo-002$/);

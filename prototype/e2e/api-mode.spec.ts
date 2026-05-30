@@ -6,7 +6,7 @@ test.describe('sandbox api mode smoke', () => {
   test('landing search works when runtime mode is api', async ({ page }) => {
     await gotoRoute(page, '/');
     await expect(
-      page.getByRole('heading', { name: /Evidence-first property intelligence/i })
+      page.getByRole('heading', { name: /Discover Institutional Intelligence/i })
     ).toBeVisible();
     await page.getByLabel(/Property or market/i).fill('Austin');
     await page.getByRole('button', { name: /^Search$/ }).click();
