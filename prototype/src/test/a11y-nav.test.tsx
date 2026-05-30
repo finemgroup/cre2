@@ -20,10 +20,7 @@ describe('accessibility navigation', () => {
 
   it('marks active public navigation links with aria-current', async () => {
     await renderRoute('/property/demo-001/comps');
-    expect(screen.getByRole('link', { name: /Comps/i })).toHaveAttribute(
-      'aria-current',
-      'page'
-    );
+    expect(screen.getByRole('link', { name: /Comps/i })).toHaveAttribute('aria-current', 'page');
     expect(screen.getByRole('link', { name: /Explore/i })).not.toHaveAttribute(
       'aria-current',
       'page'
