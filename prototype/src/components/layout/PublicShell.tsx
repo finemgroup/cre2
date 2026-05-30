@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation } from 'react-router-dom';
 import { useState, type ReactElement } from 'react';
 
 import { PublicMobileNavDrawer } from '@/components/overlays/PublicMobileNavDrawer';
@@ -10,12 +10,17 @@ import { ScreenReaderAnnouncement } from '@/components/workflow/WorkflowPrimitiv
 import { getPublicRouteTitle } from '@/lib/a11y/routeTitles';
 import { useRouteAnnouncement } from '@/lib/a11y/useRouteAnnouncement';
 import { PrototypeActionAnchor } from '@/components/overlays/PrototypeActionAnchor';
-import { ActorDemoSelector } from '@/components/runtime/ActorDemoSelector';
-import { RuntimePostureChip } from '@/components/runtime/RuntimePostureChip';
 import { useStudioSurfaceFonts } from '@/lib/fonts/useStudioSurfaceFonts';
-import { PresentationModeToggle } from '@/components/layout/PresentationModeToggle';
 import { GuidedDemoRail } from '@/components/demo/GuidedDemoRail';
 import { usePresentationMode } from '@/lib/studio/usePresentationMode';
+
+const DEFAULT_DEMO_PROPERTY_ID = 'demo-001';
+const DEFAULT_DEMO_DEAL_ID = 'riverside-flats';
+
+function demoQuery(search: string): string {
+  const state = new URLSearchParams(search).get('state');
+  return state ? `?state=${encodeURIComponent(state)}` : '';
+}
 
 export function PublicShell(): ReactElement {
   const location = useLocation();
@@ -23,6 +28,33 @@ export function PublicShell(): ReactElement {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   useStudioSurfaceFonts();
   const { enabled: presentationMode } = usePresentationMode();
+  const stateQuery = demoQuery(location.search);
+  const productLinks = [
+    { label: 'Explore', to: '/', active: location.pathname === '/' },
+    {
+      label: 'Comps',
+      to: `/property/${DEFAULT_DEMO_PROPERTY_ID}/comps${stateQuery}`,
+      active: location.pathname.includes('/comps'),
+    },
+    {
+      label: 'Intelligence',
+      to: `/property/${DEFAULT_DEMO_PROPERTY_ID}${stateQuery}`,
+      active: location.pathname.startsWith('/property/') && !location.pathname.includes('/comps'),
+    },
+    {
+      label: 'Underwrite',
+      to: `/studio/deals/${DEFAULT_DEMO_DEAL_ID}/underwriting`,
+      active: location.pathname.includes('/underwriting'),
+    },
+    {
+      label: 'Review',
+      to: `/review/${DEFAULT_DEMO_PROPERTY_ID}${stateQuery}`,
+      active:
+        location.pathname.startsWith('/review/') ||
+        location.pathname.startsWith('/export/') ||
+        location.pathname.startsWith('/sources/'),
+    },
+  ];
 
   return (
     <div className={presentationMode ? 'shell presentation-mode' : 'shell'}>
@@ -37,7 +69,10 @@ export function PublicShell(): ReactElement {
           <Link to="/" className="brand">
             Sophex
           </Link>
-          <p className="micro-label shell-tagline">Evidence-first CRE intelligence</p>
+          <div className="shell-search" role="search">
+            <MaterialIcon name="search" />
+            <input type="search" placeholder="Search properties, owners, markets..." />
+          </div>
         </div>
         <button
           type="button"
@@ -48,23 +83,24 @@ export function PublicShell(): ReactElement {
           <MaterialIcon name="menu" />
         </button>
         <nav className="shell-nav" aria-label="Primary">
-          <NavLink to="/" end aria-label="Search properties">
-            Search
-          </NavLink>
-          <NavLink to="/upload" aria-label="Upload documents">
-            Upload
-          </NavLink>
-          <NavLink to="/studio" aria-label="Open Finem CRE Studio">
-            Studio
-          </NavLink>
+          {productLinks.map((link) => (
+            <Link
+              key={link.label}
+              to={link.to}
+              className={link.active ? 'active' : undefined}
+              aria-current={link.active ? 'page' : undefined}
+            >
+              {link.label}
+            </Link>
+          ))}
         </nav>
-        <PresentationModeToggle className="btn btn-ghost presentation-mode-toggle public-presentation-toggle" />
-        <RuntimePostureChip />
-        <ActorDemoSelector />
+        <Link to="/studio" className="shell-studio-entry" aria-label="Open Sophex Studio">
+          Studio
+        </Link>
       </header>
       <PublicMobileNavDrawer isOpen={mobileNavOpen} onClose={() => setMobileNavOpen(false)} />
+      <GuidedDemoRail />
       <main className="shell-main">
-        <GuidedDemoRail />
         <PageTransition>
           <Outlet />
         </PageTransition>

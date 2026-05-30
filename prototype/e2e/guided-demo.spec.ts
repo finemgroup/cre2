@@ -9,18 +9,21 @@ test.beforeEach(async ({ page }) => {
 test.describe('guided demo states', () => {
   test('guided demo rail renders on key public routes with prototype posture', async ({ page }) => {
     await gotoRoute(page, '/report/demo-001?state=provider-restricted');
+    await page.getByRole('button', { name: /Demo controls/i }).click();
 
     const rail = page.getByRole('navigation', { name: /Guided demo path/i });
     await expect(rail).toBeVisible();
-    await expect(rail.getByText(/Guided demo · prototype only/i)).toBeVisible();
-    await expect(rail.getByText(/Export gated/i)).toBeVisible();
-    await expect(rail.getByText(/Source rights constrain export/i)).toBeVisible();
+    const drawer = page.getByRole('complementary', { name: /Demo controls drawer/i });
+    await expect(drawer).toBeVisible();
+    await expect(drawer.getByText(/Export gated/i)).toBeVisible();
+    await expect(drawer.getByText(/Source rights constrain export/i)).toBeVisible();
     await expect(rail.getByRole('link', { name: /3 · Report/i })).toHaveAttribute(
       'aria-current',
       'page'
     );
 
     await gotoRoute(page, '/export/demo-001?state=provider-restricted');
+    await page.getByRole('button', { name: /Demo controls/i }).click();
     await expect(page.getByRole('navigation', { name: /Guided demo path/i })).toBeVisible();
     await expect(page.getByRole('link', { name: /4 · Export gate/i })).toHaveAttribute(
       'aria-current',
@@ -28,6 +31,7 @@ test.describe('guided demo states', () => {
     );
 
     await gotoRoute(page, '/property/demo-001?state=provider-restricted');
+    await page.getByRole('button', { name: /Demo controls/i }).click();
     await expect(page.getByRole('navigation', { name: /Guided demo path/i })).toBeVisible();
     await expect(page.getByRole('link', { name: /1 · Property/i })).toHaveAttribute(
       'aria-current',
@@ -39,6 +43,7 @@ test.describe('guided demo states', () => {
     page,
   }) => {
     await gotoRoute(page, '/report/demo-001?state=provider-restricted');
+    await page.getByRole('button', { name: /Demo controls/i }).click();
 
     await page
       .getByRole('navigation', { name: /Guided demo path/i })
@@ -47,6 +52,7 @@ test.describe('guided demo states', () => {
       })
       .click();
     await expect(page).toHaveURL(/\/export\/demo-001\?state=provider-restricted/);
+    await page.getByRole('button', { name: /Demo controls/i }).click();
 
     await page
       .getByRole('navigation', { name: /Guided demo path/i })
@@ -55,6 +61,7 @@ test.describe('guided demo states', () => {
       })
       .click();
     await expect(page).toHaveURL(/\/review\/demo-001\?state=provider-restricted/);
+    await page.getByRole('button', { name: /Demo controls/i }).click();
 
     await page
       .getByRole('navigation', { name: /Guided demo path/i })
@@ -82,10 +89,11 @@ test.describe('guided demo states', () => {
 
   test('export remains gated and no live export action is enabled', async ({ page }) => {
     await gotoRoute(page, '/export/demo-001?state=clean');
+    await page.getByRole('button', { name: /Demo controls/i }).click();
 
     await expect(page.getByRole('button', { name: /Generate export/i })).toBeDisabled();
     await expect(
-      page.getByRole('navigation', { name: /Guided demo path/i }).getByText(/Export gated/i)
+      page.getByRole('complementary', { name: /Demo controls drawer/i }).getByText(/Export gated/i)
     ).toBeVisible();
     await expect(page.getByText(/Prototype-only/i).first()).toBeVisible();
   });
